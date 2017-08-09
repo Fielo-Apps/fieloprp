@@ -34,18 +34,20 @@ When including the products directly from the items area, the Administrator must
 ##### Adding a set of products
 When including the products from the Add Products page, the Administrator has many possibilities:  
 - ###### **Filter by Product Name**
-The Administrator types any part of the product name and presses the *Search* button. In the results area, there will be displayed all the products which have the given text as part os their names.
+The Administrator types any part of the product name and presses the *Search* button. In the results area, there will be displayed all the products which have the given text as part os their names.  
 Then, by marking the checkbox beside each desired product, they are ready to compose the products items list. To do this, simply press the Add button.
 The next step is to provide quantities and prices.
 
 - ###### **Filter by Product Family**
-
+Filter the products by selecting a Family, so only the products belonging to the selected family are displayed in the results list.  
+The same way as previously mentioned, press the *Search* button, mark the checkbox beside each desired product and they will be ready to compose the products items list. Press the Add button.  
+The next step is to provide quantities and prices.
 
 - ###### **Filter by Product Code**
+The Administrator types any part of the product code and presses the *Search* button. In the results area, there will be displayed all the products which have the given text as part os their codes.
+Once more, mark the checkbox beside each desired product, press the Add button and provide quantities and prices.
 
-
-
-It's possible to combine all the filters above.
+It's possible to combine all the filters above in order to have an even more refined search.
 
 
 #### *Upload Files* - invoice images
