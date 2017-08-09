@@ -61,7 +61,7 @@ For a Program where the *Request invoice products* was set to "false", when the 
  - **Member** - For this field, the Administrator must select the invoice owner Member. He can type part of the member's name. The complete name of the member will be displayed in the list. The Administrator selects the member by clicking its name.
  > At CMS, the member is automatically set to the member that is logged in.
  - **Invoice Number** - This is the identification number of the invoice. This field has a maximum limit of 80 characters.
- - **Amount** - The total value of the invoice. Since in this Program configuration the list of programs is not required, the invoice total value is not automatically calculated, so this field must be filled in.
+ - **Amount** - The total value of the invoice. Since in this Program configuration the list of products is not required, the invoice total value is not automatically calculated, so this field must be filled in.
  - **Date** - This is the date of the invoice and is a required field. It cannot contain a date in the future.
  - **Description** - This field has a maximum limit of 255 characters.
  - **Distributor** - For this field, the Administrator selects the Distributor by  typing part of the Distributor's name. The complete name of the Distributor will be displayed in the list. The Administrator selects the Distributor by clicking its name.  
