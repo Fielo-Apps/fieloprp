@@ -17,8 +17,8 @@ For a Program where the *Request invoice products* was set to "true", when the A
 
 *Product Items* - details of items in the invoice  
 At this point, there are two ways of including the invoice items:  
-   - Add products one by one - If the Administrator has few items to include and knows how to easily find them by typing their names, s/he can do it directly from the product items area;
-   - Add a set of products - When the Administrator needs to add a big quantity of products, s/he has the possibility to make an advanced search using the Add Products page.
+   :black_medium_small_square: Add products one by one - If the Administrator has few items to include and knows how to easily find them by typing their names, s/he can do it directly from the product items area;  
+   :black_medium_small_square: Add a set of products - When the Administrator needs to add a big quantity of products, s/he has the possibility to make an advanced search using the Add Products page.
  
 #### Adding products one by one
 When including the products directly from the items area, the Administrator must fill in the following fields:
