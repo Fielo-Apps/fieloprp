@@ -17,8 +17,8 @@ For a Program where the *Request invoice products* was set to "true", when the A
 
 #### *Product Items* - details of items in the invoice  
 At this point, there are two ways of including the invoice items:  
-   :black_medium_small_square: Add products one by one - If the Administrator has few items to include and knows how to easily find them by typing their names, s/he can do it directly from the product items area;  
-   :black_medium_small_square: Add a set of products - When the Administrator needs to add a big quantity of products, s/he has the possibility to make an advanced search using the Add Products page.
+- [x] Add products one by one - If the Administrator has few items to include and knows how to easily find them by typing their names, s/he can do it directly from the product items area;  
+- [x] Add a set of products - When the Administrator needs to add a big quantity of products, s/he has the possibility to make an advanced search using the Add Products page.
  
 ##### Adding products one by one
 When including the products directly from the items area, the Administrator must fill in the following fields:
@@ -33,7 +33,19 @@ When including the products directly from the items area, the Administrator must
 
 ##### Adding a set of products
 When including the products from the Add Products page, the Administrator has many possibilities:  
-###### **Filter by Product Name**
+- ###### **Filter by Product Name**
+The Administrator types any part of the product name and presses the *Search* button. In the results area, there will be displayed all the products which have the given text as part os their names.
+Then, by marking the checkbox beside each desired product, they are ready to compose the products items list. To do this, simply press the Add button.
+The next step is to provide quantities and prices.
+
+- ###### **Filter by Product Family**
+
+
+- ###### **Filter by Product Code**
+
+
+
+It's possible to combine all the filters above.
 
 
 #### *Upload Files* - invoice images
