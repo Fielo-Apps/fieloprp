@@ -77,6 +77,8 @@ The Administrator may need to validate the invoice info, therefore it should be 
 It can be uploaded as a single image or, if it's very long, split into more than one image. For each piece of image to be uploaded, the Administrator presses the *New* button.  
 Possible extension files are: gif, jpg and png.
 
+> The invoice can be created both from the back end, which creation process was described in this item or from the front end. When using the CMS in order to create the invoice from the front end, the creation process is very similar. 
+
 ## 2. Changing the Invoice Status
 The invoice status flow diagram is shown below:  
 ![image](https://user-images.githubusercontent.com/26011197/29170990-41efae76-7db1-11e7-922c-314313eac673.png)  
@@ -86,14 +88,21 @@ First of all, it's important to understand how the program is configured. Depend
 :black_medium_small_square: **Approval process is optional** - In this case, the invoice approval may happen immediately on a first stage. For this option, the Program field *Request invoice authorization* must be set to "false".  
 
 Let's go to each status and see how they can be changed.  
-- **Open** - When in this status, the invoice can follow two possible ways.  
+- **Open** - It's the invoice first status when adopting the back end creation. When in this status, the invoice can follow two possible ways.  
 \- If the Program configuration has the *Request invoice authorization* set to "true", the *Close* action will send the invoice to the established approval process where it will be analyzed by the person or the group of persons defined by the approval process. The invoice status changes to *Pending for Approval*, while waiting for the approvers to analyze it.   
 \- If the Program configuration has the *Request invoice authorization* set to "false", the *Close* action allows the Program Administrator to immediately approve the Invoice, changing its status to *Approved*.  
 
 :point_right: In this last case, even if the Administrator can promptly approve the invoice, doubts may arise regarding the veracity of its information. To solve this, the administrator still has the option of sending the invoice to an approval process, provided there is one configured for the program, executing the "Submit for approval" action.  
 
-- **Pending for Approval** - This is the invoice status while waiting for the approver analysis. The approver may approve it, which cahnges the invoice status to *Approved* or reject it, which changes the invoice status to *Rejected*.
- 
- 
-[comment]: <> (**New** When members upload their invoices on the portal, the Administrator receives this information on the backend so that he can check the veracity of information and approve it or escalate it in order to be approved by a second tier on the hierarchy.) 
+- **Pending for Approval** - This is the invoice status while waiting for the approver analysis. The approver may approve it, which cahnges the invoice status to *Approved* or reject it, which changes the invoice status to *Rejected*.  
+
+- **Aproved** - It means that the invoice didn't present any inconsistency when analyzed either by the Administrator or the approver and was validated.  
+:point_right: If, for any reason, the invoice was improperly approved, it can have its status changed to *Canceled* by taken the *Revert* action.
+
+- **Rejected** - When analyzed by the approver, any inconsistency were found, preventing the invoice from being validated.  
+:point_right: It's possible to restart the process as soon as the inconsistencies are eliminated by taking the *Reopen* action. After this, the invoice status returns to *Open*.
+
+
+
+- **New** - It's the invoice first status when employing the front end creation. When members upload their invoices on the portal, ...
 
