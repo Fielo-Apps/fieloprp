@@ -1,8 +1,8 @@
 # PRP Functional Documentation
 ## 1. Creating the Invoice
-Depending on how the Program is configured, there can be two types of Invoices:
- - **Invoice with products** - This option needs to be applied when the Administrator wants the members to inform the products that they are buying. In this case, the Program field *Request invoice products* must be set as "true".
- - **Invoice without products** - When the member doesn't need to inform the products he bought because what matters in this case is the Amount value. For this option, the Program field *Request invoice products* must be set as "false".
+Depending on how the Program is configured, there can be two types of Invoices:  
+ :black_medium_small_square: **Invoice with products** - This option needs to be applied when the Administrator wants the members to inform the products that they are buying. In this case, the Program field *Request invoice products* must be set as "true".  
+ :black_medium_small_square: **Invoice without products** - When the member doesn't need to inform the products he bought because what matters in this case is the Amount value. For this option, the Program field *Request invoice products* must be set as "false".
 
 ### 1.1. **Invoice with products**
 For a Program where the *Request invoice products* was set to "true", when the Administrator goes to the Invoices Landing Page and clicks the New button, s/he will find 3 (three) sessions, containing the fields below:
@@ -19,8 +19,8 @@ For a Program where the *Request invoice products* was set to "true", when the A
 
 #### *Product Items* - details of items in the invoice  
 At this point, there are two ways of including the invoice items:  
-- [x] Add products one by one - If the Administrator has few items to include and knows how to easily find them by typing their names, s/he can do it directly from the product items area;  
-- [x] Add a set of products - When the Administrator needs to add a big quantity of products, s/he has the possibility to make an advanced search using the *Add Products* page.
+:black_medium_small_square: *Add products one by one* - If the Administrator has few items to include and knows how to easily find them by typing their names, s/he can do it directly from the product items area;  
+:black_medium_small_square: *Add a set of products* - When the Administrator needs to add a big quantity of products, s/he has the possibility to make an advanced search using the *Add Products* page.
  
 ##### Adding products one by one
 When including the products directly from the items area, the Administrator must fill in the following fields:
@@ -78,11 +78,11 @@ Possible extension files are: gif, jpg and png.
 ## 2. Changing the Invoice Status
 The invoice status flow diagram is shown below:  
 ![image](https://user-images.githubusercontent.com/26011197/29170990-41efae76-7db1-11e7-922c-314313eac673.png)  
-First of all, it's important to understand how the program is configured. Depending on its configuration, the invoice status can follow different ways.
- - **Approval process is mandatory** - This means that, to be approved, it will be automatically sent to an approval process defined for it. In this case, the Program field *Request invoice authorization* must be set as "true".
- - **Approval process is optional** - In this case, the invoice approval may happen immediately on a first stage. For this option, the Program field *Request invoice authorization* must be set to "false".  
+First of all, it's important to understand how the program is configured. Depending on its configuration, the invoice status can follow different ways.  
+:black_medium_small_square: **Approval process is mandatory** - This means that, to be approved, it will be automatically sent to an approval process defined for it. In this case, the Program field *Request invoice authorization* must be set as "true".  
+:black_medium_small_square: **Approval process is optional** - In this case, the invoice approval may happen immediately on a first stage. For this option, the Program field *Request invoice authorization* must be set to "false".  
 Let's go to each status and see how they can be changed.  
- **Open**
+- **Open**
  
  
 \**New** When members upload their invoices on the portal, the Administrator receives this information on the backend so that he can check the veracity of information and approve it or escalate it in order to be approved by a second tier on the hierarchy.  
