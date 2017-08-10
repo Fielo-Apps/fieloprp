@@ -6,17 +6,16 @@ Depending on how the Program is configured, there can be two types of Invoices:
 :black_medium_small_square: **Invoice without products** - When the member doesn't need to inform the products he bought because what matters in this case is the Amount value. For this option, the Program field *Request invoice products* must be set as "false".
 
 ### 1.1. **Invoice with products**
-For a Program where the *Request invoice products* was set to "true", when the Administrator goes to the Invoices Landing Page and clicks the New button, s/he will find 3 (three) sessions, containing the fields below:
+For a Program where the *Request invoice products* was set to "true", when the Administrator goes to the Invoices Landing Page and clicks the *New* button, s/he will find 3 (three) sessions, containing the fields below:
 
 #### *Invoice Information* - general information regarding the invoice
- - **Member** - For this field, the Administrator must select the invoice owner Member. He can type part of the member's name. The complete name of the member will be displayed in the list. The Administrator selects the member by clicking its name.
- > At CMS, the member is automatically set to the member that is logged in.
+ - **Member** - For this field, the Administrator must select the invoice owner Member. He can type part of the member's name. The whole name of the member will be displayed as one of the results in the list below the field. The Administrator selects the member by clicking its name.
  - **Invoice Number** - This is the identification number of the invoice. This field has a maximum limit of 80 characters.
  - **Date** - This is the date of the invoice and is a required field. It cannot contain a date in the future.
  - **Description** - This field has a maximum limit of 255 characters.
- - **Distributor** - For this field, the Administrator selects the Distributor by  typing part of the Distributor's name. The complete name of the Distributor will be displayed in the list. The Administrator selects the Distributor by clicking its name.  
+ - **Distributor** - For this field, the Administrator selects the Distributor by typing part of the its name. The whole name of the Distributor will be displayed as one of the results in the list below the field. The Administrator selects the Distributor by clicking its name.  
 
-:point_right: The upload of duplicate invoices for the same distributor (same combination of Distributor + Invoice Number) is allowed, but once the first invoice is approved, it will not be possible to approve the second one.
+:point_right: The upload of duplicate invoices for the same distributor (same combination of Distributor + Invoice Number) is allowed. However, once the first invoice is approved, it will not be possible to approve the second one.
 
 #### *Product Items* - details of items in the invoice  
 At this point, there are two ways of including the invoice items:  
@@ -26,13 +25,13 @@ At this point, there are two ways of including the invoice items:
  
 ##### Adding products one by one
 When including the products directly from the items area, the Administrator must fill in the following fields:
-- **Quantity** - This field represents the product item quantity and is required to be greater than zero.
-- **Product** - Here the Administrator can type part of the product name. The product complete name will be displayed in the list and s/he selects the product by clicking its name.
-- **Unit Price** - The value of one product item. If left blank, will be determined by the division of Total Price by Quantity.
+- **Quantity** - This field represents the product items quantity. This is a required field and must be greater than zero.
+- **Product** - Here the Administrator can type part of the product name. The product whole name will be displayed as one of the results in the list and s/he selects the product by clicking its name.
+- **Unit Price** - The value of one product item. If left blank, will be determined by the division of Total Price by the Quantity.
 - **Total Price** - This field is automatically calculated based on quantity multiplied by unit price.
 - **Amount** - Total invoice value. This field is automatically filled by the system.
 
-:point_right: To add new products, just press the New button. A new line will be created where the fields above need to be filled as well.  
+:point_right: To add new products, just press the *New* button. A new line will be created where the fields above need to be filled as well.  
 :point_right: If a line needs to be deleted, just press the *remove* icon (:heavy_multiplication_x:) in its right side.
 
 ##### Adding a set of products
@@ -77,7 +76,7 @@ The Administrator may need to validate the invoice info, therefore it should be 
 It can be uploaded as a single image or, if it's very long, split into more than one image. For each piece of image to be uploaded, the Administrator presses the *New* button.  
 Possible extension files are: gif, jpg and png.
 
-> The invoice can be created both from the back end, which creation process was described in this item or from the front end. When using the CMS in order to create the invoice from the front end, the creation process is very similar. 
+> The invoice can be created from both the back end, which creation process was described in this item or the front end. When using the CMS in order to create the invoice from the front end, the creation process is very similar having the Member field automatically set to the member that is logged in.
 
 ## 2. Changing the Invoice Status
 The invoice status flow diagram is shown below:  
