@@ -81,12 +81,15 @@ Possible extension files are: gif, jpg and png.
 The invoice status flow diagram is shown below:  
 ![image](https://user-images.githubusercontent.com/26011197/29170990-41efae76-7db1-11e7-922c-314313eac673.png)  
 First of all, it's important to understand how the program is configured. Depending on its configuration, the invoice status can follow different ways.  
+
 :black_medium_small_square: **Approval process is mandatory** - This means that, to be approved, it will be automatically sent to an approval process defined for it. In this case, the Program field *Request invoice authorization* must be set as "true".  
 :black_medium_small_square: **Approval process is optional** - In this case, the invoice approval may happen immediately on a first stage. For this option, the Program field *Request invoice authorization* must be set to "false".  
 
 Let's go to each status and see how they can be changed.  
-- **Open**
+- **Open** - When in this status, the invoice can follow two possible ways.  
+\- If the Program configuration has the *Request invoice authorization* set to "true", the *Close* action will send the invoice to the established approval process where it will be analyzed by the person or the group of persons defined by the approval process. The invoice status changes to *Pending*, while waiting for the approvers to analyze it.   
+\- If the Program configuration has the *Request invoice authorization* set to "false", the *Close* action allows the Program Administrator to immediately approve the Invoice, changing its status to *Approved*.
  
  
-\**New** When members upload their invoices on the portal, the Administrator receives this information on the backend so that he can check the veracity of information and approve it or escalate it in order to be approved by a second tier on the hierarchy.  
+[comment]: <> (**New** When members upload their invoices on the portal, the Administrator receives this information on the backend so that he can check the veracity of information and approve it or escalate it in order to be approved by a second tier on the hierarchy.) 
 
