@@ -87,9 +87,10 @@ First of all, it's important to understand how the program is configured. Depend
 
 Let's go to each status and see how they can be changed.  
 - **Open** - When in this status, the invoice can follow two possible ways.  
-\- If the Program configuration has the *Request invoice authorization* set to "true", the *Close* action will send the invoice to the established approval process where it will be analyzed by the person or the group of persons defined by the approval process. The invoice status changes to *Pending*, while waiting for the approvers to analyze it.   
+\- If the Program configuration has the *Request invoice authorization* set to "true", the *Close* action will send the invoice to the established approval process where it will be analyzed by the person or the group of persons defined by the approval process. The invoice status changes to *Pending for Approval*, while waiting for the approvers to analyze it.   
 \- If the Program configuration has the *Request invoice authorization* set to "false", the *Close* action allows the Program Administrator to immediately approve the Invoice, changing its status to *Approved*.  
-:point_right: In this last case, even if the Administrator can promptly approve the invoice, doubts may arise regarding the veracity of its information. To solve this, the administrator still has the option of sending the invoice to an approval process, provided there is one configured for the program, executing the "Submit for approval" action.
+:point_right: In this last case, even if the Administrator can promptly approve the invoice, doubts may arise regarding the veracity of its information. To solve this, the administrator still has the option of sending the invoice to an approval process, provided there is one configured for the program, executing the "Submit for approval" action.  
+- **Pending for Approval** - This is the invoice status while waiting for the approver analysis. The approver may approve it, which cahnges the invoice status to *Approved* or reject it, which changes the invoice status to *Rejected*.
  
  
 [comment]: <> (**New** When members upload their invoices on the portal, the Administrator receives this information on the backend so that he can check the veracity of information and approve it or escalate it in order to be approved by a second tier on the hierarchy.) 
