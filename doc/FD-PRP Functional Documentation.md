@@ -20,10 +20,10 @@ For a Program where the *Request invoice products* was set to "true", when the A
 #### *Product Items* - details of items in the invoice  
 At this point, there are two ways of including the invoice items:  
 
-:black_medium_small_square: *Add products one by one* - If the Administrator has few items to include and knows how to easily find them by typing their names, s/he can do it directly from the product items area;  
+:black_medium_small_square: *Add products one at a time* - If the Administrator has few items to include and knows how to easily find them by typing their names, s/he can do it directly from the product items area;  
 :black_medium_small_square: *Add a set of products* - When the Administrator needs to add a big quantity of products, s/he has the possibility to make an advanced search using the *Add Products* page.
  
-##### Adding products one by one
+##### Adding products one at a time
 When including the products directly from the items area, the Administrator must fill in the following fields:
 - **Quantity** - This field represents the product items quantity. This is a required field and must be greater than zero.
 - **Product** - Here the Administrator can type part of the product name. The product whole name will be displayed as one of the results in the list and s/he selects the product by clicking its name.
@@ -35,11 +35,11 @@ When including the products directly from the items area, the Administrator must
 :point_right: If a line needs to be deleted, just press the *remove* icon (:heavy_multiplication_x:) in its right side.
 
 ##### Adding a set of products
-To include a set of products, press the *Add Products* button. When including the products from the Add Products page, the Administrator has many possibilities:  
+To include a set of products, press the *Add Products* button. When including the products from the *Add Products* page, the Administrator has many possibilities:  
 - ###### **Filter by Product Name**
 The Administrator types any part of the product name and presses the *Search* button. In the results area, there will be displayed all the products which have the given text as part os their names.  
-Then, by marking the checkbox beside each desired product, they are ready to compose the products items list. To do this, simply press the Add button.
-The next step is to provide quantities and prices.
+Then, by marking the checkbox beside each desired product, they are ready to compose the product items list. To do this, simply press the *Add* button.  
+The next step is to provide quantities and prices, as explained when adding one at a time products.
 
 - ###### **Filter by Product Family**
 Filter the products by selecting a Family, so only the products belonging to the selected family are displayed in the results list.  
