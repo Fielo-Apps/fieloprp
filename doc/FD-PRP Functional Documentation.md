@@ -39,40 +39,39 @@ To include a set of products, press the *Add Products* button. When including th
 - ###### **Filter by Product Name**
 The Administrator types any part of the product name and presses the *Search* button. In the results area, there will be displayed all the products which have the given text as part os their names.  
 Then, by marking the checkbox beside each desired product, they are ready to compose the product items list. To do this, simply press the *Add* button.  
-The next step is to provide quantities and prices, as explained when adding one at a time products.
+The next step is to provide quantities and prices, as explained when adding products one at a time.
 
 - ###### **Filter by Product Family**
 Filter the products by selecting a Family, so only the products belonging to the selected family are displayed in the results list.  
-The same way as previously mentioned, press the *Search* button, mark the checkbox beside each desired product and they will be ready to compose the products items list. Press the Add button.  
+The same way as previously mentioned, press the *Search* button, mark the checkbox beside each desired product and they will be ready to compose the product items list. Press the Add button.  
 The next step is to provide quantities and prices.
 
 - ###### **Filter by Product Code**
-The Administrator types any part of the product code and presses the *Search* button. In the results area, there will be displayed all the products which have the given text as part os their codes.
-Once more, mark the checkbox beside each desired product, press the Add button and provide quantities and prices.
+The Administrator types any part of the product code and presses the *Search* button. In the results area, there will be displayed all the products which have the given text as part of their codes.
+Once more, mark the checkbox beside each desired product, press the *Add* button and provide quantities and prices.
 
 It's possible to combine all the filters above in order to have an even more refined search.
 
 #### *Upload Files* - invoice images  
-The Administrator may need to validate the invoice info, therefore it should be nice to have the invoice image.  
+The Administrator may need to validate the invoice info. Therefore, it should be nice to have the invoice image.  
 It can be uploaded as a single image or, if it's very long, split into more than one image. For each piece of image to be uploaded, the Administrator presses the *New* button.  
 Possible extension files are: gif, jpg and png.
 
 ### 1.2. **Invoice without products**  
-For a Program where the *Request invoice products* was set to "false", when the Administrator goes to the Invoices Landing Page and clicks the New button, s/he will find 2 (two) sessions, containing the fields below:
+For a Program where the *Request invoice products* was set to "false", when the Administrator goes to the Invoices Landing Page and clicks the *New* button, s/he will find 2 (two) sessions, containing the fields below:
 
 #### *Invoice Information* - general information regarding the invoice
- - **Member** - For this field, the Administrator must select the invoice owner Member. He can type part of the member's name. The complete name of the member will be displayed in the list. The Administrator selects the member by clicking its name.
- > At CMS, the member is automatically set to the member that is logged in.
+ - **Member** - For this field, the Administrator must select the invoice owner Member. He can type part of the member's name. The whole name of the member will be displayed as one of the results in the list below the field. The Administrator selects the member by clicking its name.
  - **Invoice Number** - This is the identification number of the invoice. This field has a maximum limit of 80 characters.
  - **Amount** - The total value of the invoice. Since in this Program configuration the list of products is not required, the invoice total value is not automatically calculated, so this field must be filled in.
  - **Date** - This is the date of the invoice and is a required field. It cannot contain a date in the future.
  - **Description** - This field has a maximum limit of 255 characters.
- - **Distributor** - For this field, the Administrator selects the Distributor by  typing part of the Distributor's name. The complete name of the Distributor will be displayed in the list. The Administrator selects the Distributor by clicking its name.  
+ - **Distributor** - For this field, the Administrator selects the Distributor by typing part of the its name. The whole name of the Distributor will be displayed as one of the results in the list below the field. The Administrator selects the Distributor by clicking its name.    
  
 :point_right: The upload of duplicate invoices for the same distributor (same combination of Distributor + Invoice Number) is allowed, but once the first invoice is approved, it will not be possible to approve the second one.
  
 #### *Upload Files* - invoice images  
-The Administrator may need to validate the invoice info, therefore it should be nice to have the invoice image.  
+The Administrator may need to validate the invoice info. Therefore, it should be nice to have the invoice image.  
 It can be uploaded as a single image or, if it's very long, split into more than one image. For each piece of image to be uploaded, the Administrator presses the *New* button.  
 Possible extension files are: gif, jpg and png.
 
