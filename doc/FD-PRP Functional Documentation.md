@@ -102,7 +102,9 @@ Let's go to each status and see how they can be changed.
 - **Rejected** - When analyzed by the approver, any inconsistency were found, preventing the invoice from being validated.  
 :point_right: It's possible to restart the process as soon as the inconsistencies are eliminated by taking the *Reopen* action. After this, the invoice status returns to *Open*.
 
-
+- **Canceled** - The invoice status after the reversion of its *Approved* status.  
+:point_right: If improperly reverted, the invoice can return to its *Approved* status by taking the *Reprocess* action.  
+:point_right: In case the invoice have the possibility to be reanalyzed, it can have its process restarted by taking the *Reopen* action, which takes the invoice back to *Open* status.
 
 - **New** - It's the invoice first status when employing the front end creation. When members upload their invoices on the portal, ...
 
