@@ -77,16 +77,13 @@ Possible extension files are: gif, jpg and png.
 
 ## 2. Changing the Invoice Status
 The invoice status flow diagram is shown below:  
-![image](https://user-images.githubusercontent.com/26011197/29170990-41efae76-7db1-11e7-922c-314313eac673.png)
-
-Let's go to each status and see how they can be changed.  
-
+![image](https://user-images.githubusercontent.com/26011197/29170990-41efae76-7db1-11e7-922c-314313eac673.png)  
 First of all, it's important to understand how the program is configured. Depending on its configuration, the invoice status can follow different ways.
  - **Approval process is mandatory** - This means that, to be approved, it will be automatically sent to an approval process defined for it. In this case, the Program field *Request invoice authorization* must be set as "true".
- - **Approval process is optional** - In this case, the invoice approval may happen immediately on a first stage. For this option, the Program field *Request invoice authorization* must be set to "false".
+ - **Approval process is optional** - In this case, the invoice approval may happen immediately on a first stage. For this option, the Program field *Request invoice authorization* must be set to "false".  
+Let's go to each status and see how they can be changed.  
+ **Open**
  
  
- 
- 
- When members upload their invoices on the portal, the Administrator receives this information on the backend so that he can check the veracity of information and approve it or escalate it in order to be approved by a second tier on the hierarchy.  
+\**New** When members upload their invoices on the portal, the Administrator receives this information on the backend so that he can check the veracity of information and approve it or escalate it in order to be approved by a second tier on the hierarchy.  
 
