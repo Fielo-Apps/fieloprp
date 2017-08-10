@@ -15,6 +15,8 @@ For a Program where the *Request invoice products* was set to "true", when the A
  - **Description** - This field has a maximum limit of 255 characters.
  - **Distributor** - For this field, the Administrator selects the Distributor by  typing part of the Distributor's name. The complete name of the Distributor will be displayed in the list. The Administrator selects the Distributor by clicking its name.  
 
+:point_right: The upload of duplicate invoices for the same distributor (same combination of Distributor + Invoice Number) is allowed, but once the first invoice is approved, it will not be possible to approve the second one.
+
 #### *Product Items* - details of items in the invoice  
 At this point, there are two ways of including the invoice items:  
 - [x] Add products one by one - If the Administrator has few items to include and knows how to easily find them by typing their names, s/he can do it directly from the product items area;  
@@ -66,7 +68,25 @@ For a Program where the *Request invoice products* was set to "false", when the 
  - **Description** - This field has a maximum limit of 255 characters.
  - **Distributor** - For this field, the Administrator selects the Distributor by  typing part of the Distributor's name. The complete name of the Distributor will be displayed in the list. The Administrator selects the Distributor by clicking its name.  
  
+:point_right: The upload of duplicate invoices for the same distributor (same combination of Distributor + Invoice Number) is allowed, but once the first invoice is approved, it will not be possible to approve the second one.
+ 
 #### *Upload Files* - invoice images  
 The Administrator may need to validate the invoice info, therefore it should be nice to have the invoice image.  
 It can be uploaded as a single image or, if it's very long, split into more than one image. For each piece of image to be uploaded, the Administrator presses the *New* button.  
 Possible extension files are: gif, jpg and png.
+
+## 2. Changing the Invoice Status
+The invoice status flow diagram is shown below:  
+![image](https://user-images.githubusercontent.com/26011197/29170990-41efae76-7db1-11e7-922c-314313eac673.png)
+
+Let's go to each status and see how they can be changed.  
+
+First of all, it's important to understand how the program is configured. Depending on its configuration, the invoice status can follow different ways.
+ - **Approval process is mandatory** - This means that, to be approved, it will be automatically sent to an approval process defined for it. In this case, the Program field *Request invoice authorization* must be set as "true".
+ - **Approval process is optional** - In this case, the invoice approval may happen immediately on a first stage. For this option, the Program field *Request invoice authorization* must be set to "false".
+ 
+ 
+ 
+ 
+ When members upload their invoices on the portal, the Administrator receives this information on the backend so that he can check the veracity of information and approve it or escalate it in order to be approved by a second tier on the hierarchy.  
+
