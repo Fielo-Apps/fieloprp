@@ -15,7 +15,7 @@ For a Program where the *Request invoice products* was set to "true", when the A
  - **Description** - This field has a maximum limit of 255 characters.
  - **Distributor** - For this field, the Administrator selects the Distributor by typing part of the its name. The whole name of the Distributor will be displayed as one of the results in the list below the field. The Administrator selects the Distributor by clicking its name.  
 
-:point_right: The upload of duplicate invoices for the same distributor (same combination of Distributor + Invoice Number) is allowed. However, once the first invoice is approved, it will not be possible to approve the second one.
+:point_right: The upload of duplicate invoices for the same distributor (same combination of Distributor + Invoice Number) is allowed. However, once the first invoice is approved, it will not be possible to create or approve the second one.
 
 #### *Product Items* - details of items in the invoice  
 At this point, there are two ways of including the invoice items:  
