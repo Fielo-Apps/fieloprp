@@ -37,7 +37,7 @@ When including the products directly from the items area, the Administrator must
 ##### Adding a set of products
 To include a set of products, press the *Add Products* button. When including the products from the *Add Products* page, the Administrator has many possibilities:  
 - ###### **Filter by Product Name**
-The Administrator types any part of the product name and presses the *Search* button. In the results area, there will be displayed all the products which have the given text as part os their names.  
+The Administrator types any part of the product name and presses the *Search* button. In the results area, there will be displayed all the products which have the given text as part of their names.  
 Then, by marking the checkbox beside each desired product, they are ready to compose the product items list. To do this, simply press the *Add* button.  
 The next step is to provide quantities and prices, as explained when adding products one at a time.
 
