@@ -6,34 +6,12 @@ public class TestChangeInvoiceStatus {
     private static FieloPLT__PointType__c pointType;
     private static FieloPLT__ProgramPointType__c programPointType;
 
-    /*  TEST-1594
-        Change Invoice Status
-        – Approve a Pending Invoice (OK)
-    */
     @testSetup static void createData(){
         //Given
-        pointType = new FieloPLT__PointType__c(
-            Name = 'Point', 
-            FieloPLT__MemberBalanceField__c = 'FieloPLT__Points__c', 
-            FieloPLT__TransactionBalanceField__c = 'FieloPLT__Points__c', 
-            FieloPLT__RewardBalanceField__c = 'FieloPLT__Points__c', 
-            FieloPLT__RedemptionBalanceField__c = 'FieloPLT__Points__c', 
-            FieloPLT__RedemptionItemBalanceField__c = 'FieloPLT__Points__c'
-        );
-        insert pointType;
-
         programs = MockUpFactory.createPrograms('Default', 1);
         programs[0].FieloPRP__RequestInvoiceProducts__c = true;
+        programs[0].FieloPRP__RequestInvoiceAuthorization__c = true;
         insert programs;
-
-        /*programPointType = new FieloPLT__ProgramPointType__c(
-            FieloPLT__AuditPoints__c=false,
-            FieloPLT__ExpirationMode__c='Total',
-            FieloPLT__PointType__c=pointType.Id,
-            FieloPLT__Program__c=programs[0].Id,
-            FieloPLT__RequestPointApproval__c=false
-        );
-        insert programPointType;*/
 
         members = MockUpFactory.createMembers(programs[0].Id,2);
         insert members;
@@ -67,8 +45,15 @@ public class TestChangeInvoiceStatus {
         insert transaccion;
     }
 
+    /*  TEST-1594
+        Change Invoice Status
+        – Approve a Pending for Approval Invoice from a program with App Process (OK)   
+    */
     @isTest static void PRP_0004_FB(){
         invoices = [SELECT Id, Name, Status__c FROM Invoice__c];
+
+        InvoiceService.updateInvoiceStatus(new Set<Id>{invoices[0].Id}, 'Pending for Approval');
+        InvoiceService.submitForApproval(new Set<Id>{invoices[0].Id});
 
         Test.startTest();
 
@@ -83,10 +68,13 @@ public class TestChangeInvoiceStatus {
 
     /*  TEST-1595
         Change Invoice Status
-        – Reject a Pending Invoice (OK)
+        – Reject a Pending for Approval Invoice from a program with App Process (OK)
     */
-    @isTest static void PRP_0004_FA1_1(){
-        /*invoices = [SELECT Id, Name, Status__c FROM Invoice__c];
+    @isTest static void PRP_0004_FA2(){
+        invoices = [SELECT Id, Name, Status__c FROM Invoice__c];
+
+        InvoiceService.updateInvoiceStatus(new Set<Id>{invoices[0].Id}, 'Pending for Approval');
+        InvoiceService.submitForApproval(new Set<Id>{invoices[0].Id});
 
         Test.startTest();
 
@@ -96,20 +84,23 @@ public class TestChangeInvoiceStatus {
 
         system.assertEquals('Rejected', ((Invoice__c)[SELECT Id, Status__c FROM Invoice__c]).Status__c);
 
-        Test.stopTest();*/
+        Test.stopTest();
     }
 
     /*  TEST-1596
         Change Invoice Status
         – Validations
-        - Revert a Pending Invoice (NOK)
+        - Revert a Pending for Approval Invoice from a program with App Process (NOK)
     */
-    @isTest static void PRP_0004_FA1_2(){
-        /*invoices = [SELECT Id, Name, Status__c FROM Invoice__c];
+    @isTest static void PRP_0004_FA1_1(){
+        invoices = [SELECT Id, Name, Status__c FROM Invoice__c];
+
+        InvoiceService.updateInvoiceStatus(new Set<Id>{invoices[0].Id}, 'Pending for Approval');
+        InvoiceService.submitForApproval(new Set<Id>{invoices[0].Id});
 
         Test.startTest();
 
-        invoices[0].Status__c = 'Reverted';
+        invoices[0].Status__c = 'Canceled';
 
         try{
             update invoices;
@@ -118,17 +109,20 @@ public class TestChangeInvoiceStatus {
             //do nothing, expected validation
         }   
 
-        system.assertEquals('Pending', ((Invoice__c)[SELECT Id, Status__c FROM Invoice__c]).Status__c);
+        system.assertEquals('Pending for Approval', ((Invoice__c)[SELECT Id, Status__c FROM Invoice__c]).Status__c);
 
-        Test.stopTest();*/
+        Test.stopTest();
     }
 
     /*  TEST-1597
         Change Invoice Status
-        - Revert an Approved Invoice (OK)
+        - Revert an Approved Invoice from a program with App Process (OK)
     */
-    @isTest static void PRP_0004_FA2(){
-        /*invoices = [SELECT Id, Name, Status__c FROM Invoice__c];
+    @isTest static void PRP_0004_FA7(){
+        invoices = [SELECT Id, Name, Status__c FROM Invoice__c];
+
+        InvoiceService.updateInvoiceStatus(new Set<Id>{invoices[0].Id}, 'Pending for Approval');
+        InvoiceService.submitForApproval(new Set<Id>{invoices[0].Id});
 
         Test.startTest();
 
@@ -136,22 +130,25 @@ public class TestChangeInvoiceStatus {
 
         update invoices;
 
-        invoices[0].Status__c = 'Reverted';
+        invoices[0].Status__c = 'Canceled';
 
         update invoices;
 
         system.assertEquals(true,[Select Id, Name, FieloPLT__IsReverted__c From FieloPLT__Transaction__c WHERE Invoice__c =: invoices[0].Id ].FieloPLT__IsReverted__c);
-        system.assertEquals('Reverted',[SELECT Id, Status__c FROM Invoice__c LIMIT 1].Status__c);
+        system.assertEquals('Canceled',[SELECT Id, Status__c FROM Invoice__c LIMIT 1].Status__c);
 
-        Test.stopTest();*/
+        Test.stopTest();
     }
 
     /*  TEST-1598
         Change Invoice Status
-        - Review an Approved Invoice (OK)
+        -  Reprocess an Approved Invoice from a program with App Process (OK)
     */
     @isTest static void PRP_0004_FA3_1(){
-        /*invoices = [SELECT Id, Name, Status__c FROM Invoice__c];
+        invoices = [SELECT Id, Name, Status__c FROM Invoice__c];
+
+        InvoiceService.updateInvoiceStatus(new Set<Id>{invoices[0].Id}, 'Pending for Approval');
+        InvoiceService.submitForApproval(new Set<Id>{invoices[0].Id});
 
         Test.startTest();
 
@@ -159,23 +156,23 @@ public class TestChangeInvoiceStatus {
 
         update invoices;
 
-        invoices[0].Status__c = 'Pending';
+        InvoiceService.reprocessInvoice(new Set<Id>{invoices[0].Id});
 
-        update invoices;
+        system.assertEquals('Approved',[SELECT Id, Status__c FROM Invoice__c LIMIT 1].Status__c);
 
-        system.assertEquals(true,[Select Id, Name, FieloPLT__IsReverted__c From FieloPLT__Transaction__c WHERE Invoice__c =: invoices[0].Id ].FieloPLT__IsReverted__c);
-        system.assertEquals('Pending',[SELECT Id, Status__c FROM Invoice__c LIMIT 1].Status__c);
-
-        Test.stopTest();*/
+        Test.stopTest();
     }
 
     /*  TEST-1599
         Change Invoice Status
         – Validations
-        - Reject an Approved Invoice (NOK)
+        – Reject an Approved Invoice from a program with App Process (NOK)
     */
     @isTest static void PRP_0004_FA3_2(){
-        /*invoices = [SELECT Id, Name, Status__c FROM Invoice__c];
+        invoices = [SELECT Id, Name, Status__c FROM Invoice__c];
+
+        InvoiceService.updateInvoiceStatus(new Set<Id>{invoices[0].Id}, 'Pending for Approval');
+        InvoiceService.submitForApproval(new Set<Id>{invoices[0].Id});
 
         Test.startTest();
 
@@ -193,15 +190,18 @@ public class TestChangeInvoiceStatus {
         system.assertEquals(false,[Select Id, Name, FieloPLT__IsReverted__c From FieloPLT__Transaction__c WHERE Invoice__c =: invoices[0].Id ].FieloPLT__IsReverted__c);
         system.assertEquals('Approved',[SELECT Id, Status__c FROM Invoice__c LIMIT 1].Status__c);
 
-        Test.stopTest();*/
+        Test.stopTest();
     }
 
     /*  TEST-1600
         Change Invoice Status
-        - Review a Rejected Invoice (OK)
+        - Reopen a Rejected Invoice from a program with App Process (OK)
     */
     @isTest static void PRP_0004_FA4_1(){
-        /*invoices = [SELECT Id, Name, Status__c FROM Invoice__c];
+        invoices = [SELECT Id, Name, Status__c FROM Invoice__c];
+
+        InvoiceService.updateInvoiceStatus(new Set<Id>{invoices[0].Id}, 'Pending for Approval');
+        InvoiceService.submitForApproval(new Set<Id>{invoices[0].Id});
 
         Test.startTest();
 
@@ -209,22 +209,25 @@ public class TestChangeInvoiceStatus {
 
         update invoices;
 
-        invoices[0].Status__c = 'Pending';
+        invoices[0].Status__c = 'Open';
 
         update invoices;
         
-        system.assertEquals('Pending',[SELECT Id, Status__c FROM Invoice__c LIMIT 1].Status__c);
+        system.assertEquals('Open',[SELECT Id, Status__c FROM Invoice__c LIMIT 1].Status__c);
 
-        Test.stopTest();*/
+        Test.stopTest();
     }
 
     /*  TEST-1601
         Change Invoice Status
         – Validations
-        - Approve a Rejected Invoice (NOK)
+        – Approve a Rejected Invoice from a program with App Process (NOK)
     */
     @isTest static void PRP_0004_FA4_2(){
-        /*invoices = [SELECT Id, Name, Status__c FROM Invoice__c];
+        invoices = [SELECT Id, Name, Status__c FROM Invoice__c];
+
+        InvoiceService.updateInvoiceStatus(new Set<Id>{invoices[0].Id}, 'Pending for Approval');
+        InvoiceService.submitForApproval(new Set<Id>{invoices[0].Id});
 
         Test.startTest();
 
@@ -241,16 +244,19 @@ public class TestChangeInvoiceStatus {
         
         system.assertEquals('Rejected',[SELECT Id, Status__c FROM Invoice__c LIMIT 1].Status__c);
 
-        Test.stopTest();*/
+        Test.stopTest();
     }
 
     /*  TEST-1602
         Change Invoice Status
         – Validations
-        - Revert a Rejected Invoice (NOK)
+        - Revert a Rejected Invoice from a program with App Process (NOK)
     */
     @isTest static void PRP_0004_FA4_3(){
-        /*invoices = [SELECT Id, Name, Status__c FROM Invoice__c];
+        invoices = [SELECT Id, Name, Status__c FROM Invoice__c];
+
+        InvoiceService.updateInvoiceStatus(new Set<Id>{invoices[0].Id}, 'Pending for Approval');
+        InvoiceService.submitForApproval(new Set<Id>{invoices[0].Id});
 
         Test.startTest();
 
@@ -258,7 +264,7 @@ public class TestChangeInvoiceStatus {
 
         update invoices;
 
-        invoices[0].Status__c = 'Reverted';
+        invoices[0].Status__c = 'Canceled';
 
         try{
             update invoices;
@@ -267,15 +273,18 @@ public class TestChangeInvoiceStatus {
         
         system.assertEquals('Rejected',[SELECT Id, Status__c FROM Invoice__c LIMIT 1].Status__c);
 
-        Test.stopTest();*/
+        Test.stopTest();
     }
 
     /*  TEST-1603
         Change Invoice Status
-        - Review a Reverted Invoice (OK)
+        - Reopen a Canceled Invoice from a program with App Process (OK)
     */
     @isTest static void PRP_0004_FA5_1(){
-        /*invoices = [SELECT Id, Name, Status__c FROM Invoice__c];
+        invoices = [SELECT Id, Name, Status__c FROM Invoice__c];
+
+        InvoiceService.updateInvoiceStatus(new Set<Id>{invoices[0].Id}, 'Pending for Approval');
+        InvoiceService.submitForApproval(new Set<Id>{invoices[0].Id});
 
         invoices[0].Status__c = 'Approved';
 
@@ -283,26 +292,29 @@ public class TestChangeInvoiceStatus {
 
         Test.startTest();
 
-        invoices[0].Status__c = 'Reverted';
+        invoices[0].Status__c = 'Canceled';
 
         update invoices;
 
-        invoices[0].Status__c = 'Pending';
+        invoices[0].Status__c = 'Open';
 
         update invoices;
                 
-        system.assertEquals('Pending',[SELECT Id, Status__c FROM Invoice__c LIMIT 1].Status__c);
+        system.assertEquals('Open',[SELECT Id, Status__c FROM Invoice__c LIMIT 1].Status__c);
 
-        Test.stopTest();*/
+        Test.stopTest();
     }
 
     /*  TEST-1604
         Change Invoice Status
         – Validations
-        - Reject a Reverted Invoice (NOK)
+        – Reject a Canceled Invoice from a program with App Process (NOK)
     */
     @isTest static void PRP_0004_FA5_2(){
-        /*invoices = [SELECT Id, Name, Status__c FROM Invoice__c];
+        invoices = [SELECT Id, Name, Status__c FROM Invoice__c];
+
+        InvoiceService.updateInvoiceStatus(new Set<Id>{invoices[0].Id}, 'Pending for Approval');
+        InvoiceService.submitForApproval(new Set<Id>{invoices[0].Id});
 
         invoices[0].Status__c = 'Approved';
 
@@ -310,7 +322,7 @@ public class TestChangeInvoiceStatus {
 
         Test.startTest();
 
-        invoices[0].Status__c = 'Reverted';
+        invoices[0].Status__c = 'Canceled';
 
         update invoices;
 
@@ -321,18 +333,21 @@ public class TestChangeInvoiceStatus {
         }
         catch(Exception e){}
                 
-        system.assertEquals('Reverted',[SELECT Id, Status__c FROM Invoice__c LIMIT 1].Status__c);
+        system.assertEquals('Canceled',[SELECT Id, Status__c FROM Invoice__c LIMIT 1].Status__c);
 
-        Test.stop Test();*/
+        Test.stopTest();
     }
 
     /*  TEST-1605
         Change Invoice Status
         – Validations
-        - Approve a Reverted Invoice (NOK)
+        – Submit for Approval a Canceled Invoice from a program with App Process (NOK)
     */
     @isTest static void PRP_0004_FA5_3(){
-        /*invoices = [SELECT Id, Name, Status__c FROM Invoice__c];
+        invoices = [SELECT Id, Name, Status__c FROM Invoice__c];
+
+        InvoiceService.updateInvoiceStatus(new Set<Id>{invoices[0].Id}, 'Pending for Approval');
+        InvoiceService.submitForApproval(new Set<Id>{invoices[0].Id});
 
         invoices[0].Status__c = 'Approved';
 
@@ -340,19 +355,226 @@ public class TestChangeInvoiceStatus {
 
         Test.startTest();
 
-        invoices[0].Status__c = 'Reverted';
+        invoices[0].Status__c = 'Canceled';
 
         update invoices;
 
-        invoices[0].Status__c = 'Approved';
+        try{
+            InvoiceService.updateInvoiceStatus(new Set<Id>{invoices[0].Id}, 'Pending for Approval');
+            InvoiceService.submitForApproval(new Set<Id>{invoices[0].Id});
+        }
+        catch(Exception e){}
+                
+        system.assertEquals('Canceled',[SELECT Id, Status__c FROM Invoice__c LIMIT 1].Status__c);
+
+        Test.stopTest();
+    }
+
+    /*  TEST-1629
+        Change Invoice Status
+        – Validations
+        - Reject an Open Invoice from a program with App Process (NOK)
+    */
+    @isTest static void PRP_0004_FB_1(){
+        invoices = [SELECT Id, Name, Status__c FROM Invoice__c];
+
+        Test.startTest();
+
+        invoices[0].Status__c = 'Reject';
+
+        system.assertEquals('Open',[SELECT Id, Status__c FROM Invoice__c LIMIT 1].Status__c);
 
         try{
             update invoices;
         }
         catch(Exception e){}
                 
-        system.assertEquals('Reverted',[SELECT Id, Status__c FROM Invoice__c LIMIT 1].Status__c);
+        system.assertEquals('Open',[SELECT Id, Status__c FROM Invoice__c LIMIT 1].Status__c);
 
-        Test.stopTest();*/
+        Test.stopTest();
+    }
+
+    /*  TEST-1630
+        Change Invoice Status
+        – Validations
+        - Revert an Open Invoice from a program with App Process (NOK)
+    */
+    @isTest static void PRP_0004_FB_2(){
+        invoices = [SELECT Id, Name, Status__c FROM Invoice__c];
+
+        Test.startTest();
+
+        invoices[0].Status__c = 'Canceled';
+
+        system.assertEquals('Open',[SELECT Id, Status__c FROM Invoice__c LIMIT 1].Status__c);
+
+        try{
+            update invoices;
+        }
+        catch(Exception e){}
+                
+        system.assertEquals('Open',[SELECT Id, Status__c FROM Invoice__c LIMIT 1].Status__c);
+
+        Test.stopTest();
+    }
+
+    /*  TEST-1631
+        Change Invoice Status
+        – Validations
+        - Submit for Approval an Approved Invoice from a program with App Process (NOK)
+    */
+    @isTest static void PRP_0004_FA7_1(){
+        invoices = [SELECT Id, Name, Status__c FROM Invoice__c];
+
+        InvoiceService.updateInvoiceStatus(new Set<Id>{invoices[0].Id}, 'Pending for Approval');
+        InvoiceService.submitForApproval(new Set<Id>{invoices[0].Id});
+
+        Test.startTest();
+
+        invoices[0].Status__c = 'Approved';
+
+        update invoices;
+
+        system.assertEquals('Approved',[SELECT Id, Status__c FROM Invoice__c LIMIT 1].Status__c);
+
+        try{
+            InvoiceService.updateInvoiceStatus(new Set<Id>{invoices[0].Id}, 'Pending for Approval');
+            InvoiceService.submitForApproval(new Set<Id>{invoices[0].Id});
+        }
+        catch(Exception e){}
+                
+        system.assertEquals('Approved',[SELECT Id, Status__c FROM Invoice__c LIMIT 1].Status__c);
+
+        Test.stopTest();
+    }
+
+    /*  TEST-1632
+        Change Invoice Status
+        – Validations
+        - Reopen an Approved Invoice from a program with App Process (NOK)
+    */
+    @isTest static void PRP_0004_FA7_2(){
+        invoices = [SELECT Id, Name, Status__c FROM Invoice__c];
+
+        InvoiceService.updateInvoiceStatus(new Set<Id>{invoices[0].Id}, 'Pending for Approval');
+        InvoiceService.submitForApproval(new Set<Id>{invoices[0].Id});
+
+        Test.startTest();
+
+        invoices[0].Status__c = 'Approved';
+
+        update invoices;
+
+        system.assertEquals('Approved',[SELECT Id, Status__c FROM Invoice__c LIMIT 1].Status__c);
+
+        invoices[0].Status__c = 'Open';
+
+        try{
+            update invoices;
+        }
+        catch(Exception e){}
+                
+        system.assertEquals('Approved',[SELECT Id, Status__c FROM Invoice__c LIMIT 1].Status__c);
+
+        Test.stopTest();
+    }
+
+    /*  TEST-1633
+        Change Invoice Status
+        – Validations
+        - Submit for Approval a Rejected Invoice from a program with App Process (NOK)
+    */
+    @isTest static void PRP_0004_FA2_2(){
+        invoices = [SELECT Id, Name, Status__c FROM Invoice__c];
+
+        InvoiceService.updateInvoiceStatus(new Set<Id>{invoices[0].Id}, 'Pending for Approval');
+        InvoiceService.submitForApproval(new Set<Id>{invoices[0].Id});
+
+        Test.startTest();
+
+        invoices[0].Status__c = 'Approved';
+
+        update invoices;
+
+        system.assertEquals('Approved',[SELECT Id, Status__c FROM Invoice__c LIMIT 1].Status__c);
+
+        invoices[0].Status__c = 'Open';
+
+        try{
+            update invoices;
+        }
+        catch(Exception e){}
+                
+        system.assertEquals('Approved',[SELECT Id, Status__c FROM Invoice__c LIMIT 1].Status__c);
+
+        Test.stopTest();
+    }
+
+    /*  TEST-1634
+        Change Invoice Status
+        – Submit for Approval an Open Invoice from a program without App Process (OK)
+    */
+    @isTest static void PRP_0004_FA4(){
+        programs = [SELECT Id FROM FieloPLT__Program__c];
+
+        programs[0].FieloPRP__RequestInvoiceAuthorization__c = false;
+
+        update programs;
+
+        invoices = [SELECT Id, Name, Status__c FROM Invoice__c];
+
+        Test.startTest();
+
+        InvoiceService.updateInvoiceStatus(new Set<Id>{invoices[0].Id}, 'Pending for Approval');
+        InvoiceService.submitForApproval(new Set<Id>{invoices[0].Id});
+
+        system.assertEquals('Pending for Approval',[SELECT Id, Status__c FROM Invoice__c LIMIT 1].Status__c);
+
+        Test.stopTest();
+    }
+
+    /*  TEST-1635
+        Change Invoice Status
+        – Close an Open Invoice from a program without App Process (OK)
+    */
+    @isTest static void PRP_0004_FA3(){
+        programs = [SELECT Id FROM FieloPLT__Program__c];
+
+        programs[0].FieloPRP__RequestInvoiceAuthorization__c = false;
+
+        update programs;
+
+        invoices = [SELECT Id, Name, Status__c FROM Invoice__c];
+
+        Test.startTest();
+
+        Invoice__c invoice = InvoiceService.closeInvoice(invoices[0].Id);
+
+        system.assertEquals('Approved',[SELECT Id, Status__c FROM Invoice__c LIMIT 1].Status__c);
+
+        Test.stopTest();
+    }
+
+    /*  TEST-1636
+        Change Invoice Status
+        – Validations
+        - Reopen a Pending for Approval Invoice from a program without App Process (NOK)
+    */
+    @isTest static void PRP_0004_FA1_2(){
+        programs = [SELECT Id FROM FieloPLT__Program__c];
+
+        programs[0].FieloPRP__RequestInvoiceAuthorization__c = false;
+
+        update programs;
+
+        invoices = [SELECT Id, Name, Status__c FROM Invoice__c];
+
+        Test.startTest();
+
+        Invoice__c invoice = InvoiceService.closeInvoice(invoices[0].Id);
+
+        system.assertEquals('Approved',[SELECT Id, Status__c FROM Invoice__c LIMIT 1].Status__c);
+
+        Test.stopTest();
     }
 }

@@ -1,7 +1,7 @@
 ## Change Invoice Status
 
 ### Objectives
-This use case describes the possible statuses for the Invoice
+This use case describes the possible status for the Invoice
 
 ### Preconditions
 The administrator must be logged in   
@@ -34,7 +34,7 @@ The Invoice has its status changed
    1. The approver selects the action to “Approve/Reject” the invoice in the Approval Process area
    2. The system displays the approval process page
    3. The approver approves the invoice
-   4. The system changes the Invoice status to “Approved”
+   4. The system changes the Invoice status to “Approved” (action set in the approval process)
    5. The system refreshes the Invoice details page
    6. The system displays the “Revert” and “Reprocess” buttons
    7. End of flow
@@ -43,7 +43,7 @@ The Invoice has its status changed
    1. The approver selects the action to “Approve/Reject” the invoice in the Approval Process area
    2. The system displays the approval process page
    3. The approver rejects the invoice
-   4. The system changes the Invoice status to “Rejected”
+   4. The system changes the Invoice status to “Rejected” (action set in the approval process)
    5. The system refreshes the Invoice details page
    6. The system displays the “Reopen” button
    7. End of flow
@@ -78,7 +78,7 @@ The Invoice has its status changed
    4. The approver selects the action to “Approve/Reject” the invoice
    5. The system displays the approval process page
    6. The approver approves the invoice
-   7. The system changes the Invoice status to “Approved”
+   7. The system changes the Invoice status to “Approved” (action set in the approval process)
    8. The system refreshes the Invoice details page
    9. The system displays the “Revert” and “Reprocess” buttons
    10. End of flow
@@ -90,7 +90,7 @@ The Invoice has its status changed
    4. The approver selects the action to “Approve/Reject” the invoice
    5. The system goes to the configured approval process
    6. The approver rejects the invoice
-   7. The system changes the Invoice status to “Rejected”
+   7. The system changes the Invoice status to “Rejected” (action set in the approval process)
    8. The system refreshes the Invoice details page
    9. The system displays the “Reopen” button
    10. End of flow
@@ -101,7 +101,7 @@ The Invoice has its status changed
    3. The system displays the “Revert” and “Reprocess” buttons
    4. The administrator presses the “Revert” button
    5. The system changes the Invoice status to “Canceled”
-   6. The system reverts the given transactions
+   6. The system reverts the related approval transaction
    7. The system refreshes the Invoice details page
    8. The system hides the “Revert” button
    9. The system displays the “Reopen” button and maintains the “Reprocess” button
@@ -113,7 +113,7 @@ The Invoice has its status changed
    3. The system displays the “Revert” and “Reprocess” buttons
    4. The administrator presses the “Revert” button
    5. The system changes the Invoice status to “Canceled”
-   6. The system reverts the given transactions
+   6. The system reverts the related approval transaction
    7. The system refreshes the Invoice details page
    8. The system hides the “Revert” button
    9. The system displays the “Reopen” button and maintains the “Reprocess” button
@@ -190,8 +190,8 @@ The Invoice has its status changed
    2. The system displays the Invoice details page
    3. The system displays the “Reopen” and “Reprocess” buttons
    4. The administrator presses the “Reprocess” button
-   5. The system changes the Invoice status to “Approved”
-   6. The system reprocesses the invoice
+   5. The system reprocesses the invoice
+   6. The system changes the Invoice status to “Approved”   
    7. The system refreshes the Invoice details page
    8. The system displays the “Revert” and “Reprocess” buttons
    9. End of flow
@@ -201,8 +201,8 @@ The Invoice has its status changed
    2. The system displays the Invoice details page
    3. The system displays the “Reopen” and “Reprocess” buttons
    4. The administrator presses the “Reprocess” button
-   5. The system changes the Invoice status to “Approved”
-   6. The system reprocesses the invoice
+   5. The system reprocesses the invoice
+   6. The system changes the Invoice status to “Approved”
    7. The system refreshes the Invoice details page
    8. The system displays the “Revert” and “Reprocess” buttons
    9. End of flow
