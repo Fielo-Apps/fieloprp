@@ -84,6 +84,19 @@
         <type>Lookup</type>
     </fields>
     <fields>
+        <fullName>FieloPLT__ChallengeMember__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Challenge Member</label>
+        <referenceTo>FieloPLT__ChallengeMember__c</referenceTo>
+        <relationshipLabel>Transactions</relationshipLabel>
+        <relationshipName>Transactions</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
         <fullName>FieloPLT__Date__c</fullName>
         <defaultValue>now()</defaultValue>
         <deprecated>false</deprecated>
@@ -229,6 +242,7 @@
     <fields>
         <fullName>FieloPLT__Type__c</fullName>
         <deprecated>false</deprecated>
+        <description>Different kind of Transactions which depend on their purpose: Adjustment, Challenge Reward, Expiration and Reversion</description>
         <externalId>false</externalId>
         <label>Type</label>
         <picklist>
