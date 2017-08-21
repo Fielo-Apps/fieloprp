@@ -104,5 +104,3 @@ Let's go to each status and see how they can be changed.
 :point_right: If improperly reverted, the invoice can return to its *Approved* status by taking the *Reprocess* action.  
 :point_right: In case the invoice have the possibility to be reanalyzed, the process can be restarted by taking the *Reopen* action, which takes the invoice back to *Open* status.
 
-- **New** - It's the invoice first status when employing the front end creation. When members upload their invoices on the portal, ...
-
