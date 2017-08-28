@@ -17,6 +17,7 @@ public with sharing class InvoiceLandingController extends PageSettingsSetContro
 
         initPageSettings('FieloPRP__Invoice__c','','','');
 
+        system.debug( 'FieloPLT__Sections__c:' + this.newSettings.FieloPLT__Sections__c );
 
         this.newSettings.FieloPLT__Sections__c = getSectionsWithMemberWhereCondition(this.newSettings.FieloPLT__Sections__c, currentProgram.Id);
 
@@ -32,6 +33,7 @@ public with sharing class InvoiceLandingController extends PageSettingsSetContro
     public static String getSectionsWithMemberWhereCondition(String sectionsString, String programId){
         List<Section> sections = (List<Section>) JSON.deserialize( sectionsString, List<Section>.class );
         for ( Section s :sections ) {
+          if( !s.Name.contains('FieloPRP_') ) // Internal Sections
           for ( List<FormField> r :s.rows ) {
             for ( FormField f :r ) {
               if(f.Name != null) {
@@ -64,6 +66,11 @@ public with sharing class InvoiceLandingController extends PageSettingsSetContro
     public class Section {
         public String Name{get;set;}
         public List<List<FormField>> Rows{get;set;}
+
+        //PRP Properties
+        public List<List<FormField>> FieloPRP_Product{get;set;}
+        public List<List<FormField>> FieloPRP_ProductRecent{get;set;}
+        public List<List<FormField>> FieloPRP_InvoiceItems{get;set;}
     }
 
     public class FormField {
@@ -73,5 +80,6 @@ public with sharing class InvoiceLandingController extends PageSettingsSetContro
         public String Label{get;set;}
         public String Value{get;set;}
         public String WhereCondition{get;set;}
+        public String ClassName{get;set;}
     }
 }

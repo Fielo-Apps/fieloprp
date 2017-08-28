@@ -24,11 +24,13 @@
 	          <thead>
 	            <tr class="slds-text-title--caps">
 	              <apex:repeat value="{!sections}" var="s">
-	              	<apex:repeat value="{!s.fields}" var="f">
-		              <th scope="col">
-		              	<div class="slds-truncate" title="{!$ObjectType[sObjectName].Fields[f.Name].label}">{!$ObjectType[sObjectName].Fields[f.Name].label}</div>
-		              </th>
-		            </apex:repeat>
+	              	<apex:repeat value="{!s.rows}" var="fields">
+		              	<apex:repeat value="{!fields}" var="f">
+			              <th scope="col">
+			              	<div class="slds-truncate" title="{!$ObjectType[sObjectName].Fields[f.Name].label}">{!$ObjectType[sObjectName].Fields[f.Name].label}</div>
+			              </th>
+			            </apex:repeat>
+			        </apex:repeat>
 	              </apex:repeat>
 	              <th class="slds-cell-shrink" scope="col"></th>
 	            </tr>
@@ -36,21 +38,23 @@
 	          <tbody class="fielosf-invoice__container">
 	           	<tr class="slds-hint-parent fielosf-invoice__item">
                 <apex:repeat value="{!sections}" var="s">
-                  <apex:repeat value="{!s.fields}" var="f">
-                    <td scope="row" class="{!f.ClassName}">
-                      <c:InputField 
-                        onchange="f.onchange" 
-                        value="{!f.Value}"
-                        type="{!f.Type}"
-                        showLabel="false" 
-                        fieldname="{!f.Name}"
-                        formid="{!formId}"
-                        describe="{!$ObjectType[sObjectName].Fields[f.Name]}"
-                        mode="new"
-                        sObjectName="{!sObjectName}"
-                        />
-                    </td>
-                  </apex:repeat>
+                	<apex:repeat value="{!s.rows}" var="fields">
+	                  <apex:repeat value="{!fields}" var="f">
+	                    <td scope="row" class="{!f.ClassName}">
+	                      <c:InputField 
+	                        onchange="f.onchange" 
+	                        value="{!f.Value}"
+	                        type="{!f.Type}"
+	                        showLabel="false" 
+	                        fieldname="{!f.Name}"
+	                        formid="{!formId}"
+	                        describe="{!$ObjectType[sObjectName].Fields[f.Name]}"
+	                        mode="new"
+	                        sObjectName="{!sObjectName}"
+	                        />
+	                    </td>
+	                  </apex:repeat>
+	                </apex:repeat>
                 </apex:repeat>
 	    					<td role="gridcell" class="slds-cell-shrink" data-label="Actions">
 		              <div class="slds-button slds-button--icon-x-small slds-button--delete" aria-haspopup="true"  title="Remove">
