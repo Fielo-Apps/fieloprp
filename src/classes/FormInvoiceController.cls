@@ -6,7 +6,10 @@ public with sharing class FormInvoiceController {
 
 
     public String productField {get{
-        string value = FieloPLT__PublicSettings__c.getInstance(UserInfo.getProfileId()).FieloPRP__ProductLookupField__c;
+        string value;
+        if (FieloPLT__PublicSettings__c.getInstance(UserInfo.getProfileId()) != null) {
+            value = FieloPLT__PublicSettings__c.getInstance(UserInfo.getProfileId()).FieloPRP__ProductLookupField__c;
+        }
         return value != null ? value : 'FieloPRP__Product__c';
     }
         set;
