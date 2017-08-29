@@ -33,7 +33,6 @@
       heading="New {!$ObjectType.Invoice__c.label}"
       sObjectName="FieloPRP__Invoice__c"
       fieldset="{!newSettings.FieloPLT__Sections__c}"
-      filterSObjectName="Product2"
       mode="new"
       className="fielosf-invoice-form"
     />

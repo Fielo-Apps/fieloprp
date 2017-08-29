@@ -453,9 +453,7 @@
     }
   };
 
-  FieloFormInvoice.prototype.refreshTotalPriceProxy_ = function(
-    value
-  ) {
+  FieloFormInvoice.prototype.refreshTotalPriceProxy_ = function(value) {
     this.verifyMember_(value);
     if (this.hasAmountFields) {
       var row =

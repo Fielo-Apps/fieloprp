@@ -2,7 +2,6 @@ public with sharing class FormInvoiceController {
     /*****  Datos  *****/
     public static Boolean cRecordRedirect{get;set;}
     public String csObjectName{get;set;}
-    public String cfilterSObjectName{get;set;}
     private Boolean queryRecordNotDone = true;
 
 
@@ -137,9 +136,18 @@ public with sharing class FormInvoiceController {
         set; 
     }
 
+    public String filterSObjectName {get{
+        return Schema.describeSObjects(new String[]{ 'FieloPRP__InvoiceItem__c' })
+            .get(0).fields.getMap()
+                .get(PublicSettings__c.getInstance(UserInfo.getProfileId()).FieloPRP__ProductLookupField__c)
+                    .getDescribe().getReferenceTo()[0].getDescribe().getName();
+    }
+        set;
+    }
+
     private Map<String, Schema.SObjectField> filterFieldMap { get {
-        if ( filterFieldMap == null && cfilterSObjectName != null ) {
-            Schema.DescribeSObjectResult[] describes = Schema.describeSObjects(new String[]{ cfilterSObjectName });
+        if ( filterFieldMap == null && filterSObjectName != null ) {
+            Schema.DescribeSObjectResult[] describes = Schema.describeSObjects(new String[]{ filterSObjectName });
             filterFieldMap = describes.get(0).fields.getMap();
         }
         return filterFieldMap;
@@ -258,29 +266,31 @@ public with sharing class FormInvoiceController {
         return result;
     }
 
-  @RemoteAction
-  public static sObject retrieve( String objectName, String recordId, String fields, String itemFields){
-    String query = 'SELECT ' + fields;
-    if (itemFields != null) {
-      query += String.format(' ,(SELECT {0} FROM InvoiceItems__r)', new List<String>{itemFields});
+    @RemoteAction
+    public static sObject retrieve( String objectName, String recordId, String fields, String itemFields){
+        String query = 'SELECT ' + fields;
+        if (itemFields != null) {
+            query += String.format(' ,(SELECT {0} FROM InvoiceItems__r)', new List<String>{itemFields});
+        }
+        query += ' ,(SELECT Id, Name FROM Attachments)';
+        query += ' FROM ' + objectName;
+        query += ' WHERE ID = :recordId' ;
+        query += ' LIMIT 1';
+        List<sObject> result = Database.query(query);
+        if ( result.size() > 0 ) {
+            return result.get(0);
+        }
+        return null;
     }
-    query += ' ,(SELECT Id, Name FROM Attachments)';
-    query += ' FROM ' + objectName;
-    query += ' WHERE ID = :recordId' ;
-    query += ' LIMIT 1';
-    List<sObject> result = Database.query(query);
-    if ( result.size() > 0 ) {
-      return result.get(0);
-    }
-    return null;
-  }
 
-  public FieloPLT__Program__c program {get{
+    public FieloPLT__Program__c program {get{
         if (program == null){
             program = ProgramService.getActiveProgram();
         }
         return program;
-    } set;}
+    } 
+        set;
+    }
 
     private static Map<String, Schema.SObjectField> staticFilterFieldMap {get;set;}
 
