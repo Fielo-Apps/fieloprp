@@ -32,9 +32,9 @@
 		<members>FieloPLT__Program__c</members>
 		<members>FieloPLT__Tracker__c</members>
 		<members>FieloPLT__Transaction__c</members>
+		<members>FieloPLT__PublicSettings__c</members>
 		<members>InvoiceItem__c</members>
 		<members>Invoice__c</members>
-		<members>PublicSettings__c</members>
 		<name>CustomObject</name>
 	</types>
 	<types>

@@ -67,6 +67,53 @@ public with sharing class FormInvoiceController {
         public String Value{get;set;}
         public String WhereCondition{get;set;}
         public String ClassName{get;set;}
+
+        public FormField(Map<String, String> attributes) {
+            this.Type = attributes.containsKey('Type') ? attributes.get('Type') : '';
+            this.Name = attributes.containsKey('Name') ? attributes.get('Name') : '';
+            this.onchange = attributes.containsKey('onchange') ? attributes.get('onchange') : '';
+            this.Label = attributes.containsKey('Label') ? attributes.get('Label') : '';
+            this.Value = attributes.containsKey('Value') ? attributes.get('Value') : '';
+            this.WhereCondition = attributes.containsKey('WhereCondition') ? attributes.get('WhereCondition') : '';
+            this.ClassName = attributes.containsKey('ClassName') ? attributes.get('ClassName') : '';
+        }
+    }
+
+    public List<FormField> requiredFields() {
+        List<FormField> fields = new List<FormField>();
+        Schema.DescribeFieldResult qty = Schema.describeSObjects(new String[]{ 'FieloPRP__InvoiceItem__c' })
+            .get(0).fields.getMap()
+                .get('FieloPRP__Quantity__c')
+                    .getDescribe();
+        fields.add(
+            new FormField(
+                new Map<String,String>{
+                    'Type' => 'input',
+                    'Name' => qty.getName(),
+                    'onchange' => 'refreshTotalPriceProxy_',
+                    'Label' => qty.getLabel(),
+                    'ClassName' => 'fielosf-product_qty'
+                }
+            )
+        );
+        return fields;
+    }
+
+    public List<List<FormField>> checkFields(List<List<FormField>> rows) {
+        Boolean hasQuantity = false;
+        for(List<FormField> fields:rows) {
+            for(FormField field: fields) {
+                if (field.Name == 'FieloPRP__Quantity__c') {
+                    hasQuantity = true;
+                }
+            }
+        }
+        List<List<FormField>> fixedRows = new List<List<FormField>>();
+        if (!hasQuantity) {
+            fixedRows.addAll(new List<List<FormField>> {this.requiredFields()});
+        }
+        fixedRows.addAll(rows);
+        return fixedRows;
     }
 
     public List<Section> sections { get {
@@ -104,8 +151,9 @@ public with sharing class FormInvoiceController {
         Section itemSection = new Section();
         for(Section s: sections) {
             if(s.FieloPRP_InvoiceItems != null){
-                itemSection.Name = 'Product Recent';
+                itemSection.Name = 'Items';
                 itemSection.rows = s.FieloPRP_InvoiceItems;
+                itemSection.rows = checkFields(itemSection.rows);
                 break;
             }
         }
@@ -139,7 +187,7 @@ public with sharing class FormInvoiceController {
     public String filterSObjectName {get{
         return Schema.describeSObjects(new String[]{ 'FieloPRP__InvoiceItem__c' })
             .get(0).fields.getMap()
-                .get(PublicSettings__c.getInstance(UserInfo.getProfileId()).FieloPRP__ProductLookupField__c)
+                .get(FieloPLT__PublicSettings__c.getInstance(UserInfo.getProfileId()).FieloPRP__ProductLookupField__c)
                     .getDescribe().getReferenceTo()[0].getDescribe().getName();
     }
         set;
@@ -151,62 +199,6 @@ public with sharing class FormInvoiceController {
             filterFieldMap = describes.get(0).fields.getMap();
         }
         return filterFieldMap;
-    }
-        set;
-    }
-
-    public Map<String, String> mapOptionsString { get {
-        if ( mapOptionsString == null && mapPicklistOptions != null ) {
-            mapOptionsString = new Map<String, String>();
-            for ( String key : mapPicklistOptions.keySet() ) {
-                String options = '';
-                for ( PicklistController.Entry p : mapPicklistOptions.get(key) ) {
-                    options += ',{ "id": "' + p.Id + '", "label": "' + p.Label + '" }';
-                }
-                if ( options != '') {
-                    mapOptionsString.put(key,'[' + options.substring(1) + ']');
-                } else {
-                    mapOptionsString.put(key,'[]');
-                }
-            }
-        }
-        return mapOptionsString;
-    }
-        set;
-    }
-
-    public Map<String, List<PicklistController.Entry>> mapPicklistOptions { get {
-        if ( mapPicklistOptions == null && !String.isBlank(csObjectName) ) {
-            mapPicklistOptions = new Map<String, List<PicklistController.Entry>>();
-            for ( Section s :sections ) {
-                for ( List<FormField> ff :s.Rows ) {
-                    for ( FormField f :ff ) {
-                        if ( (f.Type == 'picklist' ||  f.Type == 'radio'|| f.Type == 'multiselect'|| f.Type == 'checkboxes') && fieldMap.containsKey(f.Name) ) {
-                            List<PicklistController.Entry> options = new List<PicklistController.Entry>();
-                            Schema.DescribeFieldResult describe = fieldMap.get(f.Name).getDescribe();
-                            if ( describe.getType().name() == 'PICKLIST' || describe.getType().name() == 'MULTIPICKLIST' ) {
-                                List<Schema.PicklistEntry> pickListValues = describe.getPickListValues();
-                                for (Schema.PicklistEntry a : pickListValues) {
-                                    options.add( new PicklistController.Entry(a.getValue(), a.getLabel() ));
-                                }
-                            } else if ( describe.getType().name() == 'REFERENCE' ) {
-                                String query = 'SELECT ID, Name FROM ' + describe.getReferenceTo().get(0);
-                                if ( ! String.isBlank( f.WhereCondition )  ){
-                                    query += ' WHERE ' + f.WhereCondition.replace('/', '\'') ;
-                                }
-                                query += ' LIMIT 500';
-                                for ( SObject o : Database.query(query) ) {
-                                    // Substring para que matche con el multipicklist (para multisegment)
-                                    options.add( new PicklistController.Entry( ((String)o.id).substring(0, 15),  (String)o.get('Name') ));
-                                }
-                            }
-                            mapPicklistOptions.put( f.Name , options);
-                        }
-                    }
-                }
-            }
-        }
-        return mapPicklistOptions;
     }
         set;
     }
@@ -376,11 +368,14 @@ public with sharing class FormInvoiceController {
             }
           }
         }
+
+        String productInjectQuery = getProgramProductInjection();
+
         if (whereCondition.length() > 4) {
           whereCondition = ' WHERE ' + whereCondition.substring(4);
-          whereCondition += getProgramProductInjection();
+          whereCondition += productInjectQuery;
         } else {
-          whereCondition += getProgramProductInjection().substring(4);
+          whereCondition += productInjectQuery.length() > 4 ? productInjectQuery.substring(4) : '';
         }
       }
       return whereCondition;
