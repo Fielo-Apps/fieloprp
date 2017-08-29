@@ -18,8 +18,9 @@
 
     <apex:attribute name="saveConfirm" description="Confirmation before save" type="String" default="false" />
     <apex:attribute name="saveConfirmMessage" description="Confirmation message before save" type="String" default="false" />
+    <apex:variable var="productField" value="{!IF(ISNULL($Setup.FieloPRP__PublicSettings__c.FieloPRP__ProductLookupField__c), 'FieloPRP__Product__c', $Setup.FieloPRP__PublicSettings__c.FieloPRP__ProductLookupField__c)}" />
 
-      <div id="{!formId}" role="dialog" tabindex="-1" aria-labelledby="{!formId}headerModal" class="slds-hide slds-modal slds-fade-in-open slds-form {!className}" data-on-show="FieloFormInvoice_retrieve" data-save-controller="{!IF(ISBLANK(namespace),'',namespace + '.')}{!saveController}" data-retrieve-controller="{!IF(ISBLANK(namespace),'',namespace + '.')}{!retrieveController}" data-object-name="{!sObjectName}" data-fields="{!fields}" data-secondary-parameters="{!secondaryParameters}" data-redirect="{!redirect}" data-product-field-name="{!$Setup.FieloPRP__PublicSettings__c.FieloPRP__ProductLookupField__c}" data-product-query="{!program.FieloPRP__ProductInjectQuery__c}">
+      <div id="{!formId}" role="dialog" tabindex="-1" aria-labelledby="{!formId}headerModal" class="slds-hide slds-modal slds-fade-in-open slds-form {!className}" data-on-show="FieloFormInvoice_retrieve" data-save-controller="{!IF(ISBLANK(namespace),'',namespace + '.')}{!saveController}" data-retrieve-controller="{!IF(ISBLANK(namespace),'',namespace + '.')}{!retrieveController}" data-object-name="{!sObjectName}" data-fields="{!fields}" data-secondary-parameters="{!secondaryParameters}" data-redirect="{!redirect}" data-product-field-name="{!productField}" data-product-query="{!program.FieloPRP__ProductInjectQuery__c}">
         <div class="slds-modal__container">
           <div class="slds-modal__header slds-text-heading--medium">
             <button class="slds-button slds-modal__close slds-button--icon-inverse" data-aljs-dismiss="modal" title="Close">
@@ -67,7 +68,7 @@
             </div>
             <div class="slds-modal__content slds-p-around--medium">
 
-            <c:Sections formId="{!formId}-filter" sObjectName="{!$ObjectType['FieloPRP__InvoiceItem__c'].fields[$Setup.FieloPRP__PublicSettings__c.FieloPRP__ProductLookupField__c].referenceTo[0].Name}" fieldset="{!productSectionString}" mode="{!mode}" layout="compound" />
+            <c:Sections formId="{!formId}-filter" sObjectName="{!$ObjectType['FieloPRP__InvoiceItem__c'].fields[productField].referenceTo[0].Name}" fieldset="{!productSectionString}" mode="{!mode}" layout="compound" />
             
             <a class="slds-button slds-button--brand slds-form-product__search" > Search </a>
             
