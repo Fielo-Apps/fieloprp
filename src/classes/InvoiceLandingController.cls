@@ -17,13 +17,7 @@ public with sharing class InvoiceLandingController extends PageSettingsSetContro
 
         initPageSettings('FieloPRP__Invoice__c','','','');
 
-        system.debug( 'FieloPLT__Sections__c:' + this.newSettings.FieloPLT__Sections__c );
-
         this.newSettings.FieloPLT__Sections__c = getSectionsWithMemberWhereCondition(this.newSettings.FieloPLT__Sections__c, currentProgram.Id);
-
-        System.debug('newSettings: ' + this.newSettings);
-
-        System.debug('landingSettings: ' + this.landingSettings);
     }
 
     public List<SelectOption> getListViews() {
@@ -33,7 +27,6 @@ public with sharing class InvoiceLandingController extends PageSettingsSetContro
     public static String getSectionsWithMemberWhereCondition(String sectionsString, String programId){
         List<Section> sections = (List<Section>) JSON.deserialize( sectionsString, List<Section>.class );
         for ( Section s :sections ) {
-          if( !s.Name.contains('FieloPRP_') ) // Internal Sections
           for ( List<FormField> r :s.rows ) {
             for ( FormField f :r ) {
               if(f.Name != null) {
