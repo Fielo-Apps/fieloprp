@@ -1,235 +1,239 @@
 public with sharing class FormInvoiceController {
     /*****  Datos  *****/
-    public String csObjectName{get;set;}
-    public String cfilterSObjectName{get;set;}
-
     public static Boolean cRecordRedirect{get;set;}
-
+    public String csObjectName{get;set;}
     private Boolean queryRecordNotDone = true;
+
+
     public String fields {get{
         if ( fields == null ) {
-        fields = 'Id';
-        for ( Section s :sections ) {
-          for ( List<FormField> r :s.rows ) {
-            for ( FormField f :r ) {
-              if ( !String.isBlank(f.Name) ) {
-                fields += ', '  + f.Name;
-              }
+            fields = 'Id';
+            for ( Section s :sections ) {
+                for ( List<FormField> r :s.rows ) {
+                    for ( FormField f :r ) {
+                        if ( !String.isBlank(f.Name) ) {
+                            fields += ', '  + f.Name;
+                        }
+                    }
+                }
             }
-          }
-        }
-
         }
         return fields;
-    }set;}
+    }
+        set;
+    }
 
-    public String filterFields {get{
-        if ( filterFields == null ) {
-        filterFields = 'Id';
-        for ( Section s :filterSections ) {
-          for ( List<FormField> r :s.rows ) {
-            for ( FormField f :r ) {
-              if ( !String.isBlank(f.Name) ) {
-                filterFields += ', '  + f.Name;
-              }
+    public SObject cRecord {get;set;}
+
+    public SObject recordObject{get{
+        if (queryRecordNotDone ) {
+            queryRecordNotDone = false;
+            if ( cRecord !=null && cRecord.Id != null ) {
+                Id recordId = cRecord.Id;
+                String query = 'SELECT  ' + fields;
+                query += ' FROM ' + csObjectName;
+                query += ' WHERE Id = : recordId ';
+
+                recordObject = Database.query(query)[0];
+            } else {
+                recordObject = Schema.getGlobalDescribe().get(csObjectName).newSObject() ;
             }
-          }
         }
-
-        }
-        return filterFields;
-    }set;}
-
-  public String filterRecentRecords {get{
-    filterRecentRecords = '';
-    if( !filterRecentRecordsMap.isEmpty() ){
-      filterRecentRecords = JSON.serialize(filterRecentRecordsMap);
-      filterRecentRecords = filterRecentRecords.substring(1,filterRecentRecords.length()-1);
+        return recordObject;
     }
-    return filterRecentRecords;
-    }set;}
-
-  public SObject cRecord {get;set;}
-
-  public SObject recordObject{get{
-      if (queryRecordNotDone ) {
-        queryRecordNotDone = false;
-        if ( cRecord !=null && cRecord.Id != null ) {
-          Id recordId = cRecord.Id;
-          String query = 'SELECT  ' + fields;
-          query += ' FROM ' + csObjectName;
-          query += ' WHERE Id = : recordId ';
-
-          recordObject = Database.query(query)[0];
-        } else {
-          recordObject = Schema.getGlobalDescribe().get(csObjectName).newSObject() ;
-
-        }
-
-      }
-      return recordObject;
-    }set;}
-
-
-/*****  Secciones Y Fields  *****/
-  public String cFieldset{get;set;}
-  public String cFilter{get;set;}
-  public String cFilterRecent{get;set;}
-
-  public class Section {
-    public String Name{get;set;}
-    public List<List<FormField>> Rows{get;set;}
-  }
-  public class FormField {
-    public String Type{get;set;}
-    public String Name{get;set;}
-    public String onchange{get;set;}
-    public String Label{get;set;}
-    public String Value{get;set;}
-    public String WhereCondition{get;set;}
-  }
-
-  public List<Section> sections { get {
-      if ( sections == null ) {
-        if ( !String.isBlank(cFieldset)  ) {
-          // Si empieza con [ es un valor seteado en una visual force => lo tiene que modificar para que sea json
-          if ( !cFieldset.startsWith('[') ) {
-            cFieldset = '[' + cFieldset.replace('\'', '"') + ']';
-          }
-          system.debug(LoggingLevel.ERROR,'## cFieldset: ' + cFieldset);
-          sections = (List<Section>) JSON.deserialize( cFieldset, List<FormInvoiceController.Section>.class );
-        } else {
-          sections = new List<Section>();
-        }
-      }
-      return sections;
-    } set;
-  }
-
-  public List<Section> filterRecentSections { get {
-      if ( filterRecentSections == null ) {
-        if ( !String.isBlank(cFilterRecent)  ) {
-          // Si empieza con [ es un valor seteado en una visual force => lo tiene que modificar para que sea json
-          if ( !cFilterRecent.startsWith('[') ) {
-            cFilterRecent = '[' + cFilterRecent.replace('\'', '"') + ']';
-          }
-          filterRecentSections = (List<Section>) JSON.deserialize( cFilterRecent, List<FormInvoiceController.Section>.class );
-        } else {
-          filterRecentSections = new List<Section>();
-        }
-      }
-      return filterRecentSections;
-    } set;
-  }
-
-  public List<Section> filterSections { get {
-      if ( filterSections == null ) {
-        if ( !String.isBlank(cFilter)  ) {
-          // Si empieza con [ es un valor seteado en una visual force => lo tiene que modificar para que sea json
-          if ( !cFilter.startsWith('[') ) {
-            cFilter = '[' + cFilter.replace('\'', '"') + ']';
-          }
-          filterSections = (List<Section>) JSON.deserialize( cFilter, List<FormInvoiceController.Section>.class );
-        } else {
-          filterSections = new List<Section>();
-        }
-      }
-      return filterSections;
-    } set;
-  }
-
-
-/*****  Piclklist Values *****/
-  private Map<String, Schema.SObjectField> fieldMap { get {
-    if ( fieldMap == null && csObjectName != null ) {
-      Schema.DescribeSObjectResult[] describes = Schema.describeSObjects(new String[]{ csObjectName });
-      fieldMap = describes.get(0).fields.getMap();
+        set;
     }
-    return fieldMap;
-  } set; }
 
-  private Map<String, Schema.SObjectField> filterFieldMap { get {
-    if ( filterFieldMap == null && cfilterSObjectName != null ) {
-      Schema.DescribeSObjectResult[] describes = Schema.describeSObjects(new String[]{ cfilterSObjectName });
-      filterFieldMap = describes.get(0).fields.getMap();
+
+    /*****  Secciones Y Fields  *****/
+    public String cFieldset{get;set;}
+    public String cFilter{get;set;}
+    public String cFilterRecent{get;set;}
+
+    public class Section {
+        public String Name{get;set;}
+        public List<List<FormField>> Rows{get;set;}
+
+        //PRP Properties
+        public List<List<FormField>> FieloPRP_Product{get;set;}
+        public List<List<FormField>> FieloPRP_ProductRecent{get;set;}
+        public List<List<FormField>> FieloPRP_InvoiceItems{get;set;}
     }
-    return filterFieldMap;
-  } set; }
-
-  public Map<String, String> mapOptionsString { get {
-    if ( mapOptionsString == null && mapPicklistOptions != null ) {
-      mapOptionsString = new Map<String, String>();
-      for ( String key : mapPicklistOptions.keySet() ) {
-        String options = '';
-        for ( PicklistController.Entry p : mapPicklistOptions.get(key) ) {
-          options += ',{ "id": "' + p.Id + '", "label": "' + p.Label + '" }';
-        }
-        if ( options != '') {
-          mapOptionsString.put(key,'[' + options.substring(1) + ']');
-        } else {
-          mapOptionsString.put(key,'[]');
-        }
-      }
+    public class FormField {
+        public String Type{get;set;}
+        public String Name{get;set;}
+        public String onchange{get;set;}
+        public String Label{get;set;}
+        public String Value{get;set;}
+        public String WhereCondition{get;set;}
+        public String ClassName{get;set;}
     }
-    return mapOptionsString;
-  } set;}
 
-  public Map<String, List<PicklistController.Entry>> mapPicklistOptions { get {
-    if ( mapPicklistOptions == null && !String.isBlank(csObjectName) ) {
-      mapPicklistOptions = new Map<String, List<PicklistController.Entry>>();
-      for ( Section s :sections ) {
-        for ( List<FormField> ff :s.Rows ) {
-          for ( FormField f :ff ) {
-            if ( (f.Type == 'picklist' ||  f.Type == 'radio'|| f.Type == 'multiselect'|| f.Type == 'checkboxes') && fieldMap.containsKey(f.Name) ) {
-              List<PicklistController.Entry> options = new List<PicklistController.Entry>();
-              Schema.DescribeFieldResult describe = fieldMap.get(f.Name).getDescribe();
-              if ( describe.getType().name() == 'PICKLIST' || describe.getType().name() == 'MULTIPICKLIST' ) {
-                List<Schema.PicklistEntry> pickListValues = describe.getPickListValues();
-                for (Schema.PicklistEntry a : pickListValues) {
-                   options.add( new PicklistController.Entry(a.getValue(), a.getLabel() ));
+    public List<Section> sections { get {
+        if ( sections == null ) {
+            if ( !String.isBlank(cFieldset)  ) {
+                // Si empieza con [ es un valor seteado en una visual force => lo tiene que modificar para que sea json
+                if ( !cFieldset.startsWith('[') ) {
+                    cFieldset = '[' + cFieldset.replace('\'', '"') + ']';
                 }
-              } else if ( describe.getType().name() == 'REFERENCE' ) {
-                String query = 'SELECT ID, Name FROM ' + describe.getReferenceTo().get(0);
-                if ( ! String.isBlank( f.WhereCondition )  ){
-                  query += ' WHERE ' + f.WhereCondition.replace('/', '\'') ;
-                }
-                query += ' LIMIT 500';
-                for ( SObject o : Database.query(query) ) {
-                  // Substring para que matche con el multipicklist (para multisegment)
-                   options.add( new PicklistController.Entry( ((String)o.id).substring(0, 15),  (String)o.get('Name') ));
-                }
-              }
-              mapPicklistOptions.put( f.Name , options);
+                sections = (List<Section>) JSON.deserialize( cFieldset, List<FormInvoiceController.Section>.class );
+            } else {
+                sections = new List<Section>();
             }
-          }
         }
-      }
+        return sections;
+    } 
+        set;
     }
-    return mapPicklistOptions;
-  } set;}
 
-  public List<Map<String,String>> filterRecentRecordsMap{get{
-    filterRecentRecordsMap = new List<Map<String,String>>();
-
-    for ( Section s :filterRecentSections ) {
-      for ( List<FormField> r :s.rows ) {
-        for ( FormField f :r ) {
-          if ( !String.isBlank(f.Name) ) {
-            if ( f.Name != 'Name' ){
-              filterRecentRecordsMap.add(new Map<String,String>{
-                  'Name' => f.Name,
-                  'Type' => filterFieldMap.get(f.Name).getDescribe().getType().name(),
-                  'Label' => filterFieldMap.get(f.Name).getDescribe().getLabel()
-                }
-              );
+    public String productSectionString {get{
+        Section productSection = new Section();
+        for(Section s: sections) {
+            if(s.FieloPRP_Product != null){
+                productSection.Name = 'Products';
+                productSection.rows = s.FieloPRP_Product;
+                break;
             }
-          }
         }
-      }
+        return JSON.serialize(productSection);
+    }
+        set;
     }
 
-    return filterRecentRecordsMap;
-  }set;}
+    public String itemsSectionString {get{
+        Section itemSection = new Section();
+        for(Section s: sections) {
+            if(s.FieloPRP_InvoiceItems != null){
+                itemSection.Name = 'Product Recent';
+                itemSection.rows = s.FieloPRP_InvoiceItems;
+                break;
+            }
+        }
+        return JSON.serialize(itemSection);
+    }
+        set;
+    }
+
+    public String filterRecentRecords {get{
+        filterRecentRecords = '';
+        if( !filterRecentRecordsMap.isEmpty() ){
+            filterRecentRecords = JSON.serialize(filterRecentRecordsMap);
+            filterRecentRecords = filterRecentRecords.substring(1,filterRecentRecords.length()-1);
+        }
+        return filterRecentRecords;
+    }
+        set;
+    }
+
+    /*****  Piclklist Values *****/
+    private Map<String, Schema.SObjectField> fieldMap { get {
+        if ( fieldMap == null && csObjectName != null ) {
+            Schema.DescribeSObjectResult[] describes = Schema.describeSObjects(new String[]{ csObjectName });
+            fieldMap = describes.get(0).fields.getMap();
+        }
+        return fieldMap;
+    }
+        set; 
+    }
+
+    public String filterSObjectName {get{
+        return Schema.describeSObjects(new String[]{ 'FieloPRP__InvoiceItem__c' })
+            .get(0).fields.getMap()
+                .get(PublicSettings__c.getInstance(UserInfo.getProfileId()).FieloPRP__ProductLookupField__c)
+                    .getDescribe().getReferenceTo()[0].getDescribe().getName();
+    }
+        set;
+    }
+
+    private Map<String, Schema.SObjectField> filterFieldMap { get {
+        if ( filterFieldMap == null && filterSObjectName != null ) {
+            Schema.DescribeSObjectResult[] describes = Schema.describeSObjects(new String[]{ filterSObjectName });
+            filterFieldMap = describes.get(0).fields.getMap();
+        }
+        return filterFieldMap;
+    }
+        set;
+    }
+
+    public Map<String, String> mapOptionsString { get {
+        if ( mapOptionsString == null && mapPicklistOptions != null ) {
+            mapOptionsString = new Map<String, String>();
+            for ( String key : mapPicklistOptions.keySet() ) {
+                String options = '';
+                for ( PicklistController.Entry p : mapPicklistOptions.get(key) ) {
+                    options += ',{ "id": "' + p.Id + '", "label": "' + p.Label + '" }';
+                }
+                if ( options != '') {
+                    mapOptionsString.put(key,'[' + options.substring(1) + ']');
+                } else {
+                    mapOptionsString.put(key,'[]');
+                }
+            }
+        }
+        return mapOptionsString;
+    }
+        set;
+    }
+
+    public Map<String, List<PicklistController.Entry>> mapPicklistOptions { get {
+        if ( mapPicklistOptions == null && !String.isBlank(csObjectName) ) {
+            mapPicklistOptions = new Map<String, List<PicklistController.Entry>>();
+            for ( Section s :sections ) {
+                for ( List<FormField> ff :s.Rows ) {
+                    for ( FormField f :ff ) {
+                        if ( (f.Type == 'picklist' ||  f.Type == 'radio'|| f.Type == 'multiselect'|| f.Type == 'checkboxes') && fieldMap.containsKey(f.Name) ) {
+                            List<PicklistController.Entry> options = new List<PicklistController.Entry>();
+                            Schema.DescribeFieldResult describe = fieldMap.get(f.Name).getDescribe();
+                            if ( describe.getType().name() == 'PICKLIST' || describe.getType().name() == 'MULTIPICKLIST' ) {
+                                List<Schema.PicklistEntry> pickListValues = describe.getPickListValues();
+                                for (Schema.PicklistEntry a : pickListValues) {
+                                    options.add( new PicklistController.Entry(a.getValue(), a.getLabel() ));
+                                }
+                            } else if ( describe.getType().name() == 'REFERENCE' ) {
+                                String query = 'SELECT ID, Name FROM ' + describe.getReferenceTo().get(0);
+                                if ( ! String.isBlank( f.WhereCondition )  ){
+                                    query += ' WHERE ' + f.WhereCondition.replace('/', '\'') ;
+                                }
+                                query += ' LIMIT 500';
+                                for ( SObject o : Database.query(query) ) {
+                                    // Substring para que matche con el multipicklist (para multisegment)
+                                    options.add( new PicklistController.Entry( ((String)o.id).substring(0, 15),  (String)o.get('Name') ));
+                                }
+                            }
+                            mapPicklistOptions.put( f.Name , options);
+                        }
+                    }
+                }
+            }
+        }
+        return mapPicklistOptions;
+    }
+        set;
+    }
+
+    public List<Map<String,String>> filterRecentRecordsMap{get{
+        filterRecentRecordsMap = new List<Map<String,String>>();
+
+        for ( Section s :sections ) {
+            for ( List<FormField> r :s.FieloPRP_ProductRecent ) {
+                for ( FormField f :r ) {
+                    if ( !String.isBlank(f.Name) ) {
+                        if ( f.Name != 'Name' ){
+                            filterRecentRecordsMap.add(new Map<String,String>{
+                                    'Name' => f.Name,
+                                    'Type' => filterFieldMap.get(f.Name).getDescribe().getType().name(),
+                                    'Label' => filterFieldMap.get(f.Name).getDescribe().getLabel()
+                                }
+                            );
+                        }
+                    }
+                }
+            }
+        }
+        return filterRecentRecordsMap;
+    }
+        set;
+    }
 
     @RemoteAction
     public static RemoteActionResult save(FieloPRP__Invoice__c record, List<FieloPRP__InvoiceItem__c> items, List<String> nullFields){
@@ -262,29 +266,31 @@ public with sharing class FormInvoiceController {
         return result;
     }
 
-  @RemoteAction
-  public static sObject retrieve( String objectName, String recordId, String fields, String itemFields){
-    String query = 'SELECT ' + fields;
-    if (itemFields != null) {
-      query += String.format(' ,(SELECT {0} FROM InvoiceItems__r)', new List<String>{itemFields});
+    @RemoteAction
+    public static sObject retrieve( String objectName, String recordId, String fields, String itemFields){
+        String query = 'SELECT ' + fields;
+        if (itemFields != null) {
+            query += String.format(' ,(SELECT {0} FROM InvoiceItems__r)', new List<String>{itemFields});
+        }
+        query += ' ,(SELECT Id, Name FROM Attachments)';
+        query += ' FROM ' + objectName;
+        query += ' WHERE ID = :recordId' ;
+        query += ' LIMIT 1';
+        List<sObject> result = Database.query(query);
+        if ( result.size() > 0 ) {
+            return result.get(0);
+        }
+        return null;
     }
-    query += ' ,(SELECT Id, Name FROM Attachments)';
-    query += ' FROM ' + objectName;
-    query += ' WHERE ID = :recordId' ;
-    query += ' LIMIT 1';
-    List<sObject> result = Database.query(query);
-    if ( result.size() > 0 ) {
-      return result.get(0);
-    }
-    return null;
-  }
 
-  public FieloPLT__Program__c program {get{
+    public FieloPLT__Program__c program {get{
         if (program == null){
             program = ProgramService.getActiveProgram();
         }
         return program;
-    } set;}
+    } 
+        set;
+    }
 
     private static Map<String, Schema.SObjectField> staticFilterFieldMap {get;set;}
 

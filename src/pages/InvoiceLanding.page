@@ -33,9 +33,6 @@
       heading="New {!$ObjectType.Invoice__c.label}"
       sObjectName="FieloPRP__Invoice__c"
       fieldset="{!newSettings.FieloPLT__Sections__c}"
-      filterSObjectName="Product2"
-      filter="{'Rows':[[{'Name':'Name', 'Type':'input'},{'Name':'Family','Type':'picklist'},{'Name':'ProductCode','Type':'input'}]]}"
-      filterRecent="{'Rows':[[{'Name':'Name', 'Type':'input'},{'Name':'Family','Type':'picklist'},{'Name':'ProductCode','Type':'input'}]]}"
       mode="new"
       className="fielosf-invoice-form"
     />

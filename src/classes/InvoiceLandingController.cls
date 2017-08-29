@@ -17,12 +17,7 @@ public with sharing class InvoiceLandingController extends PageSettingsSetContro
 
         initPageSettings('FieloPRP__Invoice__c','','','');
 
-
         this.newSettings.FieloPLT__Sections__c = getSectionsWithMemberWhereCondition(this.newSettings.FieloPLT__Sections__c, currentProgram.Id);
-
-        System.debug('newSettings: ' + this.newSettings);
-
-        System.debug('landingSettings: ' + this.landingSettings);
     }
 
     public List<SelectOption> getListViews() {
@@ -64,6 +59,11 @@ public with sharing class InvoiceLandingController extends PageSettingsSetContro
     public class Section {
         public String Name{get;set;}
         public List<List<FormField>> Rows{get;set;}
+
+        //PRP Properties
+        public List<List<FormField>> FieloPRP_Product{get;set;}
+        public List<List<FormField>> FieloPRP_ProductRecent{get;set;}
+        public List<List<FormField>> FieloPRP_InvoiceItems{get;set;}
     }
 
     public class FormField {
@@ -73,5 +73,6 @@ public with sharing class InvoiceLandingController extends PageSettingsSetContro
         public String Label{get;set;}
         public String Value{get;set;}
         public String WhereCondition{get;set;}
+        public String ClassName{get;set;}
     }
 }

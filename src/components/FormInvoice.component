@@ -19,13 +19,7 @@
     <apex:attribute name="saveConfirm" description="Confirmation before save" type="String" default="false" />
     <apex:attribute name="saveConfirmMessage" description="Confirmation message before save" type="String" default="false" />
 
-    <apex:attribute name="sections" type="String" default="" description="Form Fields" />
-    <apex:attribute name="fieldset" type="String" default="" description="Form Fields" />
-    <apex:attribute name="filter" type="String" default="" description="Form Fields"  assignTo="{!cFilter}"/>
-    <apex:attribute name="filterRecent" type="String" default="" description="Filter RecentRecords Fields"  assignTo="{!cFilterRecent}"/>
-    <apex:attribute name="filterSObjectName" type="String" default="" description="" assignTo="{!cfilterSObjectName}" />
-
-      <div id="{!formId}" role="dialog" tabindex="-1" aria-labelledby="{!formId}headerModal" class="slds-hide slds-modal slds-fade-in-open slds-form {!className}" data-on-show="FieloFormInvoice_retrieve" data-save-controller="{!IF(ISBLANK(namespace),'',namespace + '.')}{!saveController}" data-retrieve-controller="{!IF(ISBLANK(namespace),'',namespace + '.')}{!retrieveController}" data-object-name="{!sObjectName}" data-fields="{!fields}" data-secondary-parameters="{!secondaryParameters}" data-redirect="{!redirect}">
+      <div id="{!formId}" role="dialog" tabindex="-1" aria-labelledby="{!formId}headerModal" class="slds-hide slds-modal slds-fade-in-open slds-form {!className}" data-on-show="FieloFormInvoice_retrieve" data-save-controller="{!IF(ISBLANK(namespace),'',namespace + '.')}{!saveController}" data-retrieve-controller="{!IF(ISBLANK(namespace),'',namespace + '.')}{!retrieveController}" data-object-name="{!sObjectName}" data-fields="{!fields}" data-secondary-parameters="{!secondaryParameters}" data-redirect="{!redirect}" data-product-field-name="{!$Setup.FieloPRP__PublicSettings__c.FieloPRP__ProductLookupField__c}" data-product-query="{!program.FieloPRP__ProductInjectQuery__c}">
         <div class="slds-modal__container">
           <div class="slds-modal__header slds-text-heading--medium">
             <button class="slds-button slds-modal__close slds-button--icon-inverse" data-aljs-dismiss="modal" title="Close">
@@ -45,7 +39,7 @@
             <c:Items formid="{!formId}" 
               buttons="{'Name':'Add Products', 'Type':'Modal', 'CssClass': 'slds-button--addproducts','Label':'Add Products', 'Action':'invoiceForm-addProductsForm'},{'Name':'New', 'Type':'Link', 'CssClass': 'slds-button--new','Label':'New','Action':'#'}"
               sObjectName="FieloPRP__InvoiceItem__c"
-              fieldset="{'Name':'items', 'fields':[{'Name':'FieloPRP__Quantity__c', 'Type':'input', 'ClassName': 'fielosf-product_qty', 'onchange': 'refreshTotalPriceProxy_'},{'Name':'FieloPRP__Product__c', 'Type':'lookup', 'ClassName': 'fielosf-product_name', 'onchange': 'refreshTotalPriceProxy_'},{'Name':'FieloPRP__UnitPrice__c', 'Type': 'input', 'ClassName': 'fielosf-product_unit-price', 'onchange': 'refreshTotalPriceProxy_'},{'Name':'FieloPRP__TotalPrice__c', 'Type': 'input', 'ClassName': 'fielosf-product_total-price', 'onchange': 'refreshTotalPriceProxy_'}]}"
+              fieldset="{!itemsSectionString}"
               />
 
             <c:MultiFileUploader formid="{!formId}multifileuploader" 
@@ -73,7 +67,8 @@
             </div>
             <div class="slds-modal__content slds-p-around--medium">
 
-            <c:Sections formId="{!formId}-filter" sObjectName="{!filterSObjectName}" fieldset="{!filter}" mode="{!mode}" layout="compound" />
+            <c:Sections formId="{!formId}-filter" sObjectName="{!$ObjectType['FieloPRP__InvoiceItem__c'].fields[$Setup.FieloPRP__PublicSettings__c.FieloPRP__ProductLookupField__c].referenceTo[0].Name}" fieldset="{!productSectionString}" mode="{!mode}" layout="compound" />
+            
             <a class="slds-button slds-button--brand slds-form-product__search" > Search </a>
             
             <c:RecentRecords namespace="FieloPRP" 
