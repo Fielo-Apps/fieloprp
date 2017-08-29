@@ -5,6 +5,13 @@ public with sharing class FormInvoiceController {
     private Boolean queryRecordNotDone = true;
 
 
+    public String productField {get{
+        string value = FieloPLT__PublicSettings__c.getInstance(UserInfo.getProfileId()).FieloPRP__ProductLookupField__c;
+        return value != null ? value : 'FieloPRP__Product__c';
+    }
+        set;
+    }
+
     public String fields {get{
         if ( fields == null ) {
             fields = 'Id';

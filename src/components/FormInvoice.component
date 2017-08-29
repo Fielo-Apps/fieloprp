@@ -18,7 +18,6 @@
 
     <apex:attribute name="saveConfirm" description="Confirmation before save" type="String" default="false" />
     <apex:attribute name="saveConfirmMessage" description="Confirmation message before save" type="String" default="false" />
-    <apex:variable var="productField" value="{!IF(ISNULL($Setup.FieloPRP__PublicSettings__c.FieloPRP__ProductLookupField__c), 'FieloPRP__Product__c', $Setup.FieloPRP__PublicSettings__c.FieloPRP__ProductLookupField__c)}" />
 
       <div id="{!formId}" role="dialog" tabindex="-1" aria-labelledby="{!formId}headerModal" class="slds-hide slds-modal slds-fade-in-open slds-form {!className}" data-on-show="FieloFormInvoice_retrieve" data-save-controller="{!IF(ISBLANK(namespace),'',namespace + '.')}{!saveController}" data-retrieve-controller="{!IF(ISBLANK(namespace),'',namespace + '.')}{!retrieveController}" data-object-name="{!sObjectName}" data-fields="{!fields}" data-secondary-parameters="{!secondaryParameters}" data-redirect="{!redirect}" data-product-field-name="{!productField}" data-product-query="{!program.FieloPRP__ProductInjectQuery__c}">
         <div class="slds-modal__container">
