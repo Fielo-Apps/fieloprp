@@ -193,9 +193,8 @@
           this.fileList[Object.keys(this.fileList).length.toString()] = file;
           this.addFilePill(file);
         } else {
-          var message = 'File size cannot exceed ' +
-            (this.Constant_.MAX_FILE_SIZE / 1024 / 1024).toFixed(2) +
-            ' Mbytes.';
+          var message = BackEndJSSettings.LABELS.MaxFileSize.replace('{0}',
+            (this.Constant_.MAX_FILE_SIZE / 1024 / 1024).toFixed(2).toString());
           this.throwMessage(message, 'error');
           this.input_.value = null;
         }
@@ -229,7 +228,7 @@
         };
         fr.readAsBinaryString(file);
       } else {
-        this.throwMessage('You must choose a file before trying to upload it',
+        this.throwMessage(BackEndJSSettings.LABELS.ChooseFileFirst,
           'error');
       }
     } else {
@@ -292,7 +291,7 @@
     },
       this
     );
-    var result = {message: 'The invoice was saved successfully',
+    var result = {message: BackEndJSSettings.LABELS.InvoiceSavedSuccess,
       redirectURL: '/' + parentId};
     this.throwMessage(result.message, 'success');
     location.replace(result.redirectURL);

@@ -91,4 +91,17 @@
           </div>
         </div>
       </div>
+      <script>
+    if(typeof BackEndJSSettings == 'undefined') {
+      var BackEndJSSettings = {};
+    }
+    if(typeof BackEndJSSettings.LABELS == 'undefined') {
+      BackEndJSSettings.LABELS = {};
+    }
+    BackEndJSSettings.LABELS.MemberMustBeChosen = '{!$Label.fieloplt__MemberMustBeChosen}';
+    BackEndJSSettings.LABELS.InvoiceDetailInsertDisabled = '{!$Label.fieloprp__InvoiceDetailInsertDisabled}';
+    BackEndJSSettings.LABELS.InvoiceSavedSuccess = '{!$Label.fieloprp__InvoiceSavedSuccess}';
+    BackEndJSSettings.LABELS.ChooseFileFirst = '{!$Label.fieloprp__ChooseFileFirst}';
+    BackEndJSSettings.LABELS.MaxFileSize = '{!$Label.fieloprp__MaxFileSize}';
+  </script>
 </apex:component>
