@@ -17,6 +17,14 @@
         <value>Programs with Detailed Invoice set to true have the hability to update the Amount of the Invoice disabled.</value>
     </labels>
     <labels>
+        <fullName>ChooseFileFirst</fullName>
+        <categories>multiFileUploader.js</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ChooseFileFirst</shortDescription>
+        <value>You must choose a file before trying to upload it</value>
+    </labels>
+    <labels>
         <fullName>DateFieldNull</fullName>
         <categories>Invoices.cls</categories>
         <language>en_US</language>
@@ -30,7 +38,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>DraftNotEditable</shortDescription>
-        <value>Only Invoices with status Draft or New are editable.</value>
+        <value>Only Invoices with status Open are editable.</value>
     </labels>
     <labels>
         <fullName>DuplicatedInvoiceRecord</fullName>
@@ -79,6 +87,14 @@
         <protected>true</protected>
         <shortDescription>InvoiceSavedSuccess</shortDescription>
         <value>The invoice was saved successfully.</value>
+    </labels>
+    <labels>
+        <fullName>MaxFileSize</fullName>
+        <categories>multiFileUploader.js</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>MaxFileSize</shortDescription>
+        <value>File size cannot exceed {0} Mbytes.</value>
     </labels>
     <labels>
         <fullName>MultipleInvoiceCreated</fullName>
