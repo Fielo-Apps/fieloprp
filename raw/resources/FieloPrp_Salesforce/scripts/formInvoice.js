@@ -103,13 +103,6 @@
       }
       var itemValues =
         this.itemsContainer_.FieloInvoiceItems.get();
-      // verifico si hay al menos un item en cero o un reward sin elegir
-      var quantityInCero = false;
-      itemValues.forEach(function(item) {
-        if (item.FieloPRP__Quantity__c === '0') {
-          quantityInCero = true;
-        }
-      });
 
       if (hasDetails) {
         if (formValues.FieloPRP__Amount__c !== null &&
@@ -117,29 +110,24 @@
           delete formValues.FieloPRP__Amount__c;
         }
       }
-      if (quantityInCero && hasDetails) {
-        fielo.util.spinner.FieloSpinner.hide();
 
-        event = {message: 'Quantity cannot be 0'};
-        this.form_.processRemoteActionResult_(null, event);
-      } else {
-        try {
-          Visualforce.remoting.Manager.invokeAction(
-            this.Constant_.SAVE_CONTROLLER,
-            formValues,
-            hasDetails ? itemValues : null,
-            nullFields,
-            this.saveCallback_.bind(this),
-            {
-              escape: false
-            }
-          );
-        } catch (e) {
-          console.warn(e);
-        }
+      try {
+        Visualforce.remoting.Manager.invokeAction(
+          this.Constant_.SAVE_CONTROLLER,
+          formValues,
+          hasDetails ? itemValues : null,
+          nullFields,
+          this.saveCallback_.bind(this),
+          {
+            escape: false
+          }
+        );
+      } catch (e) {
+        console.warn(e);
       }
     } else {
-      event = {message: 'Must select a member', redirectURL: '#'};
+      event = {message: BackEndJSSettings.LABELS.MemberMustBeChosen,
+        redirectURL: '#'};
       this.form_.processRemoteActionResult_(null, event);
     }
     this.keepItems_ = false;
@@ -443,13 +431,15 @@
           itemTotal !== '' ?
           itemTotal :
           0;
-        invoiceTotalValue += parseFloat(itemTotal);
+        invoiceTotalValue += parseFloat(itemTotal).toFixed(2);
       },
         this
       );
       this.invoiceTotal_ =
         this.element_.querySelector('.' + this.CssClasses_.TOTAL_POINTS);
       this.invoiceTotal_.innerHTML = invoiceTotalValue;
+      this.invoiceTotal_.innerHTML =
+        this.invoiceTotal_.innerHTML.replace(/^0+/, '');
     }
   };
 
@@ -514,22 +504,22 @@
       if (totalPriceField && quantityField && unitPriceField) {
         if (updatedField === 'FieloPRP__Quantity__c') {
           totalPriceField.set('value',
-            parseFloat(quantityField.get('value')) *
-              parseFloat(unitPriceField.get('value'))
+            (parseFloat(quantityField.get('value')) *
+              parseFloat(unitPriceField.get('value'))).toFixed(2)
             );
         }
         if (updatedField === 'FieloPRP__UnitPrice__c') {
           totalPriceField.set('value',
-            parseFloat(quantityField.get('value')) *
-              parseFloat(unitPriceField.get('value'))
+            (parseFloat(quantityField.get('value')) *
+              parseFloat(unitPriceField.get('value'))).toFixed(2)
             );
         }
         if (updatedField === 'FieloPRP__TotalPrice__c') {
           unitPriceField.set('value',
-            parseFloat(quantityField.get('value')) > 0.0 ?
+            (parseFloat(quantityField.get('value')) > 0.0 ?
             parseFloat(totalPriceField.get('value')) /
               parseFloat(quantityField.get('value')) :
-              0
+              0).toFixed(2)
             );
         }
       }
@@ -547,7 +537,7 @@
         event.preventDefault();
         this.keepItems_ = false;
         this.clear_();
-        this.throwMessage('Must select a member', 'error');
+        this.throwMessage(BackEndJSSettings.LABELS.MemberMustBeChosen, 'error');
         $('[data-field-name="FieloPRP__Member__c"]')
           .find('#invoiceForm--input')[0].focus();
       } else {
@@ -767,8 +757,7 @@
       this.clear_();
       this.closeProducsModalIfOpened_();
       var actionResult = {
-        message: 'The program of this member does' +
-        ' not allow the creation of items.'};
+        message: BackEndJSSettings.LABELS.InvoiceDetailInsertDisabled};
       this.form_.processRemoteActionResult_(null, actionResult);
     }
   };
