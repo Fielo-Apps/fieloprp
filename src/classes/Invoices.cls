@@ -1,6 +1,6 @@
 public with sharing class Invoices extends SObjectDomain {
-	
-	public static Set<Id> processedIds = new Set<Id>();
+    
+    public static Set<Id> processedIds = new Set<Id>();
     public static Boolean validateAdminFields = true;
     public static Decimal newAmount;
     public static Decimal oldAmount;
@@ -83,8 +83,7 @@ public with sharing class Invoices extends SObjectDomain {
                     invoice.addError( Label.FutureDateField );
                 }
 
-                if( !invoice.HasDetails__c &&
-                    newAmount == 0.0 &&
+                if( newAmount == 0.0 &&
                     invoice.Status__c != 'Open' &&
                     invoice.Status__c != 'New') {
                     invoice.addError( Label.ZeroAmount );
