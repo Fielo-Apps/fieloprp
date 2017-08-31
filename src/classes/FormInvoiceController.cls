@@ -215,7 +215,7 @@ public with sharing class FormInvoiceController {
         if (filterSObjectName==null) {
             filterSObjectName = Schema.describeSObjects(new String[]{ 'FieloPRP__InvoiceItem__c' })
                 .get(0).fields.getMap()
-                    .get(FieloPLT__PublicSettings__c.getInstance(UserInfo.getProfileId()).FieloPRP__ProductLookupField__c)
+                    .get(productField)
                         .getDescribe().getReferenceTo()[0].getDescribe().getName();
         }
         return filterSObjectName;
