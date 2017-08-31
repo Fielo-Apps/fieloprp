@@ -6,11 +6,16 @@ public with sharing class FormInvoiceController {
 
 
     public String productField {get{
-        string value;
-        if (FieloPLT__PublicSettings__c.getInstance(UserInfo.getProfileId()) != null) {
-            value = FieloPLT__PublicSettings__c.getInstance(UserInfo.getProfileId()).FieloPRP__ProductLookupField__c;
-        }
-        return value != null ? value : 'FieloPRP__Product__c';
+        if (productField==null) {
+            string value;
+            try {
+                value = FieloPLT__PublicSettings__c.getInstance(UserInfo.getProfileId()).FieloPRP__ProductLookupField__c;
+            } catch(Exception e) {
+                value = null;
+            }
+            productField = value != null ? value : 'FieloPRP__Product__c';
+        } 
+        return productField;
     }
         set;
     }
@@ -36,17 +41,19 @@ public with sharing class FormInvoiceController {
     public SObject cRecord {get;set;}
 
     public SObject recordObject{get{
-        if (queryRecordNotDone ) {
-            queryRecordNotDone = false;
-            if ( cRecord !=null && cRecord.Id != null ) {
-                Id recordId = cRecord.Id;
-                String query = 'SELECT  ' + fields;
-                query += ' FROM ' + csObjectName;
-                query += ' WHERE Id = : recordId ';
+        if (recordObject==null) {
+            if (queryRecordNotDone) {
+                queryRecordNotDone = false;
+                if ( cRecord !=null && cRecord.Id != null ) {
+                    Id recordId = cRecord.Id;
+                    String query = 'SELECT  ' + fields;
+                    query += ' FROM ' + csObjectName;
+                    query += ' WHERE Id = : recordId ';
 
-                recordObject = Database.query(query)[0];
-            } else {
-                recordObject = Schema.getGlobalDescribe().get(csObjectName).newSObject() ;
+                    recordObject = Database.query(query)[0];
+                } else {
+                    recordObject = Schema.getGlobalDescribe().get(csObjectName).newSObject() ;
+                }
             }
         }
         return recordObject;
@@ -144,39 +151,47 @@ public with sharing class FormInvoiceController {
     }
 
     public String productSectionString {get{
-        Section productSection = new Section();
-        for(Section s: sections) {
-            if(s.FieloPRP_Product != null){
-                productSection.Name = 'Products';
-                productSection.rows = s.FieloPRP_Product;
-                break;
+        if (productSectionString==null) {
+            Section productSection = new Section();
+            for(Section s: sections) {
+                if(s.FieloPRP_Product != null){
+                    productSection.Name = 'Products';
+                    productSection.rows = s.FieloPRP_Product;
+                    break;
+                }
             }
+            productSectionString = JSON.serialize(productSection);
         }
-        return JSON.serialize(productSection);
+        return productSectionString;
     }
         set;
     }
 
     public String itemsSectionString {get{
-        Section itemSection = new Section();
-        for(Section s: sections) {
-            if(s.FieloPRP_InvoiceItems != null){
-                itemSection.Name = 'Items';
-                itemSection.rows = s.FieloPRP_InvoiceItems;
-                itemSection.rows = checkFields(itemSection.rows);
-                break;
+        if (itemsSectionString==null) {
+            Section itemSection = new Section();
+            for(Section s: sections) {
+                if(s.FieloPRP_InvoiceItems != null){
+                    itemSection.Name = 'Items';
+                    itemSection.rows = s.FieloPRP_InvoiceItems;
+                    itemSection.rows = checkFields(itemSection.rows);
+                    break;
+                }
             }
+            itemsSectionString = JSON.serialize(itemSection);
         }
-        return JSON.serialize(itemSection);
+        return itemsSectionString;
     }
         set;
     }
 
     public String filterRecentRecords {get{
-        filterRecentRecords = '';
-        if( !filterRecentRecordsMap.isEmpty() ){
-            filterRecentRecords = JSON.serialize(filterRecentRecordsMap);
-            filterRecentRecords = filterRecentRecords.substring(1,filterRecentRecords.length()-1);
+        if (filterRecentRecords==null) {
+            filterRecentRecords = '';
+            if( !filterRecentRecordsMap.isEmpty() ){
+                filterRecentRecords = JSON.serialize(filterRecentRecordsMap);
+                filterRecentRecords = filterRecentRecords.substring(1,filterRecentRecords.length()-1);
+            }
         }
         return filterRecentRecords;
     }
@@ -185,9 +200,11 @@ public with sharing class FormInvoiceController {
 
     /*****  Piclklist Values *****/
     private Map<String, Schema.SObjectField> fieldMap { get {
-        if ( fieldMap == null && csObjectName != null ) {
-            Schema.DescribeSObjectResult[] describes = Schema.describeSObjects(new String[]{ csObjectName });
-            fieldMap = describes.get(0).fields.getMap();
+        if (fieldMap==null) {
+            if ( fieldMap == null && csObjectName != null ) {
+                Schema.DescribeSObjectResult[] describes = Schema.describeSObjects(new String[]{ csObjectName });
+                fieldMap = describes.get(0).fields.getMap();
+            }
         }
         return fieldMap;
     }
@@ -195,10 +212,13 @@ public with sharing class FormInvoiceController {
     }
 
     public String filterSObjectName {get{
-        return Schema.describeSObjects(new String[]{ 'FieloPRP__InvoiceItem__c' })
-            .get(0).fields.getMap()
-                .get(FieloPLT__PublicSettings__c.getInstance(UserInfo.getProfileId()).FieloPRP__ProductLookupField__c)
-                    .getDescribe().getReferenceTo()[0].getDescribe().getName();
+        if (filterSObjectName==null) {
+            filterSObjectName = Schema.describeSObjects(new String[]{ 'FieloPRP__InvoiceItem__c' })
+                .get(0).fields.getMap()
+                    .get(FieloPLT__PublicSettings__c.getInstance(UserInfo.getProfileId()).FieloPRP__ProductLookupField__c)
+                        .getDescribe().getReferenceTo()[0].getDescribe().getName();
+        }
+        return filterSObjectName;
     }
         set;
     }
@@ -214,19 +234,20 @@ public with sharing class FormInvoiceController {
     }
 
     public List<Map<String,String>> filterRecentRecordsMap{get{
-        filterRecentRecordsMap = new List<Map<String,String>>();
-
-        for ( Section s :sections ) {
-            for ( List<FormField> r :s.FieloPRP_ProductRecent ) {
-                for ( FormField f :r ) {
-                    if ( !String.isBlank(f.Name) ) {
-                        if ( f.Name != 'Name' ){
-                            filterRecentRecordsMap.add(new Map<String,String>{
-                                    'Name' => f.Name,
-                                    'Type' => filterFieldMap.get(f.Name).getDescribe().getType().name(),
-                                    'Label' => filterFieldMap.get(f.Name).getDescribe().getLabel()
-                                }
-                            );
+        if (filterRecentRecordsMap==null) {
+            filterRecentRecordsMap = new List<Map<String,String>>();
+            for ( Section s :sections ) {
+                for ( List<FormField> r :s.FieloPRP_ProductRecent ) {
+                    for ( FormField f :r ) {
+                        if ( !String.isBlank(f.Name) ) {
+                            if ( f.Name != 'Name' ){
+                                filterRecentRecordsMap.add(new Map<String,String>{
+                                        'Name' => f.Name,
+                                        'Type' => filterFieldMap.get(f.Name).getDescribe().getType().name(),
+                                        'Label' => filterFieldMap.get(f.Name).getDescribe().getLabel()
+                                    }
+                                );
+                            }
                         }
                     }
                 }
