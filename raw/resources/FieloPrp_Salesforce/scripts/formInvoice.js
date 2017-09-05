@@ -439,7 +439,7 @@
         this.element_.querySelector('.' + this.CssClasses_.TOTAL_POINTS);
       this.invoiceTotal_.innerHTML = invoiceTotalValue;
       this.invoiceTotal_.innerHTML =
-        this.invoiceTotal_.innerHTML.replace(/^0+/, '');
+        this.invoiceTotal_.innerHTML.replace(/^0+/, '').replace(/^\./, '0\.');
     }
   };
 
