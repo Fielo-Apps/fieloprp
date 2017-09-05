@@ -420,26 +420,22 @@
     if (this.hasAmountFields) {
       this.invoiceItems_ = this.element_.getElementsByClassName(
         this.CssClasses_.INVOICE_ITEM);
-      var invoiceTotalValue = 0;
+      var invoiceTotalValue = Number(0);
       var itemTotal;
       [].forEach.call(this.invoiceItems_, function(item) {
         itemTotal = $(item).find(
           $('[data-field-name="FieloPRP__TotalPrice__c"]')
             )[0].FieloFormElement.get('value');
-        itemTotal = itemTotal !== null &&
-          itemTotal !== undefined &&
-          itemTotal !== '' ?
-          itemTotal :
-          0;
-        invoiceTotalValue += parseFloat(itemTotal).toFixed(2);
+        itemTotal = isNaN(parseFloat(itemTotal)) ?
+          parseFloat(0) :
+          parseFloat(itemTotal);
+        invoiceTotalValue += Number(parseFloat(itemTotal));
       },
         this
       );
       this.invoiceTotal_ =
         this.element_.querySelector('.' + this.CssClasses_.TOTAL_POINTS);
-      this.invoiceTotal_.innerHTML = invoiceTotalValue;
-      this.invoiceTotal_.innerHTML =
-        this.invoiceTotal_.innerHTML.replace(/^0+/, '').replace(/^\./, '0\.');
+      this.invoiceTotal_.innerHTML = parseFloat(invoiceTotalValue).toFixed(2);
     }
   };
 
