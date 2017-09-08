@@ -168,7 +168,7 @@ public with sharing class Invoices extends SObjectDomain {
         Set<String> invoiceNumbers = new Set<String>();
         Set<String> distributors = new Set<String>();
         for(Invoice__c invoice: invoices) {
-            if ( !(invoice.InvoiceNumber__c==null && invoice.Distributor__c==null) ){
+            if (invoice.InvoiceNumber__c!=null || invoice.Distributor__c!=null) {
                 invoiceNumbers.add(invoice.InvoiceNumber__c);
                 distributors.add(invoice.Distributor__c);
             }
@@ -180,10 +180,13 @@ public with sharing class Invoices extends SObjectDomain {
         Map<String,Id> invoiceKeys = new Map<String,Id>();
         String key;
         for(Invoice__c existingInvoice: existingInvoices) {
-            key = existingInvoice.Distributor__c != null ?
+            key = existingInvoice.Program__c != null ?
+                existingInvoice.Program__c :
+                '000000000000000000';
+            key += existingInvoice.Distributor__c != null ?
                 existingInvoice.Distributor__c :
                 '000000000000000000';
-            key = existingInvoice.InvoiceNumber__c != null ?
+            key += existingInvoice.InvoiceNumber__c != null ?
                 existingInvoice.InvoiceNumber__c :
                 '-';
             invoiceKeys.put(
@@ -192,12 +195,15 @@ public with sharing class Invoices extends SObjectDomain {
             );
         }
         for(Invoice__c invoice: invoices) {
-            if ( !(invoice.InvoiceNumber__c==null && invoice.Distributor__c==null) ){
+            if (invoice.InvoiceNumber__c!=null || invoice.Distributor__c!=null) {
                 if (invoiceKeys != null) {
-                    key = invoice.Distributor__c != null ?
+                    key = invoice.Program__c != null ?
+                        invoice.Program__c :
+                        '000000000000000000';
+                    key += invoice.Distributor__c != null ?
                         invoice.Distributor__c :
                         '000000000000000000';
-                    key = invoice.InvoiceNumber__c != '' &&
+                    key += invoice.InvoiceNumber__c != '' &&
                         invoice.InvoiceNumber__c != null ?
                         invoice.InvoiceNumber__c :
                         '-';
