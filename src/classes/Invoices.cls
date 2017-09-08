@@ -186,7 +186,8 @@ public with sharing class Invoices extends SObjectDomain {
             key += existingInvoice.Distributor__c != null ?
                 existingInvoice.Distributor__c :
                 '000000000000000000';
-            key += existingInvoice.InvoiceNumber__c != null ?
+            key += existingInvoice.InvoiceNumber__c != '' &&
+                existingInvoice.InvoiceNumber__c != null ?
                 existingInvoice.InvoiceNumber__c :
                 '-';
             invoiceKeys.put(
