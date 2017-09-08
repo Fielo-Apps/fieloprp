@@ -8,7 +8,8 @@ public class InvoicesSelector extends SObjectSelector{
                 Invoice__c.Status__c,
                 Invoice__c.HasDetails__c,
                 Invoice__c.InvoiceNumber__c,
-                Invoice__c.Distributor__c
+                Invoice__c.Distributor__c,
+                Invoice__c.Program__c
             };
     }
 
