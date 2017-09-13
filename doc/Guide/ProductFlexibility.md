@@ -130,7 +130,7 @@ In order to use the custom Product object in Frontend, make the following settin
 ### 3.2 Fielo Member Permissions
 1. From Setup, go to *Manage Users* -> *Profiles* and click on *Fielo Member Site* profile
 2. Go to *Field-Level Security* -> *Custom Field-Level Security* and click the *View* link beside your custom product object
-3. Clink the *Edit* button
+3. Click the *Edit* button
 4. Give *Read Access* permission to all fields. Save the settings.
 5. Go back to *Fielo Member Site* profile
 6. Go to *Custom Object Permissions* and give *Read* access to the custom product object
