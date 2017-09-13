@@ -145,10 +145,10 @@ Do this to prevent the product from displaying with a link on the invoice detail
 5. In the next page, make it visible for all profiles
 6. Click *Next* then *Save*
 
-### 3.4 New Component for the custom Product 
+### 3.4 New Component for the custom product 
 1. Go to Fielo CMS *Plugins* tab
 2. Select the option *Local* on the right up corner
-3. Press the *New* button
+3. Press the *New* Components Library button
 4. Create the new component with the following settings:
 
         Component Type = List
