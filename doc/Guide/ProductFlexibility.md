@@ -156,7 +156,7 @@ Do this to prevent the product from displaying with a link on the invoice detail
         Layout = table
         Object = <the custom object created for the new products>
         Data Class = FieloCMS.StandardAPI
-        Components Fields = <add the desired fields>
+        Fields = <add the desired fields as *Default fields*>
 
 ### 3.5 Site settings 
 1. Go to Fielo CMS *Sites* tab
