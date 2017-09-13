@@ -164,8 +164,9 @@ Do this to prevent the product from displaying with a link on the invoice detail
 3. Add the new list component created in 3.4
 4. Change its name as desired, include in the fieldset the fields to be displayed for the products and *Save*
 5. Still on the *Invoice Upload Settings page*, edit the *Invoice Items* component by changing the "Product Name" field by the corresponding field of the new object. Save it.
-6. On *Invoice Detail* page, replace the *Product Name* field by the Formula field created in 3.3
-7. On *Invoice Upload* page, edit the widget component, changing the Product Source Component from the old list to the new one created in 3.4.
+6. Back to *Sites*, hit the *Invoice Detail* page.
+7. In the *Invoice Items* component, replace the *Product Name* field by the Formula field created in 3.3 and save it.
+8. On *Invoice Upload* page, edit the widget component, changing the Product Source Component from the old list to the new one created in 3.4.
 
 Thanks!
 
