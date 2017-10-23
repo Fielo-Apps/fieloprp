@@ -1,83 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
-    <customSettingsType>Hierarchy</customSettingsType>
-    <description>Application configuration.</description>
-    <enableFeeds>false</enableFeeds>
-    <fields>
-        <fullName>FieloPLT__CPUTimeMargin__c</fullName>
-        <deprecated>false</deprecated>
-        <description>Time limit after which processing is executed offline.</description>
-        <externalId>false</externalId>
-        <label>CPU Time limit</label>
-        <precision>6</precision>
-        <required>false</required>
-        <scale>0</scale>
-        <trackTrending>false</trackTrending>
-        <type>Number</type>
-        <unique>false</unique>
-    </fields>
-    <fields>
-        <fullName>FieloPLT__ContactRelationshipClass__c</fullName>
-        <deprecated>false</deprecated>
-        <description>Class name which shows how Members relate to Contacts. If empty, Member&apos;s email is used.</description>
-        <externalId>false</externalId>
-        <inlineHelpText>Class name which shows how Members relate to Contacts.</inlineHelpText>
-        <label>Contact Relationship class</label>
-        <length>50</length>
-        <required>false</required>
-        <trackTrending>false</trackTrending>
-        <type>Text</type>
-        <unique>false</unique>
-    </fields>
-    <fields>
-        <fullName>FieloPLT__FieloVersion__c</fullName>
-        <deprecated>false</deprecated>
-        <description>Fielo current installed version.</description>
-        <externalId>false</externalId>
-        <inlineHelpText>Fielo installed version.</inlineHelpText>
-        <label>Fielo Version</label>
-        <length>10</length>
-        <required>false</required>
-        <trackTrending>false</trackTrending>
-        <type>Text</type>
-        <unique>false</unique>
-    </fields>
-    <fields>
-        <fullName>FieloPLT__Instance__c</fullName>
-        <deprecated>false</deprecated>
-        <description>Instance (server) name used by the ORG (Backend).</description>
-        <externalId>false</externalId>
-        <inlineHelpText>Instance (server) name used by the ORG (Backend)</inlineHelpText>
-        <label>Instance</label>
-        <length>6</length>
-        <required>false</required>
-        <trackTrending>false</trackTrending>
-        <type>Text</type>
-        <unique>false</unique>
-    </fields>
-    <fields>
-        <fullName>FieloPLT__OptimizedProgramQuery__c</fullName>
-        <defaultValue>false</defaultValue>
-        <deprecated>false</deprecated>
-        <description>When ticked, Site only retrieves Program&apos;s Custom fields defined in the Program fieldset.</description>
-        <externalId>false</externalId>
-        <inlineHelpText>When ticked, the Site only retrieves the Program custom fields defined in the Program fieldset.</inlineHelpText>
-        <label>Optimized Program query</label>
-        <trackTrending>false</trackTrending>
-        <type>Checkbox</type>
-    </fields>
-    <fields>
-        <fullName>FieloPLT__RewardDeliveryClass__c</fullName>
-        <deprecated>false</deprecated>
-        <description>Class name in which reflection for granting Challenge Rewards is defined.</description>
-        <externalId>false</externalId>
-        <label>Reward Delivery Class</label>
-        <length>50</length>
-        <required>false</required>
-        <trackTrending>false</trackTrending>
-        <type>Text</type>
-        <unique>false</unique>
-    </fields>
     <fields>
         <fullName>ProductLookupField__c</fullName>
         <externalId>false</externalId>
@@ -88,6 +10,4 @@
         <type>Text</type>
         <unique>false</unique>
     </fields>
-    <label>Public Settings</label>
-    <visibility>Public</visibility>
 </CustomObject>
