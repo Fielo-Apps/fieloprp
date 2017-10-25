@@ -14,9 +14,10 @@
       icon="{!URLFOR($Resource.FieloSalesforce_Backend)}/lightning/icons/standard-sprite/svg/symbols.svg#contract"
       helpUrl="http://documentation.fielo.com/docs/redemption"
       record="{!record}"
+      prefix="FieloPRP"
       sObjectName="Invoice__c"
       fieldset="{!viewSettings.FieloPLT__Fieldset__c}"
-      buttons="{!buttonString}"
+      buttons="{!viewSettings.FieloPLT__Buttons__c}"
       tools="{!viewSettings.FieloPLT__Tools__c}"
     >
       <span class="slds-icon_container {!hiddenClass}" title="Record locked by approval process">
