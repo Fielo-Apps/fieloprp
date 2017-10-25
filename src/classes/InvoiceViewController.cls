@@ -41,9 +41,9 @@ public class InvoiceViewController extends PageSettingsController {
 
         images = [SELECT Id, Name FROM Attachment WHERE ParentId =: record.Id];
 
-        buttonList = new List<Map<String,Object>>();
+        //buttonList = new List<Map<String,Object>>();
 
-        if(!lockedRecord){
+        /*if(!lockedRecord){
             if(record.Status__c == 'Open' || record.Status__c == 'New'){
                 buttonList.add(new Map<String,Object>{
                     'Label' => 'Edit',
@@ -117,15 +117,18 @@ public class InvoiceViewController extends PageSettingsController {
         if(!buttonList.isEmpty()){
             buttonString = JSON.serialize(buttonList);
             buttonString = buttonString.substring(1,buttonString.length()-1);    
-        }
+        }*/
 
+        if(lockedRecord){
+            buttonString = '';
+        }
         initPageSettings( 'FieloPRP__Invoice__c', (SObject) record, buttonString, '', '' );
+        /*if(!lockedRecord){
+            buttonString = viewSettings.FieloPLT__Buttons__c;
+        }*/
     }
 
-    /**
-    * @brief Update invoice status to Approved
-    */
-    @RemoteAction
+    /*@RemoteAction
     public static RemoteActionResult closeInvoice(Id recordId){
         RemoteActionResult result = new RemoteActionResult();
 
@@ -145,9 +148,6 @@ public class InvoiceViewController extends PageSettingsController {
         return result;
     }
 
-    /**
-    * @brief Update invoice status to Approved
-    */
     @RemoteAction
     public static RemoteActionResult approveInvoice(Id recordId){
         RemoteActionResult result = new RemoteActionResult();
@@ -164,9 +164,6 @@ public class InvoiceViewController extends PageSettingsController {
         return result;
     }
 
-    /**
-    * @brief Update invoice status to Rejected
-    */
     @RemoteAction
     public static RemoteActionResult rejectInvoice(Id recordId){
         RemoteActionResult result = new RemoteActionResult();
@@ -183,9 +180,6 @@ public class InvoiceViewController extends PageSettingsController {
         return result;
     }
 
-    /**
-    * @brief Update invoice status to Pending
-    */
     @RemoteAction
     public static RemoteActionResult reopenInvoice(Id recordId){
         RemoteActionResult result = new RemoteActionResult();
@@ -202,9 +196,6 @@ public class InvoiceViewController extends PageSettingsController {
         return result;
     }
 
-    /**
-    * @brief Update invoice status to Canceled
-    */
     @RemoteAction
     public static RemoteActionResult cancelInvoice(Id recordId){
         RemoteActionResult result = new RemoteActionResult();
@@ -221,9 +212,6 @@ public class InvoiceViewController extends PageSettingsController {
         return result;
     }
 
-    /**
-    * @brief Reprocess an invoice
-    */
     @RemoteAction
     public static RemoteActionResult reprocessInvoice(Id recordId){
         RemoteActionResult result = new RemoteActionResult();
@@ -241,9 +229,6 @@ public class InvoiceViewController extends PageSettingsController {
         return result;
     }
 
-    /**
-    * @brief Reprocess an invoice
-    */
     @RemoteAction
     public static RemoteActionResult submitForApproval(Id recordId){
         RemoteActionResult result = new RemoteActionResult();
@@ -260,5 +245,5 @@ public class InvoiceViewController extends PageSettingsController {
         }
         
         return result;
-    }
+    }*/
 }
