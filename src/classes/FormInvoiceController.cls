@@ -421,7 +421,7 @@ public with sharing class FormInvoiceController {
     }
     
     @RemoteAction
-    public static List<SObject> getProductRecords( String objectName, String fields, Integer offset, String orderBy, String dataFilters, Integer recordsPerPage ) {
+    public static List<SObject> getProductRecords( String objectName, String fields, Integer offset, String orderBy, String dataFilters, Integer recordsPerPage, String whereClause ) {
 
         String query = 'SELECT Id, ' + fields;
         query += ' FROM ' + objectName;
