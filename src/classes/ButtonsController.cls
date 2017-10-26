@@ -6,7 +6,7 @@ public with sharing class ButtonsController {
     @remoteAction
     public static FieloPLT.RemoteActionResult executeAction(String recordIds, String className, String parameters){
       Type t = Type.forName(className);
-      FieloPLT.ButtonActionInterface reflectionInstance = (ButtonActionInterface)t.newInstance();
+      FieloPLT.ButtonActionInterface reflectionInstance = (FieloPLT.ButtonActionInterface)t.newInstance();
       return reflectionInstance.executeAction(recordIds.split(','), parameters);
     }
 
