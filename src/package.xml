@@ -29,13 +29,18 @@
 		<name>Layout</name>
 	</types>
 	<types>
-		<members>FieloPLT__Program__c</members>
-		<members>FieloPLT__Tracker__c</members>
-		<members>FieloPLT__Transaction__c</members>
-		<members>FieloPLT__PublicSettings__c</members>
 		<members>InvoiceItem__c</members>
 		<members>Invoice__c</members>
 		<name>CustomObject</name>
+	</types>
+	<types>
+		<members>FieloPLT__Program__c.ProductInjectQuery__c</members>
+		<members>FieloPLT__Program__c.RequestInvoiceAuthorization__c</members>
+		<members>FieloPLT__Program__c.RequestInvoiceProducts__c</members>
+		<members>FieloPLT__PublicSettings__c.ProductLookupField__c</members>
+		<members>FieloPLT__Tracker__c.Invoice__c</members>
+		<members>FieloPLT__Transaction__c.Invoice__c</members>
+		<name>CustomField</name>
 	</types>
 	<types>
 		<members>*</members>

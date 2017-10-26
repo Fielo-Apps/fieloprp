@@ -124,13 +124,13 @@ In order to use the custom Product object in Frontend, make the following settin
 1. From Setup, go to Build -> Develop -> Sites
 2. Click on the Site label then click the *Public Access Settings* button
 3. Go to *Field-Level Security* -> *Custom Field-Level Security* and click the *View* link beside your custom product object
-4. Clink the *Edit* button
+4. Click the *Edit* button
 5. Give *Read Access* permission to all fields and *Edit Access* permission to the allowed fields. Save the settings.
 
 ### 3.2 Fielo Member Permissions
 1. From Setup, go to *Manage Users* -> *Profiles* and click on *Fielo Member Site* profile
 2. Go to *Field-Level Security* -> *Custom Field-Level Security* and click the *View* link beside your custom product object
-3. Clink the *Edit* button
+3. Click the *Edit* button
 4. Give *Read Access* permission to all fields. Save the settings.
 5. Go back to *Fielo Member Site* profile
 6. Go to *Custom Object Permissions* and give *Read* access to the custom product object
@@ -140,15 +140,15 @@ Do this to prevent the product from displaying with a link on the invoice detail
 1. In the *Invoice Item* object, create a new field from type *Formula*
 2. Assign it a label and a name, removing all the underline characters from its *Name* field (CamelCase notation)
 3. Set the *Formula Return Type* to *Text*
-4. In the Formula field (Advanced Formula tab), click the *Insert Field* button, select the field as shown in the example below e clink *Insert*.
+4. In the Formula field (*Advanced Formula* tab), click the *Insert Field* button, select the field as shown in the example below and click *Insert*.
 ![image](https://user-images.githubusercontent.com/26011197/29893757-7eb90be2-8da9-11e7-9db2-e88dd52e0ba0.png)
 5. In the next page, make it visible for all profiles
 6. Click *Next* then *Save*
 
-### 3.4 New Component for the custom Product 
+### 3.4 New Component for the custom product 
 1. Go to Fielo CMS *Plugins* tab
 2. Select the option *Local* on the right up corner
-3. Press the *New* button
+3. Press the *New* Components Library button
 4. Create the new component with the following settings:
 
         Component Type = List
@@ -156,7 +156,7 @@ Do this to prevent the product from displaying with a link on the invoice detail
         Layout = table
         Object = <the custom object created for the new products>
         Data Class = FieloCMS.StandardAPI
-        Components Fields = <add the desired fields>
+        Fields = <add the desired fields as Default fields>
 
 ### 3.5 Site settings 
 1. Go to Fielo CMS *Sites* tab
@@ -164,8 +164,9 @@ Do this to prevent the product from displaying with a link on the invoice detail
 3. Add the new list component created in 3.4
 4. Change its name as desired, include in the fieldset the fields to be displayed for the products and *Save*
 5. Still on the *Invoice Upload Settings page*, edit the *Invoice Items* component by changing the "Product Name" field by the corresponding field of the new object. Save it.
-6. On *Invoice Detail* page, replace the *Product Name* field by the Formula field created in 3.3
-7. On *Invoice Upload* page, edit the widget component, changing the Product Source Component from the old list to the new one created in 3.4.
+6. Back to *Sites*, hit the *Invoice Detail* page.
+7. In the *Invoice Items* component, replace the *Product Name* field by the Formula field created in 3.3 and save it.
+8. On *Invoice Upload* page, edit the widget component, changing the Product Source Component from the old list to the new one created in 3.4.
 
 Thanks!
 
