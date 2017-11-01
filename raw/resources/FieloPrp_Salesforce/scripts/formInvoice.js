@@ -146,7 +146,6 @@
     this.hasDeletedAttachments = deleteFilesList ?
       deleteFilesList.length > 0 :
       false;
-    console.log(result);
     if (result.redirectURL === null || result.redirectURL === undefined) {
       this.form_.processRemoteActionResult_(result, event);
     } else if (this.hasAttachments || this.hasDeletedAttachments) {
@@ -343,8 +342,9 @@
 
     [].forEach.call(this.recentProductRecords_, function(element) {
       this.recordCheckbox =
-        element.getElementsByClassName(
-          this.CssClasses_.RECENT_CHECKBOX)[0];
+        element.querySelector(
+          '.' + this.CssClasses_.RECENT_CHECKBOX)
+            .querySelector('input');
       if (this.recordCheckbox.checked === true) {
         this.productsInfo_.push(element.getAttribute(
             this.Constant_.DATA_RECORD_ID));
@@ -697,7 +697,6 @@
       notify.FieloNotify.addMessages([this.Constant_.HAS_ERROR, e]);
       notify.FieloNotify.setTheme('error');
       notify.FieloNotify.show();
-      console.log(e);
     }
     fielo.util.spinner.FieloSpinner.hide();
   };
