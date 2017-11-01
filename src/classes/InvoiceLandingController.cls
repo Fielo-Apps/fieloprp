@@ -41,7 +41,7 @@ public with sharing class InvoiceLandingController extends PageSettingsSetContro
     }
 
     @RemoteAction
-    public static List<SObject> getInvoices( String objectName, String fields, Integer offset, String orderBy, String filter, Integer recordsPerPage ) {
+    public static List<SObject> getInvoices( String objectName, String fields, Integer offset, String orderBy, String filter, Integer recordsPerPage, String whereClause ) {
         
         Set<String> fieldset = new Set<String>(fields.split(','));
 
