@@ -1,4 +1,4 @@
-public class InvoiceButtonImpl implements FieloPLT.ButtonActionInterface {
+public with sharing class InvoiceButtonImpl implements FieloPLT.ButtonActionInterface {
 	
 	public FieloPLT.RemoteActionResult executeAction(List<Id> recordIds, String parameters){
 		Map<String,String> parametersMap = (Map<String,String>)JSON.deserialize(parameters, Map<String,String>.class);

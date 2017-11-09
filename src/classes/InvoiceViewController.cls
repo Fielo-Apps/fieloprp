@@ -1,4 +1,4 @@
-public class InvoiceViewController extends PageSettingsController {
+public with sharing class InvoiceViewController extends PageSettingsController {
     public Invoice__c record {get;set;}
     private ApexPages.StandardController controller;
     public List<Attachment> images {get; set;}
