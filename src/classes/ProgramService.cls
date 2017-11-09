@@ -1,20 +1,12 @@
 public with sharing class ProgramService {
-	private static Map<Id, FieloPLT__Program__c> programMap;
+    private static Map<Id, FieloPLT__Program__c> programMap;
     private static Boolean isSingleProgram;
     public static Id singleProgramId;    
     
-	//Piece of code copied from FieloPLT - Begins
+    //Piece of code copied from FieloPLT - Begins
     public static Map<Id,FieloPLT__Program__c> getPrograms(){
         if(programMap == null){
-            List<FieloPLT__Program__c> programs = [SELECT Id, Name, FieloPRP__RequestInvoiceProducts__c, FieloPRP__ProductInjectQuery__c FROM FieloPLT__Program__c];
-            // Si esta vacio => crea uno default
-            if(programs.size() == 0){
-                FieloPLT__Program__c program = new FieloPLT__Program__c(Name = 'Default');
-                insert program;
-                programMap = new Map<Id,FieloPLT__Program__c> {program.Id => program};
-            }else{
-                programMap = new Map<Id,FieloPLT__Program__c>(programs);
-            }
+            programMap = new Map<Id, FieloPLT__Program__c>([SELECT Id, Name, FieloPRP__RequestInvoiceProducts__c, FieloPRP__ProductInjectQuery__c FROM FieloPLT__Program__c]);
         }
         return programMap;
     }
