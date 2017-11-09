@@ -29,7 +29,7 @@
           <li class="slds-p-around--small slds-size--1-of-3 slds-medium-size--1-of-4">
             <figure class="slds-image slds-image--card">
               <a href="javascript:void(0);" class="slds-image__crop slds-image__crop--16-by-9">
-                <img src="{!URLFOR($Action.Attachment.Download, image.Id)}" alt="{!image.Name}" onclick="openImage('{!URLFOR($Action.Attachment.Download, image.Id)}','{!image.Name}');"/>
+                <img src="{!URLFOR($Action.Attachment.Download, image.Id)}" alt="{!JSENCODE(image.Name)}" onclick="openImage('{!URLFOR($Action.Attachment.Download, image.Id)}','{!JSENCODE(image.Name)}');"/>
               </a>
               <div class="slds-button-group slds-image__actions" role="group">
                 <button class="slds-button slds-button--icon-border-filled" title="Download" onclick="downloadURI('{!URLFOR($Action.Attachment.Download, image.Id)}','{!image.Name}');">
