@@ -38,6 +38,7 @@
 		<members>FieloPLT__Program__c.RequestInvoiceAuthorization__c</members>
 		<members>FieloPLT__Program__c.RequestInvoiceProducts__c</members>
 		<members>FieloPLT__PublicSettings__c.ProductLookupField__c</members>
+		<members>FieloPLT__PublicSettings__c.InvoiceDuplicateClass__c</members>
 		<members>FieloPLT__Tracker__c.Invoice__c</members>
 		<members>FieloPLT__Transaction__c.Invoice__c</members>
 		<name>CustomField</name>
@@ -46,5 +47,5 @@
 		<members>*</members>
 		<name>StaticResource</name>
 	</types>
-	<version>36.0</version>
+	<version>40.0</version>
 </Package>
