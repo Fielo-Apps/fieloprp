@@ -10,4 +10,14 @@
         <type>Text</type>
         <unique>false</unique>
     </fields>
+    <fields>
+        <fullName>InvoiceDuplicateClass__c</fullName>
+        <externalId>false</externalId>
+        <label>Invoice duplicate Class</label>
+        <length>45</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
 </CustomObject>

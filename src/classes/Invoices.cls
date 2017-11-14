@@ -165,7 +165,21 @@ public with sharing class Invoices extends SObjectDomain {
             FieloPLT.TransactionService.revertTransactions( idsToRevert );
     }
 
-    public static void getDuplicatedRecords(List<Invoice__c> invoices) {
+    private static void getDuplicatedRecords(List<Invoice__c> invoices) {
+    
+        String className = 'InvoiceDuplicateDefault';
+        if (!String.isBlank(FieloPLT__PublicSettings__c.getOrgDefaults().InvoiceDuplicateClass__c)) {
+            className = FieloPLT__PublicSettings__c.getOrgDefaults().InvoiceDuplicateClass__c;
+        }
+        
+        Type t = Type.forName(className);
+        InvoiceDuplicateInterface reflInstance = (InvoiceDuplicateInterface)t.newInstance();
+        
+        reflInstance.setUniqueKey(invoices, Trigger.isUpdate);        
+        reflInstance.validateDuplicates(invoices, Trigger.isUpdate);
+    }
+
+    /*public static void getDuplicatedRecords(List<Invoice__c> invoices) {
         Set<String> invoiceNumbers = new Set<String>();
         Set<String> distributors = new Set<String>();
         for(Invoice__c invoice: invoices) {
@@ -219,5 +233,5 @@ public with sharing class Invoices extends SObjectDomain {
                 }
             }
         }
-    }
+    }*/
 }
