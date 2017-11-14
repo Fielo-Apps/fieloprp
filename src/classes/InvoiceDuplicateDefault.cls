@@ -23,22 +23,22 @@ public class InvoiceDuplicateDefault implements InvoiceDuplicateInterface{
 	}
 
 	public void validateDuplicates(List<Invoice__c> invoices, Boolean isUpdate){
-		Set<String> uniqueKeys = new Set<String>();
+		Map<String,Invoice__c> keyInvoicesMap = new Map<String,Invoice__c>();
 		for(Invoice__c invoice : invoices){
 			if(String.isNotBlank(invoice.UniqueKey__c)){
-				if(!isUpdate || (invoice.Distributor__c != ((Invoice__c)Trigger.oldMap.get(invoice.Id)).Distributor__c || invoice.InvoiceNumber__c != ((Invoice__c)Trigger.oldMap.get(invoice.Id)).InvoiceNumber__c)){
-					uniqueKeys.add(invoice.UniqueKey__c);
+				if(!isUpdate || (invoice.Distributor__c != ((Invoice__c)Trigger.oldMap.get(invoice.Id)).Distributor__c || invoice.Status__c != ((Invoice__c)Trigger.oldMap.get(invoice.Id)).Status__c)){
+					keyInvoicesMap.put(invoice.UniqueKey__c, invoice);
 				}
 			}
 		}
 
-		if(!uniqueKeys.isEmpty()){
+		if(!keyInvoicesMap.isEmpty()){
 			Set<String> existingKeys = new Set<String>();
-			for(Invoice__c invoice : [SELECT UniqueKey__c FROM Invoice__c WHERE Status__c = 'Approved' AND UniqueKey__c in : uniqueKeys]){
+			for(Invoice__c invoice : [SELECT UniqueKey__c FROM Invoice__c WHERE Status__c = 'Approved' AND UniqueKey__c in : keyInvoicesMap.keySet() AND Id not in : invoices]){
 				existingKeys.add(invoice.UniqueKey__c);
 			}
 
-			for(Invoice__c invoice : invoices){
+			for(Invoice__c invoice : keyInvoicesMap.values()){
 				if(String.isNotBlank(invoice.UniqueKey__c) && existingKeys.contains(invoice.UniqueKey__c)){
 					invoice.addError(Label.DuplicatedInvoiceRecord);
 				}else if(invoice.Status__c == 'Approved'){
