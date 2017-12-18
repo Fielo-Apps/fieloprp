@@ -87,13 +87,50 @@
 
     <c:ImageGallery parentId="{!record.Id}" />
 
-    <apex:repeat value="{!relatedStandard}" var="relStd">
-      <apex:panelGroup rendered="{!relStd='ProcessSteps'}">
-        <c:ApprovalSteps >
-          <apex:relatedList list="ProcessSteps" />
-        </c:ApprovalSteps>
-      </apex:panelGroup>
-    </apex:repeat>
+    <!-- STANDARD Salesforce Related List  -->
+      <apex:repeat value="{!relatedStandard}" var="relatedName">
+        <apex:panelGroup rendered="{!relatedName == 'ObjectHistory'}">
+          <c:RelatedList namespace="FieloPLT" heading="{!$ObjectType[objectName].label} {!$Label.fieloplt__history}"
+            icon="{!URLFOR($Resource.FieloSalesforce_Backend)}/lightning/icons/standard-sprite/svg/symbols.svg#record"
+            sObjectName="FieloPLT__Promotion__History"
+            dataFilters="{'ParentId':'{!record.Id}'}"
+            parameters="{'ParentId':'{!record.Id}'}"
+            fieldset="{'Name':'OldValue'},{'Name':'NewValue'},{'Name':'CreatedBy.Name'},{'Name':'CreatedDate'}"
+            nameField="Field"
+            dataOrderBy="CreatedDate DESC"
+          />
+        </apex:panelGroup>
+        <apex:panelGroup rendered="{!relatedName == 'ProcessSteps'}">
+          <c:RelatedWrapper heading="{!$Label.fieloplt__approvalhistory}" icon="action-sprite/svg/symbols.svg#submit_for_approval" >
+            <apex:relatedList list="ProcessSteps" />
+          </c:RelatedWrapper>
+        </apex:panelGroup>
+        <apex:panelGroup rendered="{!relatedName == 'CombinedAttachments'}">
+          <c:RelatedWrapper heading="{!$Label.fieloplt__notesattachments}" icon="action-sprite/svg/symbols.svg#new_note">
+            <apex:relatedList list="CombinedAttachments" />
+          </c:RelatedWrapper>
+        </apex:panelGroup>
+        <apex:panelGroup rendered="{!relatedName == 'ActivityHistories'}">
+          <c:RelatedWrapper heading="{!$Label.fieloplt__activityhistory}" icon="action-sprite/svg/symbols.svg#log_event">
+            <apex:relatedList list="ActivityHistories" />
+          </c:RelatedWrapper>
+        </apex:panelGroup>
+        <apex:panelGroup rendered="{!relatedName == 'OpenActivities'}">
+          <c:RelatedWrapper heading="{!$Label.fieloplt__openactivities}" icon="action-sprite/svg/symbols.svg#new_event">
+            <apex:relatedList list="OpenActivities" />
+          </c:RelatedWrapper>
+        </apex:panelGroup>
+        <apex:panelGroup rendered="{!relatedName == 'AttachedContentDocuments'}">
+          <c:RelatedWrapper heading="{!$Label.fieloplt__files}" icon="standard-sprite/svg/symbols.svg#file">
+            <apex:relatedList list="AttachedContentDocuments" />
+          </c:RelatedWrapper>
+        </apex:panelGroup>
+        <apex:panelGroup rendered="{!relatedName == 'RelatedContentDistributionList'}">
+          <c:RelatedWrapper heading="{!$Label.fieloplt__contentdeliveries}" icon="standard-sprite/svg/symbols.svg#share_file">
+            <apex:relatedList list="RelatedContentDistributionList" />
+          </c:RelatedWrapper>
+        </apex:panelGroup>
+      </apex:repeat>
     
 
     <div id="modalInvoiceImage" role="dialog" tabindex="-1" aria-labelledby="header43" class="slds-modal">
