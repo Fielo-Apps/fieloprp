@@ -85,10 +85,11 @@
         </apex:panelGroup>
     </apex:repeat>
 
-    <c:ImageGallery parentId="{!record.Id}" />
-
     <!-- STANDARD Salesforce Related List  -->
       <apex:repeat value="{!relatedStandard}" var="relatedName">
+        <apex:panelGroup rendered="{!relatedName == 'ImageGallery'}">
+          <c:ImageGallery parentId="{!record.Id}" />
+        </apex:panelGroup>
         <apex:panelGroup rendered="{!relatedName == 'ObjectHistory'}">
           <c:RelatedList namespace="FieloPLT" heading="{!$ObjectType[objectName].label} {!$Label.fieloplt__history}"
             icon="{!URLFOR($Resource.FieloSalesforce_Backend)}/lightning/icons/standard-sprite/svg/symbols.svg#record"
