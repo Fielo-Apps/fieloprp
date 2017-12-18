@@ -153,10 +153,15 @@ public with sharing class Invoices extends SObjectDomain {
 
     public static void deleteInvoiceItems(List<Invoice__c> invoices){
         try{
-            SObjectUnitOfWork uow = new SObjectUnitOfWork(new List<Schema.SObjectType>{InvoiceItem__c.SObjectType});
-            uow.registerDeleted([SELECT Id FROM InvoiceItem__c WHERE Invoice__c IN : invoices]);
-            uow.commitWork();
+            if (validateAdminFields) {
+                InvoiceService.enableAdminPermission(true);
+                SObjectUnitOfWork uow = new SObjectUnitOfWork(new List<Schema.SObjectType>{InvoiceItem__c.SObjectType});
+                uow.registerDeleted([SELECT Id FROM InvoiceItem__c WHERE Invoice__c IN : invoices]);
+                uow.commitWork();
+                InvoiceService.enableAdminPermission(false);
+            }
         }catch(Exception e){
+            InvoiceService.enableAdminPermission(false);
             for(Invoice__c invoice: invoices){
                 invoice.addError(e.getMessage());
             }
