@@ -71,6 +71,11 @@ global class InvoiceService {
         return closeInvoices(new Set<Id>{invoiceId})[0];
     }
 
+    global static void enableAdminPermission(Boolean value){
+        Invoices.validateAdminFields = !value;
+        InvoiceItems.validateAdminFields = !value;
+    }
+
     public static List<Invoice__c> closeInvoices(Set<Id> invoiceIds){
         if(!invoiceIds.isEmpty()){
             List<Invoice__c> invoices = new InvoicesSelector(new Set<String>{'Member__r.FieloPLT__Program__r.RequestInvoiceAuthorization__c'}).selectById(invoiceIds);

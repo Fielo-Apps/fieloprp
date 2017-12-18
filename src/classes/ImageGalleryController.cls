@@ -3,7 +3,7 @@ public with sharing class ImageGalleryController {
     public String cParentId {set;get;}
 
     public List<Attachment> getImages(){
-        images = [SELECT Id, Name FROM Attachment WHERE ParentId =: cParentId];
+        images = [SELECT Id, Name, ContentType FROM Attachment WHERE ParentId =: cParentId AND ContentType like '%image%'];
         return images;
     }
 }

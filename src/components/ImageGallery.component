@@ -26,30 +26,32 @@
       <div class="slds-card__body">
       <ul class="slds-card__body--inner slds-grid slds-wrap slds-grid--pull-padded">
         <apex:repeat value="{!images}" var="image">
-          <li class="slds-p-around--small slds-size--1-of-3 slds-medium-size--1-of-4">
-            <figure class="slds-image slds-image--card">
-              <a href="javascript:void(0);" class="slds-image__crop slds-image__crop--16-by-9">
-                <img src="{!URLFOR($Action.Attachment.Download, image.Id)}" alt="{!JSENCODE(image.Name)}" onclick="openImage('{!URLFOR($Action.Attachment.Download, image.Id)}','{!JSENCODE(image.Name)}');"/>
-              </a>
-              <div class="slds-button-group slds-image__actions" role="group">
-                <button class="slds-button slds-button--icon-border-filled" title="Download" onclick="downloadURI('{!URLFOR($Action.Attachment.Download, image.Id)}','{!image.Name}');">
-                  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  aria-hidden="true" class="slds-button__icon">
-                    <use xlink:href="{!downloadIcon}"></use>
-                  </svg>
-                  <span class="slds-assistive-text">Download</span>
-                </button>
-              </div>
-              <figcaption class="slds-image__title slds-image__title--card">
-                <span class="slds-icon_container slds-m-right--x-small" title="image">
-                  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  aria-hidden="true" class="slds-icon slds-icon--x-small" >
-                    <use xlink:href="{!fileIcon}"></use>
-                  </svg>
-                  <span class="slds-assistive-text">{!image.Name}</span>
-                </span>
-                <span class="slds-image__text slds-truncate" title="Image Title">{!image.Name}</span>
-              </figcaption>
-            </figure>
-          </li>
+          <apex:panelGroup rendered="{!contains(image.ContentType, 'image')}">
+            <li class="slds-p-around--small slds-size--1-of-3 slds-medium-size--1-of-4">
+              <figure class="slds-image slds-image--card">
+                <a href="javascript:void(0);" class="slds-image__crop slds-image__crop--16-by-9">
+                    <img src="{!URLFOR($Action.Attachment.Download, image.Id)}" alt="{!JSENCODE(image.Name)}" onclick="openImage('{!URLFOR($Action.Attachment.Download, image.Id)}','{!JSENCODE(image.Name)}');"/>
+                </a>
+                <div class="slds-button-group slds-image__actions" role="group">
+                  <button class="slds-button slds-button--icon-border-filled" title="Download" onclick="downloadURI('{!URLFOR($Action.Attachment.Download, image.Id)}','{!image.Name}');">
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  aria-hidden="true" class="slds-button__icon">
+                      <use xlink:href="{!downloadIcon}"></use>
+                    </svg>
+                    <span class="slds-assistive-text">Download</span>
+                  </button>
+                </div>
+                <figcaption class="slds-image__title slds-image__title--card">
+                  <span class="slds-icon_container slds-m-right--x-small" title="image">
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  aria-hidden="true" class="slds-icon slds-icon--x-small" >
+                      <use xlink:href="{!fileIcon}"></use>
+                    </svg>
+                    <span class="slds-assistive-text">{!image.Name}</span>
+                  </span>
+                  <span class="slds-image__text slds-truncate" title="Image Title">{!image.Name}</span>
+                </figcaption>
+              </figure>
+            </li>
+          </apex:panelGroup>
         </apex:repeat>
       </ul>
       </div>
