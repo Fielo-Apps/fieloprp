@@ -160,10 +160,15 @@ public class InvoiceItems extends SObjectDomain {
 
             if(invoicesList.size()>0){
                 try{
-                    SObjectUnitOfWork uow = new SObjectUnitOfWork(new List<Schema.SObjectType>{Invoice__c.SObjectType});
-                    uow.registerDirty(invoicesList);
-                    uow.commitWork();
+                    if (validateAdminFields) {
+                        InvoiceService.enableAdminPermission(true);
+                        SObjectUnitOfWork uow = new SObjectUnitOfWork(new List<Schema.SObjectType>{Invoice__c.SObjectType});
+                        uow.registerDirty(invoicesList);
+                        uow.commitWork();
+                        InvoiceService.enableAdminPermission(false);
+                    }
                 }catch(Exception e){
+                    InvoiceService.enableAdminPermission(false);
                     throw e;
                 }
                 
@@ -361,11 +366,15 @@ public class InvoiceItems extends SObjectDomain {
 
         if(invoicesList.size()>0){
             try{
-                SObjectUnitOfWork uow = new SObjectUnitOfWork(new List<Schema.SObjectType>{Invoice__c.SObjectType});
-                uow.registerDirty(invoicesList);
-                uow.commitWork();
-
+                if (validateAdminFields) {
+                    InvoiceService.enableAdminPermission(true);
+                    SObjectUnitOfWork uow = new SObjectUnitOfWork(new List<Schema.SObjectType>{Invoice__c.SObjectType});
+                    uow.registerDirty(invoicesList);
+                    uow.commitWork();
+                    InvoiceService.enableAdminPermission(false);
+                }
             }catch(Exception e){
+                InvoiceService.enableAdminPermission(false);
                 throw e;
             }
             
