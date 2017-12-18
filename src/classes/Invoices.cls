@@ -138,7 +138,11 @@ public with sharing class Invoices extends SObjectDomain {
     }
 
     public class Constructor implements SObjectDomain.IConstructable {
-        public SObjectDomain construct(List<SObject> sObjectList) {            
+        public SObjectDomain construct(List<SObject> sObjectList) {
+            //If has Admin Permission allow "validateAdminFields"
+            if(FieloPLT__AdminPermission__c.getInstance(UserInfo.getUserId()) != null && FieloPLT__AdminPermission__c.getInstance(UserInfo.getUserId()).FieloPLT__To__c >= system.now()){
+                InvoiceService.enableAdminPermission(true);
+            }
             return new Invoices(sObjectList);
         }
     }
