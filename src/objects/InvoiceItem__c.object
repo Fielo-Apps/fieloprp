@@ -21,10 +21,6 @@
         <type>Default</type>
     </actionOverrides>
     <actionOverrides>
-        <actionName>Follow</actionName>
-        <type>Default</type>
-    </actionOverrides>
-    <actionOverrides>
         <actionName>List</actionName>
         <type>Default</type>
     </actionOverrides>
@@ -49,6 +45,7 @@
     <deploymentStatus>Deployed</deploymentStatus>
     <enableActivities>false</enableActivities>
     <enableBulkApi>true</enableBulkApi>
+    <enableChangeDataCapture>false</enableChangeDataCapture>
     <enableFeeds>false</enableFeeds>
     <enableHistory>false</enableHistory>
     <enableReports>false</enableReports>
@@ -136,12 +133,6 @@
         <errorMessage>Invoice is a required field.</errorMessage>
     </validationRules>
     <validationRules>
-        <fullName>ValidateInvoiceStatus</fullName>
-        <active>true</active>
-        <errorConditionFormula>NOT(ISPICKVAL(Invoice__r.Status__c ,&apos;Open&apos;) || ISPICKVAL(Invoice__r.Status__c ,&apos;New&apos;))</errorConditionFormula>
-        <errorMessage>An invoice can only be modified in status &quot;Open&quot; or &quot;New&quot;</errorMessage>
-    </validationRules>
-    <validationRules>
         <fullName>ValidateInvoiceUpdate</fullName>
         <active>true</active>
         <errorConditionFormula>AND(
@@ -151,4 +142,5 @@
 )</errorConditionFormula>
         <errorMessage>Can not update the Invoice field.</errorMessage>
     </validationRules>
+    <visibility>Public</visibility>
 </CustomObject>
