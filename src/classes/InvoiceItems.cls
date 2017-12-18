@@ -23,6 +23,10 @@ public class InvoiceItems extends SObjectDomain {
 
     public class Constructor implements SObjectDomain.IConstructable {
         public SObjectDomain construct(List<SObject> sObjectList) {
+            //If has Admin Permission allow "validateAdminFields"
+            if(FieloPLT__AdminPermission__c.getInstance(UserInfo.getUserId()) != null && FieloPLT__AdminPermission__c.getInstance(UserInfo.getUserId()).FieloPLT__To__c >= system.now()){
+                InvoiceService.enableAdminPermission(true);
+            }
             return new InvoiceItems(sObjectList);
         }
     }
@@ -43,18 +47,54 @@ public class InvoiceItems extends SObjectDomain {
     }
 
     public override void onValidate(){
-        Set<Id> invoiceIds = new Set<Id>();
-        for(InvoiceItem__c item: (List<InvoiceItem__c>)records){
-            invoiceIds.add(item.Invoice__c);
+        if (validateAdminFields) {
+           Set<Id> invoiceIds = new Set<Id>();
+            for(InvoiceItem__c item: (List<InvoiceItem__c>)records){
+                invoiceIds.add(item.Invoice__c);
+            }
+
+            Map<Id,Invoice__c> invoices = new Map<Id,Invoice__c>(new InvoicesSelector().selectById(invoiceIds));
+
+            for(InvoiceItem__c item: (List<InvoiceItem__c>)records){
+                if(invoices.containsKey( item.Invoice__c )){
+                    if( !invoices.get(item.Invoice__c).HasDetails__c )
+                        item.addError(Label.InvoiceDetailInsertDisabled);
+
+                    //Init and Defaults Prices and Quantity Fields
+                    setPriceFields(item,null);
+
+                    //Vars set by the method setPriceFields
+                    totalPriceZero = newTotalPrice == 0.0;
+                    quantityZero = newQuantity == 0.0;
+                    unitPriceZero = newUnitPrice == 0.0;
+
+                    //All zero
+                    if( totalPriceZero && quantityZero && unitPriceZero ){
+                        item.addError( Label.AllPriceFieldsZero );
+                    }
+
+                    //Only Unit Price is set
+                    else if( totalPriceZero && quantityZero && !unitPriceZero ){
+                        item.addError( Label.TotalPriceAndQuantityZero );
+                    }
+
+                    //Quantity is negative
+                    else if(newQuantity < 0){
+                        item.addError( Label.QuantityGreaterThanZero );
+                    }
+
+                    //UnitPrice is negative
+                    else if(newUnitPrice < 0){
+                        item.addError( Label.UnitPriceGreaterThanZero );
+                    }
+                }
+            } 
         }
+    }
 
-        Map<Id,Invoice__c> invoices = new Map<Id,Invoice__c>(new InvoicesSelector().selectById(invoiceIds));
-
-        for(InvoiceItem__c item: (List<InvoiceItem__c>)records){
-            if(invoices.containsKey( item.Invoice__c )){
-                if( !invoices.get(item.Invoice__c).HasDetails__c )
-                    item.addError(Label.InvoiceDetailInsertDisabled);
-
+    public override void onValidate( Map<Id,SObject> existingRecords ){
+        if (validateAdminFields) {
+            for(InvoiceItem__c item: (List<InvoiceItem__c>)records){
                 //Init and Defaults Prices and Quantity Fields
                 setPriceFields(item,null);
 
@@ -83,47 +123,15 @@ public class InvoiceItems extends SObjectDomain {
                     item.addError( Label.UnitPriceGreaterThanZero );
                 }
             }
-        }
-    }
 
-    public override void onValidate( Map<Id,SObject> existingRecords ){
-        for(InvoiceItem__c item: (List<InvoiceItem__c>)records){
-            //Init and Defaults Prices and Quantity Fields
-            setPriceFields(item,null);
+            Map<Id, InvoiceItem__c> itemsWithPendingInvoice = new Map<Id,InvoiceItem__c>(
+                new InvoiceItemsSelector().selectByIdWithInvoiceStatusNotEditable( new Map<Id,InvoiceItem__c>( (List<InvoiceItem__c>)records ).keySet() )
+                );
 
-            //Vars set by the method setPriceFields
-            totalPriceZero = newTotalPrice == 0.0;
-            quantityZero = newQuantity == 0.0;
-            unitPriceZero = newUnitPrice == 0.0;
-
-            //All zero
-            if( totalPriceZero && quantityZero && unitPriceZero ){
-                item.addError( Label.AllPriceFieldsZero );
-            }
-
-            //Only Unit Price is set
-            else if( totalPriceZero && quantityZero && !unitPriceZero ){
-                item.addError( Label.TotalPriceAndQuantityZero );
-            }
-
-            //Quantity is negative
-            else if(newQuantity < 0){
-                item.addError( Label.QuantityGreaterThanZero );
-            }
-
-            //UnitPrice is negative
-            else if(newUnitPrice < 0){
-                item.addError( Label.UnitPriceGreaterThanZero );
-            }
-        }
-
-        Map<Id, InvoiceItem__c> itemsWithPendingInvoice = new Map<Id,InvoiceItem__c>(
-            new InvoiceItemsSelector().selectByIdWithInvoiceStatusNotEditable( new Map<Id,InvoiceItem__c>( (List<InvoiceItem__c>)records ).keySet() )
-            );
-
-        for(InvoiceItem__c item: (List<InvoiceItem__c>)records){
-            if( !itemsWithPendingInvoice.containsKey(item.Id) ){
-                item.addError( Label.DraftNotEditable );
+            for(InvoiceItem__c item: (List<InvoiceItem__c>)records){
+                if( !itemsWithPendingInvoice.containsKey(item.Id) ){
+                    item.addError( Label.DraftNotEditable );
+                }
             }
         }
     }
@@ -152,15 +160,15 @@ public class InvoiceItems extends SObjectDomain {
 
             if(invoicesList.size()>0){
                 try{
-                    Invoices.validateAdminFields=false;
-
-                    SObjectUnitOfWork uow = new SObjectUnitOfWork(new List<Schema.SObjectType>{Invoice__c.SObjectType});
-                    uow.registerDirty(invoicesList);
-                    uow.commitWork();
-
-                    Invoices.validateAdminFields=true;
+                    if (validateAdminFields) {
+                        InvoiceService.enableAdminPermission(true);
+                        SObjectUnitOfWork uow = new SObjectUnitOfWork(new List<Schema.SObjectType>{Invoice__c.SObjectType});
+                        uow.registerDirty(invoicesList);
+                        uow.commitWork();
+                        InvoiceService.enableAdminPermission(false);
+                    }
                 }catch(Exception e){
-                    Invoices.validateAdminFields=true;
+                    InvoiceService.enableAdminPermission(false);
                     throw e;
                 }
                 
@@ -236,10 +244,13 @@ public class InvoiceItems extends SObjectDomain {
 
                 //Quantity and Total Price are changed
                 else if( totalPriceChanged && !unitPriceChanged && quantityChanged ){
-                    if( !quantityZero )
+                    if( !quantityZero ) {
                         item.UnitPrice__c = newTotalPrice / newQuantity;
-                    else
-                        item.addError( Label.QuantityZero );
+                    } else {
+                        if (validateAdminFields) {
+                            item.addError( Label.QuantityZero );
+                        }
+                    }
                 }
 
                 //Only Unit Price is changed
@@ -249,10 +260,14 @@ public class InvoiceItems extends SObjectDomain {
 
                 //Total Price and Unit Price are changed
                 else if( totalPriceChanged && unitPriceChanged && !quantityChanged ){
-                    if( !unitPriceZero )
+                    if( !unitPriceZero ) {
                         item.Quantity__c = newTotalPrice / newUnitPrice;
-                    else
-                        item.addError( Label.UnitPriceZero );
+                    }
+                    else {
+                        if (validateAdminFields) {
+                            item.addError( Label.UnitPriceZero );
+                        }
+                    }
                 }
 
                 //Everything changed
@@ -326,23 +341,22 @@ public class InvoiceItems extends SObjectDomain {
 
             if(invoicesList.size()>0){
                 try{
-                    Invoices.validateAdminFields=false;
-
-                    SObjectUnitOfWork uow = new SObjectUnitOfWork(new List<Schema.SObjectType>{Invoice__c.SObjectType});
-                    uow.registerDirty(invoicesList);
-                    uow.commitWork();
-
-                    Invoices.validateAdminFields=true;
+                    if (validateAdminFields) {
+                        InvoiceService.enableAdminPermission(true);
+                        SObjectUnitOfWork uow = new SObjectUnitOfWork(new List<Schema.SObjectType>{Invoice__c.SObjectType});
+                        uow.registerDirty(invoicesList);
+                        uow.commitWork();
+                        InvoiceService.enableAdminPermission(false);
+                    }
                 }catch(Exception e){
-                    Invoices.validateAdminFields=true;
-
+                    InvoiceService.enableAdminPermission(false);
                     throw e;
                 }
             }
         }
     }
 
-    /* This method receive a List of Infoice and it's related data and recalculates
+    /* This method receive a List of Invoice and it's related data and recalculates
         the Amount field.
     */
     public static void updateInvoiceAmount( List<Invoice__c> invoicesList ){
@@ -357,17 +371,15 @@ public class InvoiceItems extends SObjectDomain {
 
         if(invoicesList.size()>0){
             try{
-                Invoices.validateAdminFields=false;
-
-                SObjectUnitOfWork uow = new SObjectUnitOfWork(new List<Schema.SObjectType>{Invoice__c.SObjectType});
-                uow.registerDirty(invoicesList);
-                uow.commitWork();
-
-                Invoices.validateAdminFields=true;
-
+                if (validateAdminFields) {
+                    InvoiceService.enableAdminPermission(true);
+                    SObjectUnitOfWork uow = new SObjectUnitOfWork(new List<Schema.SObjectType>{Invoice__c.SObjectType});
+                    uow.registerDirty(invoicesList);
+                    uow.commitWork();
+                    InvoiceService.enableAdminPermission(false);
+                }
             }catch(Exception e){
-                Invoices.validateAdminFields=true;
-
+                InvoiceService.enableAdminPermission(false);
                 throw e;
             }
             
