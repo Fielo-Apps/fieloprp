@@ -74,9 +74,4 @@ public class MultiFileUploader {
         }
         return result;
     }
-
-    @RemoteAction
-    public static List<String> getList(){
-        return new List<String>{'Elem 1', 'Elem 2', 'Elem 3'};
-    }
 }

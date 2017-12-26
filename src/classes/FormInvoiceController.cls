@@ -64,8 +64,6 @@ public with sharing class FormInvoiceController {
 
     /*****  Secciones Y Fields  *****/
     public String cFieldset{get;set;}
-    public String cFilter{get;set;}
-    public String cFilterRecent{get;set;}
 
     public class Section {
         public String Name{get;set;}
@@ -196,19 +194,6 @@ public with sharing class FormInvoiceController {
         return filterRecentRecords;
     }
         set;
-    }
-
-    /*****  Piclklist Values *****/
-    private Map<String, Schema.SObjectField> fieldMap { get {
-        if (fieldMap==null) {
-            if ( fieldMap == null && csObjectName != null ) {
-                Schema.DescribeSObjectResult[] describes = Schema.describeSObjects(new String[]{ csObjectName });
-                fieldMap = describes.get(0).fields.getMap();
-            }
-        }
-        return fieldMap;
-    }
-        set; 
     }
 
     public String filterSObjectName {get{

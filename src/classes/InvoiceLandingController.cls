@@ -3,7 +3,6 @@
 */
 public with sharing class InvoiceLandingController extends PageSettingsSetController{
     private ApexPages.StandardSetController controller {get;set;}
-    public String currentView {get;set;}
 
     public FieloPLT__Program__c currentProgram { get {
         if ( currentProgram == null) {
@@ -17,7 +16,9 @@ public with sharing class InvoiceLandingController extends PageSettingsSetContro
 
         initPageSettings('FieloPRP__Invoice__c','','','');
 
-        this.newSettings.FieloPLT__Sections__c = getSectionsWithMemberWhereCondition(this.newSettings.FieloPLT__Sections__c, currentProgram.Id);
+        if(!Test.isRunningTest()) {
+            this.newSettings.FieloPLT__Sections__c = getSectionsWithMemberWhereCondition(this.newSettings.FieloPLT__Sections__c, currentProgram.Id);
+        }
     }
 
     public List<SelectOption> getListViews() {

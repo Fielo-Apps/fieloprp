@@ -2,7 +2,7 @@
 	<apex:attribute name="formId" type="String" default="formModal" description="" />
 	<apex:attribute name="fieldset" type="String" default="" description="" assignTo="{!cFieldset}"/>
 	<apex:attribute name="buttons" type="String" default="" description="" />
-	<apex:attribute name="sObjectName" type="String" default="" description="" assignTo="{!csObjectName}" />
+	<apex:attribute name="sObjectName" type="String" default="" description=""/>
 	<!--- ITEMS TABLE -->
   	<fieldset class="slds-form--compound fielosf-invoice-items">
 		<!-- <legend class="slds-form-element__label slds-text-title--caps">Items</legend> -->
@@ -41,8 +41,7 @@
                 	<apex:repeat value="{!s.rows}" var="fields">
 	                  <apex:repeat value="{!fields}" var="f">
 	                    <td scope="row" class="{!f.ClassName}">
-	                      <c:InputField 
-	                        onchange="f.onchange" 
+	                      <c:InputField onchange="f.onchange" 
 	                        value="{!f.Value}"
 	                        type="{!f.Type}"
 	                        showLabel="false" 

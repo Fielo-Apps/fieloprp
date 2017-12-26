@@ -3,7 +3,7 @@ public class InvoiceDuplicateDefault implements InvoiceDuplicateInterface{
 	public void setUniqueKey(List<Invoice__c> invoices, Boolean isUpdate){
 		Set<Id> memberIds = new Set<Id>();
 		for(Invoice__c invoice : invoices){
-			if(invoice.Distributor__c != null && invoice.InvoiceNumber__c != null){
+			if(invoice.InvoiceNumber__c != null){
 				if(!isUpdate || (invoice.Distributor__c != ((Invoice__c)Trigger.oldMap.get(invoice.Id)).Distributor__c || invoice.InvoiceNumber__c != ((Invoice__c)Trigger.oldMap.get(invoice.Id)).InvoiceNumber__c)){
 					memberIds.add(invoice.Member__c);
 				}
@@ -12,7 +12,7 @@ public class InvoiceDuplicateDefault implements InvoiceDuplicateInterface{
 
 		Map<Id,FieloPLT__Member__c> membersMap = new Map<Id,FieloPLT__Member__c>([SELECT FieloPLT__Program__c FROM FieloPLT__Member__c WHERE Id in : memberIds]);
 		for(Invoice__c invoice : invoices){
-			if(invoice.Distributor__c != null && invoice.InvoiceNumber__c != null){
+			if(invoice.InvoiceNumber__c != null){
 				if(!isUpdate || (invoice.Distributor__c != ((Invoice__c)Trigger.oldMap.get(invoice.Id)).Distributor__c || invoice.InvoiceNumber__c != ((Invoice__c)Trigger.oldMap.get(invoice.Id)).InvoiceNumber__c)){
 					invoice.UniqueKey__c = String.valueOf(membersMap.get(invoice.Member__c).FieloPLT__Program__c) + String.valueOf(invoice.Distributor__c) + invoice.InvoiceNumber__c;
 				}

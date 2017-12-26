@@ -1,0 +1,51 @@
+@isTest
+private class ImageGalleryControllerTest {
+	private static List<FieloPLT__Program__c> programs;
+    private static List<FieloPLT__Member__c> members;
+    private static List<FieloPRP__Invoice__c> invoices;
+    private static List<Attachment> attachments;
+
+	@isTest static void ItShouldGetImages(){
+        //Given
+        programs = MockUpFactory.createPrograms('Default', 1);
+        programs[0].FieloPRP__RequestInvoiceProducts__c = true;
+        insert programs;
+
+        members = MockUpFactory.createMembers(programs[0].Id,2);
+        insert members;
+
+        Account distributor = new Account(name = 'Fielo');
+        
+        insert distributor;
+
+        invoices = MockUpFactory.createInvoices(members[0].Id,1);
+        
+        invoices[0].Distributor__c = distributor.Id;
+        invoices[0].InvoiceNumber__c = '123456';
+
+        insert invoices;
+
+        InvoiceItem__c item = new InvoiceItem__c(
+            Quantity__c = 10.0,
+            UnitPrice__c = 50.0,
+            Invoice__c = invoices[0].Id
+        );
+
+        insert item;
+
+        Attachment file = new Attachment(
+        	Name = 'Test File',
+        	Body = Blob.valueof('iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4QkGDhYzkGGm4QAAAEVpVFh0Q29tbWVudAAAAAAAQ1JFQVRPUjogZ2QtanBlZyB2MS4wICh1c2luZyBJSkcgSlBFRyB2ODApLCBxdWFsaXR5ID0gOTAKqozFDgAAA7tJREFUSMetlV9oU1ccx7/33Jvc3tjbv8nSBkZhTFo7XBgO2xkn2jRu0JRaKLKZLXUvxSCFujJkr31ye8hUAiuGbVXKHDLYFh2RFfVBKNKXZo0LLfpQ9lBtbmLK8j/35p492OZP26S2+IUL9/z5fc45v/P7/Q6DKjL5TB05NtebYTODlNB3c/mcnlIKLauNEJUEdFTnIzKZeT7wfBGvIqfbCQAY9Aw2iX7xMe5DxX3QHT5V9IuhXm9vIwCcmjpVxmQ2fg5OHkTwXBB6n35sTbf2rUIUDXYhTuXkpkzTV2F7+ErnVCdCZ0MAAAIAw5eHETwXhOE3w4VIbeS73cIBQCGKJqwLXzb9ahoPnQ3B6rWWn8Dwu+GCVCe58RpkSBpGpH7JC4AhADD0/VBzrDb2DV6TYjWxa33X+owAKAMAol98HOfj7+wVyDM8cjQHClroE2RhIf1R2kyMfxg74nz8wF7hlhoLnh5+ionWCUAt9me57IHmP5tbWOFz4ZOUJtW3F3gX34XZrlnU8XU4pj8GraLFg/gDAABlKNsgN0RIlmQH9gLfz+3Hw66HAFvsO992HjzhC+0kSTqJyqqHyixl0Ftv30LuwxycDU6UuLWg47rjWLIsQcOWR/PEkwlk1WxxAS7ZyWj8Girz8npSENxtv0ttJlshfIfnh3Fj7UbByKw1I/BBYD2DihoPjsMtuUsCH4AWlFBa3GIj2wjLG5bSKbj+3nU4RAdAATNvxlz33Ba4a94Fd2QT/GWWMYRn+chGO6pE4Vhw0NJoAIDp96dx6c1LCHQHoGW1ZWMXQxcxGZvcvnwkOTC1/tq/EnzCVjpgF+2q75CPMAxT9aJH/x6FJ+rZuvN1iRnxHyKowu3NA3f+u0OOzh3d9oLL4C8qwwGgXqn/kXAKN4PNKAaYTc3idOA0LUvPErd4op6qpyOUyDLkmxulIlQpm637rJg5PANmfauueddLn1f3HoScsJD+OG0mAGB5ZrFwKidvN/Fe4h6sc1aaSCfoWHCMTq7tDOfyHHqWe3pKyzVjuG0YlfZJVypa5VGWtdVkTBlHVu2r3sKDA4BK/dLV1hetX1a0ekV4W7Tt61X7qvfIL0fKzTp+6sCyY/mRYciwIrNyv0rUXdUmLs9Bn9GPrAyuXG3/uR2BTwMoPQEWv1jEyR9OQuqXvCf+PdEi5IQgoUTZCUwokQVZWLAt2/Rhe9jbfbMbS2eWtj7620nv17do8prPEiThSnGpt/K6PAUDhktyqFFqQvVK/ZRM5enwQPhZJcb/iV1x5I2DgjcAAAAASUVORK5CYII='),
+        	ParentId = invoices[0].Id,
+        	ContentType = 'image/png'
+        );
+
+        insert file;
+        
+        ImageGalleryController ctrl = new ImageGalleryController();
+        ctrl.cParentId = invoices[0].Id;
+        attachments = ctrl.getImages();
+
+        System.assertEquals(1,attachments.size());
+    }
+}

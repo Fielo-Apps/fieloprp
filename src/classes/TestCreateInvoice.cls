@@ -1,52 +1,31 @@
 @isTest
 private class TestCreateInvoice {
-	
+    
     private static List<FieloPLT__Program__c> programs;
     private static List<FieloPLT__Member__c> members;
     private static List<FieloPRP__Invoice__c> invoices;
 
-    private static void createPrograms() {
-        programs = MockUpFactory.createPrograms('Default', 1);
-        programs[0].FieloPRP__RequestInvoiceProducts__c = true;
-        insert programs;
-    }
-
-    private static void createMembers(){
-        members = MockUpFactory.createMembers(programs[0].Id,2);
-        insert members;
-    }
-
-    private static void createInvoice(){
-        invoices = MockUpFactory.createInvoices(members[0].Id,1);
-        insert invoices;
-    }
-	
-	/*	TEST-1578
-		Create an Invoice
-		– The option to Consider Invoice Detail is true
-	*/
-	@isTest static void PRP_0002_FB(){
-		//Given
+    /*  TEST-1578
+        Create an Invoice
+        – Program with the option “Request Invoice Products” set to true (OK)
+    */
+    @isTest static void PRP_0002_FB(){
+        //Given
         programs = MockUpFactory.createPrograms('Default', 1);
         programs[0].FieloPRP__RequestInvoiceProducts__c = true;
         insert programs;
 
         members = MockUpFactory.createMembers(programs[0].Id,2);
         insert members;
+
+        Account distributor = new Account(name = 'Fielo');
+        
+        insert distributor;
 
         invoices = MockUpFactory.createInvoices(members[0].Id,1);
         
-        invoices[0].Amount__c = 10;
-
-        //Then
-        try{
-        	insert invoices;
-        }
-        catch(Exception e){
-        	System.assertEquals(0, [SELECT Id,Amount__c FROM Invoice__c].size());
-        }
-
-        invoices[0].Amount__c = null;
+        invoices[0].Distributor__c = distributor.Id;
+        invoices[0].InvoiceNumber__c = '123456';
 
         insert invoices;
 
@@ -57,23 +36,14 @@ private class TestCreateInvoice {
         );
 
         insert item;
+    }
 
-        invoices[0].Amount__c = 10.0;
-
-        try{
-        	update invoices;
-        }
-        catch(Exception e){
-        	System.assertEquals(500.0, ((Invoice__c)[SELECT Id,Amount__c FROM Invoice__c]).Amount__c);
-        }
-	}
-
-	/*	TEST-1579
-		Create an Invoice
-		– The option to Consider Invoice Detail is false
-	*/
-	@isTest static void PRP_0002_FA1_1(){
-		//Given
+    /*  TEST-1579
+        Create an Invoice
+        – Program with the option “Request Invoice Products” set to false (OK)
+    */
+    @isTest static void PRP_0002_FA1(){
+        //Given
         programs = MockUpFactory.createPrograms('Default', 1);
         programs[0].FieloPRP__RequestInvoiceProducts__c = false;
         insert programs;
@@ -87,29 +57,15 @@ private class TestCreateInvoice {
 
         //Then
         insert invoices;
-        
-        invoices[0].Amount__c = null;
+    }
 
-        update invoices;
-
-        invoices[0].Amount__c = 10;
-
-        //Then
-        try{
-        	update invoices;
-        }
-        catch(Exception e){
-        	System.assertEquals(10.0, ((Invoice__c)[SELECT Id, Amount__c FROM Invoice__c]).Amount__c.setScale(1) );
-        }
-	}
-
-	/*	TEST-1580
-		Create an Invoice
-		– Validations
-		– Try to create an invoice item when the option to Consider Invoice Detail is false
-	*/
-	@isTest static void PRP_0002_FA1_2(){
-		//Given
+    /*  TEST-1580
+        Create an Invoice
+        – Validations
+        – Try to create an invoice item when the option Request Invoice Products is false (NOK)
+    */
+    @isTest static void PRP_0002_FA1_1(){
+        //Given
         programs = MockUpFactory.createPrograms('Default', 1);
         programs[0].FieloPRP__RequestInvoiceProducts__c = false;
         insert programs;
@@ -140,20 +96,20 @@ private class TestCreateInvoice {
         );
 
         try{
-        	insert item;
+            insert item;
         }
         catch(Exception e){
-        	System.assertEquals(0, [SELECT Id FROM InvoiceItem__c].size());
+            System.assertEquals(0, [SELECT Id FROM InvoiceItem__c].size());
         }
-	}
+    }
 
-	/*	TEST-1581
-		Create an Invoice
-		– Delete Invoice
-		- The option to Consider Invoice Detail is true
-	*/
-	@isTest static void PRP_0002_FA2(){
-		//Given
+    /*  TEST-1581
+        Create an Invoice
+        – Delete Invoice
+        - The option to Consider Invoice Detail is true
+    */
+    @isTest static void PRP_0002_FA2(){
+        //Given
         programs = MockUpFactory.createPrograms('Default', 1);
         programs[0].FieloPRP__RequestInvoiceProducts__c = true;
         insert programs;
@@ -174,23 +130,23 @@ private class TestCreateInvoice {
 
 
         try{
-        	//When
-        	delete invoices;
+            //When
+            delete invoices;
         }
         catch(Exception e){
-        	//Then
-        	System.assertEquals(0, [SELECT Id FROM Invoice__c].size());
-        	System.assertEquals(0, [SELECT Id FROM InvoiceItem__c].size());
+            //Then
+            System.assertEquals(0, [SELECT Id FROM Invoice__c].size());
+            System.assertEquals(0, [SELECT Id FROM InvoiceItem__c].size());
         }
-	}
+    }
 
-	/*	TEST-1582
-		Create an Invoice
-		– Validations
-		– Edit Amount field when the option Consider Invoice Detail is true
-	*/
-	@isTest static void PRP_0002_FA3(){
-		//Given
+    /*  TEST-1582
+        Create an Invoice
+        – Validations
+        – Edit Amount field when the option Request Invoice Products is true (NOK)
+    */
+    @isTest static void PRP_0002_FA3_1(){
+        //Given
         programs = MockUpFactory.createPrograms('Default', 1);
         programs[0].FieloPRP__RequestInvoiceProducts__c = true;
         insert programs;
@@ -205,20 +161,20 @@ private class TestCreateInvoice {
 
         //Then
         try{
-        	update invoices;
+            update invoices;
         }
         catch(Exception e){
-        	System.assertEquals(null, ((Invoice__c)[SELECT Id,Amount__c FROM Invoice__c]).Amount__c);
+            System.assertEquals(null, ((Invoice__c)[SELECT Id,Amount__c FROM Invoice__c]).Amount__c);
         }
-	}
+    }
 
-	/*	TEST-1583
-		Create an Invoice
-		– Validations
-		– Create Invoice with no Member
-	*/
-	@isTest static void PRP_0002_FA4(){
-		//Given
+    /*  TEST-1583
+        Create an Invoice
+        – Validations
+        – Create Invoice with no Member
+    */
+    @isTest static void PRP_0002_FA4(){
+        //Given
         programs = MockUpFactory.createPrograms('Default', 1);
         programs[0].FieloPRP__RequestInvoiceProducts__c = true;
         insert programs;
@@ -231,21 +187,21 @@ private class TestCreateInvoice {
         //when
         invoices[0].Member__c = null;
         try{
-        	insert invoices;
+            insert invoices;
         }
         catch(Exception e){
-        	//then
-        	System.assertEquals(0, [SELECT Id FROM Invoice__c].size());
+            //then
+            System.assertEquals(0, [SELECT Id FROM Invoice__c].size());
         }
-	}
+    }
 
-	/*	TEST-1584
-		Create an Invoice
-		– Validations
-		– Edit the Member lookup
-	*/
-	@isTest static void PRP_0002_FA5(){
-		//Given
+    /*  TEST-1584
+        Create an Invoice
+        – Validations
+        – Edit the Member lookup
+    */
+    @isTest static void PRP_0002_FA5(){
+        //Given
         programs = MockUpFactory.createPrograms('Default', 1);
         programs[0].FieloPRP__RequestInvoiceProducts__c = true;
         insert programs;
@@ -258,21 +214,21 @@ private class TestCreateInvoice {
         //when
         invoices[0].Member__c = members[1].Id;
         try{
-        	insert invoices;
+            insert invoices;
         }
         catch(Exception e){
-        	//then
-        	System.assertEquals( members[0].Id, ((Invoice__c)[SELECT Id,Member__c FROM Invoice__c]).Member__c );
+            //then
+            System.assertEquals( members[0].Id, ((Invoice__c)[SELECT Id,Member__c FROM Invoice__c]).Member__c );
         }
-	}
+    }
 
-	/*	TEST-1585
-		Create an Invoice
-		– Validations
-		– Edit Invoice when its status is Approved
-	*/
-	@isTest static void PRP_0002_FA6_1(){
-		//Given
+    /*  TEST-1585
+        Create an Invoice
+        – Validations
+        – Edit Invoice when its status is Approved
+    */
+    @isTest static void PRP_0002_FA6(){
+        //Given
         programs = MockUpFactory.createPrograms('Default', 1);
         programs[0].FieloPRP__RequestInvoiceProducts__c = false;
         insert programs;
@@ -290,21 +246,21 @@ private class TestCreateInvoice {
 
         //when
         try{
-        	update invoices;
+            update invoices;
         }
         catch(Exception e){
-        	//then
-        	System.assertEquals( oldInvoiceNumber, ((Invoice__c)[SELECT Id,InvoiceNumber__c FROM Invoice__c]).InvoiceNumber__c );
+            //then
+            System.assertEquals( oldInvoiceNumber, ((Invoice__c)[SELECT Id,InvoiceNumber__c FROM Invoice__c]).InvoiceNumber__c );
         }
-	}
+    }
 
-	/*	TEST-1586
-		Create an Invoice
-		– Validations
-		– Edit Invoice when its status is Rejected
-	*/
-	@isTest static void PRP_0002_FA6_2(){
-		//Given
+    /*  TEST-1586
+        Create an Invoice
+        – Validations
+        – Edit Invoice when its status is Rejected
+    */
+    @isTest static void PRP_0002_FA6_1(){
+        //Given
         programs = MockUpFactory.createPrograms('Default', 1);
         programs[0].FieloPRP__RequestInvoiceProducts__c = false;
         insert programs;
@@ -322,16 +278,193 @@ private class TestCreateInvoice {
 
         //when
         try{
-        	update invoices;
+            update invoices;
         }
         catch(Exception e){
-        	//then
-        	System.assertEquals( oldInvoiceNumber, ((Invoice__c)[SELECT Id,InvoiceNumber__c FROM Invoice__c]).InvoiceNumber__c );
+            //then
+            System.assertEquals( oldInvoiceNumber, ((Invoice__c)[SELECT Id,InvoiceNumber__c FROM Invoice__c]).InvoiceNumber__c );
         }
-	}
+    }
 
-	@isTest static void validateHasDetailsAccess(){
-		//Given
+    /*  TEST-1593
+        Create an Invoice
+        – Validations
+        – Create Invoice with an existing Invoice Number + Distributor (NOK)
+    */
+    @isTest static void PRP_0002_FA8() {
+        //Given
+        programs = MockUpFactory.createPrograms('Default', 1);
+        programs[0].FieloPRP__RequestInvoiceProducts__c = false;
+        insert programs;
+
+        members = MockUpFactory.createMembers(programs[0].Id,2);
+        insert members;
+
+        Account distributor = new Account(name = 'Fielo');
+        
+        insert distributor;
+
+        invoices = MockUpFactory.createInvoices(members[0].Id,2);
+        invoices[0].InvoiceNumber__c='0001';
+        invoices[0].Status__c='Approved';
+        insert invoices[0];
+        
+        invoices[1].InvoiceNumber__c='0001';
+
+        try{
+            insert invoices[1];
+        } catch(Exception e) {}
+
+        System.assertEquals( 1, [SELECT Id,InvoiceNumber__c FROM Invoice__c].size() );
+    }
+
+    /*  TEST-1889
+        Create an Invoice
+        – Validations
+        – Amount field is not null when the option Request Invoice Products is true (NOK)
+    */
+    @isTest static void PRP_0002_FA3() {
+        //Given
+        programs = MockUpFactory.createPrograms('Default', 1);
+        programs[0].FieloPRP__RequestInvoiceProducts__c = true;
+        insert programs;
+
+        members = MockUpFactory.createMembers(programs[0].Id,1);
+        insert members;
+
+        Account distributor = new Account(name = 'Fielo');
+        
+        insert distributor;
+
+        invoices = MockUpFactory.createInvoices(members[0].Id,1);
+        invoices[0].InvoiceNumber__c='0001';
+        invoices[0].Amount__c=10;
+
+        try {
+            insert invoices[0];
+        } catch(Exception e) {}
+
+        System.assertEquals( 0, [SELECT Id,InvoiceNumber__c FROM Invoice__c].size() );
+    }
+
+    /*  TEST-1890
+        Create an Invoice
+        – Validations
+        – Edit Invoice when its status is Pending for Approval (NOK)
+    */
+    @isTest static void PRP_0002_FA6_2() {
+        //Given
+        programs = MockUpFactory.createPrograms('Default', 1);
+        programs[0].FieloPRP__RequestInvoiceProducts__c = false;
+        insert programs;
+
+        members = MockUpFactory.createMembers(programs[0].Id,1);
+        insert members;
+
+        invoices = MockUpFactory.createInvoices(members[0].Id,1);
+        invoices[0].InvoiceNumber__c='0001';
+        invoices[0].Status__c='Pending for Approval';
+        invoices[0].Amount__c=10;
+
+        insert invoices[0];
+
+        invoices[0].Amount__c=15;
+
+        try {
+            update invoices[0];
+        } catch(Exception e) {}
+
+        System.assertEquals( 10, ([SELECT Id,Amount__c FROM Invoice__c WHERE Id = :invoices[0].Id LIMIT 1]).Amount__c );
+    }
+
+    /*  TEST-1891
+        Create an Invoice
+        – Validations
+        – Edit Invoice when its status is Canceled (NOK)
+    */
+    @isTest static void PRP_0002_FA6_3() {
+        //Given
+        programs = MockUpFactory.createPrograms('Default', 1);
+        programs[0].FieloPRP__RequestInvoiceProducts__c = false;
+        insert programs;
+
+        members = MockUpFactory.createMembers(programs[0].Id,1);
+        insert members;
+
+        invoices = MockUpFactory.createInvoices(members[0].Id,1);
+        invoices[0].InvoiceNumber__c='0001';
+        invoices[0].Status__c='Pending for Approval';
+        invoices[0].Amount__c=10;
+
+        insert invoices[0];
+
+        invoices[0].Status__c='Approved';
+
+        update invoices[0];
+
+        invoices[0].Status__c='Canceled';
+
+        update invoices[0];
+
+        invoices[0].Amount__c=15;
+
+        try {
+            update invoices[0];
+        } catch(Exception e) {}
+
+        System.assertEquals( 10, ([SELECT Id,Amount__c FROM Invoice__c WHERE Id = :invoices[0].Id LIMIT 1]).Amount__c );
+    }
+
+    /*  TEST-1892
+        Create an Invoice
+        – Validations
+        – Create Invoice with Date null (NOK)
+    */
+    @isTest static void PRP_0002_FA7() {
+        //Given
+        programs = MockUpFactory.createPrograms('Default', 1);
+        programs[0].FieloPRP__RequestInvoiceProducts__c = false;
+        insert programs;
+
+        members = MockUpFactory.createMembers(programs[0].Id,1);
+        insert members;
+
+        invoices = MockUpFactory.createInvoices(members[0].Id,1);
+        invoices[0].Date__c=null;
+
+        try {
+            insert invoices[0];
+        } catch(Exception e) {}
+
+        System.assertEquals( 0, [SELECT Id FROM Invoice__c].size() );
+    }
+
+    /*  TEST-1893
+        Create an Invoice
+        – Validations
+        – Create Invoice with Date later than current date (NOK)
+    */
+    @isTest static void PRP_0002_FA9() {
+        //Given
+        programs = MockUpFactory.createPrograms('Default', 1);
+        programs[0].FieloPRP__RequestInvoiceProducts__c = false;
+        insert programs;
+
+        members = MockUpFactory.createMembers(programs[0].Id,1);
+        insert members;
+
+        invoices = MockUpFactory.createInvoices(members[0].Id,1);
+        invoices[0].Date__c=System.today().addDays(1);
+
+        try {
+            insert invoices[0];
+        } catch(Exception e) {}
+
+        System.assertEquals( 0, [SELECT Id FROM Invoice__c].size() );
+    }
+
+    @isTest static void validateHasDetailsAccess(){
+        //Given
         programs = MockUpFactory.createPrograms('Default', 1);
         programs[0].FieloPRP__RequestInvoiceProducts__c = true;
         insert programs;
@@ -347,14 +480,13 @@ private class TestCreateInvoice {
         invoices[0].HasDetails__c=false;
 
         try{
-        	update invoices;
+            update invoices;
         }
         catch(Exception e){
-        	//then
-        	System.assertEquals( true, ((Invoice__c)[SELECT Id,HasDetails__c From Invoice__c]).HasDetails__c );
+            //then
+            System.assertEquals( true, ((Invoice__c)[SELECT Id,HasDetails__c From Invoice__c]).HasDetails__c );
         }
-        
-	}
+    }
 
 
     public static testmethod void unitTestTemporal(){
