@@ -681,7 +681,7 @@ public class TestCreateInvoiceItem {
     /*  TEST-1573
         Create an Invoice Item
         – Validations
-        – Edition when status of the related invoice is Rejecte
+        – Edition when status of the related invoice is Rejected
     */
     @isTest static void PRP_0001_FA16_2(){
         //Given
@@ -704,7 +704,11 @@ public class TestCreateInvoiceItem {
 
         insert item;
 
-        /*invoices[0].Status__c = 'Rejected';
+        invoices[0].Status__c = 'Pending for Approval';
+
+        update invoices;
+
+        invoices[0].Status__c = 'Rejected';
 
         update invoices;
 
@@ -720,7 +724,7 @@ public class TestCreateInvoiceItem {
             System.assertEquals(10.0, ((InvoiceItem__c)[Select Id, Quantity__c From InvoiceItem__c]).Quantity__c.setScale(1));
         }
 
-        Test.stopTest();*/
+        Test.stopTest();
     }
 
     /*  TEST-1574
@@ -860,7 +864,7 @@ public class TestCreateInvoiceItem {
         – Validations
         – Edit the Invoice lookup
      */
-     @isTest static void PRP_0001_FA19(){
+    @isTest static void PRP_0001_FA19() {
         //Given
         programs = MockUpFactory.createPrograms('Default', 1);
         programs[0].FieloPRP__RequestInvoiceProducts__c = true;
@@ -893,14 +897,14 @@ public class TestCreateInvoiceItem {
         }
 
         Test.stopTest();
-     }
+    }
 
-     /*  TEST-1587
+    /*  TEST-1587
         Create an Invoice Item
         – Validations
         – Edition when Unit Price, Quantity and Total Price fields are null or zero
-     */
-     @isTest static void temp_test_001(){
+    */
+    @isTest static void temp_test_001(){
         //Given
         programs = MockUpFactory.createPrograms('Default', 1);
         programs[0].FieloPRP__RequestInvoiceProducts__c = true;
@@ -937,14 +941,14 @@ public class TestCreateInvoiceItem {
         }
 
         Test.stopTest();
-     }
+    }
 
      /* TEST-1588
         Create an Invoice Item
         - Validations
         - Creation with invalid Unit Price field received
      */
-     @isTest static void PRP_0001_FA21(){
+    @isTest static void PRP_0001_FA21(){
         //Given
         programs = MockUpFactory.createPrograms('Default', 1);
         programs[0].FieloPRP__RequestInvoiceProducts__c = true;
@@ -974,14 +978,14 @@ public class TestCreateInvoiceItem {
         }
 
         Test.stopTest();
-     }
+    }
 
      /* TEST-1589
         Create an Invoice Item
         – Validations
         – Edition when Unit Price is invalid
      */
-     @isTest static void PRP_0001_FA22(){
+    @isTest static void PRP_0001_FA22(){
         //Given
         programs = MockUpFactory.createPrograms('Default', 1);
         programs[0].FieloPRP__RequestInvoiceProducts__c = true;
@@ -1015,14 +1019,14 @@ public class TestCreateInvoiceItem {
         }
 
         Test.stopTest();
-     }
+    }
 
      /* TEST-1590
         Create an Invoice Item
         – Validations
         – Edition when both Quantity and Total Price fields are null or zero
      */
-     @isTest static void PRP_0001_FA23(){
+    @isTest static void PRP_0001_FA23(){
         //Given
         programs = MockUpFactory.createPrograms('Default', 1);
         programs[0].FieloPRP__RequestInvoiceProducts__c = true;
@@ -1057,14 +1061,14 @@ public class TestCreateInvoiceItem {
         }
 
         Test.stopTest();
-     }
+    }
 
      /* TEST-1591
         Create an Invoice Item
         - Validations
         – Edition when both Unit Price and Total Price fields are edited, but Unit Price is null or zero
      */
-     @isTest static void PRP_0001_FA24(){
+    @isTest static void PRP_0001_FA24(){
         //Given
         programs = MockUpFactory.createPrograms('Default', 1);
         programs[0].FieloPRP__RequestInvoiceProducts__c = true;
@@ -1099,14 +1103,14 @@ public class TestCreateInvoiceItem {
         }
 
         Test.stopTest();
-     }
+    }
 
-     /* TEST-1592
+    /* TEST-1592
         Create an Invoice Item
         – Edit Invoice Item
         – Only Total Price field is edited when Quantity and Unit Price fields are not zero
-     */
-     @isTest static void PRP_0001_FA25(){
+    */
+    @isTest static void PRP_0001_FA25(){
         //Given
         programs = MockUpFactory.createPrograms('Default', 1);
         programs[0].FieloPRP__RequestInvoiceProducts__c = true;
@@ -1137,7 +1141,103 @@ public class TestCreateInvoiceItem {
         System.assertEquals(500.0, ((InvoiceItem__c)[Select Id, TotalPrice__c From InvoiceItem__c]).TotalPrice__c);
 
         Test.stopTest();
-     }
+    }
 
+    /*  TEST-1894
+        Create an Invoice Item
+        – Validations
+        – Edition when status of the related invoice is Pending for Approval (NOK)
+    */
+    @isTest static void PRP_0001_FA16_3() {
+        //Given
+        programs = MockUpFactory.createPrograms('Default', 1);
+        programs[0].FieloPRP__RequestInvoiceProducts__c = true;
+        insert programs;
 
+        members = MockUpFactory.createMembers(programs[0].Id,2);
+        insert members;
+
+        invoices = MockUpFactory.createInvoices(members[0].Id,1);
+        insert invoices;
+
+        //When
+        InvoiceItem__c item = new InvoiceItem__c(
+            Invoice__c = invoices[0].Id,
+            Quantity__c = 10.0,
+            UnitPrice__c = 50.0
+        );
+
+        insert item;
+
+        invoices[0].Status__c = 'Pending for Approval';
+
+        update invoices;
+
+        Test.startTest();
+
+        item.Quantity__c = 15.0;
+
+        try{
+            update item;
+        }
+        catch(Exception e){
+            //Then
+            System.assertEquals(10.0, ((InvoiceItem__c)[Select Id, Quantity__c From InvoiceItem__c]).Quantity__c.setScale(1));
+        }
+
+        Test.stopTest();
+    }
+
+    /*  TEST-1895
+        Create an Invoice Item
+        – Validations
+        - Edition when status of the related invoice is Canceled (NOK)
+    */
+    @isTest static void PRP_0001_FA16_4() {
+        //Given
+        programs = MockUpFactory.createPrograms('Default', 1);
+        programs[0].FieloPRP__RequestInvoiceProducts__c = true;
+        insert programs;
+
+        members = MockUpFactory.createMembers(programs[0].Id,2);
+        insert members;
+
+        invoices = MockUpFactory.createInvoices(members[0].Id,1);
+        insert invoices;
+
+        //When
+        InvoiceItem__c item = new InvoiceItem__c(
+            Invoice__c = invoices[0].Id,
+            Quantity__c = 10.0,
+            UnitPrice__c = 50.0
+        );
+
+        insert item;
+
+        invoices[0].Status__c = 'Pending for Approval';
+
+        update invoices;
+
+        invoices[0].Status__c = 'Approved';
+
+        update invoices;
+
+        invoices[0].Status__c = 'Canceled';
+
+        update invoices;
+
+        Test.startTest();
+
+        item.Quantity__c = 15.0;
+
+        try{
+            update item;
+        }
+        catch(Exception e){
+            //Then
+            System.assertEquals(10.0, ((InvoiceItem__c)[Select Id, Quantity__c From InvoiceItem__c]).Quantity__c.setScale(1));
+        }
+
+        Test.stopTest();
+    }
 }

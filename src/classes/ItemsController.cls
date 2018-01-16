@@ -1,8 +1,6 @@
 public with sharing class ItemsController {
   /*****  Data  *****/
-  public String csObjectName{get;set;}
   public String cFieldset{get;set;}
-  public String cbuttons{get;set;}
 
   public class Section {
         public String Name{get;set;}

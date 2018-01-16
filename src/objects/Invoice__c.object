@@ -125,16 +125,6 @@
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>UniqueKey__c</fullName>
-        <externalId>false</externalId>
-        <label>Unique Key</label>
-        <length>255</length>
-        <required>false</required>
-        <trackTrending>false</trackTrending>
-        <type>Text</type>
-        <unique>false</unique>
-    </fields>
-    <fields>
         <fullName>Member__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
         <externalId>false</externalId>
@@ -200,6 +190,16 @@
                 </value>
             </valueSetDefinition>
         </valueSet>
+    </fields>
+    <fields>
+        <fullName>UniqueKey__c</fullName>
+        <externalId>false</externalId>
+        <label>Unique Key</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
     </fields>
     <gender>Feminine</gender>
     <label>Invoice</label>
@@ -269,7 +269,6 @@ PRIORVALUE(Member__c )!=Member__c
   
   NOT(AND( TEXT(PRIORVALUE(Status__c))=&apos;Pending for Approval&apos;, TEXT(Status__c)=&apos;Approved&apos;)),
   NOT(AND( TEXT(PRIORVALUE(Status__c))=&apos;Pending for Approval&apos;, TEXT(Status__c)=&apos;Rejected&apos;)),
-  NOT(AND( TEXT(PRIORVALUE(Status__c))=&apos;Pending for Approval&apos;, TEXT(Status__c)=&apos;Open&apos;)),
   
   NOT(AND( TEXT(PRIORVALUE(Status__c))=&apos;Approved&apos;, TEXT(Status__c)=&apos;Canceled&apos;)),
   

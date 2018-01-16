@@ -59,12 +59,12 @@ public with sharing class RESTInvoice {
                 String requestUri = RestContext.request.requestUri;
                 String memberId = requestUri.substring( requestUri.indexOf('/members/')  , requestUri.length() );
                 memberId = memberId.replace('/members/', '');
-                memberId = memberId.replace('/invoices', '');
+                memberId = memberId.substring( 0  , memberId.indexOf('/') );
+
                 String invoiceId = requestUri.substring( requestUri.indexOf('/invoices/')  , requestUri.length() );
-                invoiceId = invoiceId.replace('/members/', '');
-                invoiceId = invoiceId.replace('/invoices', '');
+                invoiceId = invoiceId.replace('/invoices/', '');
                 
-                Boolean isCloseOperation = invoiceId.contains('/close');                
+                Boolean isCloseOperation = invoiceId.contains('/close');
                 invoiceId = invoiceId.replace('/close', '');
 
                 resp.addHeader('Accept', 'application/json');

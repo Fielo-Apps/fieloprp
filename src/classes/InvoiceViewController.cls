@@ -5,7 +5,6 @@ public with sharing class InvoiceViewController extends PageSettingsController {
     public String buttonString {get;set;}
     public String hiddenClass {get;set;}
     public Boolean lockedRecord {get;set;}
-    public List<Map<String,Object>> buttonList {get;set;}
 
     /**
     * @brief constructor
@@ -14,18 +13,7 @@ public with sharing class InvoiceViewController extends PageSettingsController {
         this.controller = controller;
 
         if(!Test.isRunningTest()){
-            this.controller.addFields(new List<String>{
-                'Name',
-                'FieloPRP__HasDetails__c',
-                'FieloPRP__Member__c',
-                'FieloPRP__InvoiceNumber__c',
-                'FieloPRP__Status__c',
-                'FieloPRP__Amount__c',
-                'FieloPRP__Date__c',
-                'FieloPRP__Description__c',
-                'FieloPRP__Distributor__c',
-                'FieloPRP__Member__r.FieloPLT__Program__r.FieloPRP__RequestInvoiceAuthorization__c'
-                });
+            this.controller.addFields(new List<String>{'Name','FieloPRP__HasDetails__c','FieloPRP__Member__c','FieloPRP__InvoiceNumber__c','FieloPRP__Status__c','FieloPRP__Amount__c','FieloPRP__Date__c','FieloPRP__Description__c','FieloPRP__Distributor__c','FieloPRP__Member__r.FieloPLT__Program__r.FieloPRP__RequestInvoiceAuthorization__c'});
         }
 
         record = (Invoice__c)controller.getRecord();
