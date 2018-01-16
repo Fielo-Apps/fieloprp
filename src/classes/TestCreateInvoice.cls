@@ -237,7 +237,8 @@ private class TestCreateInvoice {
         insert members;
 
         invoices = MockUpFactory.createInvoices(members[0].Id,1);
-        invoices[0].Status__c='Approved';
+        invoices[0].Amount__c = 10;
+        invoices[0].Status__c = 'Approved';
         insert invoices;
         
         String oldInvoiceNumber = invoices[0].InvoiceNumber__c;
@@ -245,13 +246,17 @@ private class TestCreateInvoice {
         invoices[0].InvoiceNumber__c = 'Teste';
 
         //when
+        String errorMsg = '';
         try{
             update invoices;
         }
         catch(Exception e){
             //then
-            System.assertEquals( oldInvoiceNumber, ((Invoice__c)[SELECT Id,InvoiceNumber__c FROM Invoice__c]).InvoiceNumber__c );
+            errorMsg = e.getMessage();
         }
+
+        System.assertEquals( oldInvoiceNumber, ((Invoice__c)[SELECT Id,InvoiceNumber__c FROM Invoice__c]).InvoiceNumber__c );
+        System.assert( errorMsg.contains(Label.DraftNotEditable) );
     }
 
     /*  TEST-1586
