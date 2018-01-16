@@ -237,7 +237,8 @@ private class TestCreateInvoice {
         insert members;
 
         invoices = MockUpFactory.createInvoices(members[0].Id,1);
-        invoices[0].Status__c='Approved';
+        invoices[0].Amount__c = 10;
+        invoices[0].Status__c = 'Approved';
         insert invoices;
         
         String oldInvoiceNumber = invoices[0].InvoiceNumber__c;
@@ -245,13 +246,17 @@ private class TestCreateInvoice {
         invoices[0].InvoiceNumber__c = 'Teste';
 
         //when
+        String errorMsg = '';
         try{
             update invoices;
         }
         catch(Exception e){
             //then
-            System.assertEquals( oldInvoiceNumber, ((Invoice__c)[SELECT Id,InvoiceNumber__c FROM Invoice__c]).InvoiceNumber__c );
+            errorMsg = e.getMessage();
         }
+
+        System.assertEquals( oldInvoiceNumber, ((Invoice__c)[SELECT Id,InvoiceNumber__c FROM Invoice__c]).InvoiceNumber__c );
+        System.assert( errorMsg.contains(Label.DraftNotEditable) );
     }
 
     /*  TEST-1586
@@ -269,6 +274,7 @@ private class TestCreateInvoice {
         insert members;
 
         invoices = MockUpFactory.createInvoices(members[0].Id,1);
+        invoices[0].Amount__c = 10;
         invoices[0].Status__c='Rejected';
         insert invoices;
         
@@ -277,13 +283,16 @@ private class TestCreateInvoice {
         invoices[0].InvoiceNumber__c = 'Teste';
 
         //when
+        String errorMsg = '';
         try{
             update invoices;
         }
         catch(Exception e){
             //then
-            System.assertEquals( oldInvoiceNumber, ((Invoice__c)[SELECT Id,InvoiceNumber__c FROM Invoice__c]).InvoiceNumber__c );
+            errorMsg = e.getMessage();
         }
+        System.assert(errorMsg.contains(Label.DraftNotEditable));
+        System.assertEquals( oldInvoiceNumber, ((Invoice__c)[SELECT Id,InvoiceNumber__c FROM Invoice__c]).InvoiceNumber__c );
     }
 
     /*  TEST-1593
@@ -305,16 +314,22 @@ private class TestCreateInvoice {
         insert distributor;
 
         invoices = MockUpFactory.createInvoices(members[0].Id,2);
+        invoices[0].Amount__c=10;
         invoices[0].InvoiceNumber__c='0001';
         invoices[0].Status__c='Approved';
         insert invoices[0];
         
         invoices[1].InvoiceNumber__c='0001';
+        invoices[0].Amount__c=10;
 
+        String errorMsg = '';
         try{
             insert invoices[1];
-        } catch(Exception e) {}
+        } catch(Exception e) {
+            errorMsg = e.getMessage();
+        }
 
+        System.assert(errorMsg.contains(Label.DuplicatedInvoiceRecord));
         System.assertEquals( 1, [SELECT Id,InvoiceNumber__c FROM Invoice__c].size() );
     }
 

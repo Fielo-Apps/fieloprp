@@ -575,11 +575,16 @@ public class TestChangeInvoiceStatus {
         Test.startTest();
 
         invoices[0].Status__c = 'Open';
+        String errorMsg = '';
         try{
             update invoices;
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            errorMsg = e.getMessage();
+        }
 
         system.assertEquals('Pending for Approval',[SELECT Id, Status__c FROM Invoice__c LIMIT 1].Status__c);
+        
+        system.assert(errorMsg.contains('Status transition not allowed'));
 
         Test.stopTest();
     }
