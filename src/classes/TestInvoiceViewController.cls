@@ -7,13 +7,14 @@ public class TestInvoiceViewController {
     @isTest static void unitTest(){
         //Given
         programs = MockUpFactory.createPrograms('Default', 1);
-        programs[0].FieloPRP__RequestInvoiceProducts__c = true;
+        programs[0].FieloPRP__RequestInvoiceProducts__c = false;
         insert programs;
 
         members = MockUpFactory.createMembers(programs[0].Id,2);
         insert members;
 
         invoices = MockUpFactory.createInvoices(members[0].Id,1);
+        invoices[0].Amount__c = 10;
         invoices[0].FieloPRP__Status__c = 'Pending for Approval';
         insert invoices;
 
