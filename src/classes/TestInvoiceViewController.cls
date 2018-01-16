@@ -20,32 +20,9 @@ public class TestInvoiceViewController {
         ApexPages.StandardController standardController = new ApexPages.StandardController(invoices[0]);
         InvoiceViewController controller = new InvoiceViewController(standardController);
 
-        // InvoiceViewController.approveInvoice(invoices[0].Id);
-
         invoices[0].FieloPRP__Status__c = 'Approved';
 
         standardController = new ApexPages.StandardController(invoices[0]);
         controller = new InvoiceViewController(standardController);
-
-        /*InvoiceViewController.revertInvoice(invoices[0].Id);
-
-        invoices[0].FieloPRP__Status__c = 'Reverted';
-
-        standardController = new ApexPages.StandardController(invoices[0]);
-        controller = new InvoiceViewController(standardController);
-
-        // InvoiceViewController.reviewInvoice(invoices[0].Id);
-
-        invoices[0].FieloPRP__Status__c = 'Pending';
-
-        standardController = new ApexPages.StandardController(invoices[0]);
-        controller = new InvoiceViewController(standardController);
-
-        // InvoiceViewController.rejectInvoice(invoices[0].Id);
-
-        invoices[0].FieloPRP__Status__c = 'Rejected';
-
-        standardController = new ApexPages.StandardController(invoices[0]);
-        controller = new InvoiceViewController(standardController);*/
     }
 }

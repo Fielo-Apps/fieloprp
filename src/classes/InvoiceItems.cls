@@ -14,6 +14,7 @@ public class InvoiceItems extends SObjectDomain {
     public static Double oldUnitPrice;
 
     public static Boolean validateAdminFields = true;
+    public static Boolean runningAsAdmin = false;
 
     public static Set<Id> processedIds = new Set<Id>();
 
@@ -26,6 +27,7 @@ public class InvoiceItems extends SObjectDomain {
             //If has Admin Permission allow "validateAdminFields"
             if(FieloPLT__AdminPermission__c.getInstance(UserInfo.getUserId()) != null && FieloPLT__AdminPermission__c.getInstance(UserInfo.getUserId()).FieloPLT__To__c >= system.now()){
                 InvoiceService.enableAdminPermission(true);
+                InvoiceItems.runningAsAdmin = true;
             }
             return new InvoiceItems(sObjectList);
         }
@@ -160,11 +162,15 @@ public class InvoiceItems extends SObjectDomain {
 
             if(invoicesList.size()>0){
                 try{
-                    if (validateAdminFields) {
+                    if (!runningAsAdmin && validateAdminFields) {
                         InvoiceService.enableAdminPermission(true);
-                        SObjectUnitOfWork uow = new SObjectUnitOfWork(new List<Schema.SObjectType>{Invoice__c.SObjectType});
-                        uow.registerDirty(invoicesList);
-                        uow.commitWork();
+                    }
+
+                    SObjectUnitOfWork uow = new SObjectUnitOfWork(new List<Schema.SObjectType>{Invoice__c.SObjectType});
+                    uow.registerDirty(invoicesList);
+                    uow.commitWork();
+
+                    if (!runningAsAdmin && !validateAdminFields) {
                         InvoiceService.enableAdminPermission(false);
                     }
                 }catch(Exception e){
@@ -341,13 +347,16 @@ public class InvoiceItems extends SObjectDomain {
 
             if(invoicesList.size()>0){
                 try{
-                    if (validateAdminFields) {
+                    if (!runningAsAdmin && validateAdminFields) {
                         InvoiceService.enableAdminPermission(true);
-                        SObjectUnitOfWork uow = new SObjectUnitOfWork(new List<Schema.SObjectType>{Invoice__c.SObjectType});
-                        uow.registerDirty(invoicesList);
-                        uow.commitWork();
-                        InvoiceService.enableAdminPermission(false);
                     }
+                    SObjectUnitOfWork uow = new SObjectUnitOfWork(new List<Schema.SObjectType>{Invoice__c.SObjectType});
+                    uow.registerDirty(invoicesList);
+                    uow.commitWork();
+                    
+                    if (!runningAsAdmin && !validateAdminFields) {
+                        InvoiceService.enableAdminPermission(false);
+                    } 
                 }catch(Exception e){
                     InvoiceService.enableAdminPermission(false);
                     throw e;
@@ -371,11 +380,14 @@ public class InvoiceItems extends SObjectDomain {
 
         if(invoicesList.size()>0){
             try{
-                if (validateAdminFields) {
+                if (!runningAsAdmin && validateAdminFields) {
                     InvoiceService.enableAdminPermission(true);
-                    SObjectUnitOfWork uow = new SObjectUnitOfWork(new List<Schema.SObjectType>{Invoice__c.SObjectType});
-                    uow.registerDirty(invoicesList);
-                    uow.commitWork();
+                }
+                SObjectUnitOfWork uow = new SObjectUnitOfWork(new List<Schema.SObjectType>{Invoice__c.SObjectType});
+                uow.registerDirty(invoicesList);
+                uow.commitWork();
+
+                if (!runningAsAdmin && !validateAdminFields) {
                     InvoiceService.enableAdminPermission(false);
                 }
             }catch(Exception e){

@@ -14,7 +14,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>AmountUpdateDisabled</shortDescription>
-        <value>Programs with Detailed Invoice set to true have the hability to update the Amount of the Invoice disabled.</value>
+        <value>Programs with Detailed Invoice set to true have the ability to update the Amount of the Invoice disabled.</value>
     </labels>
     <labels>
         <fullName>ChooseFileFirst</fullName>
@@ -78,7 +78,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>InvoiceDetailInsertDisabled</shortDescription>
-        <value>The hability to create an invoice item is disabled when the Program has the field Detailed Invoice set to false.</value>
+        <value>The ability to create an invoice item is disabled when the Program has the field Detailed Invoice set to false.</value>
     </labels>
     <labels>
         <fullName>InvoiceSavedSuccess</fullName>
