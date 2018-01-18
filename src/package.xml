@@ -41,6 +41,7 @@
 		<members>FieloPLT__PublicSettings__c.InvoiceDuplicateClass__c</members>
 		<members>FieloPLT__Tracker__c.Invoice__c</members>
 		<members>FieloPLT__Transaction__c.Invoice__c</members>
+		<members>FieloPLT__EmailAlert__c.Invoice__c</members>
 		<name>CustomField</name>
 	</types>
 	<types>
