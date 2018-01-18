@@ -19,7 +19,7 @@
         "value" : "FieloPRP"
       }, {
         "apiName" : "fieloplt__version__c",
-        "value" : "1.005"
+        "value" : "1.006"
       }, {
         "apiName" : "fieloplt__externalid__c",
         "value" : "FieloPRP"
@@ -87,6 +87,9 @@
               }, {
                 "apiName" : "fieloplt__targetemailobject__c",
                 "value" : "FieloPLT__Member__c"
+              }, {
+                "apiName" : "fieloplt__templatesquantity__c",
+                "value" : "0"
               } ],
               "relatedList" : [ {
                 "objectAPIName" : "fieloplt__programassignment__c",
@@ -141,7 +144,7 @@
                 "value" : "false"
               }, {
                 "apiName" : "fieloplt__reportfilter__c",
-                "value" : "[{ \"Report Field\" : \"FieloPRP__Invoice__c.FieloPRP__Status__c\", \"Operator\" : \"equals\", \"Value\" : \"Approved\" },{ \"Report Field\" : \"FieloPLT__Point__c.FieloPLT__Promotion__c\", \"Operator\" : \"equals\", \"Record Field\":\"FieloPLT__Promotion__r.Name\" }]"
+                "value" : "[{ \"Report Field\" : \"FieloPRP__Invoice__c.FieloPRP__Status__c\", \"Operator\" : \"equals\", \"Value\" : \"Approved\" },{ \"Report Field\" : \"FieloPLT__Point__c.FieloPLT__Promotion__c\", \"Operator\" : \"equals\", \"Record Field\":\"FieloPLT__Promotion__r.Id\" }]"
               }, {
                 "apiName" : "fieloplt__reportmetadata__c",
                 "value" : "{\"size\":\"small\",\"styleClass\":\"\",\"cacheResults\":true,\"hideOnError\":false,\"rendered\":true,\"showRefreshButton\":true}"

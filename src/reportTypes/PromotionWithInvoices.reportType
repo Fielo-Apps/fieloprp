@@ -104,11 +104,6 @@
             <field>UniqueKey__c</field>
             <table>Invoice__c</table>
         </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>MemberEmail__c</field>
-            <table>Invoice__c</table>
-        </columns>
         <masterLabel>Invoices</masterLabel>
     </sections>
     <sections>
