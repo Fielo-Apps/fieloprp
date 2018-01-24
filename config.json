@@ -1,6 +1,6 @@
 {
   "type":"package",
-  "version":"1.10",
+  "version":"1.15",
   "name":"FieloPRP",
   "dependencies":[
     {
