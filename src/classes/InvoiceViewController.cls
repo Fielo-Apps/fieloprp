@@ -6,6 +6,7 @@ public with sharing class InvoiceViewController extends PageSettingsController {
     public String hiddenClass {get;set;}
     public Boolean lockedRecord {get;set;}
 
+
     /**
     * @brief constructor
     */
@@ -17,6 +18,106 @@ public with sharing class InvoiceViewController extends PageSettingsController {
         }
 
         record = (Invoice__c)controller.getRecord();
+
+        List<Map<String, Object>> buttonMap = new List<Map<String, Object>>();
+
+        Boolean requestInvoiceAuthorization = false;
+        Boolean hasApprovalProcess = false;
+        Boolean isCurrentApprover = false;
+        Boolean isOpen = false;
+        Boolean isApproved = false;
+        Boolean isRejected = false;
+        Boolean isCanceled = false;
+        Boolean isPendingForApproval = false;
+
+        Boolean showApprove = false;
+        Boolean showReject = false;
+        Boolean showSubmitForApproval = false;
+        Boolean showRevert = false;
+        Boolean showReprocess = false;
+        Boolean showReopen = false;
+
+        hasApprovalProcess = InvoiceService.hasApprovalProcess();
+
+        isCurrentApprover = InvoiceService.getApprovalProcessApprovers().contains(UserInfo.getUserId());
+
+        isOpen = record.FieloPRP__Status__c == 'Open' || record.FieloPRP__Status__c == 'New';
+
+        isApproved = record.FieloPRP__Status__c == 'Approved';
+
+        isPendingForApproval = record.FieloPRP__Status__c == 'Pending for Approval';
+
+        requestInvoiceAuthorization = record.FieloPRP__Member__r.FieloPLT__Program__r.FieloPRP__RequestInvoiceAuthorization__c;
+
+        // Approve/Reject Button
+        showApprove = isOpen && requestInvoiceAuthorization && hasApprovalProcess && isCurrentApprover;
+
+        showApprove = showApprove || isOpen && requestInvoiceAuthorization && !hasApprovalProcess;
+
+        showApprove = showApprove || isOpen && !requestInvoiceAuthorization;
+
+        showApprove = showApprove || isPendingForApproval && requestInvoiceAuthorization && hasApprovalProcess && isCurrentApprover;
+
+        showApprove = showApprove || isPendingForApproval && requestInvoiceAuthorization && !hasApprovalProcess;
+
+        showApprove = showApprove || isPendingForApproval && !requestInvoiceAuthorization && hasApprovalProcess && isCurrentApprover;
+
+        showApprove = showApprove || isPendingForApproval && !requestInvoiceAuthorization && !hasApprovalProcess;
+
+        showReject = showApprove;
+
+        // Submit For Approval Button
+        showSubmitForApproval = isOpen && !requestInvoiceAuthorization;
+
+        // Revert Button
+        showRevert = isApproved;
+
+        // Reprocess Button
+        showReprocess = isApproved || isCanceled;
+
+        // Reopen Button
+        showReopen = isRejected;
+
+        //Add Buttons
+        if (showApprove) {
+            buttonMap.add(
+                new Map<String, Object>{'Label' => 'Approve', 'Type' => 'Remote', 'Action' => 'InvoiceButtonImpl', 'Confirm' => true, 'Reflection' => true, 'parameters' => '{"type":"close"}'}
+            );
+        }
+
+        if (showReject) {
+            buttonMap.add(
+                new Map<String, Object>{'Label' => 'Reject', 'Type' => 'Remote', 'Action' => 'InvoiceButtonImpl', 'Confirm' => true, 'Reflection' => true, 'parameters' => '{"type":"close"}'}
+            );
+        }
+
+        if (showSubmitForApproval) {
+
+        }
+
+        if (showRevert) {
+            buttonMap.add(
+                new Map<String, Object>{'Label' => 'Revert', 'Type' => 'Remote', 'Action' => 'InvoiceButtonImpl', 'Confirm' => true, 'Reflection' => true, 'parameters' => '{"type":"Cancel"}'}
+            );
+        }
+
+        if (showReprocess) {
+            buttonMap.add(
+                new Map<String, Object>{'Label' => 'Reprocess', 'Type' => 'Remote', 'Action' => 'InvoiceButtonImpl', 'Confirm' => true, 'Reflection' => true, 'parameters' => '{"type":"Reprocess"}'}
+            );
+        }
+
+        if (showReopen) {
+            buttonMap.add(
+                new Map<String, Object>{'Label' => 'Reopen', 'Type' => 'Remote', 'Action' => 'InvoiceButtonImpl', 'Confirm' => true, 'Reflection' => true, 'parameters' => '{"type":"Reopen"}'}
+            );
+        }
+
+        if(!buttonMap.isEmpty()){
+            buttonString = JSON.serialize(buttonMap);
+            buttonString = buttonString.substring(1,buttonString.length()-1);
+        }
+
 
         try{
             lockedRecord = InvoiceService.isLockedByApprovalProcess( new Set<Id>{record.Id} );

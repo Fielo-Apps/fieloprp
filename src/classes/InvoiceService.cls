@@ -102,6 +102,30 @@ global class InvoiceService {
         }
     }
 
+    public static Boolean hasApprovalProcess() {
+        List<ProcessDefinition> approvalProcesses = [SELECT Id, State, TableEnumOrId FROM ProcessDefinition WHERE TableEnumOrId = 'FieloPRP__Invoice__c' AND State = 'Active'];
+
+        return !approvalProcesses.isEmpty();
+    }
+
+    public static Set<Id> getApprovalProcessApprovers() {
+        Set<Id> userIds = new Set<Id>();
+        try {
+            List<ProcessDefinition> approvalProcesses = [SELECT Id, State, TableEnumOrId FROM ProcessDefinition WHERE TableEnumOrId = 'FieloPRP__Invoice__c' AND State = 'Active'];
+            Approval.ProcessSubmitRequest psr = new Approval.ProcessSubmitRequest();
+            psr.setProcessDefinitionNameOrId(approvalProcesses[0].Id);
+            if (psr.getNextApproverIds() !=  null) {
+                userIds.addAll(psr.getNextApproverIds());    
+            } else {
+                userIds.add(UserInfo.getUserId());
+            }
+        } catch (Exception e) {
+            system.debug(e.getMessage());
+            userIds.add(UserInfo.getUserId());
+        }
+        return userIds;
+    }
+
     public static Boolean isLockedByApprovalProcess(Set<Id> invoiceIds){
         List<ProcessInstance> approvalProcessInstanceList = InvoicesSelector.selectInvoiceApprovalProcessInstance(invoiceIds);
 
