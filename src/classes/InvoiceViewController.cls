@@ -31,7 +31,6 @@ public with sharing class InvoiceViewController extends PageSettingsController {
         Boolean isPendingForApproval = false;
 
         Boolean showApprove = false;
-        Boolean showReject = false;
         Boolean showSubmitForApproval = false;
         Boolean showRevert = false;
         Boolean showReprocess = false;
@@ -50,21 +49,9 @@ public with sharing class InvoiceViewController extends PageSettingsController {
         requestInvoiceAuthorization = record.FieloPRP__Member__r.FieloPLT__Program__r.FieloPRP__RequestInvoiceAuthorization__c;
 
         // Approve/Reject Button
-        showApprove = isOpen && requestInvoiceAuthorization && hasApprovalProcess && isCurrentApprover;
+        showApprove = isOpen && (!requestInvoiceAuthorization || !hasApprovalProcess || isCurrentApprover);
 
-        showApprove = showApprove || isOpen && requestInvoiceAuthorization && !hasApprovalProcess;
-
-        showApprove = showApprove || isOpen && !requestInvoiceAuthorization;
-
-        showApprove = showApprove || isPendingForApproval && requestInvoiceAuthorization && hasApprovalProcess && isCurrentApprover;
-
-        showApprove = showApprove || isPendingForApproval && requestInvoiceAuthorization && !hasApprovalProcess;
-
-        showApprove = showApprove || isPendingForApproval && !requestInvoiceAuthorization && hasApprovalProcess && isCurrentApprover;
-
-        showApprove = showApprove || isPendingForApproval && !requestInvoiceAuthorization && !hasApprovalProcess;
-
-        showReject = showApprove;
+        showApprove = showApprove || (isPendingForApproval && !hasApprovalProcess && isCurrentApprover);
 
         // Submit For Approval Button
         showSubmitForApproval = isOpen && !requestInvoiceAuthorization;
@@ -83,9 +70,6 @@ public with sharing class InvoiceViewController extends PageSettingsController {
             buttonMap.add(
                 new Map<String, Object>{'Label' => 'Approve', 'Type' => 'Remote', 'Action' => 'InvoiceButtonImpl', 'Confirm' => true, 'Reflection' => true, 'parameters' => '{"type":"close"}'}
             );
-        }
-
-        if (showReject) {
             buttonMap.add(
                 new Map<String, Object>{'Label' => 'Reject', 'Type' => 'Remote', 'Action' => 'InvoiceButtonImpl', 'Confirm' => true, 'Reflection' => true, 'parameters' => '{"type":"close"}'}
             );
