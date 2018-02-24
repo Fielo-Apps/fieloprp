@@ -34,15 +34,17 @@
       sObjectName="FieloPRP__Invoice__c"
     />
     -->
-    <c:FormInvoice namespace="FieloPRP" formId="invoiceForm"
-      heading="Edit {!$ObjectType.Invoice__c.label}"
-      sObjectName="FieloPRP__Invoice__c"
-      fieldset="{!editSettings.FieloPLT__Sections__c}"
-      mode="new"
-      record="{!record}"
-      className="fielosf-invoice-form"
-      retrieveController="FormInvoiceController.retrieve"
-    />
+    <apex:panelGroup rendered="{!editSettings.FieloPLT__Sections__c != null}">
+      <c:FormInvoice namespace="FieloPRP" formId="invoiceForm"
+        heading="Edit {!$ObjectType.Invoice__c.label}"
+        sObjectName="FieloPRP__Invoice__c"
+        fieldset="{!editSettings.FieloPLT__Sections__c}"
+        mode="new"
+        record="{!record}"
+        className="fielosf-invoice-form"
+        retrieveController="FormInvoiceController.retrieve"
+      />
+    </apex:panelGroup>
   
     <apex:repeat value="{!relatedSettings}" var="rel">
         <apex:panelGroup rendered="{!rel.FieloPLT__TargetObject__c = 'FieloPRP__InvoiceItem__c' && record.FieloPRP__HasDetails__c }">
