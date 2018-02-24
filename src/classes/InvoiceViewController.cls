@@ -66,17 +66,25 @@ public with sharing class InvoiceViewController extends PageSettingsController {
         showReopen = isRejected;
 
         //Add Buttons
+        if (isOpen) {
+            buttonMap.add(
+                new Map<String, Object>{'Label' => 'Edit', 'Type' => 'Modal', 'Action' => 'invoiceForm'}
+            );
+        }
+
         if (showApprove) {
             buttonMap.add(
-                new Map<String, Object>{'Label' => 'Approve', 'Type' => 'Remote', 'Action' => 'InvoiceButtonImpl', 'Confirm' => true, 'Reflection' => true, 'parameters' => '{"type":"close"}'}
+                new Map<String, Object>{'Label' => 'Approve', 'Type' => 'Modal', 'Action' => 'approvalForm', 'parameters' => '{"type":"approve"}'}
             );
             buttonMap.add(
-                new Map<String, Object>{'Label' => 'Reject', 'Type' => 'Remote', 'Action' => 'InvoiceButtonImpl', 'Confirm' => true, 'Reflection' => true, 'parameters' => '{"type":"close"}'}
+                new Map<String, Object>{'Label' => 'Reject', 'Type' => 'Modal', 'Action' => 'approvalForm', 'parameters' => '{"type":"reject"}'}
             );
         }
 
         if (showSubmitForApproval) {
-
+            buttonMap.add(
+                new Map<String, Object>{'Label' => 'Submit For Approval', 'Type' => 'Remote', 'Action' => 'InvoiceButtonImpl', 'Confirm' => true, 'Reflection' => true, 'parameters' => '{"type":"SubmitForApproval"}'}
+            );
         }
 
         if (showRevert) {
