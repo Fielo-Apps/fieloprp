@@ -43,12 +43,12 @@ public with sharing class FormApprovalController {
               }
             }
 
-            FieloPRP__Invoice__c exitingInvoice = new InvoicesSelector(new Set<String>{'Id','FieloPRP__Status__c','FieloPRP__Member__r.FieloPLT__Program__r.FieloPRP__RequestInvoiceAuthorization__c'}).selectById(new Set<Id>{record.Id});
+            List<FieloPRP__Invoice__c> exitingInvoices = new InvoicesSelector(new Set<String>{'Id','FieloPRP__Status__c','FieloPRP__Member__r.FieloPLT__Program__r.FieloPRP__RequestInvoiceAuthorization__c'}).selectById(new Set<Id>{record.Id});
 
             Boolean requestInvoiceAuthorization = false;
         	Boolean hasApprovalProcess = false;
 
-        	requestInvoiceAuthorization = exitingInvoice.FieloPRP__Member__r.FieloPLT__Program__r.FieloPRP__RequestInvoiceAuthorization__c;
+        	requestInvoiceAuthorization = exitingInvoices[0].FieloPRP__Member__r.FieloPLT__Program__r.FieloPRP__RequestInvoiceAuthorization__c;
         	hasApprovalProcess = InvoiceService.hasApprovalProcess();
 
             update record;

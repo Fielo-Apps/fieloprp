@@ -49,9 +49,7 @@ public with sharing class InvoiceViewController extends PageSettingsController {
         requestInvoiceAuthorization = record.FieloPRP__Member__r.FieloPLT__Program__r.FieloPRP__RequestInvoiceAuthorization__c;
 
         // Approve/Reject Button
-        showApprove = isOpen && (!requestInvoiceAuthorization || !hasApprovalProcess || isCurrentApprover);
-
-        showApprove = showApprove || (isPendingForApproval && !hasApprovalProcess && isCurrentApprover);
+        showApprove = isPendingForApproval && ( requestInvoiceAuthorization || hasApprovalProcess && isCurrentApprover || !( requestInvoiceAuthorization && hasApprovalProcess ) );
 
         // Submit For Approval Button
         showSubmitForApproval = isOpen && !requestInvoiceAuthorization;
@@ -68,40 +66,43 @@ public with sharing class InvoiceViewController extends PageSettingsController {
         //Add Buttons
         if (isOpen) {
             buttonMap.add(
-                new Map<String, Object>{'Label' => 'Edit', 'Type' => 'Modal', 'Action' => 'invoiceForm'}
+                new Map<String, Object>{'Label' => Label.Edit, 'Type' => 'Modal', 'Action' => 'invoiceForm'}
+            );
+            buttonMap.add(
+                new Map<String, Object>{'Label' => Label.ButtonClose, 'Type' => 'Remote', 'Action' => 'InvoiceButtonImpl', 'Confirm' => true, 'Reflection' => true, 'parameters' => '{"type":"Close"}'}
             );
         }
 
         if (showApprove) {
             buttonMap.add(
-                new Map<String, Object>{'Label' => 'Approve', 'Type' => 'Modal', 'Action' => 'approvalForm', 'parameters' => '{"type":"approve"}'}
+                new Map<String, Object>{'Label' => Label.ButtonApprove, 'Type' => 'Modal', 'Action' => 'approvalForm', 'parameters' => '{"type":"approve"}'}
             );
             buttonMap.add(
-                new Map<String, Object>{'Label' => 'Reject', 'Type' => 'Modal', 'Action' => 'approvalForm', 'parameters' => '{"type":"reject"}'}
+                new Map<String, Object>{'Label' => Label.ButtonReject, 'Type' => 'Modal', 'Action' => 'approvalForm', 'parameters' => '{"type":"reject"}'}
             );
         }
 
         if (showSubmitForApproval) {
             buttonMap.add(
-                new Map<String, Object>{'Label' => 'Submit For Approval', 'Type' => 'Remote', 'Action' => 'InvoiceButtonImpl', 'Confirm' => true, 'Reflection' => true, 'parameters' => '{"type":"SubmitForApproval"}'}
+                new Map<String, Object>{'Label' => Label.ButtonSubmitForApproval, 'Type' => 'Remote', 'Action' => 'InvoiceButtonImpl', 'Confirm' => true, 'Reflection' => true, 'parameters' => '{"type":"SubmitForApproval"}'}
             );
         }
 
         if (showRevert) {
             buttonMap.add(
-                new Map<String, Object>{'Label' => 'Revert', 'Type' => 'Remote', 'Action' => 'InvoiceButtonImpl', 'Confirm' => true, 'Reflection' => true, 'parameters' => '{"type":"Cancel"}'}
+                new Map<String, Object>{'Label' => Label.ButtonRevert, 'Type' => 'Remote', 'Action' => 'InvoiceButtonImpl', 'Confirm' => true, 'Reflection' => true, 'parameters' => '{"type":"Cancel"}'}
             );
         }
 
         if (showReprocess) {
             buttonMap.add(
-                new Map<String, Object>{'Label' => 'Reprocess', 'Type' => 'Remote', 'Action' => 'InvoiceButtonImpl', 'Confirm' => true, 'Reflection' => true, 'parameters' => '{"type":"Reprocess"}'}
+                new Map<String, Object>{'Label' => Label.ButtonReprocess, 'Type' => 'Remote', 'Action' => 'InvoiceButtonImpl', 'Confirm' => true, 'Reflection' => true, 'parameters' => '{"type":"Reprocess"}'}
             );
         }
 
         if (showReopen) {
             buttonMap.add(
-                new Map<String, Object>{'Label' => 'Reopen', 'Type' => 'Remote', 'Action' => 'InvoiceButtonImpl', 'Confirm' => true, 'Reflection' => true, 'parameters' => '{"type":"Reopen"}'}
+                new Map<String, Object>{'Label' => Label.ButtonReopen, 'Type' => 'Remote', 'Action' => 'InvoiceButtonImpl', 'Confirm' => true, 'Reflection' => true, 'parameters' => '{"type":"Reopen"}'}
             );
         }
 
