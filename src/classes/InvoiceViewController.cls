@@ -124,7 +124,9 @@ public with sharing class InvoiceViewController extends PageSettingsController {
 
         initPageSettings( 'FieloPRP__Invoice__c', (SObject) record, buttonString, '', '' );
         if(lockedRecord){
-            viewSettings.FieloPLT__Buttons__c = '';
+            if (viewSettings != null) {
+                viewSettings.FieloPLT__Buttons__c = '';
+            }
         }
     }
 
