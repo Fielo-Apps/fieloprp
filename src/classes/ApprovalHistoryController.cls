@@ -56,14 +56,7 @@ public with sharing class ApprovalHistoryController {
 					for (ProcessInstance pi: pis) {
 						if (pi.StepsAndWorkitems != null) {
 							for (ProcessInstanceHistory pih : pi.StepsAndWorkitems) {
-								recordObjects.add(
-									new Row(
-										(pih.StepStatus == 'Started' ? 'Approval Request Submitted' : ('Step: ' + (pih.ProcessNode!=null?pih.ProcessNode.Name:''))),
-										pih.CreatedDate,
-										pih.StepStatus == 'Started' ? 'Submitted' : pih.StepStatus,
-										pih.Comments
-									)
-								);
+								recordObjects.add(new Row((pih.StepStatus == 'Started' ? 'Approval Request Submitted' : ('Step: ' + (pih.ProcessNode!=null?pih.ProcessNode.Name:''))),pih.CreatedDate,pih.StepStatus == 'Started' ? 'Submitted' : pih.StepStatus,pih.Comments));
 							}
 						}
 					}
@@ -71,14 +64,7 @@ public with sharing class ApprovalHistoryController {
 					List<Invoice__c> existingInvoices = new InvoicesSelector(new Set<String>{'FieloPRP__Status__c','FieloPRP__RejectReason__c','FieloPRP__Comments__c','LastModifiedDate'}).selectById(new Set<Id>{cRecord.Id});
 
 					if (!existingInvoices.isEmpty()) {
-						recordObjects.add(
-							new Row(
-								'Approval Request Submitted',
-								existingInvoices[0].LastModifiedDate,
-								existingInvoices[0].Status__c,
-								(existingInvoices[0].Status__c == 'Approved' ? '' : existingInvoices[0].RejectReason__c + ': ') + (existingInvoices[0].Comments__c!=null?existingInvoices[0].Comments__c:'')
-							)
-						);
+						recordObjects.add(new Row('Approval Request Submitted',existingInvoices[0].LastModifiedDate,existingInvoices[0].Status__c,(existingInvoices[0].Status__c == 'Approved' ? '' : existingInvoices[0].RejectReason__c + ': ') + (existingInvoices[0].Comments__c!=null?existingInvoices[0].Comments__c:'')));
 					}
 				}
 			}
