@@ -160,4 +160,60 @@
         <shortDescription>ZeroAmount</shortDescription>
         <value>Amount cannot be zero.</value>
     </labels>
+    <labels>
+        <fullName>ButtonApprove</fullName>
+        <categories>InvoiceViewController.cls</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Approve</shortDescription>
+        <value>Approve</value>
+    </labels>
+    <labels>
+        <fullName>ButtonClose</fullName>
+        <categories>InvoiceViewController.cls</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Close</shortDescription>
+        <value>Close</value>
+    </labels>
+    <labels>
+        <fullName>ButtonReject</fullName>
+        <categories>InvoiceViewController.cls</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Reject</shortDescription>
+        <value>Reject</value>
+    </labels>
+    <labels>
+        <fullName>ButtonReopen</fullName>
+        <categories>InvoiceViewController.cls</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Reopen</shortDescription>
+        <value>Reopen</value>
+    </labels>
+    <labels>
+        <fullName>ButtonReprocess</fullName>
+        <categories>InvoiceViewController.cls</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Reprocess</shortDescription>
+        <value>Reprocess</value>
+    </labels>
+    <labels>
+        <fullName>ButtonRevert</fullName>
+        <categories>InvoiceViewController.cls</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Revert</shortDescription>
+        <value>Revert</value>
+    </labels>
+    <labels>
+        <fullName>ButtonSubmitForApproval</fullName>
+        <categories>InvoiceViewController.cls</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Submit For Approval</shortDescription>
+        <value>Submit For Approval</value>
+    </labels>
 </CustomLabels>
