@@ -102,6 +102,30 @@ global class InvoiceService {
         }
     }
 
+    public static Boolean hasApprovalProcess() {
+        List<ProcessDefinition> approvalProcesses = [SELECT Id, State, TableEnumOrId FROM ProcessDefinition WHERE TableEnumOrId = 'FieloPRP__Invoice__c' AND State = 'Active'];
+
+        return !approvalProcesses.isEmpty();
+    }
+
+    public static Set<Id> getApprovalProcessApprovers() {
+        Set<Id> userIds = new Set<Id>();
+        try {
+            List<ProcessDefinition> approvalProcesses = [SELECT Id, State, TableEnumOrId FROM ProcessDefinition WHERE TableEnumOrId = 'FieloPRP__Invoice__c' AND State = 'Active'];
+            Approval.ProcessSubmitRequest psr = new Approval.ProcessSubmitRequest();
+            psr.setProcessDefinitionNameOrId(approvalProcesses[0].Id);
+            if (psr.getNextApproverIds() !=  null) {
+                userIds.addAll(psr.getNextApproverIds());    
+            } else {
+                userIds.add(UserInfo.getUserId());
+            }
+        } catch (Exception e) {
+            system.debug(e.getMessage());
+            userIds.add(UserInfo.getUserId());
+        }
+        return userIds;
+    }
+
     public static Boolean isLockedByApprovalProcess(Set<Id> invoiceIds){
         List<ProcessInstance> approvalProcessInstanceList = InvoicesSelector.selectInvoiceApprovalProcessInstance(invoiceIds);
 
@@ -133,6 +157,40 @@ global class InvoiceService {
             List<Approval.UnlockResult> result = System.Approval.unlock(new List<Id>(recordIds));
         }
         catch(Exception e){System.debug('Approval msg: '+e);}
+    }
+
+    public static void processWorkingItems(Set<Id> recordIds){
+        try{
+            List<Invoice__c> invoices = new InvoicesSelector(new Set<String>{'FieloPRP__Status__c','FieloPRP__RejectReason__c','FieloPRP__Comments__c'}).selectById(recordIds);
+            List<ProcessInstance> processInstances = InvoicesSelector.selectLastInvoiceWorkingItem(recordIds);
+            Map<Id, ProcessInstance> invoiceProcessesMap = new Map<Id, ProcessInstance>();
+
+            for (ProcessInstance pi: processInstances) {
+                if (!pi.StepsAndWorkitems.isEmpty()) {
+                    invoiceProcessesMap.put(pi.TargetObjectId, pi);
+                }
+            }
+
+            for (Invoice__c invoice: invoices) {
+                if (invoice.Status__c == 'Approved' || invoice.Status__c == 'Rejected') {
+                    if (invoiceProcessesMap.containsKey(invoice.Id)) {
+                        // Instantiate the new ProcessWorkitemRequest object and populate it
+                        Approval.ProcessWorkitemRequest req2 = new Approval.ProcessWorkitemRequest();
+
+                        req2.setAction(invoice.Status__c == 'Approved' ?  'Approve' : 'Reject');
+
+                        req2.setComments( (invoice.Status__c == 'Approved' ? '' : invoice.RejectReason__c + ': ') + (invoice.Comments__c != null ? invoice.Comments__c : ''));
+
+                        // Use the ID from the newly created item to specify the item to be worked
+                        req2.setWorkitemId(invoiceProcessesMap.get(invoice.Id).StepsAndWorkitems[0].Id);
+
+                        // Submit the request for approval
+                        Approval.ProcessResult result2 =  Approval.process(req2);
+                    }
+                }
+            }
+        }
+        catch(Exception e){System.debug('Approval error msg: '+e);}
     }
 
     public static void testTemporal(){

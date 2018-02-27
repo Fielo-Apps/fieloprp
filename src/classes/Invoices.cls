@@ -93,6 +93,15 @@ public with sharing class Invoices extends SObjectDomain {
         }
     }
 
+    public override void onBeforeUpdate(Map<Id,SObject> existingRecords) {
+        for (Invoice__c invoice: (List<Invoice__c>)records){
+            if (invoice.Status__c == 'Open' && ((Invoice__c)existingRecords.get(invoice.Id)).Status__c != 'Open') {
+                invoice.RejectReason__c = '';
+                invoice.Comments__c = '';
+            }
+        }
+    }
+
     public override void onAfterUpdate(Map<Id,SObject> existingRecords) {
         List<Invoice__c> recordsToProcess = new List<Invoice__c>();
         Map<Id,Invoice__c> mapExistingRecordsToProcess = new Map<Id,Invoice__c>();
