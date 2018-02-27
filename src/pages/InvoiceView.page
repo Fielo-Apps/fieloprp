@@ -113,9 +113,10 @@
           />
         </apex:panelGroup>
         <apex:panelGroup rendered="{!relatedName == 'ProcessSteps'}">
-          <c:RelatedWrapper heading="{!$Label.fieloplt__approvalhistory}" icon="action-sprite/svg/symbols.svg#submit_for_approval" >
-            <apex:relatedList list="ProcessSteps" />
-          </c:RelatedWrapper>
+          <c:ApprovalHistory heading="{!$Label.fieloplt__approvalhistory}"
+            icon="{!URLFOR($Resource.FieloSalesforce_Backend)}/lightning/icons/action-sprite/svg/symbols.svg#submit_for_approval"
+            sObjectName="FieloPRP__Invoice__c"
+            record="{!record}"/>
         </apex:panelGroup>
         <apex:panelGroup rendered="{!relatedName == 'CombinedAttachments'}">
           <c:RelatedWrapper heading="{!$Label.fieloplt__notesattachments}" icon="action-sprite/svg/symbols.svg#new_note">

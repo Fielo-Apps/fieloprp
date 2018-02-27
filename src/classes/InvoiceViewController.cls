@@ -43,6 +43,10 @@ public with sharing class InvoiceViewController extends PageSettingsController {
         isOpen = record.FieloPRP__Status__c == 'Open' || record.FieloPRP__Status__c == 'New';
 
         isApproved = record.FieloPRP__Status__c == 'Approved';
+        
+        isRejected = record.FieloPRP__Status__c == 'Rejected';
+
+        isCanceled = record.FieloPRP__Status__c == 'Canceled';
 
         isPendingForApproval = record.FieloPRP__Status__c == 'Pending for Approval';
 
@@ -61,7 +65,7 @@ public with sharing class InvoiceViewController extends PageSettingsController {
         showReprocess = isApproved || isCanceled;
 
         // Reopen Button
-        showReopen = isRejected;
+        showReopen = isRejected || isCanceled;
 
         //Add Buttons
         if (isOpen) {
@@ -112,14 +116,18 @@ public with sharing class InvoiceViewController extends PageSettingsController {
         }
 
 
+        lockedRecord = false;
+        /*
         try{
             lockedRecord = InvoiceService.isLockedByApprovalProcess( new Set<Id>{record.Id} );
         }
         catch(Exception e){
             lockedRecord = false;
         }
+        */
         
-        hiddenClass = lockedRecord ? '' : 'slds-hide';
+        //hiddenClass = lockedRecord ? '' : 'slds-hide';
+        hiddenClass = 'slds-hide';
 
         images = [SELECT Id, Name FROM Attachment WHERE ParentId =: record.Id];
 

@@ -31,9 +31,9 @@ public with sharing class FormApprovalController {
 	}set;}
 
 	@RemoteAction
-    public static RemoteActionResult save(FieloPRP__Invoice__c record, String action, List<String> nullFields){
+    public static FieloPLT.RemoteActionResult save(FieloPRP__Invoice__c record, String action, List<String> nullFields){
         Savepoint sp;
-        RemoteActionResult result = new RemoteActionResult();
+        FieloPLT.RemoteActionResult result = new FieloPLT.RemoteActionResult();
         try{
             sp = Database.setSavepoint();
 
@@ -52,18 +52,18 @@ public with sharing class FormApprovalController {
         	hasApprovalProcess = InvoiceService.hasApprovalProcess();
 
             update record;
-            result.addMessage( new RemoteActionResult.RemoteActionMessage( ApexPages.Severity.Confirm, Label.InvoiceSavedSuccess) );
-            result.redirectURL = '/'+record.Id;
+
+            result = new InvoiceButtonImpl().executeAction(new List<Id>{record.Id}, JSON.serialize(new Map<String,String>{'type'=>action}));
         }catch(DMLException e){
             if(sp != null){
                 Database.rollback(sp);
             }
-            result.addMessage(new RemoteActionResult.RemoteActionMessage(e));
+            result.addMessage(new FieloPLT.RemoteActionResult.RemoteActionMessage(e));
         }catch(Exception e){
             if(sp != null){
                 Database.rollback(sp);
             }
-            result.addMessage(new RemoteActionResult.RemoteActionMessage(e));
+            result.addMessage(new FieloPLT.RemoteActionResult.RemoteActionMessage(e));
         }
         return result;
     }

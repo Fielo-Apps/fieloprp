@@ -159,6 +159,40 @@ global class InvoiceService {
         catch(Exception e){System.debug('Approval msg: '+e);}
     }
 
+    public static void processWorkingItems(Set<Id> recordIds){
+        try{
+            List<Invoice__c> invoices = new InvoicesSelector(new Set<String>{'FieloPRP__Status__c','FieloPRP__RejectReason__c','FieloPRP__Comments__c'}).selectById(recordIds);
+            List<ProcessInstance> processInstances = InvoicesSelector.selectLastInvoiceWorkingItem(recordIds);
+            Map<Id, ProcessInstance> invoiceProcessesMap = new Map<Id, ProcessInstance>();
+
+            for (ProcessInstance pi: processInstances) {
+                if (!pi.StepsAndWorkitems.isEmpty()) {
+                    invoiceProcessesMap.put(pi.TargetObjectId, pi);
+                }
+            }
+
+            for (Invoice__c invoice: invoices) {
+                if (invoice.Status__c == 'Approved' || invoice.Status__c == 'Rejected') {
+                    if (invoiceProcessesMap.containsKey(invoice.Id)) {
+                        // Instantiate the new ProcessWorkitemRequest object and populate it
+                        Approval.ProcessWorkitemRequest req2 = new Approval.ProcessWorkitemRequest();
+
+                        req2.setAction(invoice.Status__c == 'Approved' ?  'Approve' : 'Reject');
+
+                        req2.setComments( (invoice.Status__c == 'Approved' ? '' : invoice.RejectReason__c + ': ') + invoice.Comments__c);
+
+                        // Use the ID from the newly created item to specify the item to be worked
+                        req2.setWorkitemId(invoiceProcessesMap.get(invoice.Id).StepsAndWorkitems[0].Id);
+
+                        // Submit the request for approval
+                        Approval.ProcessResult result2 =  Approval.process(req2);
+                    }
+                }
+            }
+        }
+        catch(Exception e){System.debug('Approval error msg: '+e);}
+    }
+
     public static void testTemporal(){
         Integer i = 0;
         i++;
