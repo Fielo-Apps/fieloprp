@@ -115,7 +115,6 @@
         <apex:panelGroup rendered="{!relatedName == 'ProcessSteps'}">
           <c:ApprovalHistory heading="{!$Label.fieloplt__approvalhistory}"
             icon="{!URLFOR($Resource.FieloSalesforce_Backend)}/lightning/icons/action-sprite/svg/symbols.svg#submit_for_approval"
-            sObjectName="FieloPRP__Invoice__c"
             record="{!record}"/>
         </apex:panelGroup>
         <apex:panelGroup rendered="{!relatedName == 'CombinedAttachments'}">

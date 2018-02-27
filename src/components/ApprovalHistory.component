@@ -1,8 +1,5 @@
 <apex:component layout="none" controller="ApprovalHistoryController">
     <!-- ATRIBUTOS DE DATOS -->
-    <apex:attribute name="recordsPerPage" type="Integer" description="number of items" default="5" assignTo="{!cRecordsPerPage}"/>
-    <apex:attribute name="recordsInPage" type="Integer" description="number of items" assignTo="{!cRecordsInPage}"/>
-    <apex:attribute name="sObjectName" type="String" default="" description="" assignTo="{!csObjectName}"/>
     <apex:attribute name="relatedId" type="String" default="" description="Related List Id"/>
     <apex:attribute name="record" type="Invoice__c" default="" description="Related List Id" assignTo="{!cRecord}"/>
     <!-- ATRIBUTOS DE GENERALES -->

@@ -179,7 +179,7 @@ global class InvoiceService {
 
                         req2.setAction(invoice.Status__c == 'Approved' ?  'Approve' : 'Reject');
 
-                        req2.setComments( (invoice.Status__c == 'Approved' ? '' : invoice.RejectReason__c + ': ') + invoice.Comments__c);
+                        req2.setComments( (invoice.Status__c == 'Approved' ? '' : invoice.RejectReason__c + ': ') + (invoice.Comments__c != null ? invoice.Comments__c : ''));
 
                         // Use the ID from the newly created item to specify the item to be worked
                         req2.setWorkitemId(invoiceProcessesMap.get(invoice.Id).StepsAndWorkitems[0].Id);

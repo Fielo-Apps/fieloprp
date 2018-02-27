@@ -36,8 +36,8 @@
 		      <div class="slds-panel__section">
 	          	<c:Input formid="{!formId}" describe="{!$ObjectType[sObjectName].Fields['Id']}" mode="hidden" sObjectType="{!sObjectName}"/>
 			  </div>
-		      <c:Picklist formid="{!formId}" fieldName="rejectReason" describe="{!$ObjectType.Invoice__c.Fields.RejectReason__c}" mode="{!mode}" options="{!rejectOptionsString}"/>
-		      <c:Input formid="{!formId}" describe="{!$ObjectType.Invoice__c.Fields.Comments__c}" mode="{!mode}" required="true"/>
+		      <c:Picklist formid="{!formId}" fieldName="rejectReason" describe="{!$ObjectType.Invoice__c.Fields.RejectReason__c}" mode="{!mode}" options="{!rejectOptionsString}" required="true"/>
+		      <c:Input formid="{!formId}" describe="{!$ObjectType.Invoice__c.Fields.Comments__c}" mode="{!mode}"/>
 		    </fieldset>
 		  </div>
 	      <div class="slds-modal__footer">

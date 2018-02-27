@@ -41,11 +41,17 @@
             .querySelector('[data-field-name="' +
               this.Constant_.REJECT_REASON + '"]'))
             .toggle(true);
+          this.element_
+            .querySelector('[data-field-name="' +
+              this.Constant_.REJECT_REASON + '"]').required_ = true;
         } else {
           $(this.element_
             .querySelector('[data-field-name="' +
               this.Constant_.REJECT_REASON + '"]'))
             .toggle(false);
+          this.element_
+            .querySelector('[data-field-name="' +
+              this.Constant_.REJECT_REASON + '"]').required_ = false;
         }
       }
     }
@@ -90,16 +96,18 @@
     }
 
     try {
-      Visualforce.remoting.Manager.invokeAction(
-        this.Constant_.SAVE_CONTROLLER,
-        this.formValues,
-        this.action,
-        this.nullFields,
-        this.form_.processRemoteActionResult_.bind(this.form_),
-        {
-          escape: false
-        }
-      );
+      if (this.form_.checkRequiredPassOk_()) {
+        Visualforce.remoting.Manager.invokeAction(
+          this.Constant_.SAVE_CONTROLLER,
+          this.formValues,
+          this.action,
+          this.nullFields,
+          this.form_.processRemoteActionResult_.bind(this.form_),
+          {
+            escape: false
+          }
+        );
+      }
     } catch (e) {
       console.warn(e);
     }

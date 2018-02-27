@@ -1,7 +1,4 @@
 public with sharing class ApprovalHistoryController {
-	public Integer cRecordsPerPage {get;set;}
-	public Integer cRecordsInPage {get;set;}
-	public String csObjectName {get;set;}
 	public Boolean noRecords {get;set;}
 	public Invoice__c cRecord {get;set;}
 
@@ -64,7 +61,9 @@ public with sharing class ApprovalHistoryController {
 					List<Invoice__c> existingInvoices = new InvoicesSelector(new Set<String>{'FieloPRP__Status__c','FieloPRP__RejectReason__c','FieloPRP__Comments__c','LastModifiedDate'}).selectById(new Set<Id>{cRecord.Id});
 
 					if (!existingInvoices.isEmpty()) {
-						recordObjects.add(new Row('Approval Request Submitted',existingInvoices[0].LastModifiedDate,existingInvoices[0].Status__c,(existingInvoices[0].Status__c == 'Approved' ? '' : existingInvoices[0].RejectReason__c + ': ') + (existingInvoices[0].Comments__c!=null?existingInvoices[0].Comments__c:'')));
+						if (existingInvoices[0].Status__c == 'Approved' || existingInvoices[0].Status__c == 'Rejected') {
+							recordObjects.add(new Row('Approval Request Submitted',existingInvoices[0].LastModifiedDate,existingInvoices[0].Status__c,(existingInvoices[0].Status__c == 'Approved' ? '' : existingInvoices[0].RejectReason__c + ': ') + (existingInvoices[0].Comments__c!=null?existingInvoices[0].Comments__c:'')));
+						}
 					}
 				}
 			}
