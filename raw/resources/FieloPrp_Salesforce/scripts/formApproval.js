@@ -58,6 +58,7 @@
   };
 
   FieloFormInvoiceApproval.prototype.save = function() {
+    fielo.util.spinner.FieloSpinner.show();
     if (this.form_.parameters_) {
       if (this.form_.parameters_.type) {
         this.action = this.form_.parameters_.type;
