@@ -108,6 +108,8 @@
             escape: false
           }
         );
+      } else {
+        fielo.util.spinner.FieloSpinner.hide();
       }
     } catch (e) {
       console.warn(e);
