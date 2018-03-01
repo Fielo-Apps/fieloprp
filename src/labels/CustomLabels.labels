@@ -216,4 +216,12 @@
         <shortDescription>Submit For Approval</shortDescription>
         <value>Submit For Approval</value>
     </labels>
+    <labels>
+        <fullName>InvalidStatusChange</fullName>
+        <categories>Invoices.cls</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>InvalidStatusChange</shortDescription>
+        <value>Status transition not allowed</value>
+    </labels>
 </CustomLabels>
