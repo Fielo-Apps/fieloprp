@@ -97,7 +97,7 @@
     }
 
     try {
-      if (this.form_.checkRequiredPassOk_()) {
+      if (this.action === 'approve' || this.form_.checkRequiredPassOk_()) {
         Visualforce.remoting.Manager.invokeAction(
           this.Constant_.SAVE_CONTROLLER,
           this.formValues,
