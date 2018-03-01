@@ -56,7 +56,7 @@ public with sharing class InvoiceViewController extends PageSettingsController {
         showApprove = isPendingForApproval && ( requestInvoiceAuthorization || hasApprovalProcess && isCurrentApprover || !( requestInvoiceAuthorization && hasApprovalProcess ) );
 
         // Submit For Approval Button
-        showSubmitForApproval = isOpen && !requestInvoiceAuthorization;
+        showSubmitForApproval = isOpen && !requestInvoiceAuthorization && hasApprovalProcess;
 
         // Revert Button
         showRevert = isApproved;
