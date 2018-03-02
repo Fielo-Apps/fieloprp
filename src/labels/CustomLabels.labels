@@ -224,4 +224,20 @@
         <shortDescription>InvalidStatusChange</shortDescription>
         <value>Status transition not allowed</value>
     </labels>
+    <labels>
+        <fullName>ApprovalRequestSubmitted</fullName>
+        <categories>Invoices.cls</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ApprovalRequestSubmitted</shortDescription>
+        <value>Approval Request Submitted</value>
+    </labels>
+    <labels>
+        <fullName>SingleInvoiceApprovalAction</fullName>
+        <categories>ApprovalHistoryController.cls</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SingleInvoiceApprovalAction</shortDescription>
+        <value>Approval Request Submitted</value>
+    </labels>
 </CustomLabels>
