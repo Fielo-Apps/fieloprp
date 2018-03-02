@@ -1,6 +1,10 @@
-public with sharing class ApprovalHistoryController {
-	public Boolean noRecords {get;set;}
-	public Invoice__c cRecord {get;set;}
+public class ApprovalHistoryController {
+	public static String recordId {get;set;}
+	public Invoice__c cRecord {get;set{
+			cRecord = value;
+			ApprovalHistoryController.recordId = value.Id;
+		}
+	}
 
 	public class RelatedColumn  {
 		public String id{get;set;}
@@ -44,30 +48,40 @@ public with sharing class ApprovalHistoryController {
 
 	public List<Row> recordObjects {get {
 		if (recordObjects == null) {
-			recordObjects = new List<Row>();
-			
-			if (cRecord.Id!=null) {
-				List<ProcessInstance> pis = InvoicesSelector.selectAllInvoiceApprovalProcessInstance(new Set<Id>{cRecord.Id});
+			recordObjects = ApprovalHistoryController.getRecords(null,null,null,null,null,null);
+		}
+		return recordObjects;
+	} set;}
 
-				if (!pis.isEmpty()) {
-					for (ProcessInstance pi: pis) {
-						if (pi.StepsAndWorkitems != null) {
-							for (ProcessInstanceHistory pih : pi.StepsAndWorkitems) {
-								recordObjects.add(new Row((pih.StepStatus == 'Started' ? 'Approval Request Submitted' : ('Step: ' + (pih.ProcessNode!=null?pih.ProcessNode.Name:''))),pih.CreatedDate,pih.StepStatus == 'Started' ? 'Submitted' : pih.StepStatus,pih.Comments));
-							}
+	public Boolean noRecords {get {
+		return recordObjects.isEmpty();
+	} set;}
+
+	@RemoteAction
+    public static List<Row> getRecords( String objectName, String fields, Integer offset, String orderBy, String filter, Integer recordsPerPage) {
+    	List<Row> records = new List<Row>();
+			
+		if (recordId!=null) {
+			List<ProcessInstance> pis = InvoicesSelector.selectAllInvoiceApprovalProcessInstance(new Set<Id>{recordId});
+
+			if (!pis.isEmpty()) {
+				for (ProcessInstance pi: pis) {
+					if (pi.StepsAndWorkitems != null) {
+						for (ProcessInstanceHistory pih : pi.StepsAndWorkitems) {
+							records.add(new Row((pih.StepStatus == 'Started' ? 'Approval Request Submitted' : ('Step: ' + (pih.ProcessNode!=null?pih.ProcessNode.Name:''))),pih.CreatedDate,pih.StepStatus == 'Started' ? 'Submitted' : pih.StepStatus,pih.Comments));
 						}
 					}
-				} else {
-					List<Invoice__c> existingInvoices = new InvoicesSelector(new Set<String>{'FieloPRP__Status__c','FieloPRP__RejectReason__c','FieloPRP__Comments__c','LastModifiedDate'}).selectById(new Set<Id>{cRecord.Id});
+				}
+			} else {
+				List<Invoice__c> existingInvoices = new InvoicesSelector(new Set<String>{'FieloPRP__Status__c','FieloPRP__RejectReason__c','FieloPRP__Comments__c','LastModifiedDate'}).selectById(new Set<Id>{recordId});
 
-					if (!existingInvoices.isEmpty()) {
-						if (existingInvoices[0].Status__c == 'Approved' || existingInvoices[0].Status__c == 'Rejected') {
-							recordObjects.add(new Row('Approval Request Submitted',existingInvoices[0].LastModifiedDate,existingInvoices[0].Status__c,(existingInvoices[0].Status__c == 'Approved' ? '' : existingInvoices[0].RejectReason__c + ': ') + (existingInvoices[0].Comments__c!=null?existingInvoices[0].Comments__c:'')));
-						}
+				if (!existingInvoices.isEmpty()) {
+					if (existingInvoices[0].Status__c == 'Approved' || existingInvoices[0].Status__c == 'Rejected') {
+						records.add(new Row('Approval Request Submitted',existingInvoices[0].LastModifiedDate,existingInvoices[0].Status__c,(existingInvoices[0].Status__c == 'Approved' ? '' : existingInvoices[0].RejectReason__c + ': ') + (existingInvoices[0].Comments__c!=null?existingInvoices[0].Comments__c:'')));
 					}
 				}
 			}
 		}
-		return recordObjects;
-	} set;}
+		return records;
+    }
 }

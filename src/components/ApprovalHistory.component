@@ -62,15 +62,15 @@
                 </table>
             </div>
         </article>
-        <!--
-        <c:BackendPaginator show="{!showPaginator}"
+        <!-- 
+        <c:BackendPaginator show="true"
             dataController="{!IF(namespace == '','',namespace + '.')}{!dataController}"
-            dataControllerArguments="{!sObjectName}|{!fieldsetString}"
-            recordsPerPage="{!recordsPerPage}"
-            dataFilters="{!dataFilters}"
-            recordsInPage="{!cRecordObjectsInPage}"
-            whereClause="{!whereClause}"
-            dataOrderBy="{!dataOrderBy}"
+            dataControllerArguments=""
+            recordsPerPage="4"
+            dataFilters=""
+            recordsInPage="{!recordObjects.size}"
+            whereClause=""
+            dataOrderBy=""
         />
         -->
     </div>

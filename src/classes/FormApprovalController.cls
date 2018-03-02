@@ -1,4 +1,4 @@
-public with sharing class FormApprovalController {
+public class FormApprovalController {
 	public FormApprovalController(FormController controller) {
     }
 

@@ -113,7 +113,7 @@
           />
         </apex:panelGroup>
         <apex:panelGroup rendered="{!relatedName == 'ProcessSteps'}">
-          <c:ApprovalHistory heading="{!$Label.fieloplt__approvalhistory}"
+          <c:ApprovalHistory namespace="FieloPRP" heading="{!$Label.fieloplt__approvalhistory}"
             icon="{!URLFOR($Resource.FieloSalesforce_Backend)}/lightning/icons/action-sprite/svg/symbols.svg#submit_for_approval"
             record="{!record}"/>
         </apex:panelGroup>
