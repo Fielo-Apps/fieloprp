@@ -11,6 +11,7 @@
 	<apex:attribute name="onchange" type="String" default="" description="onchange method" />
 	<apex:attribute name="describe" type="String" default="" description="field describe" />
 	<apex:attribute name="sObjectName" type="String" default="" description="object name" />
+	<apex:attribute name="whereCondition" type="String" default="" description="object name" />
 	<apex:attribute name="mode" type="String" description="new, update, view" />
 	<apex:attribute name="showLabel" type="Boolean" default="true" description="" />
 	<apex:attribute name="picklistOptions" type="Object[]" description="picklist options" />
@@ -36,7 +37,7 @@
 	    <c:Radio showLabel="{!showLabel}" formid="{!formId}" describe="{!$ObjectType[sObjectName].Fields[fieldname]}" mode="{!mode}" value="{!value}" picklistEntries="{!picklistOptions}"/>
 	</apex:panelGroup>
 	<apex:panelGroup layout="none" rendered="{! type == 'lookup'}" >
-	    <c:Lookup showLabel="{!showLabel}" formid="{!formId}" describe="{!$ObjectType[sObjectName].Fields[fieldname]}" sObjectName="{!$ObjectType[sObjectName].Fields[fieldname].ReferenceTo[0]}" mode="{!mode}" value="{!value}" />
+	    <c:Lookup showLabel="{!showLabel}" formid="{!formId}" describe="{!$ObjectType[sObjectName].Fields[fieldname]}" sObjectName="{!$ObjectType[sObjectName].Fields[fieldname].ReferenceTo[0]}" mode="{!mode}" value="{!value}" whereCondition="{!whereCondition}"/>
 	</apex:panelGroup>
 	<apex:panelGroup layout="none" rendered="{! type == 'photo'}" >
 	<!--<c:photoupload myObject="{!cRecord}" fieldName="name" recordName="Name" />-->
