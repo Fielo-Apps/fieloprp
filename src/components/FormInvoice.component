@@ -40,6 +40,8 @@
               buttons="{'Name':'Add Products', 'Type':'Modal', 'CssClass': 'slds-button--addproducts','Label':'Add Products', 'Action':'invoiceForm-addProductsForm'},{'Name':'New', 'Type':'Link', 'CssClass': 'slds-button--new','Label':'New','Action':'#'}"
               sObjectName="FieloPRP__InvoiceItem__c"
               fieldset="{!itemsSectionString}"
+              productFieldName="{!productField}"
+              productInjectQuery="{!program.FieloPRP__ProductInjectQuery__c}"
               />
 
             <c:MultiFileUploader formid="{!formId}multifileuploader" 
