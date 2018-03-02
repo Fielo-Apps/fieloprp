@@ -70,7 +70,12 @@ public with sharing class InvoiceViewController extends PageSettingsController {
         //Add Buttons
         if (isOpen) {
             buttonMap.add(new Map<String, Object>{'Label' => Label.Edit, 'Type' => 'Modal', 'Action' => 'invoiceForm'});
-            buttonMap.add(new Map<String, Object>{'Label' => Label.ButtonClose, 'Type' => 'Modal', 'Action' => 'approvalForm', 'parameters' => '{"type":"Close"}'});
+            if  (requestInvoiceAuthorization) {
+                buttonMap.add(new Map<String, Object>{'Label' => Label.ButtonClose, 'Type' => 'Remote', 'Action' => 'InvoiceButtonImpl', 'Confirm' => true, 'Reflection' => true, 'parameters' => '{"type":"Close"}'});
+            } else {
+                buttonMap.add(new Map<String, Object>{'Label' => Label.ButtonClose, 'Type' => 'Modal', 'Action' => 'approvalForm', 'parameters' => '{"type":"Close"}'});
+            }
+            
         }
 
         if (showApprove) {
