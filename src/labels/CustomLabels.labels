@@ -248,4 +248,12 @@
         <shortDescription>SelectApprover</shortDescription>
         <value>Select Approver</value>
     </labels>
+    <labels>
+        <fullName>ApproverRequired</fullName>
+        <categories>FormSubmitForApprovalController.cls</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ApproverRequired</shortDescription>
+        <value>Select an approver</value>
+    </labels>
 </CustomLabels>

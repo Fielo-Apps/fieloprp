@@ -45,14 +45,18 @@
         .FieloFormElement
         .get('value');
     try {
-      Visualforce.remoting.Manager.invokeAction(
-        this.Constant_.SAVE_CONTROLLER,
-        this.formValues,
-        this.form_.processRemoteActionResult_.bind(this.form_),
-        {
-          escape: false
-        }
-      );
+      if (this.form_.checkRequiredPassOk_()) {
+        Visualforce.remoting.Manager.invokeAction(
+          this.Constant_.SAVE_CONTROLLER,
+          this.formValues,
+          this.form_.processRemoteActionResult_.bind(this.form_),
+          {
+            escape: false
+          }
+        );
+      } else {
+        fielo.util.spinner.FieloSpinner.hide();
+      }
     } catch (e) {
       console.warn(e);
     }

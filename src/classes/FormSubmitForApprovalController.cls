@@ -35,15 +35,19 @@ public with sharing class FormSubmitForApprovalController {
         try{
             sp = Database.setSavepoint();
 
-            Approval.ProcessSubmitRequest req1 = new Approval.ProcessSubmitRequest();
-            req1.setComments(Label.ApprovalRequestSubmitted);
-            req1.setObjectId(record.get('Id'));
-            req1.setNextApproverIds(new List<Id>{record.get('ApproverId')});
+            if (!(record.get('ApproverId') == null)) {
+                Approval.ProcessSubmitRequest req1 = new Approval.ProcessSubmitRequest();
+                req1.setComments(Label.ApprovalRequestSubmitted);
+                req1.setObjectId(record.get('Id'));
+                req1.setNextApproverIds(new List<Id>{record.get('ApproverId')});
 
-            Approval.ProcessResult approvalResult = Approval.process(req1);
-        
-			result.addMessage( new FieloPLT.RemoteActionResult.RemoteActionMessage( ApexPages.Severity.Confirm, String.format(Label.InvoiceChangeStatusSuccess, new List<String> {'sent for approval'})) );
-        	result.redirectURL = '/'+record.get('Id');
+                Approval.ProcessResult approvalResult = Approval.process(req1);
+            
+    			result.addMessage( new FieloPLT.RemoteActionResult.RemoteActionMessage( ApexPages.Severity.Confirm, String.format(Label.InvoiceChangeStatusSuccess, new List<String> {'sent for approval'})) );
+            	result.redirectURL = '/'+record.get('Id');
+            } else {
+                result.addMessage( new FieloPLT.RemoteActionResult.RemoteActionMessage( ApexPages.Severity.Error, Label.ApproverRequired) );
+            }
 
         } catch (Exception e) {
         	result.addMessage(new FieloPLT.RemoteActionResult.RemoteActionMessage(e));
