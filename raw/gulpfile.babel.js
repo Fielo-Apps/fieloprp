@@ -67,7 +67,9 @@ var platformSalesforceJs = [
       'resources/FieloPrp_Salesforce/scripts/invoiceItems.js',
       'resources/FieloPrp_Salesforce/scripts/multiFileUploader.js',
       'resources/FieloPrp_Salesforce/scripts/formInvoice.js',
-      'resources/FieloPrp_Salesforce/scripts/formApproval.js'
+      'resources/FieloPrp_Salesforce/scripts/formApproval.js',
+      'resources/FieloPrp_Salesforce/scripts/formApprover.js',
+      'resources/FieloPrp_Salesforce/scripts/submitForApproval.js'
     ],
     name: 'core.js',
     dest: '../resource-bundles/FieloPrp_Salesforce.resource/scripts'

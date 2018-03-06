@@ -198,6 +198,21 @@ global class InvoiceService {
         catch(Exception e){System.debug('Approval error msg: '+e);}
     }
 
+    public static Map<Id, Boolean> getInvoicesWithApprovalProcess(Set<Id> recordIds) {
+        List<ProcessInstance> approvalProcessInstanceList = InvoicesSelector.selectPendingProcessInstances(recordIds);
+        Map<Id, Boolean> invoicesInAppProcessMap = new Map<Id, Boolean>();
+        for(ProcessInstance pi: approvalProcessInstanceList){
+            invoicesInAppProcessMap.put(pi.TargetObjectId, true);
+        }
+
+        for (Id invoiceId: recordIds) {
+            if (!invoicesInAppProcessMap.containsKey(invoiceId)) {
+                invoicesInAppProcessMap.put(invoiceId,false);
+            }
+        }
+        return invoicesInAppProcessMap;
+    }
+
     public static void testTemporal(){
         Integer i = 0;
         i++;

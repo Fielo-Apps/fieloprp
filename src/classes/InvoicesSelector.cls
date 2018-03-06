@@ -177,4 +177,12 @@ public class InvoicesSelector extends SObjectSelector{
                 + ' FROM ProcessInstance WHERE TargetObjectId in :invoiceIds';
         return (List<ProcessInstance>) Database.query(query);
     }
+
+    public static List<ProcessInstance> selectPendingProcessInstances(Set<Id> invoiceIds){
+        String query = 'SELECT Id, TargetObjectId ' +
+                'FROM ProcessInstance ' +
+                'WHERE TargetObjectId IN :invoiceIds ' +
+                'AND Status = \'Pending\'';
+        return (List<ProcessInstance>) Database.query(query);
+    }
 }

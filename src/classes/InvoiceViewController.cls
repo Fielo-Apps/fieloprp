@@ -29,6 +29,7 @@ public with sharing class InvoiceViewController extends PageSettingsController {
         Boolean isRejected = false;
         Boolean isCanceled = false;
         Boolean isPendingForApproval = false;
+        Boolean inApprovalProcess = false;
 
         Boolean showApprove = false;
         Boolean showSubmitForApproval = false;
@@ -50,6 +51,8 @@ public with sharing class InvoiceViewController extends PageSettingsController {
 
         isPendingForApproval = record.FieloPRP__Status__c == 'Pending for Approval';
 
+        inApprovalProcess = InvoiceService.getInvoicesWithApprovalProcess(new Set<Id>{record.Id}).get(record.Id);
+
         requestInvoiceAuthorization = record.FieloPRP__Member__r.FieloPLT__Program__r.FieloPRP__RequestInvoiceAuthorization__c;
 
         // Approve/Reject Button
@@ -57,6 +60,8 @@ public with sharing class InvoiceViewController extends PageSettingsController {
 
         // Submit For Approval Button
         showSubmitForApproval = isOpen && !requestInvoiceAuthorization && hasApprovalProcess;
+
+        showSubmitForApproval = showSubmitForApproval || isPendingForApproval && requestInvoiceAuthorization && hasApprovalProcess && !inApprovalProcess;
 
         // Revert Button
         showRevert = isApproved;
@@ -84,7 +89,9 @@ public with sharing class InvoiceViewController extends PageSettingsController {
         }
 
         if (showSubmitForApproval) {
-            buttonMap.add(new Map<String, Object>{'Label' => Label.ButtonSubmitForApproval, 'Type' => 'Remote', 'Action' => 'InvoiceButtonImpl', 'Confirm' => true, 'Reflection' => true, 'parameters' => '{"type":"SubmitForApproval"}'});
+            // buttonMap.add(new Map<String, Object>{'Label' => Label.ButtonSubmitForApproval, 'Type' => 'Remote', 'Action' => 'InvoiceButtonImpl', 'Confirm' => true, 'Reflection' => true, 'parameters' => '{"type":"SubmitForApproval"}'});
+            // buttonMap.add(new Map<String, Object>{'Label' => Label.ButtonSubmitForApproval, 'Type' => 'Modal', 'Action' => 'approverForm'});
+            buttonMap.add(new Map<String, Object>{'Label' => Label.ButtonSubmitForApproval, 'Type' => 'Link', 'Action' => '#', 'CssClass' => 'fielosf-invoice-submit-for-approval'});
         }
 
         if (showRevert) {
