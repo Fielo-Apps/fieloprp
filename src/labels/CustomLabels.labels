@@ -240,4 +240,12 @@
         <shortDescription>SingleInvoiceApprovalAction</shortDescription>
         <value>Approval Request Submitted</value>
     </labels>
+    <labels>
+        <fullName>SelectApprover</fullName>
+        <categories>FormSubmitForApproval.component</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SelectApprover</shortDescription>
+        <value>Select Approver</value>
+    </labels>
 </CustomLabels>
