@@ -52,7 +52,6 @@
   };
 
   FieloSubmitForApproval.prototype.submitCallback = function(result, event) {
-    console.log(result);
     this.formApprover = document
       .querySelector('.' + this.CssClasses_.FORM_APPROVER);
     if (result.choseApproverFirst) {
