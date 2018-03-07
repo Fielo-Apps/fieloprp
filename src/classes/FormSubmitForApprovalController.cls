@@ -48,9 +48,16 @@ public with sharing class FormSubmitForApprovalController {
             } else {
                 result.addMessage( new FieloPLT.RemoteActionResult.RemoteActionMessage( ApexPages.Severity.Error, Label.ApproverRequired) );
             }
-
-        } catch (Exception e) {
-        	result.addMessage(new FieloPLT.RemoteActionResult.RemoteActionMessage(e));
+        }catch(DMLException e){
+            if(sp != null){
+                Database.rollback(sp);
+            }
+            result.addMessage(new FieloPLT.RemoteActionResult.RemoteActionMessage(e));
+        }catch(Exception e){
+            if(sp != null){
+                Database.rollback(sp);
+            }
+            result.addMessage(new FieloPLT.RemoteActionResult.RemoteActionMessage(e));
         }
         return result;
     }
