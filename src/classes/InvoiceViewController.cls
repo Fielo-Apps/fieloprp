@@ -33,9 +33,6 @@ public with sharing class InvoiceViewController extends PageSettingsController {
 
         Boolean showApprove = false;
         Boolean showSubmitForApproval = false;
-        Boolean showRevert = false;
-        Boolean showReprocess = false;
-        Boolean showReopen = false;
 
         hasApprovalProcess = InvoiceService.hasApprovalProcess();
 
@@ -63,15 +60,6 @@ public with sharing class InvoiceViewController extends PageSettingsController {
 
         showSubmitForApproval = showSubmitForApproval || isPendingForApproval && requestInvoiceAuthorization && hasApprovalProcess && !inApprovalProcess;
 
-        // Revert Button
-        showRevert = isApproved;
-
-        // Reprocess Button
-        showReprocess = isApproved || isCanceled;
-
-        // Reopen Button
-        showReopen = isRejected || isCanceled;
-
         //Add Buttons
         if (isOpen) {
             buttonMap.add(new Map<String, Object>{'Label' => Label.Edit, 'Type' => 'Modal', 'Action' => 'invoiceForm'});
@@ -89,21 +77,7 @@ public with sharing class InvoiceViewController extends PageSettingsController {
         }
 
         if (showSubmitForApproval) {
-            // buttonMap.add(new Map<String, Object>{'Label' => Label.ButtonSubmitForApproval, 'Type' => 'Remote', 'Action' => 'InvoiceButtonImpl', 'Confirm' => true, 'Reflection' => true, 'parameters' => '{"type":"SubmitForApproval"}'});
-            // buttonMap.add(new Map<String, Object>{'Label' => Label.ButtonSubmitForApproval, 'Type' => 'Modal', 'Action' => 'approverForm'});
             buttonMap.add(new Map<String, Object>{'Label' => Label.ButtonSubmitForApproval, 'Type' => 'Link', 'Action' => '#', 'CssClass' => 'fielosf-invoice-submit-for-approval'});
-        }
-
-        if (showRevert) {
-            buttonMap.add(new Map<String, Object>{'Label' => Label.ButtonRevert, 'Type' => 'Remote', 'Action' => 'InvoiceButtonImpl', 'Confirm' => true, 'Reflection' => true, 'parameters' => '{"type":"Cancel"}'});
-        }
-
-        if (showReprocess) {
-            buttonMap.add(new Map<String, Object>{'Label' => Label.ButtonReprocess, 'Type' => 'Remote', 'Action' => 'InvoiceButtonImpl', 'Confirm' => true, 'Reflection' => true, 'parameters' => '{"type":"Reprocess"}'});
-        }
-
-        if (showReopen) {
-            buttonMap.add(new Map<String, Object>{'Label' => Label.ButtonReopen, 'Type' => 'Remote', 'Action' => 'InvoiceButtonImpl', 'Confirm' => true, 'Reflection' => true, 'parameters' => '{"type":"Reopen"}'});
         }
 
         if(!buttonMap.isEmpty()){
@@ -111,28 +85,11 @@ public with sharing class InvoiceViewController extends PageSettingsController {
             buttonString = buttonString.substring(1,buttonString.length()-1);
         }
 
-
-        lockedRecord = false;
-        /*
-        try{
-            lockedRecord = InvoiceService.isLockedByApprovalProcess( new Set<Id>{record.Id} );
-        }
-        catch(Exception e){
-            lockedRecord = false;
-        }
-        */
-        
-        //hiddenClass = lockedRecord ? '' : 'slds-hide';
         hiddenClass = 'slds-hide';
 
         images = [SELECT Id, Name FROM Attachment WHERE ParentId =: record.Id];
 
         initPageSettings( 'FieloPRP__Invoice__c', (SObject) record, buttonString, '', '' );
-        if(lockedRecord){
-            if (viewSettings != null) {
-                viewSettings.FieloPLT__Buttons__c = '';
-            }
-        }
     }
 
 }
