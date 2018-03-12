@@ -54,6 +54,15 @@
       record="{!record}"
       redirect="true"
     />
+
+    <c:FormSubmitForApproval formId="approverForm"
+      heading="{!$Label.SelectApprover}"
+      sObjectName="FieloPRP__Invoice__c"
+      fieldset="{!editSettings.FieloPLT__Sections__c}"
+      mode="edit"
+      record="{!record}"
+      redirect="true"
+    />
     
     <apex:repeat value="{!relatedSettings}" var="rel">
         <apex:panelGroup rendered="{!rel.FieloPLT__TargetObject__c = 'FieloPRP__InvoiceItem__c' && record.FieloPRP__HasDetails__c }">
@@ -113,7 +122,7 @@
           />
         </apex:panelGroup>
         <apex:panelGroup rendered="{!relatedName == 'ProcessSteps'}">
-          <c:ApprovalHistory heading="{!$Label.fieloplt__approvalhistory}"
+          <c:ApprovalHistory namespace="FieloPRP" heading="{!$Label.fieloplt__approvalhistory}"
             icon="{!URLFOR($Resource.FieloSalesforce_Backend)}/lightning/icons/action-sprite/svg/symbols.svg#submit_for_approval"
             record="{!record}"/>
         </apex:panelGroup>
@@ -206,7 +215,7 @@
     </script>
 
   </div>
-  <c:BackendFooter helpers="'FieloForm','FieloPaginator','FieloRecentRecords','FieloFilter', 'FieloRelatedRecords', 'FieloFormInvoice', 'FieloFormInvoiceApproval'" externalJS="{!URLFOR($Resource.FieloPLT__FieloPlt_Salesforce, 'scripts/core.js')}, {!URLFOR($Resource.FieloPrp_Salesforce, 'scripts/core.js')}" namespace="FieloPRP" />
+  <c:BackendFooter helpers="'FieloForm','FieloPaginator','FieloRecentRecords','FieloFilter', 'FieloRelatedRecords', 'FieloFormInvoice', 'FieloFormInvoiceApproval', 'FieloSubmitForApproval', 'FieloFormInvoiceApprover'," externalJS="{!URLFOR($Resource.FieloPLT__FieloPlt_Salesforce, 'scripts/core.js')}, {!URLFOR($Resource.FieloPrp_Salesforce, 'scripts/core.js')}" namespace="FieloPRP" />
 </body>
 </html>
 </apex:page>

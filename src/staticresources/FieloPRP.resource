@@ -9,7 +9,7 @@
     "fieldsToExclude" : "fieloplt__prefix__c"
   }, {
     "apiName" : "fieloplt__action__c",
-    "fieldsToExclude" : "fieloplt__rulesquantity__c,fieloplt__missionsquantity__c,fieloplt__criteriafields__c"
+    "fieldsToExclude" : "fieloplt__rulesquantity__c,fieloplt__missionsquantity__c,fieloplt__templatesquantity__c,fieloplt__criteriafields__c"
   } ],
   "migrationRecords" : [ {
     "objectAPIName" : "fieloplt__library__c",
@@ -19,7 +19,7 @@
         "value" : "FieloPRP"
       }, {
         "apiName" : "fieloplt__version__c",
-        "value" : "1.007"
+        "value" : "1.008"
       }, {
         "apiName" : "fieloplt__externalid__c",
         "value" : "FieloPRP"
@@ -104,7 +104,7 @@
                 "value" : "false"
               }, {
                 "apiName" : "fieloplt__reportfilter__c",
-                "value" : "[ { \"Report Field\" : \"FieloPRP__Invoice__c.FieloPRP__Program__c\", \"Operator\" : \"equals\", \"Record Field\": \"FieloPLT__Program__r.Id\" } ]"
+                "value" : "[ { \"Report Field\" : \"FieloPRP__Invoice__c.FieloPRP__Program__c\", \"Operator\" : \"equals\", \"Record Field\": \"FieloPLT__Program__r.Id\" }, { \"Report Field\" : \"CUST_CREATED_DATE\", \"Operator\" : \"greaterOrEqual\", \"Record Field\" : \"FieloPLT__StartDate__c\" }, { \"Report Field\" : \"CUST_CREATED_DATE\", \"Operator\" : \"lessOrEqual\", \"Record Field\" : \"FieloPLT__EndDate__c\" }  ]"
               }, {
                 "apiName" : "fieloplt__reportmetadata__c",
                 "value" : "{\"size\":\"small\",\"styleClass\":\"\",\"cacheResults\":true,\"hideOnError\":false,\"rendered\":true,\"showRefreshButton\":true}"
@@ -138,7 +138,7 @@
                 "value" : "false"
               }, {
                 "apiName" : "fieloplt__reportfilter__c",
-                "value" : "[{ \"Report Field\" : \"FieloPRP__Invoice__c.FieloPRP__Status__c\", \"Operator\" : \"equals\", \"Value\" : \"Approved\" },{ \"Report Field\" : \"FieloPLT__Point__c.FieloPLT__Promotion__c\", \"Operator\" : \"equals\", \"Record Field\":\"FieloPLT__Promotion__r.Name\" }]"
+                "value" : "[{ \"Report Field\" : \"FieloPRP__Invoice__c.FieloPRP__Status__c\", \"Operator\" : \"equals\", \"Value\" : \"Approved\" },{ \"Report Field\" : \"FieloPLT__Point__c.FieloPLT__Promotion__c\", \"Operator\" : \"equals\", \"Record Field\":\"FieloPLT__Promotion__r.Name\" }, { \"Report Field\" : \"FieloPRP__Invoice__c.CreatedDate\", \"Operator\" : \"greaterOrEqual\", \"Record Field\" : \"FieloPLT__StartDate__c\" }, { \"Report Field\" : \"FieloPRP__Invoice__c.CreatedDate\", \"Operator\" : \"lessOrEqual\", \"Record Field\" : \"FieloPLT__EndDate__c\" } ]"
               }, {
                 "apiName" : "fieloplt__reportmetadata__c",
                 "value" : "{\"size\":\"small\",\"styleClass\":\"\",\"cacheResults\":true,\"hideOnError\":false,\"rendered\":true,\"showRefreshButton\":true}"
@@ -242,9 +242,6 @@
             "apiName" : "fieloplt__filters__c",
             "value" : "[{'Rows':[[{'Name':'Name', 'Type':'input'},{'Name':'Family','Type':'picklist'},{'Name':'ProductCode','Type':'input'}]]}]"
           }, {
-            "apiName" : "fieloplt__isactive__c",
-            "value" : "true"
-          }, {
             "apiName" : "fieloplt__sections__c",
             "value" : "{\r\n\t\"Name\":\"Information\",\r\n\t\"Rows\":[\r\n\t\t[\r\n\t\t\t{\"Name\":\"FieloPRP__Member__c\",\"Type\":\"lookup\"},\r\n\t\t\t{\"Name\":\"FieloPRP__HasDetails__c\",\"Type\":\"checkbox\"}\r\n\t\t],\r\n\t\t[\r\n\t\t\t{\"Name\":\"FieloPRP__InvoiceNumber__c\",\"Type\":\"input\"}\r\n\t\t],\r\n\t\t[\r\n\t\t\t{\"Name\":\"FieloPRP__Amount__c\",\"Type\":\"input\"},\r\n\t\t\t{\"Name\":\"FieloPRP__Date__c\",\"Type\":\"input\"}\r\n\t\t],\r\n\t\t[\r\n\t\t\t{\"Name\":\"FieloPRP__Description__c\",\"Type\":\"input\"}\r\n\t\t\t,{\"Name\":\"FieloPRP__Distributor__c\",\"Type\":\"lookup\"}\r\n\t\t]\r\n\t],\r\n\t\"FieloPRP_Product\":[\r\n\t\t[\r\n\t\t\t{\"Name\":\"Name\", \"Type\":\"input\"},\r\n\t\t\t{\"Name\":\"Family\",\"Type\":\"picklist\"},\r\n\t\t\t{\"Name\":\"ProductCode\",\"Type\":\"input\"}\r\n\t\t]\r\n\t],\r\n\t\"FieloPRP_ProductRecent\": [\r\n\t\t[\r\n\t\t\t{\"Name\":\"Name\", \"Type\":\"input\"},\r\n\t\t\t{\"Name\":\"Family\",\"Type\":\"picklist\"},\r\n\t\t\t{\"Name\":\"ProductCode\",\"Type\":\"input\"}\r\n\t\t]\r\n\t],\r\n\t\"FieloPRP_InvoiceItems\": [\r\n\t\t[\r\n\t\t\t{\"Name\":\"FieloPRP__Quantity__c\", \"Type\":\"input\", \"ClassName\": \"fielosf-product_qty\", \"onchange\": \"refreshTotalPriceProxy_\"},\r\n\t\t\t{\"Name\":\"FieloPRP__Product__c\", \"Type\":\"lookup\", \"ClassName\": \"fielosf-product_name\", \"onchange\": \"refreshTotalPriceProxy_\"},\r\n\t\t\t{\"Name\":\"FieloPRP__UnitPrice__c\", \"Type\": \"input\", \"ClassName\": \"fielosf-product_unit-price\", \"onchange\": \"refreshTotalPriceProxy_\"},\r\n\t\t\t{\"Name\":\"FieloPRP__TotalPrice__c\", \"Type\": \"input\", \"ClassName\": \"fielosf-product_total-price\", \"onchange\": \"refreshTotalPriceProxy_\"}\r\n\t\t]\r\n\t]\r\n}"
           }, {
@@ -285,9 +282,6 @@
             "apiName" : "fieloplt__type__c",
             "value" : "Landing"
           }, {
-            "apiName" : "fieloplt__isactive__c",
-            "value" : "true"
-          }, {
             "apiName" : "fieloplt__standardactions__c",
             "value" : "Settings"
           }, {
@@ -318,9 +312,6 @@
           }, {
             "apiName" : "fieloplt__filters__c",
             "value" : "[{'Rows':[[{'Name':'Name', 'Type':'input'},{'Name':'Family','Type':'picklist'},{'Name':'ProductCode','Type':'input'}]]}]"
-          }, {
-            "apiName" : "fieloplt__isactive__c",
-            "value" : "true"
           }, {
             "apiName" : "fieloplt__sections__c",
             "value" : "{\r\n\t\"Name\":\"Information\",\r\n\t\"Rows\":[\r\n\t\t[\r\n\t\t\t{\"Name\":\"FieloPRP__Member__c\",\"Type\":\"lookup\"},\r\n\t\t\t{\"Name\":\"FieloPRP__HasDetails__c\",\"Type\":\"checkbox\"}\r\n\t\t],\r\n\t\t[\r\n\t\t\t{\"Name\":\"FieloPRP__InvoiceNumber__c\",\"Type\":\"input\"}\r\n\t\t],\r\n\t\t[\r\n\t\t\t{\"Name\":\"FieloPRP__Amount__c\",\"Type\":\"input\"},\r\n\t\t\t{\"Name\":\"FieloPRP__Date__c\",\"Type\":\"input\"}\r\n\t\t],\r\n\t\t[\r\n\t\t\t{\"Name\":\"FieloPRP__Description__c\",\"Type\":\"input\"}\r\n\t\t\t,{\"Name\":\"FieloPRP__Distributor__c\",\"Type\":\"lookup\"}\r\n\t\t]\r\n\t],\r\n\t\"FieloPRP_Product\":[\r\n\t\t[\r\n\t\t\t{\"Name\":\"Name\", \"Type\":\"input\"},\r\n\t\t\t{\"Name\":\"Family\",\"Type\":\"picklist\"},\r\n\t\t\t{\"Name\":\"ProductCode\",\"Type\":\"input\"}\r\n\t\t]\r\n\t],\r\n\t\"FieloPRP_ProductRecent\": [\r\n\t\t[\r\n\t\t\t{\"Name\":\"Name\", \"Type\":\"input\"},\r\n\t\t\t{\"Name\":\"Family\",\"Type\":\"picklist\"},\r\n\t\t\t{\"Name\":\"ProductCode\",\"Type\":\"input\"}\r\n\t\t]\r\n\t],\r\n\t\"FieloPRP_InvoiceItems\": [\r\n\t\t[\r\n\t\t\t{\"Name\":\"FieloPRP__Quantity__c\", \"Type\":\"input\", \"ClassName\": \"fielosf-product_qty\", \"onchange\": \"refreshTotalPriceProxy_\"},\r\n\t\t\t{\"Name\":\"FieloPRP__Product__c\", \"Type\":\"lookup\", \"ClassName\": \"fielosf-product_name\", \"onchange\": \"refreshTotalPriceProxy_\"},\r\n\t\t\t{\"Name\":\"FieloPRP__UnitPrice__c\", \"Type\": \"input\", \"ClassName\": \"fielosf-product_unit-price\", \"onchange\": \"refreshTotalPriceProxy_\"},\r\n\t\t\t{\"Name\":\"FieloPRP__TotalPrice__c\", \"Type\": \"input\", \"ClassName\": \"fielosf-product_total-price\", \"onchange\": \"refreshTotalPriceProxy_\"}\r\n\t\t]\r\n\t]\r\n}"
@@ -365,9 +356,6 @@
             "apiName" : "fieloplt__type__c",
             "value" : "Related"
           }, {
-            "apiName" : "fieloplt__isactive__c",
-            "value" : "true"
-          }, {
             "apiName" : "fieloplt__externalid__c",
             "value" : "00D46000000bvJ0-a0g460000012KeW"
           }, {
@@ -405,9 +393,6 @@
             "apiName" : "fieloplt__type__c",
             "value" : "Related"
           }, {
-            "apiName" : "fieloplt__isactive__c",
-            "value" : "true"
-          }, {
             "apiName" : "fieloplt__externalid__c",
             "value" : "00D46000000bvJ0-a0g460000012KeX"
           }, {
@@ -424,7 +409,7 @@
             "value" : "Invoice > View"
           }, {
             "apiName" : "fieloplt__fieldset__c",
-            "value" : "{\"Name\":\"FieloPRP__Status__c\"},\r\n{\"Name\":\"FieloPRP__InvoiceNumber__c\"},\r\n{\"Name\":\"FieloPRP__Distributor__r.Name\"},\r\n{\"Name\":\"FieloPRP__Member__r.Name\"},\r\n{\"Name\":\"FieloPRP__Amount__c\"},\r\n{\"Name\":\"FieloPRP__Date__c\"},\r\n{\"Name\":\"FieloPRP__Description__c\"}"
+            "value" : "{\"Name\":\"FieloPRP__Status__c\"},\r\n{\"Name\":\"FieloPRP__InvoiceNumber__c\"},\r\n{\"Name\":\"FieloPRP__Distributor__r.Name\"},\r\n{\"Name\":\"FieloPRP__Member__r.Name\"},\r\n{\"Name\":\"FieloPRP__Amount__c\"},\r\n{\"Name\":\"FieloPRP__Date__c\"},\r\n{\"Name\":\"FieloPRP__Comments__c\"}"
           }, {
             "apiName" : "fieloplt__library__c.fieloplt__externalid__c",
             "value" : "FieloPRP",
@@ -435,9 +420,6 @@
           }, {
             "apiName" : "fieloplt__type__c",
             "value" : "View"
-          }, {
-            "apiName" : "fieloplt__isactive__c",
-            "value" : "true"
           }, {
             "apiName" : "fieloplt__standardactions__c",
             "value" : "View;Settings"
@@ -458,75 +440,7 @@
         }, {
           "fieldsValues" : [ {
             "apiName" : "name",
-            "value" : "Invoice > View"
-          }, {
-            "apiName" : "fieloplt__buttons__c",
-            "value" : "{\"Label\":\"Submit for approval\",\"Type\":\"Remote\",\"Action\":\"InvoiceButtonImpl\",\"Confirm\":true,\"Reflection\":true,\"parameters\":\"{\\\"type\\\":\\\"SubmitForApproval\\\"}\"}"
-          }, {
-            "apiName" : "fieloplt__library__c.fieloplt__externalid__c",
-            "value" : "FieloPRP",
-            "refObject" : "fieloplt__library__c"
-          }, {
-            "apiName" : "fieloplt__object__c",
-            "value" : "FieloPRP__Invoice__c"
-          }, {
-            "apiName" : "fieloplt__type__c",
-            "value" : "View"
-          }, {
-            "apiName" : "fieloplt__isactive__c",
-            "value" : "true"
-          }, {
-            "apiName" : "fieloplt__visibility__c",
-            "value" : "[ \r\n{\"openPars\":\"(\",\r\n\"field\":\"FieloPRP__Status__c\", \r\n\"value\":\"Open\"},\r\n{\"field\":\"FieloPRP__Status__c\", \r\n\"value\":\"New\", \r\n\"andOrOperator\":\"or\",\r\n\"closePars\":\")\"},\r\n{\"field\":\"FieloPRP__Member__r.FieloPLT__Program__r.FieloPRP__RequestInvoiceAuthorization__c\", \r\n\"value\":false, \r\n\"andOrOperator\":\"and\"}\r\n]"
-          }, {
-            "apiName" : "fieloplt__externalid__c",
-            "value" : "00D46000000bvJ0-a0g460000012Kel"
-          }, {
-            "apiName" : "fieloplt__iscustom__c",
-            "value" : "false"
-          } ],
-          "relatedList" : [ {
-            "objectAPIName" : "fieloplt__programassignment__c",
-            "records" : [ ]
-          } ]
-        }, {
-          "fieldsValues" : [ {
-            "apiName" : "name",
-            "value" : "Invoice > View"
-          }, {
-            "apiName" : "fieloplt__buttons__c",
-            "value" : "{\"Label\":\"Revert\",\"Type\":\"Remote\",\"Action\":\"InvoiceButtonImpl\",\"Confirm\":true,\"Reflection\":true,\"parameters\":\"{\\\"type\\\":\\\"Cancel\\\"}\"},\r\n{\"Label\":\"Reprocess\",\"Type\":\"Remote\",\"Action\":\"InvoiceButtonImpl\",\"Confirm\":true,\"Reflection\":true,\"parameters\":\"{\\\"type\\\":\\\"Reprocess\\\"}\"}"
-          }, {
-            "apiName" : "fieloplt__library__c.fieloplt__externalid__c",
-            "value" : "FieloPRP",
-            "refObject" : "fieloplt__library__c"
-          }, {
-            "apiName" : "fieloplt__object__c",
-            "value" : "FieloPRP__Invoice__c"
-          }, {
-            "apiName" : "fieloplt__type__c",
-            "value" : "View"
-          }, {
-            "apiName" : "fieloplt__isactive__c",
-            "value" : "true"
-          }, {
-            "apiName" : "fieloplt__visibility__c",
-            "value" : "[ \r\n{\"field\":\"FieloPRP__Status__c\", \r\n\"value\":\"Approved\"}\r\n]"
-          }, {
-            "apiName" : "fieloplt__externalid__c",
-            "value" : "00D46000000bvJ0-a0g460000012Kek"
-          }, {
-            "apiName" : "fieloplt__iscustom__c",
-            "value" : "false"
-          } ],
-          "relatedList" : [ {
-            "objectAPIName" : "fieloplt__programassignment__c",
-            "records" : [ ]
-          } ]
-        }, {
-          "fieldsValues" : [ {
-            "apiName" : "name",
-            "value" : "Invoice > View"
+            "value" : "Invoice > View (Reopen)"
           }, {
             "apiName" : "fieloplt__buttons__c",
             "value" : "{\"Label\":\"Reopen\",\"Type\":\"Remote\",\"Action\":\"InvoiceButtonImpl\",\"Confirm\":true,\"Reflection\":true,\"parameters\":\"{\\\"type\\\":\\\"Reopen\\\"}\"}"
@@ -540,9 +454,6 @@
           }, {
             "apiName" : "fieloplt__type__c",
             "value" : "View"
-          }, {
-            "apiName" : "fieloplt__isactive__c",
-            "value" : "true"
           }, {
             "apiName" : "fieloplt__visibility__c",
             "value" : "[ \r\n{\"field\":\"FieloPRP__Status__c\", \r\n\"value\":\"Rejected\"}\r\n]"
@@ -560,41 +471,7 @@
         }, {
           "fieldsValues" : [ {
             "apiName" : "name",
-            "value" : "Invoice > View"
-          }, {
-            "apiName" : "fieloplt__buttons__c",
-            "value" : "{\"Label\":\"Approve\",\"Type\":\"Remote\",\"Action\":\"InvoiceButtonImpl\",\"Confirm\":true,\"Reflection\":true,\"parameters\":\"{\\\"type\\\":\\\"Approve\\\"}\"},\r\n{\"Label\":\"Reject\",\"Type\":\"Remote\",\"Action\":\"InvoiceButtonImpl\",\"Confirm\":true,\"Reflection\":true,\"parameters\":\"{\\\"type\\\":\\\"Reject\\\"}\"}"
-          }, {
-            "apiName" : "fieloplt__library__c.fieloplt__externalid__c",
-            "value" : "FieloPRP",
-            "refObject" : "fieloplt__library__c"
-          }, {
-            "apiName" : "fieloplt__object__c",
-            "value" : "FieloPRP__Invoice__c"
-          }, {
-            "apiName" : "fieloplt__type__c",
-            "value" : "View"
-          }, {
-            "apiName" : "fieloplt__isactive__c",
-            "value" : "true"
-          }, {
-            "apiName" : "fieloplt__visibility__c",
-            "value" : "[ \r\n{\"field\":\"FieloPRP__Status__c\", \r\n\"value\":\"Pending for Approval\"} \r\n]"
-          }, {
-            "apiName" : "fieloplt__externalid__c",
-            "value" : "00D46000000bvJ0-a0g460000012Kei"
-          }, {
-            "apiName" : "fieloplt__iscustom__c",
-            "value" : "false"
-          } ],
-          "relatedList" : [ {
-            "objectAPIName" : "fieloplt__programassignment__c",
-            "records" : [ ]
-          } ]
-        }, {
-          "fieldsValues" : [ {
-            "apiName" : "name",
-            "value" : "Invoice > View"
+            "value" : "Invoice > View (Reopen/Reprocess)"
           }, {
             "apiName" : "fieloplt__buttons__c",
             "value" : "{\"Label\":\"Reopen\",\"Type\":\"Remote\",\"Action\":\"InvoiceButtonImpl\",\"Confirm\":true,\"Reflection\":true,\"parameters\":\"{\\\"type\\\":\\\"Reopen\\\"}\"},\r\n{\"Label\":\"Reprocess\",\"Type\":\"Remote\",\"Action\":\"InvoiceButtonImpl\",\"Confirm\":true,\"Reflection\":true,\"parameters\":\"{\\\"type\\\":\\\"Approve\\\"}\"}"
@@ -608,9 +485,6 @@
           }, {
             "apiName" : "fieloplt__type__c",
             "value" : "View"
-          }, {
-            "apiName" : "fieloplt__isactive__c",
-            "value" : "true"
           }, {
             "apiName" : "fieloplt__visibility__c",
             "value" : "[\r\n{\"field\":\"FieloPRP__Status__c\", \r\n\"value\":\"Canceled\"}\r\n]"
@@ -628,10 +502,10 @@
         }, {
           "fieldsValues" : [ {
             "apiName" : "name",
-            "value" : "Invoice > View"
+            "value" : "Invoice > View (Revert/Reprocess)"
           }, {
             "apiName" : "fieloplt__buttons__c",
-            "value" : "{\"Label\":\"Edit\",\"Type\":\"Modal\",\"Action\":\"invoiceForm\"},\r\n{\"Label\":\"Close\",\"Type\":\"Remote\",\"Action\":\"InvoiceButtonImpl\",\"Confirm\":true,\"Reflection\":true,\"parameters\":\"{\\\"type\\\":\\\"close\\\"}\"}"
+            "value" : "{\"Label\":\"Revert\",\"Type\":\"Remote\",\"Action\":\"InvoiceButtonImpl\",\"Confirm\":true,\"Reflection\":true,\"parameters\":\"{\\\"type\\\":\\\"Cancel\\\"}\"},\r\n{\"Label\":\"Reprocess\",\"Type\":\"Remote\",\"Action\":\"InvoiceButtonImpl\",\"Confirm\":true,\"Reflection\":true,\"parameters\":\"{\\\"type\\\":\\\"Reprocess\\\"}\"}"
           }, {
             "apiName" : "fieloplt__library__c.fieloplt__externalid__c",
             "value" : "FieloPRP",
@@ -643,14 +517,11 @@
             "apiName" : "fieloplt__type__c",
             "value" : "View"
           }, {
-            "apiName" : "fieloplt__isactive__c",
-            "value" : "true"
-          }, {
             "apiName" : "fieloplt__visibility__c",
-            "value" : "[ \r\n{\"field\":\"FieloPRP__Status__c\", \r\n\"value\":\"Open\"},\r\n{\"field\":\"FieloPRP__Status__c\", \r\n\"value\":\"New\", \r\n\"andOrOperator\":\"or\"}\r\n]"
+            "value" : "[ \r\n{\"field\":\"FieloPRP__Status__c\", \r\n\"value\":\"Approved\"}\r\n]"
           }, {
             "apiName" : "fieloplt__externalid__c",
-            "value" : "00D46000000bvJ0-a0g460000012Keg"
+            "value" : "00D46000000bvJ0-a0g460000012Kek"
           }, {
             "apiName" : "fieloplt__iscustom__c",
             "value" : "false"
@@ -686,9 +557,6 @@
             "apiName" : "fieloplt__type__c",
             "value" : "Related"
           }, {
-            "apiName" : "fieloplt__isactive__c",
-            "value" : "true"
-          }, {
             "apiName" : "fieloplt__externalid__c",
             "value" : "00D46000000bvJ0-a0g460000012Keb"
           }, {
@@ -716,9 +584,6 @@
           }, {
             "apiName" : "fieloplt__type__c",
             "value" : "Detail"
-          }, {
-            "apiName" : "fieloplt__isactive__c",
-            "value" : "true"
           }, {
             "apiName" : "fieloplt__sections__c",
             "value" : "{\"Name\" : \"Invoice Settings\",\r\n\t\"Rows\" :[\r\n\t\t[\r\n\t\t\t{\"Name\" : \"FieloPRP__RequestInvoiceAuthorization__c\" , \"Type\" : \"input\" },\r\n            {\"Name\" : \"FieloPRP__RequestInvoiceProducts__c\" , \"Type\" : \"input\" },\r\n\t\t\t{\"Name\" : \"FieloPRP__ProductInjectQuery__c\" , \"Type\" : \"input\" }\r\n\t\t]\r\n\t]\r\n}"
@@ -751,9 +616,6 @@
             "apiName" : "fieloplt__type__c",
             "value" : "Edit"
           }, {
-            "apiName" : "fieloplt__isactive__c",
-            "value" : "true"
-          }, {
             "apiName" : "fieloplt__sections__c",
             "value" : "{\"Name\" : \"Invoice Settings\", \r\n\t\"Rows\" :[ \r\n\t\t[\r\n\t\t\t{\"Name\" : \"FieloPRP__RequestInvoiceAuthorization__c\" , \"Type\" : \"checkbox\" }, \r\n\t\t\t{\"Name\" : \"FieloPRP__RequestInvoiceProducts__c\" , \"Type\" : \"checkbox\" }\r\n\t\t],\r\n\t\t[\r\n\t\t\t{\"Name\" : \"FieloPRP__ProductInjectQuery__c\" , \"Type\" : \"input\" }\r\n\t\t] \r\n\t] \r\n}"
           }, {
@@ -784,9 +646,6 @@
           }, {
             "apiName" : "fieloplt__type__c",
             "value" : "New"
-          }, {
-            "apiName" : "fieloplt__isactive__c",
-            "value" : "true"
           }, {
             "apiName" : "fieloplt__sections__c",
             "value" : "{\"Name\" : \"Invoice Settings\", \r\n\t\"Rows\" :[ \r\n\t\t[\r\n\t\t\t{\"Name\" : \"FieloPRP__RequestInvoiceAuthorization__c\" , \"Type\" : \"checkbox\" }, \r\n\t\t\t{\"Name\" : \"FieloPRP__RequestInvoiceProducts__c\" , \"Type\" : \"checkbox\" }\r\n\t\t],\r\n\t\t[\r\n\t\t\t{\"Name\" : \"FieloPRP__ProductInjectQuery__c\" , \"Type\" : \"input\" }\r\n\t\t] \r\n\t] \r\n}"

@@ -642,6 +642,7 @@ public class TestChangeInvoiceStatus {
         – Validations
         – Reject an Open Invoice from a program without App Process (NOK)
     */
+    /* DEPRECATED
     @isTest static void PRP_0004_FA3_1(){
         invoices = [SELECT Id, Name, Status__c FROM Invoice__c];
 
@@ -659,7 +660,7 @@ public class TestChangeInvoiceStatus {
 
         Test.stopTest();
     }
-
+    */
     /*  TEST-1647
         Change Invoice Status
         – Validations

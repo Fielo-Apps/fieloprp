@@ -88,6 +88,23 @@ public with sharing class Invoices extends SObjectDomain {
                     invoice.Status__c != 'New') {
                     invoice.addError( Label.ZeroAmount );
                 }
+
+                String priorValue = ((Invoice__c)existingRecords.get(invoice.Id)).Status__c;
+                String currentStatus = invoice.Status__c;
+
+                if (currentStatus != priorValue &&
+                    !(priorValue == 'Open' && currentStatus == 'Pending For Approval') &&
+                    !(priorValue == 'Open' && currentStatus == 'Approved') &&
+                    !(priorValue == 'Open' && currentStatus == 'Rejected') &&
+                    !(priorValue == 'Pending For Approval' && currentStatus == 'Approved') &&
+                    !(priorValue == 'Pending For Approval' && currentStatus == 'Rejected') &&
+                    !(priorValue == 'Approved' && currentStatus == 'Canceled') &&
+                    !(priorValue == 'Rejected' && currentStatus == 'Open') &&
+                    !(priorValue == 'Canceled' && currentStatus == 'Approved') &&
+                    !(priorValue == 'Canceled' && currentStatus == 'Open')
+                    ) {
+                    invoice.addError( Label.InvalidStatusChange );
+                }
             }
             getDuplicatedRecords(records);
         }

@@ -160,4 +160,100 @@
         <shortDescription>ZeroAmount</shortDescription>
         <value>Amount cannot be zero.</value>
     </labels>
+    <labels>
+        <fullName>ButtonApprove</fullName>
+        <categories>InvoiceViewController.cls</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Approve</shortDescription>
+        <value>Approve</value>
+    </labels>
+    <labels>
+        <fullName>ButtonClose</fullName>
+        <categories>InvoiceViewController.cls</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Close</shortDescription>
+        <value>Close</value>
+    </labels>
+    <labels>
+        <fullName>ButtonReject</fullName>
+        <categories>InvoiceViewController.cls</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Reject</shortDescription>
+        <value>Reject</value>
+    </labels>
+    <labels>
+        <fullName>ButtonReopen</fullName>
+        <categories>InvoiceViewController.cls</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Reopen</shortDescription>
+        <value>Reopen</value>
+    </labels>
+    <labels>
+        <fullName>ButtonReprocess</fullName>
+        <categories>InvoiceViewController.cls</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Reprocess</shortDescription>
+        <value>Reprocess</value>
+    </labels>
+    <labels>
+        <fullName>ButtonRevert</fullName>
+        <categories>InvoiceViewController.cls</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Revert</shortDescription>
+        <value>Revert</value>
+    </labels>
+    <labels>
+        <fullName>ButtonSubmitForApproval</fullName>
+        <categories>InvoiceViewController.cls</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Submit For Approval</shortDescription>
+        <value>Submit For Approval</value>
+    </labels>
+    <labels>
+        <fullName>InvalidStatusChange</fullName>
+        <categories>Invoices.cls</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>InvalidStatusChange</shortDescription>
+        <value>Status transition not allowed</value>
+    </labels>
+    <labels>
+        <fullName>ApprovalRequestSubmitted</fullName>
+        <categories>Invoices.cls</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ApprovalRequestSubmitted</shortDescription>
+        <value>Approval Request Submitted</value>
+    </labels>
+    <labels>
+        <fullName>SingleInvoiceApprovalAction</fullName>
+        <categories>ApprovalHistoryController.cls</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SingleInvoiceApprovalAction</shortDescription>
+        <value>Approval Request Submitted</value>
+    </labels>
+    <labels>
+        <fullName>SelectApprover</fullName>
+        <categories>FormSubmitForApproval.component</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SelectApprover</shortDescription>
+        <value>Select Approver</value>
+    </labels>
+    <labels>
+        <fullName>ApproverRequired</fullName>
+        <categories>FormSubmitForApprovalController.cls</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ApproverRequired</shortDescription>
+        <value>Select an approver</value>
+    </labels>
 </CustomLabels>

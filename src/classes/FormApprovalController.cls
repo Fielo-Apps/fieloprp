@@ -1,4 +1,4 @@
-public with sharing class FormApprovalController {
+public class FormApprovalController {
 	public FormApprovalController(FormController controller) {
     }
 
@@ -17,8 +17,6 @@ public with sharing class FormApprovalController {
 		if (rejectOptionsString == null) {
 	   		Schema.DescribeFieldResult fieldResult = Invoice__c.RejectReason__c.getDescribe();
 	   		List<Schema.PicklistEntry> ples = fieldResult.getPicklistValues();
-	   		rejectOptionsString = JSON.serialize(ples);
-
 	   		List<Entry> entries = new List<Entry>();
 
 	   		for(Schema.PicklistEntry ple: ples) {

@@ -58,6 +58,7 @@
   };
 
   FieloFormInvoiceApproval.prototype.save = function() {
+    fielo.util.spinner.FieloSpinner.show();
     if (this.form_.parameters_) {
       if (this.form_.parameters_.type) {
         this.action = this.form_.parameters_.type;
@@ -96,7 +97,7 @@
     }
 
     try {
-      if (this.form_.checkRequiredPassOk_()) {
+      if (this.action !== 'reject' || this.form_.checkRequiredPassOk_()) {
         Visualforce.remoting.Manager.invokeAction(
           this.Constant_.SAVE_CONTROLLER,
           this.formValues,
@@ -107,6 +108,8 @@
             escape: false
           }
         );
+      } else {
+        fielo.util.spinner.FieloSpinner.hide();
       }
     } catch (e) {
       console.warn(e);

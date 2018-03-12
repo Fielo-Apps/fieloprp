@@ -3,6 +3,9 @@
 	<apex:attribute name="fieldset" type="String" default="" description="" assignTo="{!cFieldset}"/>
 	<apex:attribute name="buttons" type="String" default="" description="" />
 	<apex:attribute name="sObjectName" type="String" default="" description=""/>
+	<apex:attribute name="productFieldName" type="String" default="" description=""/>
+	<apex:attribute name="productInjectQuery" type="String" default="" description=""/>
+
 	<!--- ITEMS TABLE -->
   	<fieldset class="slds-form--compound fielosf-invoice-items">
 		<!-- <legend class="slds-form-element__label slds-text-title--caps">Items</legend> -->
@@ -50,6 +53,7 @@
 	                        describe="{!$ObjectType[sObjectName].Fields[f.Name]}"
 	                        mode="new"
 	                        sObjectName="{!sObjectName}"
+	                        whereCondition="{!IF(f.Name=productFieldName,productInjectQuery,'')}"
 	                        />
 	                    </td>
 	                  </apex:repeat>
