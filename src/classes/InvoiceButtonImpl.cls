@@ -41,6 +41,8 @@ public with sharing class InvoiceButtonImpl implements FieloPLT.ButtonActionInte
 
 	        try{
 	            InvoiceService.updateInvoiceStatus(new Set<Id>{recordId}, 'Approved');
+	            // CIP 1.1 FA-259
+	            InvoiceService.processWorkingItems(new Set<Id>{recordId});
 	            result.addMessage(new FieloPLT.RemoteActionResult.RemoteActionMessage( ApexPages.Severity.CONFIRM, String.format(Label.InvoiceChangeStatusSuccess, new List<String> {'approved'})) );
 	            result.redirectURL = '/'+recordId;
 	        }
@@ -54,6 +56,8 @@ public with sharing class InvoiceButtonImpl implements FieloPLT.ButtonActionInte
 
 	        try{
 	            InvoiceService.updateInvoiceStatus(new Set<Id>{recordId}, 'Rejected');
+	            // CIP 1.1 FA-259
+	            InvoiceService.processWorkingItems(new Set<Id>{recordId});
 	            result.addMessage(new FieloPLT.RemoteActionResult.RemoteActionMessage( ApexPages.Severity.CONFIRM, String.format(Label.InvoiceChangeStatusSuccess, new List<String> {'rejected'})) );
 	            result.redirectURL = '/'+recordId;
 	        }

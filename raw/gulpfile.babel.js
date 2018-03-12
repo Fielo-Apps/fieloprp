@@ -66,36 +66,10 @@ var platformSalesforceJs = [
       'resources/FieloPrp_Salesforce/scripts/programSelector.js',
       'resources/FieloPrp_Salesforce/scripts/invoiceItems.js',
       'resources/FieloPrp_Salesforce/scripts/multiFileUploader.js',
-      'resources/FieloPrp_Salesforce/scripts/formInvoice.js'
-      // 'resources/FieloPlt_Salesforce/scripts/items.js',
-      // 'resources/FieloPlt_Salesforce/scripts/levelOrder.js',
-      // 'resources/FieloPlt_Salesforce/scripts/fileUpload.js',
-      // Formularios
-      // 'resources/FieloPlt_Salesforce/scripts/formMission.js',
-      // 'resources/FieloPlt_Salesforce/scripts/formRule.js',
-      // 'resources/FieloPlt_Salesforce/scripts/formLevel.js',
-      // 'resources/FieloPlt_Salesforce/scripts/formSegment.js',
-      // 'resources/FieloPlt_Salesforce/scripts/formRedemption.js',
-      // 'resources/FieloPlt_Salesforce/scripts/formMember.js',
-      // 'resources/FieloPlt_Salesforce/scripts/formChallengeReward.js',
-      // 'resources/FieloPlt_Salesforce/scripts/formAction.js',
-      // 'resources/FieloPlt_Salesforce/scripts/formLogicalExpression.js',
-      // 'resources/FieloPlt_Salesforce/scripts/formAdjustTransaction.js',
-      // 'resources/FieloPlt_Salesforce/scripts/formReward.js',
-      // Landings
-      // 'resources/FieloPlt_Salesforce/scripts/incentivesLanding.js',
-      // 'resources/FieloPlt_Salesforce/scripts/redemptionLanding.js',
-      // 'resources/FieloPlt_Salesforce/scripts/memberCreateFromAccount.js',
-      // 'resources/FieloPlt_Salesforce/scripts/contactConvertion.js',
-      // Views
-      // 'resources/FieloPlt_Salesforce/scripts/challengeView.js',
-      // 'resources/FieloPlt_Salesforce/scripts/programView.js',
-      // 'resources/FieloPlt_Salesforce/scripts/promotionView.js',
-      // Create
-      // 'resources/FieloPlt_Salesforce/scripts/programCreate.js',
-      // 'resources/FieloPlt_Salesforce/scripts/challengeCreate.js',
-      // 'resources/FieloPlt_Salesforce/scripts/modelCreate.js',
-      // 'resources/FieloPlt_Salesforce/scripts/promotionCreate.js'
+      'resources/FieloPrp_Salesforce/scripts/formInvoice.js',
+      'resources/FieloPrp_Salesforce/scripts/formApproval.js',
+      'resources/FieloPrp_Salesforce/scripts/formApprover.js',
+      'resources/FieloPrp_Salesforce/scripts/submitForApproval.js'
     ],
     name: 'core.js',
     dest: '../resource-bundles/FieloPrp_Salesforce.resource/scripts'

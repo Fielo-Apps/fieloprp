@@ -1,0 +1,77 @@
+<apex:component layout="none" controller="ApprovalHistoryController">
+    <!-- ATRIBUTOS DE DATOS -->
+    <apex:attribute name="relatedId" type="String" default="" description="Related List Id"/>
+    <apex:attribute name="record" type="Invoice__c" default="" description="Related List Id" assignTo="{!cRecord}"/>
+    <!-- ATRIBUTOS DE GENERALES -->
+    <apex:attribute name="heading" type="String" default="" description="Text of First heading line" />
+    <apex:attribute name="icon" type="String" default="{!URLFOR($Resource.FieloSalesforce_Backend)}/lightning/icons/standard-sprite/svg/symbols.svg#home" description="Icon from slds"/>
+    <apex:attribute name="iconColor" type="String" default="slds-icon-standard-dashboard" description="Icon background color" />
+    <apex:attribute name="iconSize" type="String" default="slds-icon--small" description="Icon size" />
+    <!-- Argumentos de controlador -->
+    <apex:attribute name="namespace" description="namespace of package" type="String" default="" />
+    
+    <apex:attribute name="dataController" default="ApprovalHistoryController.getRecords" type="String" description="Paginator controller" />
+
+    <div class="fielosf-approval-history" data-fields="" data-async="false" id="{!relatedId}" > <!-- {!fieldset} -->
+        <!-- MODO TABLE -->
+        <article class="slds-card slds-m-around--medium">
+            <div class="slds-card__header slds-grid">
+                <header class="slds-media slds-media--center slds-has-flexi-truncate">
+                    <div class="slds-media__figure">
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  aria-hidden="true" class="slds-icon {!iconSize} {!iconColor}">
+                            <use xlink:href="{!icon}"></use>
+                        </svg>
+                    </div>
+                    <div class="slds-media__body slds-truncate">
+                        <h2>
+                            <span class="slds-text-heading--small">{!heading}</span> 
+                        </h2>
+                    </div>
+                </header>
+            </div>
+            <div class="slds-card__body">
+                <table class="slds-table slds-table--bordered slds-no-row-hover slds-table--cell-buffer fielosf-related-records__data">
+                    <apex:panelGroup layout="none" rendered="{! recordObjects.size > 0 }">
+                        <thead>
+                            <tr class="slds-text-title--caps">
+                                <apex:repeat value="{!columns}" var="c">
+                                    <apex:panelGroup layout="none" rendered="{!c.Name != null}">
+                                        <th scope="col">
+                                            <c:OutputField type="string" cssClass="slds-truncate" content="{!c.label}"/>
+                                        </th>
+                                    </apex:panelGroup>
+                                </apex:repeat>
+                            </tr>
+                        </thead>
+                        <tbody class="fielosf-related-records__container">
+                        <apex:panelGroup rendered="{! !noRecords }">
+                            <apex:repeat value="{!recordObjects}"  var="r" >
+                                <tr class="slds-hint-parent fielosf-related-records__model fielosf-realted-records__record">
+                                    <apex:repeat value="{!columns}" var="c">
+                                        <apex:panelGroup layout="none" rendered="{!c.Name != null}">
+                                            <td data-name="{!c.Name}" data-label="{!c.Label}">
+                                                <c:OutputField field="{!c.Name}" title="{!r[c.Name]}" type="{!c.Type}" content="{!r[c.Name]}" cssClass="slds-truncate"/>
+                                            </td>
+                                        </apex:panelGroup>
+                                    </apex:repeat>
+                                </tr>
+                            </apex:repeat>
+                        </apex:panelGroup>
+                        </tbody>
+                    </apex:panelGroup>
+                </table>
+            </div>
+        </article>
+        <!-- 
+        <c:BackendPaginator show="true"
+            dataController="{!IF(namespace == '','',namespace + '.')}{!dataController}"
+            dataControllerArguments=""
+            recordsPerPage="4"
+            dataFilters=""
+            recordsInPage="{!recordObjects.size}"
+            whereClause=""
+            dataOrderBy=""
+        />
+        -->
+    </div>
+</apex:component>

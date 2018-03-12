@@ -53,8 +53,8 @@
 		<name>Report</name>
 	</types>
 	<types>
-        <members>*</members>
-        <name>ReportType</name>
-    </types>
+		<members>*</members>
+		<name>ReportType</name>
+	</types>
 	<version>40.0</version>
 </Package>
