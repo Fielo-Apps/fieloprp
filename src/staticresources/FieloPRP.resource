@@ -19,7 +19,7 @@
         "value" : "FieloPRP"
       }, {
         "apiName" : "fieloplt__version__c",
-        "value" : "1.007"
+        "value" : "1.008"
       }, {
         "apiName" : "fieloplt__externalid__c",
         "value" : "FieloPRP"
