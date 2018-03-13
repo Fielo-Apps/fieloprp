@@ -24,6 +24,8 @@ public class ApprovalHistoryController {
 	public class Row{
 		public String action {get;set;}
 		public Datetime stepDate {get;set;}
+		public string assignedTo {get;set;}
+		public string approver {get;set;}
 		public string status {get;set;}
 		public string comments {get;set;}
 
@@ -33,15 +35,39 @@ public class ApprovalHistoryController {
 			this.status = status;
 			this.comments = comments;
 		}
+
+		public Row(String action, Datetime stepDate, String assignedTo, String approver, String status, String comments) {
+			this.action = action;
+			this.stepDate = stepDate;
+			this.assignedTo = assignedTo;
+			this.approver = approver;
+			this.status = status;
+			this.comments = comments;
+		}
 	}
 
 	public List<RelatedColumn> columns { get {
 		if (columns == null) {
 			columns = new List<RelatedColumn>();
-			columns.add(new RelatedColumn('1', 'string', 'action', 'Action'));
-			columns.add(new RelatedColumn('2', 'datetime', 'stepDate', 'Date'));
-			columns.add(new RelatedColumn('3', 'string', 'status', 'Status'));
-			columns.add(new RelatedColumn('6', 'string', 'comments', 'Comments'));
+
+			List<ProcessInstance> pis = InvoicesSelector.selectAllInvoiceApprovalProcessInstance(new Set<Id>{recordId});
+			if (recordId!=null) {
+				if (!pis.isEmpty()) {
+					columns.add(new RelatedColumn('1', 'string', 'action', 'Action'));
+					columns.add(new RelatedColumn('2', 'datetime', 'stepDate', 'Date'));
+					columns.add(new RelatedColumn('3', 'string', 'assignedTo', 'Assigned To'));
+					columns.add(new RelatedColumn('4', 'string', 'approver', 'Approver'));
+					columns.add(new RelatedColumn('5', 'string', 'status', 'Status'));
+					columns.add(new RelatedColumn('6', 'string', 'comments', 'Comments'));
+				} 
+			}
+
+			if (columns.isEmpty()) {
+				columns.add(new RelatedColumn('1', 'string', 'action', 'Action'));
+				columns.add(new RelatedColumn('2', 'datetime', 'stepDate', 'Date'));
+				columns.add(new RelatedColumn('3', 'string', 'status', 'Status'));
+				columns.add(new RelatedColumn('4', 'string', 'comments', 'Comments'));
+			}
 		}
 		return columns;
 	} set; }
@@ -68,7 +94,16 @@ public class ApprovalHistoryController {
 				for (ProcessInstance pi: pis) {
 					if (pi.StepsAndWorkitems != null) {
 						for (ProcessInstanceHistory pih : pi.StepsAndWorkitems) {
-							records.add(new Row((pih.StepStatus == 'Started' ? Label.ApprovalRequestSubmitted : ('Step: ' + (pih.ProcessNode!=null?pih.ProcessNode.Name:''))),pih.CreatedDate,pih.StepStatus == 'Started' ? 'Submitted' : pih.StepStatus,pih.Comments));
+							records.add(
+								new Row(
+									(pih.StepStatus == 'Started' ? Label.ApprovalRequestSubmitted : ('Step: ' + (pih.ProcessNode!=null?pih.ProcessNode.Name:''))),
+									pih.CreatedDate,
+									pih.OriginalActor.Name,
+									pi.LastActor.Name,
+									pih.StepStatus == 'Started' ? 'Submitted' : pih.StepStatus,
+									pih.Comments
+								)
+							);
 						}
 					}
 				}

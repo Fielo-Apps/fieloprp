@@ -165,8 +165,8 @@ public class InvoicesSelector extends SObjectSelector{
     }
 
     public static List<ProcessInstance> selectAllInvoiceApprovalProcessInstance(Set<Id> invoiceIds){
-        String query = 'SELECT Id, TargetObjectId, ProcessDefinitionId, '
-                + ' (SELECT Id, StepStatus,Actor.Name, Comments, CreatedDate, ProcessNode.Name FROM StepsAndWorkitems ORDER BY CreatedDate DESC, ProcessNode.Name NULLS LAST)'
+        String query = 'SELECT Id, TargetObjectId, ProcessDefinitionId, LastActor.Name, '
+                + ' (SELECT Id, StepStatus,Actor.Name, Comments, CreatedDate, ProcessNode.Name, OriginalActor.Name FROM StepsAndWorkitems ORDER BY CreatedDate DESC, ProcessNode.Name NULLS LAST)'
                 + ' FROM ProcessInstance WHERE TargetObjectId in :invoiceIds ORDER BY CreatedDate DESC';
         return (List<ProcessInstance>) Database.query(query);
     }
