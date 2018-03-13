@@ -112,12 +112,17 @@ global class InvoiceService {
         Set<Id> userIds = new Set<Id>();
         try {
             List<ProcessDefinition> approvalProcesses = [SELECT Id, State, TableEnumOrId FROM ProcessDefinition WHERE TableEnumOrId = 'FieloPRP__Invoice__c' AND State = 'Active'];
+            List<Profile> profile = [SELECT PermissionsModifyAllData FROM Profile WHERE Id = :UserInfo.getProfileId()];
+
             Approval.ProcessSubmitRequest psr = new Approval.ProcessSubmitRequest();
             psr.setProcessDefinitionNameOrId(approvalProcesses[0].Id);
             if (psr.getNextApproverIds() !=  null) {
                 userIds.addAll(psr.getNextApproverIds());    
             } else {
-                userIds.add(UserInfo.getUserId());
+                if (profile[0].PermissionsModifyAllData) {
+                    // Add if is administrator
+                    userIds.add(UserInfo.getUserId());
+                }
             }
         } catch (Exception e) {
             system.debug(e.getMessage());
@@ -191,6 +196,21 @@ global class InvoiceService {
             }
         }
         catch(Exception e){System.debug('Approval error msg: '+e);}
+    }
+
+    public static Map<Id, Boolean> getInvoicesWithApprovalProcess(Set<Id> recordIds) {
+        List<ProcessInstance> approvalProcessInstanceList = InvoicesSelector.selectPendingProcessInstances(recordIds);
+        Map<Id, Boolean> invoicesInAppProcessMap = new Map<Id, Boolean>();
+        for(ProcessInstance pi: approvalProcessInstanceList){
+            invoicesInAppProcessMap.put(pi.TargetObjectId, true);
+        }
+
+        for (Id invoiceId: recordIds) {
+            if (!invoicesInAppProcessMap.containsKey(invoiceId)) {
+                invoicesInAppProcessMap.put(invoiceId,false);
+            }
+        }
+        return invoicesInAppProcessMap;
     }
 
     public static void testTemporal(){

@@ -67,6 +67,14 @@
         <type>Currency</type>
     </fields>
     <fields>
+        <fullName>Comments__c</fullName>
+        <externalId>false</externalId>
+        <label>Comments</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
         <fullName>Date__c</fullName>
         <externalId>false</externalId>
         <label>Date</label>
@@ -146,6 +154,40 @@
         <trackTrending>false</trackTrending>
         <type>Text</type>
         <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>RejectReason__c</fullName>
+        <externalId>false</externalId>
+        <label>Reject Reason</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Invalid Amount</fullName>
+                    <default>false</default>
+                    <label>Invalid Amount</label>
+                </value>
+                <value>
+                    <fullName>Invalid Image</fullName>
+                    <default>false</default>
+                    <label>Invalid Image</label>
+                </value>
+                <value>
+                    <fullName>No Image Attached</fullName>
+                    <default>false</default>
+                    <label>No Image Attached</label>
+                </value>
+                <value>
+                    <fullName>Missing Products</fullName>
+                    <default>false</default>
+                    <label>Missing Products</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
     </fields>
     <fields>
         <fullName>Status__c</fullName>
@@ -260,7 +302,7 @@ PRIORVALUE(Member__c )!=Member__c
     </validationRules>
     <validationRules>
         <fullName>ValidateStatusChange</fullName>
-        <active>true</active>
+        <active>false</active>
         <errorConditionFormula>AND(
   ISCHANGED(Status__c),
   NOT(AND( TEXT(PRIORVALUE(Status__c))=&apos;Open&apos;, TEXT(Status__c)=&apos;Pending for Approval&apos;)),

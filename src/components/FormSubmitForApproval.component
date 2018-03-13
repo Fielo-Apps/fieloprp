@@ -1,0 +1,49 @@
+<apex:component controller="FormController" extensions="FormSubmitForApprovalController" layout="none">
+	<apex:attribute name="formId" type="String" default="formModal" description="" />
+    <apex:attribute name="record" type="SObject" description="" assignTo="{!cRecord}"/>
+    <apex:attribute name="heading" type="String" default="" description="Text of First heading line" />
+    <apex:attribute name="sObjectName" type="String" default="Segment__c" description="" assignTo="{!csObjectName}" />
+    <apex:attribute name="mode" description="new, update, view" type="String" />
+    <apex:attribute name="fieldset" type="String" default="" description="Form Fields" assignTo="{!cFieldset}" />
+    <apex:attribute name="redirect" type="String" default="false" description="Redirect after save" />
+
+    <apex:attribute name="showActions" type="Boolean" default="false" description=""  />
+    <apex:attribute name="showRelated" type="Boolean" default="true" description=""  />
+
+    <div id="{!formId}"
+    role="dialog"
+    tabindex="-1"
+    aria-labelledby="{!formId}headerModal"
+    class="slds-hide slds-modal slds-fade-in-open slds-form fielosf-invoice-approver"
+    data-object-name="{!sObjectName}"
+    data-fields="Id"
+    data-redirect="{!redirect}"
+    data-on-show="FieloForm_retrieve"
+    data-save-controller="FieloPRP.FormController.save"
+    data-record-id="{!record['Id']}">
+	    <div class="slds-modal__container">
+	      <div class="slds-modal__header slds-text-heading--medium">
+	        <button class="slds-button slds-modal__close slds-button--icon-inverse" data-aljs-dismiss="modal" title="{!$Label.Close}">
+	          <svg xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" class="slds-button__icon slds-button__icon--large">
+	            <use xlink:href="{!URLFOR($Resource.FieloSalesforce_Backend)}/lightning/icons/utility-sprite/svg/symbols.svg#close"></use>
+	          </svg>
+	          <span class="slds-assistive-text">{!$Label.Close}</span>
+	        </button>
+	        <h2 id="{!formId}headerModal" class="slds-text-heading--medium">{!heading}</h2>
+	      </div>
+	      <div class="slds-modal__content slds-p-around--medium slds-align slds-align_absolute-center" style="min-height: 50%;">
+	      	<fieldset>
+		      <div class="slds-panel__section">
+	          	<c:Input formid="{!formId}" describe="{!$ObjectType[sObjectName].Fields['Id']}" mode="hidden" sObjectType="{!sObjectName}"/>
+			  </div>
+
+		      <c:Picklist formid="{!formId}" fieldName="approver" mode="{!mode}" fieldLabel="{!$ObjectType.User.Label}" options="{!userOptionsString}" required="true"/>
+		    </fieldset>
+		  </div>
+	      <div class="slds-modal__footer">
+	        <a data-aljs-dismiss="modal" class="slds-button slds-button--neutral slds-form__cancel">{!$Label.Cancel}</a>
+	        <a class="slds-button slds-button--brand slds-form-approver__save">{!$Label.Save}</a>
+	      </div>
+	    </div>
+    </div>
+</apex:component>
