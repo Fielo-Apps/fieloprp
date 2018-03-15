@@ -43,17 +43,14 @@ public class FormApprovalController {
 
             List<FieloPRP__Invoice__c> exitingInvoices = new InvoicesSelector(new Set<String>{'Id','FieloPRP__Status__c','FieloPRP__Member__r.FieloPLT__Program__r.FieloPRP__RequestInvoiceAuthorization__c'}).selectById(new Set<Id>{record.Id});
 
-            Boolean requestInvoiceAuthorization = false;
-            Boolean hasApprovalProcess = false;
-
-            requestInvoiceAuthorization = exitingInvoices[0].FieloPRP__Member__r.FieloPLT__Program__r.FieloPRP__RequestInvoiceAuthorization__c;
-            hasApprovalProcess = InvoiceService.hasApprovalProcess();
-
             // Approve or Reject
             result = new InvoiceButtonImpl().executeAction(new List<Id>{record.Id}, JSON.serialize(new Map<String,String>{'type'=>action}));
 
             // Save Comments/Reject Reason
             update record;
+
+            // CIP 1.1 FA-259
+            InvoiceService.processWorkingItems(new Set<Id>{record.Id});
         }catch(DMLException e){
             if(sp != null){
                 Database.rollback(sp);
