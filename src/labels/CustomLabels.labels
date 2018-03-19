@@ -256,4 +256,52 @@
         <shortDescription>ApproverRequired</shortDescription>
         <value>Select an approver</value>
     </labels>
+    <labels>
+        <fullName>Approved</fullName>
+        <categories>InvoiceButtonImpl.cls</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Approved</shortDescription>
+        <value>approved</value>
+    </labels>
+    <labels>
+        <fullName>Cancelled</fullName>
+        <categories>InvoiceButtonImpl.cls</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Cancelled</shortDescription>
+        <value>cancelled</value>
+    </labels>
+    <labels>
+        <fullName>Rejected</fullName>
+        <categories>InvoiceButtonImpl.cls</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Rejected</shortDescription>
+        <value>rejected</value>
+    </labels>
+    <labels>
+        <fullName>Reopened</fullName>
+        <categories>InvoiceButtonImpl.cls</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Reopened</shortDescription>
+        <value>reopened</value>
+    </labels>
+    <labels>
+        <fullName>Reprocessed</fullName>
+        <categories>InvoiceButtonImpl.cls</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Reprocessed</shortDescription>
+        <value>reprocessed</value>
+    </labels>
+    <labels>
+        <fullName>SentForApproval</fullName>
+        <categories>InvoiceButtonImpl.cls</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SentForApproval</shortDescription>
+        <value>sent for approval</value>
+    </labels>
 </CustomLabels>
