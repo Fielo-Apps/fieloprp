@@ -1,9 +1,4 @@
 <apex:component layout="none" controller="ImageGalleryController">
-  <apex:attribute name="imageIcon" type="String" default="/resource/1489600766000/FieloPRP__FieloSalesforce_Backend/lightning/icons/utility-sprite/svg/symbols.svg#image" description="Icon from slds"/>
-  <apex:attribute name="downloadIcon" type="String" default="/resource/1489600766000/FieloPRP__FieloSalesforce_Backend/lightning/icons/utility-sprite/svg/symbols.svg#download" description="Icon from slds"/>
-  <apex:attribute name="closeIcon" type="String" default="/resource/1489600766000/FieloPRP__FieloSalesforce_Backend/lightning/icons/utility-sprite/svg/symbols.svg#close" description="Icon from slds"/>
-  <apex:attribute name="fileIcon" type="String" default="/resource/1489600766000/FieloPRP__FieloSalesforce_Backend/lightning/icons/doctype-sprite/svg/symbols.svg#image" description="Icon from slds"/>
-  
   <apex:attribute name="parentId" type="String" default="" description="Parent Record Id"  assignTo="{!cParentId}"/>
 
   <article class="slds-card slds-m-around--medium">
@@ -12,13 +7,13 @@
           <div class="slds-media__figure">
             <span class="slds-icon_container slds-icon-standard-contact" title="description of icon when needed">
               <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  aria-hidden="true" class="slds-icon slds-icon--small">
-                <use xlink:href="{!imageIcon}"></use>
+                <use xlink:href="{!URLFOR($Resource.FieloSalesforce_Backend, '/lightning/icons/utility-sprite/svg/symbols.svg#image')}"></use>
               </svg>
             </span>
           </div>
           <div class="slds-media__body">
             <h2>
-                <span class="slds-text-heading--small">Images ({!images.size})</span>
+                <span class="slds-text-heading--small">{!$Label.Images} ({!images.size})</span>
             </h2>
           </div>
         </header>
@@ -33,21 +28,21 @@
                     <img src="{!URLFOR($Action.Attachment.Download, image.Id)}" alt="{!JSENCODE(image.Name)}" onclick="openImage('{!URLFOR($Action.Attachment.Download, image.Id)}','{!JSENCODE(image.Name)}');"/>
                 </a>
                 <div class="slds-button-group slds-image__actions" role="group">
-                  <button class="slds-button slds-button--icon-border-filled" title="Download" onclick="downloadURI('{!URLFOR($Action.Attachment.Download, image.Id)}','{!image.Name}');">
+                  <button class="slds-button slds-button--icon-border-filled" title="{!$Label.Download}" onclick="downloadURI('{!URLFOR($Action.Attachment.Download, image.Id)}','{!image.Name}');">
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  aria-hidden="true" class="slds-button__icon">
-                      <use xlink:href="{!downloadIcon}"></use>
+                      <use xlink:href="{!URLFOR($Resource.FieloSalesforce_Backend, '/lightning/icons/utility-sprite/svg/symbols.svg#download')}"></use>
                     </svg>
-                    <span class="slds-assistive-text">Download</span>
+                    <span class="slds-assistive-text">{!$Label.Download}</span>
                   </button>
                 </div>
                 <figcaption class="slds-image__title slds-image__title--card">
-                  <span class="slds-icon_container slds-m-right--x-small" title="image">
+                  <span class="slds-icon_container slds-m-right--x-small" title="{!$Label.Image}">
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  aria-hidden="true" class="slds-icon slds-icon--x-small" >
-                      <use xlink:href="{!fileIcon}"></use>
+                      <use xlink:href="{!URLFOR($Resource.FieloSalesforce_Backend, '/lightning/icons/doctype-sprite/svg/symbols.svg#image')}"></use>
                     </svg>
                     <span class="slds-assistive-text">{!image.Name}</span>
                   </span>
-                  <span class="slds-image__text slds-truncate" title="Image Title">{!image.Name}</span>
+                  <span class="slds-image__text slds-truncate" title="{!image.Name}">{!image.Name}</span>
                 </figcaption>
               </figure>
             </li>
@@ -62,9 +57,9 @@
         <div class="slds-modal__header">
           <button class="slds-button slds-modal__close slds-button--icon-inverse" title="Close" onclick="closeModal();">
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  aria-hidden="true" class="slds-icon slds-icon--x-small" >
-              <use xlink:href="{!closeIcon}"></use>
+              <use xlink:href="{!URLFOR($Resource.FieloSalesforce_Backend, '/lightning/icons/utility-sprite/svg/symbols.svg#close')}"></use>
             </svg>
-            <span class="slds-assistive-text">Close</span>
+            <span class="slds-assistive-text">{!$Label.Close}</span>
           </button>
           <h2 id="header43" class="slds-text-heading--medium">Modal Header</h2>
         </div>

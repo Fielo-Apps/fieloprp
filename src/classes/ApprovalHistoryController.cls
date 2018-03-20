@@ -53,20 +53,20 @@ public class ApprovalHistoryController {
 			List<ProcessInstance> pis = InvoicesSelector.selectAllInvoiceApprovalProcessInstance(new Set<Id>{recordId});
 			if (recordId!=null) {
 				if (!pis.isEmpty()) {
-					columns.add(new RelatedColumn('1', 'string', 'action', 'Action'));
-					columns.add(new RelatedColumn('2', 'datetime', 'stepDate', 'Date'));
-					columns.add(new RelatedColumn('3', 'string', 'assignedTo', 'Assigned To'));
-					columns.add(new RelatedColumn('4', 'string', 'approver', 'Approver'));
-					columns.add(new RelatedColumn('5', 'string', 'status', 'Status'));
-					columns.add(new RelatedColumn('6', 'string', 'comments', 'Comments'));
+					columns.add(new RelatedColumn('1', 'string', 'action', Label.Action));
+					columns.add(new RelatedColumn('2', 'datetime', 'stepDate', Label.Date));
+					columns.add(new RelatedColumn('3', 'string', 'assignedTo', Label.AssignedTo));
+					columns.add(new RelatedColumn('4', 'string', 'approver', Label.Approver));
+					columns.add(new RelatedColumn('5', 'string', 'status', Label.Status));
+					columns.add(new RelatedColumn('6', 'string', 'comments', Label.Comments));
 				} 
 			}
 
 			if (columns.isEmpty()) {
-				columns.add(new RelatedColumn('1', 'string', 'action', 'Action'));
-				columns.add(new RelatedColumn('2', 'datetime', 'stepDate', 'Date'));
-				columns.add(new RelatedColumn('3', 'string', 'status', 'Status'));
-				columns.add(new RelatedColumn('4', 'string', 'comments', 'Comments'));
+				columns.add(new RelatedColumn('1', 'string', 'action', Label.Action));
+				columns.add(new RelatedColumn('2', 'datetime', 'stepDate', Label.Date));
+				columns.add(new RelatedColumn('3', 'string', 'status', Label.Status));
+				columns.add(new RelatedColumn('4', 'string', 'comments', Label.Comments));
 			}
 		}
 		return columns;
@@ -100,7 +100,7 @@ public class ApprovalHistoryController {
 									pih.CreatedDate,
 									pih.OriginalActor.Name,
 									pi.LastActor.Name,
-									pih.StepStatus == 'Started' ? 'Submitted' : pih.StepStatus,
+									pih.StepStatus == 'Started' ? Label.Submitted : pih.StepStatus,
 									pih.Comments
 								)
 							);
