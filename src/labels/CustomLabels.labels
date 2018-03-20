@@ -345,14 +345,6 @@
         <value>Submitted</value>
     </labels>
     <labels>
-        <fullName>SingleInvoiceApprovalAction</fullName>
-        <categories>ApprovalHistoryController.cls</categories>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>SingleInvoiceApprovalAction</shortDescription>
-        <value>Approval Request Submitted</value>
-    </labels>
-    <labels>
         <fullName>ButtonAddProducts</fullName>
         <categories>FormInvoice.component</categories>
         <language>en_US</language>
@@ -399,5 +391,29 @@
         <protected>true</protected>
         <shortDescription>Remove</shortDescription>
         <value>Remove</value>
+    </labels>
+    <labels>
+        <fullName>Images</fullName>
+        <categories>ImageGallery.component</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Images</shortDescription>
+        <value>Images</value>
+    </labels>
+    <labels>
+        <fullName>Download</fullName>
+        <categories>ImageGallery.component</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Download</shortDescription>
+        <value>Download</value>
+    </labels>
+    <labels>
+        <fullName>Image</fullName>
+        <categories>ImageGallery.component</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Image</shortDescription>
+        <value>Image</value>
     </labels>
 </CustomLabels>
