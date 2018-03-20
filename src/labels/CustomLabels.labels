@@ -416,4 +416,12 @@
         <shortDescription>Image</shortDescription>
         <value>Image</value>
     </labels>
+    <labels>
+        <fullName>UploadFiles</fullName>
+        <categories>MultiFileUploader.component</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>UploadFiles</shortDescription>
+        <value>UploadFiles</value>
+    </labels>
 </CustomLabels>
