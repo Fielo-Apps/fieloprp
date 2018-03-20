@@ -4,9 +4,4 @@
     <availableInTouch>false</availableInTouch>
     <confirmationTokenRequired>false</confirmationTokenRequired>
     <label>InvoiceLanding</label>
-    <packageVersions>
-        <majorNumber>2</majorNumber>
-        <minorNumber>27</minorNumber>
-        <namespace>FieloPLT</namespace>
-    </packageVersions>
 </ApexPage>

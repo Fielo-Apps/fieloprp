@@ -20,23 +20,16 @@
       buttons="{!viewSettings.FieloPLT__Buttons__c}"
       tools="{!viewSettings.FieloPLT__Tools__c}"
     >
-      <span class="slds-icon_container {!hiddenClass}" title="Record locked by approval process">
+      <span class="slds-icon_container {!hiddenClass}" title="{!$Label.LockedByApprovalProcess}">
         <svg class="slds-button__icon slds-button__icon--large" aria-hidden="true">
-                  <use xlink:href="/resource/1489600766000/FieloPRP__FieloSalesforce_Backend/lightning/icons/utility-sprite/svg/symbols.svg#lock"></use>
+                  <use xlink:href="{!URLFOR($Resource.FieloSalesforce_Backend, '/lightning/icons/utility-sprite/svg/symbols.svg#lock')}"></use>
         </svg>
       </span>
     </c:BackendHeaderRecord>
 
-    <!--
-    <c:Form formId="invoiceForm"
-      heading="Edit {!$ObjectType.Invoice__c.label}"
-      fieldset="{!edit.FieloPLT__Fieldset__c}"
-      sObjectName="FieloPRP__Invoice__c"
-    />
-    -->
     <apex:panelGroup rendered="{!editSettings.FieloPLT__Sections__c != null}">
       <c:FormInvoice namespace="FieloPRP" formId="invoiceForm"
-        heading="Edit {!$ObjectType.Invoice__c.label}"
+        heading="{!$Label.edit} {!$ObjectType.Invoice__c.label}"
         sObjectName="FieloPRP__Invoice__c"
         fieldset="{!editSettings.FieloPLT__Sections__c}"
         mode="new"
@@ -47,7 +40,7 @@
     </apex:panelGroup>
 
     <c:FormApproval formId="approvalForm"
-      heading="Approve/Reject {!$ObjectType.Invoice__c.label}"
+      heading="{!$Label.ApproveReject} {!$ObjectType.Invoice__c.label}"
       sObjectName="FieloPRP__Invoice__c"
       fieldset="{!editSettings.FieloPLT__Sections__c}"
       mode="edit"
@@ -157,11 +150,11 @@
     <div id="modalInvoiceImage" role="dialog" tabindex="-1" aria-labelledby="header43" class="slds-modal">
       <div class="slds-modal__container">
         <div class="slds-modal__header">
-          <button class="slds-button slds-modal__close slds-button--icon-inverse" title="Close" onclick="closeModal();">
+          <button class="slds-button slds-modal__close slds-button--icon-inverse" title="{!$Label.Close}" onclick="closeModal();">
             <svg class="slds-button__icon slds-button__icon--large" aria-hidden="true">
                 <use xlink:href="/resource/1489600766000/FieloPRP__FieloSalesforce_Backend/lightning/icons/utility-sprite/svg/symbols.svg#close"></use>
             </svg>
-            <span class="slds-assistive-text">Close</span>
+            <span class="slds-assistive-text">{!$Label.Close}</span>
           </button>
           <h2 id="header43" class="slds-text-heading--medium">Modal Header</h2>
         </div>

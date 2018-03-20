@@ -30,7 +30,7 @@
       {'Label': 'Export', 'Type': 'Link', 'Action': '{!URLFOR($Page.XMLExport,null,[ retURL = $CurrentPage.url, type = 'incentives'])}', 'CssClass': '' },
       {'Label': 'Import', 'CssClass': '', 'Type': 'Link', 'Action': '{!URLFOR($Page.XMLImport,null,[retURL = $CurrentPage.url, type = 'incentives'])}'}"-->
     <c:FormInvoice namespace="FieloPRP" formId="invoiceForm"
-      heading="New {!$ObjectType.Invoice__c.label}"
+      heading="{!$Label.New} {!$ObjectType.Invoice__c.label}"
       sObjectName="FieloPRP__Invoice__c"
       fieldset="{!newSettings.FieloPLT__Sections__c}"
       mode="new"

@@ -14,7 +14,7 @@
 		      <header class="slds-media slds-media--center slds-has-flexi-truncate">
         		<div class="slds-media__body slds-truncate">
 		        <h2>
-		        	<span class="slds-text-heading--small">Items</span>
+		        	<span class="slds-text-heading--small">{!$Label.Items}</span>
 		        </h2>
 		        </div>
 		      </header>
@@ -60,11 +60,11 @@
 	                </apex:repeat>
                 </apex:repeat>
 	    					<td role="gridcell" class="slds-cell-shrink" data-label="Actions">
-		              <div class="slds-button slds-button--icon-x-small slds-button--delete" aria-haspopup="true"  title="Remove">
+		              <div class="slds-button slds-button--icon-x-small slds-button--delete" aria-haspopup="true"  title="{!$Label.Remove}">
 	                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" class="slds-button__icon slds-button__icon--hint">
 	                      <use xlink:href="{!URLFOR($Resource.FieloSalesforce_Backend)}/lightning/icons/action-sprite/svg/symbols.svg#remove"></use>
 	                    </svg>
-	                    <span class="slds-assistive-text">Remove</span>
+	                    <span class="slds-assistive-text">{!$Label.Remove}</span>
 		              </div>
 	  				    </td>
 	          	</tr>
@@ -72,7 +72,7 @@
 	          <tfoot>
 	          	<tr>
 	          		<td colspan="2" class="slds-text-align--right slds-text-heading--small">
-	          			Amount
+	          			{!$Label.Amount}
 	          		</td>
 	          		<td colspan="2" class="fielosf-total_points slds-text-heading--small">
 	          		</td>
