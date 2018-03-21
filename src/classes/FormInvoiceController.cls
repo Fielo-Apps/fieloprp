@@ -153,7 +153,7 @@ public with sharing class FormInvoiceController {
             Section productSection = new Section();
             for(Section s: sections) {
                 if(s.FieloPRP_Product != null){
-                    productSection.Name = 'Products';
+                    productSection.Name = Schema.describeSObjects(new String[]{ 'FieloPRP__InvoiceItem__c' }).get(0).fields.getMap().get(productField).getDescribe().getReferenceTo()[0].getDescribe().getLabelPlural();
                     productSection.rows = s.FieloPRP_Product;
                     break;
                 }
@@ -170,7 +170,7 @@ public with sharing class FormInvoiceController {
             Section itemSection = new Section();
             for(Section s: sections) {
                 if(s.FieloPRP_InvoiceItems != null){
-                    itemSection.Name = 'Items';
+                    itemSection.Name = Label.Items;
                     itemSection.rows = s.FieloPRP_InvoiceItems;
                     itemSection.rows = checkFields(itemSection.rows);
                     break;

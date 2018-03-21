@@ -38,7 +38,7 @@
 	     <li class="slds-p-around--small slds-size--3-of-3 slds-medium-size--3-of-4">
 	        <span class="slds-pill slds-size--3-of-3 slds-medium-size--3-of-4">
 	        	<a href="javascript:void(0)" class="slds-pill__label" title="Pill 1">Pill 1</a>
-	            <button class="slds-button slds-button--icon slds-pill__remove" title="Remove">
+	            <button class="slds-button slds-button--icon slds-pill__remove" title="{!$Label.Remove}">
 	                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" class="slds-button__icon slds-button__icon--hint">
 	                  <use xlink:href="{!URLFOR($Resource.FieloSalesforce_Backend)}/lightning/icons/action-sprite/svg/symbols.svg#remove"></use>
 	                </svg>

@@ -3,26 +3,34 @@ public class MultiFileUploader {
     public static Id saveAttachment(Id parentId, String fileName, String base64Data, String contentType) { 
         base64Data = EncodingUtil.urlDecode(base64Data, 'UTF-8');
         
-        Attachment a = new Attachment();
-        if (Schema.sObjectType.Attachment.fields.parentId.isCreateable()) {
-            a.parentId = parentId;
+        ContentVersion cv = new ContentVersion();
+        if (Schema.sObjectType.ContentVersion.fields.Title.isCreateable()) {
+            cv.Title = fileName;
         }
- 
-        if (Schema.sObjectType.Attachment.fields.Body.isCreateable()) {
-            a.Body = EncodingUtil.base64Decode(base64Data);
+        if (Schema.sObjectType.ContentVersion.fields.PathOnClient.isCreateable()) {
+            cv.PathOnClient = fileName;
         }
-        
-        if (Schema.sObjectType.Attachment.fields.Name.isCreateable()) {
-            a.Name = fileName;
+        if (Schema.sObjectType.ContentVersion.fields.VersionData.isCreateable()) {
+            cv.VersionData = EncodingUtil.base64Decode(base64Data);
         }
+        if (Schema.sObjectType.ContentVersion.fields.IsMajorVersion.isCreateable()) {
+            cv.IsMajorVersion = true;
+        }
+        insert cv;
 
-        if (Schema.sObjectType.Attachment.fields.ContentType.isCreateable()) {
-            a.ContentType = contentType;
+        ContentDocumentLink cdl = new ContentDocumentLink();
+        if (Schema.sObjectType.ContentDocumentLink.fields.ContentDocumentId.isCreateable()) {
+            cdl.ContentDocumentId = [SELECT Id, ContentDocumentId FROM ContentVersion WHERE Id =: cv.Id].ContentDocumentId;
         }
-        
-        insert a;
-        
-        return a.Id;
+        if (Schema.sObjectType.ContentDocumentLink.fields.LinkedEntityId.isCreateable()) {
+            cdl.LinkedEntityId = parentId;
+        }
+        if (Schema.sObjectType.ContentDocumentLink.fields.ShareType.isCreateable()) {
+            cdl.ShareType = 'V';
+        }
+        insert cdl;
+
+        return cv.Id;
     }
 
     @RemoteAction
@@ -39,18 +47,18 @@ public class MultiFileUploader {
     private static void appendToFile(Id fileId, String base64Data) {
         base64Data = EncodingUtil.urlDecode(base64Data, 'UTF-8');
         
-        Attachment a = [
-            SELECT Id, Body
-            FROM Attachment
+        ContentVersion cv = [
+            SELECT Id, VersionData
+            FROM ContentVersion
             WHERE Id = :fileId
         ];
         
-        String existingBody = EncodingUtil.base64Encode(a.Body);
-        if (Schema.sObjectType.Attachment.fields.Body.isUpdateable()) {
-            a.Body = EncodingUtil.base64Decode(existingBody + base64Data); 
+        String existingBody = EncodingUtil.base64Encode(cv.VersionData);
+        if (Schema.sObjectType.ContentVersion.fields.VersionData.isUpdateable()) {
+            cv.VersionData = EncodingUtil.base64Decode(existingBody + base64Data); 
         }
         
-        update a;
+        update cv;
     }
 
     @RemoteAction
