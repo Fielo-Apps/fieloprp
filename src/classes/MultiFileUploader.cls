@@ -62,23 +62,61 @@ public class MultiFileUploader {
     }
 
     @RemoteAction
-    public static Boolean deleteAttachments(List<String> attachmentIds){
-        Boolean result = false;
+    public static Boolean deleteFiles(List<String> attachmentIds){
+        List<Schema.DescribeSObjectResult> describes = Schema.describeSObjects(new String[]{'Attachment','ContentDocument'}); //[0].getDescribe().getKeyPrefix();
+        String attachmentPrefix;
+        String contentDocumentPrefix;
+        for (Schema.DescribeSObjectResult d: describes) {
+          if(d.getName()=='Attachment') {
+            attachmentPrefix = d.getKeyPrefix();
+          }
+          if(d.getName()=='ContentDocument') {
+            contentDocumentPrefix = d.getKeyPrefix();
+          }
+        }
+
         Set<Id> attachmentIdsSet = new Set<Id>();
+        Set<Id> documentIdsSet = new Set<Id>();
+
         for(String singleId: attachmentIds) {
-            try {
-                attachmentIdsSet.add((Id)singleId);
-            } catch (Exception e) {
-                continue;
+            if (singleId.substring(0,3).equals(attachmentPrefix)) {
+                attachmentIdsSet.add(singleId);
+            }
+            if (singleId.substring(0,3).equals(contentDocumentPrefix)) {
+                documentIdsSet.add(singleId);
             }
         }
-        if(!attachmentIdsSet.isEmpty()) {
-            String query = 'Select Id, Name From Attachment Where Id in :attachmentIdsSet';
-            List<Attachment> attachments = Database.query(query);
-            if(Attachment.SObjectType.getDescribe().isDeletable()){
-                delete attachments;
-                result = true;
-            }
+
+        Boolean attachmentResult=false;
+        Boolean documentResult=false;
+        if (!attachmentIdsSet.isEmpty()) {
+            attachmentResult = deleteAttachments(attachmentIdsSet);
+        }
+        if (!documentIdsSet.isEmpty()) {
+            documentResult = deleteDocuments(documentIdsSet);
+        }
+        
+        return attachmentResult || documentResult;
+    }
+
+    public static Boolean deleteAttachments(Set<Id> attachmentIdsSet) {
+        Boolean result = false;
+        String query = 'Select Id, Name From Attachment Where Id in :attachmentIdsSet';
+        List<Attachment> attachments = Database.query(query);
+        if(Attachment.SObjectType.getDescribe().isDeletable()){
+            delete attachments;
+            result = true;
+        }
+        return result;
+    }
+
+    public static Boolean deleteDocuments(Set<Id> documentIdsSet) {
+        Boolean result = false;
+        String query = 'SELECT Id, Title FROM ContentDocument WHERE Id in :documentIdsSet';
+        List<ContentDocument> documents = Database.query(query);
+        if(ContentDocument.SObjectType.getDescribe().isDeletable()){
+            delete documents;
+            result = true;
         }
         return result;
     }

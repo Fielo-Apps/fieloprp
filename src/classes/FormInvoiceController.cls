@@ -280,6 +280,7 @@ public with sharing class FormInvoiceController {
         if (itemFields != null) {
             query += String.format(' ,(SELECT {0} FROM InvoiceItems__r)', new List<String>{itemFields});
         }
+        query += ' ,(Select Id, ContentDocument.Title From ContentDocumentLinks)';
         query += ' ,(SELECT Id, Name FROM Attachments)';
         query += ' FROM ' + objectName;
         query += ' WHERE ID = :recordId' ;
