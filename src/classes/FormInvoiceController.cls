@@ -431,6 +431,9 @@ public with sharing class FormInvoiceController {
 
     @RemoteAction
     public static Boolean getHasDetailsFromMember(String memberId) {
+      if(!Schema.sObjectType.Invoice__c.isAccessible())
+            throw new FieloPLT.FieloException('Insufficient permission to access invoices.');
+
       String query = 'Select FieloPLT__Program__r.FieloPRP__RequestInvoiceProducts__c';
       query += ' FROM FieloPLT__Member__c';
       query += ' WHERE Id =: memberId';

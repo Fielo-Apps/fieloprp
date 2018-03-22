@@ -1,7 +1,6 @@
 <apex:page tabStyle="Invoice__c" sidebar="false" docType="html-5.0" standardController="Invoice__c" extensions="InvoiceViewController" >
 <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <head>
-  <script src="https://use.fontawesome.com/21ab711331.js"></script>
   <link rel="stylesheet" href="{!URLFOR($Resource.FieloSalesforce_Backend, 'lightning/styles/salesforce-lightning-design-system-vf.min.css')}"></link>
   <link rel="stylesheet" href="{!URLFOR($Resource.FieloSalesforce_Backend, 'fielo/styles/core.css')}"></link>
   <link rel="stylesheet" href="{!URLFOR($Resource.FieloPLT__FieloPlt_Salesforce, 'styles/core.css')}"></link>
