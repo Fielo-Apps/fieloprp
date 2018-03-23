@@ -133,7 +133,9 @@ public class MultiFileUploaderTest {
 
         System.assert(fileId != null);
 
-        Boolean deleted = MultiFileUploader.deleteAttachments(new List<String> {fileId});
+        ContentVersion cv = [SELECT Id, ContentDocumentId FROM ContentVersion WHERE Id = :fileId LIMIT 1];
+
+        Boolean deleted = MultiFileUploader.deleteFiles(new List<String> {cv.ContentDocumentId});
 
         System.assertEquals(true, deleted);
     }
