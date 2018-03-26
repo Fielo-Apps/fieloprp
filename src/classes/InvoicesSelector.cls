@@ -157,6 +157,19 @@ public class InvoicesSelector extends SObjectSelector{
         return (List<Invoice__c>) Database.query(query);
     }
 
+    public List<Invoice__c> selectByIdWithDocuments(Set<Id> invoiceIds) {
+        return (List<Invoice__c>) Database.query(String.format(
+                'select {0} ' +
+                  ', (SELECT Id, ContentDocument.Id FROM ContentDocumentLinks)' +
+                  'from {1} ' +
+                  'where Id In: invoiceIds ' +
+                  'order by {2}',
+                new List<String> {
+                    getFieldListString(),
+                    getSObjectName(),
+                    getOrderBy() } ));
+    }
+
     public static List<ProcessInstance> selectInvoiceApprovalProcessInstance(Set<Id> invoiceIds){
         String query = 'SELECT Id, TargetObjectId, '
                 + ' (SELECT Id, StepStatus,Actor.Name, Comments, CreatedDate, ProcessNode.Name FROM StepsAndWorkitems where StepStatus = \'Pending\')'
