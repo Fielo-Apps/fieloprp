@@ -503,10 +503,9 @@ private class TestCreateInvoice {
         }
     }
 
-
-    /*public static testmethod void unitTestTemporal(){
+    public static testmethod void unitTestTemporal(){
         InvoiceService.testTemporal();
         InvoiceService.testTempora2();
         InvoiceService.testTempora3();
-    }*/
+    }
 }
