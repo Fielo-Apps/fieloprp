@@ -29,13 +29,6 @@ public class ApprovalHistoryController {
 		public string status {get;set;}
 		public string comments {get;set;}
 
-		public Row(String action, Datetime stepDate, String status, String comments) {
-			this.action = action;
-			this.stepDate = stepDate;
-			this.status = status;
-			this.comments = comments;
-		}
-
 		public Row(String action, Datetime stepDate, String assignedTo, String approver, String status, String comments) {
 			this.action = action;
 			this.stepDate = stepDate;
@@ -94,16 +87,7 @@ public class ApprovalHistoryController {
 				for (ProcessInstance pi: pis) {
 					if (pi.StepsAndWorkitems != null) {
 						for (ProcessInstanceHistory pih : pi.StepsAndWorkitems) {
-							records.add(
-								new Row(
-									(pih.StepStatus == 'Started' ? Label.ApprovalRequestSubmitted : ('Step: ' + (pih.ProcessNode!=null?pih.ProcessNode.Name:''))),
-									pih.CreatedDate,
-									pih.OriginalActor.Name,
-									pi.LastActor.Name,
-									pih.StepStatus == 'Started' ? Label.Submitted : pih.StepStatus,
-									pih.Comments
-								)
-							);
+							records.add(new Row((pih.StepStatus == 'Started' ? Label.ApprovalRequestSubmitted : ('Step: ' + (pih.ProcessNode!=null?pih.ProcessNode.Name:''))),pih.CreatedDate,pih.OriginalActor.Name,pi.LastActor.Name,pih.StepStatus == 'Started' ? Label.Submitted : pih.StepStatus,pih.Comments));
 						}
 					}
 				}
@@ -112,7 +96,7 @@ public class ApprovalHistoryController {
 
 				if (!existingInvoices.isEmpty()) {
 					if (existingInvoices[0].Status__c == 'Approved' || existingInvoices[0].Status__c == 'Rejected') {
-						records.add(new Row(Label.SingleInvoiceApprovalAction,existingInvoices[0].LastModifiedDate,existingInvoices[0].Status__c,(existingInvoices[0].Status__c == 'Approved' ? '' : existingInvoices[0].RejectReason__c + ': ') + (existingInvoices[0].Comments__c!=null?existingInvoices[0].Comments__c:'')));
+						records.add(new Row(Label.SingleInvoiceApprovalAction,existingInvoices[0].LastModifiedDate,null,null,existingInvoices[0].Status__c,(existingInvoices[0].Status__c == 'Approved' ? '' : existingInvoices[0].RejectReason__c + ': ') + (existingInvoices[0].Comments__c!=null?existingInvoices[0].Comments__c:'')));
 					}
 				}
 			}

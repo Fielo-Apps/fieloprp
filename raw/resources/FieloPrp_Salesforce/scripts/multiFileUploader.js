@@ -29,7 +29,7 @@
     MAX_FILE_SIZE: 4350000,
     CHUNK_SIZE: 950000,
     UPLOAD_CONTROLLER: 'FieloPRP.MultiFileUploader.saveTheChunk',
-    DELETE_FILES_CONTROLLER: 'FieloPRP.MultiFileUploader.deleteAttachments'
+    DELETE_FILES_CONTROLLER: 'FieloPRP.MultiFileUploader.deleteFiles'
   };
 
   /**
@@ -157,8 +157,13 @@
     this.currentPillLabel =
       this.currentPillContainer.getElementsByClassName(
         this.CssClasses_.PILL_LABEL)[0];
-    this.currentPillLabel.innerHTML = fakeFile.Name;
-    this.currentPillLabel.setAttribute('title', fakeFile.Name);
+    if (fakeFile.Name) {
+      this.currentPillLabel.innerHTML = fakeFile.Name;
+      this.currentPillLabel.setAttribute('title', fakeFile.Name);
+    } else {
+      this.currentPillLabel.innerHTML = fakeFile.Title;
+      this.currentPillLabel.setAttribute('title', fakeFile.Title);
+    }
     this.currentPillLabel.setAttribute('data-record-id',
       fakeFile.Id);
     this.initPill(this.currentPillContainer);

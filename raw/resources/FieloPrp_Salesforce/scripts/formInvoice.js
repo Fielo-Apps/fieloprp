@@ -645,7 +645,7 @@
           } else {
             this.invoiceContainerItems_ = this.element_.getElementsByClassName(
             this.CssClasses_.ITEMS_CONTAINER)[0];
-            // todo: discover a new way to create redemption items, or turn the
+            // todo: discover a new way to create items, or turn the
             // the method into a public method
             this.invoiceContainerItems_.FieloInvoiceItems.newinvoiceItem_();
             this.invoiceItems_ =
@@ -683,6 +683,16 @@
         [].forEach.call(this.result.Attachments, function(attachment) {
           this.multiFileUploader_.FieloMultiFileUploaderPRP
             .addEmptyFilePill(attachment);
+        },
+          this
+        );
+      }
+      if (this.result.ContentDocumentLinks) {
+        [].forEach.call(this.result.ContentDocumentLinks, function(file) {
+          if (file.ContentDocument) {
+            this.multiFileUploader_.FieloMultiFileUploaderPRP
+              .addEmptyFilePill(file.ContentDocument);
+          }
         },
           this
         );

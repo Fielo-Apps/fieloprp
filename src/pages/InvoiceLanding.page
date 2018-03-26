@@ -13,7 +13,7 @@
   <div class="fielosf fielosf-invoices-landing">
     <!--HEADER -->
     <c:BackendHeaderRecord firstHeading="Invoices"
-      secondHeading="Recent Invoices"
+      secondHeading="{!$Label.Recent} {!$ObjectType.Invoice__c.labelPlural}"
       sObjectName="FieloPRP__Invoice__c"
       icon="{!URLFOR($Resource.FieloSalesforce_Backend)}/lightning/icons/standard-sprite/svg/symbols.svg#campaign"
       helpUrl="http://documentation.fielo.com/docs/incentives"
