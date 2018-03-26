@@ -1,34 +1,34 @@
 public with sharing class FormSubmitForApprovalController {
-	public FormSubmitForApprovalController(FormController controller) {
+    public FormSubmitForApprovalController(FormController controller) {
     }
 
     public class Entry {
-		public String Id{get;set;}
-		public String Label{get;set;}
-		public String MetaLabel{get;set;}
+        public String Id{get;set;}
+        public String Label{get;set;}
+        public String MetaLabel{get;set;}
 
-		public Entry ( String Id, String Label ) {
-			  this.Id = Id;
-			  this.Label = Label;
-			}
-	}
+        public Entry ( String Id, String Label ) {
+              this.Id = Id;
+              this.Label = Label;
+            }
+    }
 
-	public String userOptionsString {get{
-		if (userOptionsString == null) {
-			List<User> users = Database.query('SELECT Id, Name, IsActive FROM User WHERE IsActive = true');
-			List<Entry> entries = new List<Entry>();
+    public String userOptionsString {get{
+        if (userOptionsString == null) {
+            List<User> users = Database.query('SELECT Id, Name, IsActive FROM User WHERE IsActive = true');
+            List<Entry> entries = new List<Entry>();
 
-			if (!users.isEmpty()) {
-				for(User u: users) {
-					entries.add(new Entry(u.Id, u.Name));
-				}
-			}
-	   		userOptionsString = JSON.serialize(entries);
-		}
-		return userOptionsString;
-	}set;}
+            if (!users.isEmpty()) {
+                for(User u: users) {
+                    entries.add(new Entry(u.Id, u.Name));
+                }
+            }
+            userOptionsString = JSON.serialize(entries);
+        }
+        return userOptionsString;
+    }set;}
 
-	@RemoteAction
+    @RemoteAction
     public static FieloPLT.RemoteActionResult save(Map<String,String> record){
         Savepoint sp;
         FieloPLT.RemoteActionResult result = new FieloPLT.RemoteActionResult();
@@ -43,8 +43,8 @@ public with sharing class FormSubmitForApprovalController {
 
                 Approval.ProcessResult approvalResult = Approval.process(req1);
             
-    			result.addMessage( new FieloPLT.RemoteActionResult.RemoteActionMessage( ApexPages.Severity.Confirm, String.format(Label.InvoiceChangeStatusSuccess, new List<String> {'sent for approval'})) );
-            	result.redirectURL = '/'+record.get('Id');
+                result.addMessage( new FieloPLT.RemoteActionResult.RemoteActionMessage( ApexPages.Severity.Confirm, String.format(Label.InvoiceChangeStatusSuccess, new List<String> {'sent for approval'})) );
+                result.redirectURL = '/'+record.get('Id');
             } else {
                 result.addMessage( new FieloPLT.RemoteActionResult.RemoteActionMessage( ApexPages.Severity.Error, Label.ApproverRequired) );
             }
@@ -63,18 +63,18 @@ public with sharing class FormSubmitForApprovalController {
     }
 
     public class ApprovalResponse {
-    	FieloPLT.RemoteActionResult response {get;set;}
-    	Boolean choseApproverFirst {get;set;}
+        FieloPLT.RemoteActionResult response {get;set;}
+        Boolean choseApproverFirst {get;set;}
 
-    	public ApprovalResponse(FieloPLT.RemoteActionResult response, Boolean choseApproverFirst) {
-    		this.response = response;
-    		this.choseApproverFirst = choseApproverFirst;
-    	}
+        public ApprovalResponse(FieloPLT.RemoteActionResult response, Boolean choseApproverFirst) {
+            this.response = response;
+            this.choseApproverFirst = choseApproverFirst;
+        }
     }
 
     @RemoteAction
     public static ApprovalResponse submitForApproval(Map<String,String> record) {
-    	Savepoint sp;
+        Savepoint sp;
         FieloPLT.RemoteActionResult result = new FieloPLT.RemoteActionResult();
         Boolean choseApproverFirst = false;
         try{
@@ -85,13 +85,24 @@ public with sharing class FormSubmitForApprovalController {
             req1.setObjectId(record.get('Id'));
 
             Approval.ProcessResult approvalResult = Approval.process(req1);
+            
+            InvoiceService.updateInvoiceStatus(new Set<Id>{record.get('Id')}, 'Pending For Approval');
+
             result.addMessage( new FieloPLT.RemoteActionResult.RemoteActionMessage( ApexPages.Severity.Confirm, String.format(Label.InvoiceChangeStatusSuccess, new List<String> {'sent for approval'})) );
-        	result.redirectURL = '/'+record.get('Id');
+            result.redirectURL = '/'+record.get('Id');
+        } catch(DMLException e){
+            if(sp != null){
+                Database.rollback(sp);
+            }
+            if(e.getMessage().contains('[nextApproverIds]')) {
+                choseApproverFirst = true;
+            }
+            result.addMessage(new FieloPLT.RemoteActionResult.RemoteActionMessage(e));
         } catch (Exception e) {
-        	if(e.getMessage().contains('[nextApproverIds]')) {
-        		choseApproverFirst = true;
-        	}
-        	result.addMessage(new FieloPLT.RemoteActionResult.RemoteActionMessage(e));
+            if(e.getMessage().contains('[nextApproverIds]')) {
+                choseApproverFirst = true;
+            }
+            result.addMessage(new FieloPLT.RemoteActionResult.RemoteActionMessage(e));
         }
         return new ApprovalResponse(result,choseApproverFirst);
     }

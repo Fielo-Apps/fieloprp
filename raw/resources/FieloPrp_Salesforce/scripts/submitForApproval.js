@@ -51,7 +51,7 @@
     }
   };
 
-  FieloSubmitForApproval.prototype.submitCallback = function(result, event) {
+  FieloSubmitForApproval.prototype.submitCallback = function(result) {
     this.formApprover = document
       .querySelector('.' + this.CssClasses_.FORM_APPROVER);
     if (result.choseApproverFirst) {
@@ -63,11 +63,22 @@
       if (this.formApprover) {
         if (this.formApprover.FieloFormInvoiceApprover) {
           if (this.formApprover.FieloFormInvoiceApprover.form_) {
-            this
-              .formApprover
-              .FieloFormInvoiceApprover
-              .form_
-              .processRemoteActionResult_(result.response, event);
+            var notify = fielo.util.notify.create();
+            notify
+              .FieloNotify
+              .addMessages([result.response.messages[0].summary]);
+            notify
+              .FieloNotify
+              .setTheme(result.response.messages[0].severity.toLowerCase());
+            notify
+              .FieloNotify.show();
+            fielo.util.spinner.FieloSpinner.hide();
+            if (result
+              .response
+              .messages[0]
+              .severity.toLowerCase() !== 'error') {
+              location.reload();
+            }
           }
         }
       }
