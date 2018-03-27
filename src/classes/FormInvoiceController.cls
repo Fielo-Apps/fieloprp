@@ -310,39 +310,8 @@ public with sharing class FormInvoiceController {
         }
     }
 
-    public static String assembleMemberWhereCondition(Id memberId){
-        String whereCondition = '';
-        String query = 'Select Id, '
-            + 'FieloPLT__Points__c, '
-            + 'FieloPLT__Program__c, '
-            + '(Select Id From FieloPLT__MembersSegments__r) '
-            + 'From FieloPLT__Member__c '
-            + 'Where Id = :memberId';
-
-        List<FieloPLT__Member__c> members = (List<FieloPLT__Member__c>) Database.query(query);
-
-        if (!members.isEmpty()) {
-          if (members[0].FieloPLT__Program__c != null) {
-              whereCondition += ' AND FieloPLT__Program__c = \'' + members[0].FieloPLT__Program__c + '\'';
-          }
-          if (members[0].FieloPLT__Points__c != null) {
-              whereCondition += ' AND FieloPLT__Points__c <= ' + members[0].FieloPLT__Points__c;
-          }
-          if ( !members[0].FieloPLT__MembersSegments__r.isEmpty()) {
-              List<Id> memberSegments = new List<Id>( 
-                  new Map<Id, FieloPLT__MemberSegment__c>(
-                      members[0].FieloPLT__MembersSegments__r).keySet() 
-              );
-              whereCondition += ' AND (FieloPLT__Segment__c in (\'' + String.join(memberSegments,'\',\'') + '\')';
-              whereCondition += ' OR FieloPLT__Segment__c = null)';
-          }
-        }
-        return whereCondition;
-    }
-
-    public static String assembleWhereCondition(String fieldName, String fieldValue){
+    private static String assembleWhereCondition(String fieldName, String fieldValue){
         //Member Field Special Treatment
-        System.debug(fieldName + ' = ' + fieldValue);
         String singleWhereCondition='';
         if (staticFilterFieldMap.containsKey(fieldName)) {
             String fieldType = staticFilterFieldMap.get(fieldName).getDescribe().getType().name();
@@ -356,15 +325,12 @@ public with sharing class FormInvoiceController {
                 'TIME'};
 
             //Special treatment
-            System.debug(fieldName + ' = ' + fieldType);
             if (nonQuotedTypes.contains(fieldType)) {
-                singleWhereCondition = ' AND ' + fieldName + ' = ' + fieldValue;
-
+                singleWhereCondition = ' AND ' + fieldName + ' = ' + String.escapeSingleQuotes(fieldValue);
             } else if (fieldType == 'STRING') {
-                singleWhereCondition = ' AND ' + fieldName + ' like \'%' + fieldValue+'%\'';
-
+                singleWhereCondition = ' AND ' + fieldName + ' like \'%' + String.escapeSingleQuotes(fieldValue)+'%\'';
             } else {
-                singleWhereCondition = ' AND ' + fieldName + ' = \'' + fieldValue+'\'';
+                singleWhereCondition = ' AND ' + fieldName + ' = \'' + String.escapeSingleQuotes(fieldValue)+'\'';
             }
         }
         return singleWhereCondition;
@@ -375,13 +341,13 @@ public with sharing class FormInvoiceController {
       String whereCondition = '';
       if(filterJson != null && filterJson != '{}'){
         Map<String,Object> filter = (Map<String, Object>) JSON.deserializeUntyped( filterJson);
-        for ( String k :filter.keySet() ) {
-          String value = String.valueOf(filter.get(k));
-          if (value != null) {
-            if ( value.startsWith('!') ) {
-              whereCondition += ' AND ' + k + ' <> \'' +  value.substring(1) + '\'';
+        for ( String fieldName :filter.keySet() ) {
+          String fieldValue = String.valueOf(filter.get(fieldName));
+          if (fieldValue != null) {
+            if ( fieldValue.startsWith('!') ) {
+              whereCondition += ' AND ' + fieldName + ' <> \'' +  fieldValue.substring(1) + '\'';
             } else {
-              whereCondition += assembleWhereCondition(k,value);
+              whereCondition += assembleWhereCondition(fieldName,fieldValue);
             }
           }
         }
@@ -426,6 +392,8 @@ public with sharing class FormInvoiceController {
         if ( offset != null ){
           query += ' OFFSET '+ String.valueOf(offset);
         }
+        
+        //query = String.escapeSingleQuotes(query);
         System.debug('query: ' + query);
         return Database.query(query);
     }
