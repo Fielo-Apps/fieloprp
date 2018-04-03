@@ -326,11 +326,11 @@ public with sharing class FormInvoiceController {
 
             //Special treatment
             if (nonQuotedTypes.contains(fieldType)) {
-                singleWhereCondition = ' AND ' + fieldName + ' = ' + String.escapeSingleQuotes(fieldValue);
+                singleWhereCondition = ' AND ' + String.escapeSingleQuotes(fieldName) + ' = ' + String.escapeSingleQuotes(fieldValue);
             } else if (fieldType == 'STRING') {
-                singleWhereCondition = ' AND ' + fieldName + ' like \'%' + String.escapeSingleQuotes(fieldValue)+'%\'';
+                singleWhereCondition = ' AND ' + String.escapeSingleQuotes(fieldName) + ' like \'%' + String.escapeSingleQuotes(fieldValue)+'%\'';
             } else {
-                singleWhereCondition = ' AND ' + fieldName + ' = \'' + String.escapeSingleQuotes(fieldValue)+'\'';
+                singleWhereCondition = ' AND ' + String.escapeSingleQuotes(fieldName) + ' = \'' + String.escapeSingleQuotes(fieldValue)+'\'';
             }
         }
         return singleWhereCondition;
@@ -345,7 +345,7 @@ public with sharing class FormInvoiceController {
           String fieldValue = String.valueOf(filter.get(fieldName));
           if (fieldValue != null) {
             if ( fieldValue.startsWith('!') ) {
-              whereCondition += ' AND ' + fieldName + ' <> \'' +  fieldValue.substring(1) + '\'';
+              whereCondition += ' AND ' + String.escapeSingleQuotes(fieldName) + ' <> \'' +  String.escapeSingleQuotes(fieldValue.substring(1)) + '\'';
             } else {
               whereCondition += assembleWhereCondition(fieldName,fieldValue);
             }
