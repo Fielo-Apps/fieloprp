@@ -1,5 +1,5 @@
-public interface ButtonActionInterface {
+global interface ButtonActionInterface {
     
-    FieloPRP.RemoteActionResult executeAction(List<Id> recordIds, String parameters);
+    RemoteActionResult  executeAction(List<Id> recordIds, String parameters);
 
 }
