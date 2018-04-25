@@ -1,5 +1,5 @@
-public interface ButtonActionInterface {
+global interface ButtonActionInterface {
     
-    RemoteActionResult executeAction(List<Id> recordIds, String parameters);
+    RemoteActionResult  executeAction(List<Id> recordIds, String parameters);
 
 }
