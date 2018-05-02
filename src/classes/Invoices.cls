@@ -116,6 +116,14 @@ public with sharing class Invoices extends SObjectDomain {
                 invoice.RejectReason__c = '';
                 invoice.Comments__c = '';
             }
+            if (invoice.Status__c == 'Approved' && ((Invoice__c)existingRecords.get(invoice.Id)).Status__c != 'Approved') {
+                invoice.ApprovalDate__c = System.now();
+            }
+            if (invoice.Status__c != 'Approved' && ((Invoice__c)existingRecords.get(invoice.Id)).Status__c == 'Approved') {
+                invoice.ApprovalDate__c = null;
+            }
+
+
         }
     }
 
