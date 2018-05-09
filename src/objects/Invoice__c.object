@@ -67,9 +67,9 @@
         <type>Currency</type>
     </fields>
     <fields>
-        <fullName>ApprovalDate__c</fullName>
+        <fullName>ApprovedDate__c</fullName>
         <externalId>false</externalId>
-        <label>ApprovalDate</label>
+        <label>Approved Date</label>
         <required>false</required>
         <trackTrending>false</trackTrending>
         <type>DateTime</type>
