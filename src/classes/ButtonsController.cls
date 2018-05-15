@@ -111,7 +111,7 @@ public with sharing class ButtonsController {
       String queryString = '';
       if ( !String.isBlank(Parameters) ) {
         try {        
-          Map<String,String> p = (Map<String,String>) JSON.deserializeUntyped(Parameters);
+          Map<String,String> p = (Map<String,String>) JSON.deserialize(Parameters,Map<String,String>.class);
           for ( String key: p.keySet()){
             queryString += '&' + key + '=' + p.get(key);
           }

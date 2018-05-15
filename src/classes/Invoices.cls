@@ -13,6 +13,7 @@ public with sharing class Invoices extends SObjectDomain {
     public static Boolean amountHasChanged;
     public static Boolean dateHasChanged;
     public static Boolean invoiceNumberHasChanged;
+    public static Set<Id> approvedInvoicesId = new Set<Id>();
 
     public Invoices(List<Invoice__c> records) {
         super(records);
@@ -105,6 +106,13 @@ public with sharing class Invoices extends SObjectDomain {
                     ) {
                     invoice.addError( Label.InvalidStatusChange );
                 }
+
+                if(!approvedInvoicesId.contains(invoice.Id)){
+                    if(invoice.ApprovedDate__c != ((Invoice__c)existingRecords.get(invoice.Id)).ApprovedDate__c){
+                        invoice.ApprovedDate__c = ((Invoice__c)existingRecords.get(invoice.Id)).ApprovedDate__c;
+                    }
+
+                }
             }
             getDuplicatedRecords(records);
         }
@@ -116,6 +124,15 @@ public with sharing class Invoices extends SObjectDomain {
                 invoice.RejectReason__c = '';
                 invoice.Comments__c = '';
             }
+            if (invoice.Status__c == 'Approved' && ((Invoice__c)existingRecords.get(invoice.Id)).Status__c != 'Approved') {
+                invoice.ApprovedDate__c = System.now();
+                approvedInvoicesId.add(invoice.Id);
+            }
+            if (invoice.Status__c != 'Approved' && ((Invoice__c)existingRecords.get(invoice.Id)).Status__c == 'Approved') {
+                invoice.ApprovedDate__c = null;
+            }
+
+
         }
     }
 

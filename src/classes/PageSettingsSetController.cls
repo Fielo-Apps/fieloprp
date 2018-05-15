@@ -1,7 +1,7 @@
 // TODO: Ver que pasa cuando hay registros para un program y registros sin program
 public with sharing abstract class PageSettingsSetController {
     public String objectName { get; set; }
-    private Map<ID, Schema.RecordTypeInfo> mapRecordTypes { get; set; } 
+   // private Map<ID, Schema.RecordTypeInfo> mapRecordTypes { get; set; } 
 
 /* Para los page settings de una landing */
     private FieloPLT__PageSettings__c newPS {get;set;}
