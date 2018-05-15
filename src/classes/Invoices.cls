@@ -108,8 +108,8 @@ public with sharing class Invoices extends SObjectDomain {
                 }
 
                 if(!approvedInvoicesId.contains(invoice.Id)){
-                    if(invoice.ApprovalDate__c != ((Invoice__c)existingRecords.get(invoice.Id)).ApprovalDate__c){
-                        invoice.ApprovalDate__c = ((Invoice__c)existingRecords.get(invoice.Id)).ApprovalDate__c;
+                    if(invoice.ApprovedDate__c != ((Invoice__c)existingRecords.get(invoice.Id)).ApprovedDate__c){
+                        invoice.ApprovedDate__c = ((Invoice__c)existingRecords.get(invoice.Id)).ApprovedDate__c;
                     }
 
                 }
@@ -125,11 +125,11 @@ public with sharing class Invoices extends SObjectDomain {
                 invoice.Comments__c = '';
             }
             if (invoice.Status__c == 'Approved' && ((Invoice__c)existingRecords.get(invoice.Id)).Status__c != 'Approved') {
-                invoice.ApprovalDate__c = System.now();
+                invoice.ApprovedDate__c = System.now();
                 approvedInvoicesId.add(invoice.Id);
             }
             if (invoice.Status__c != 'Approved' && ((Invoice__c)existingRecords.get(invoice.Id)).Status__c == 'Approved') {
-                invoice.ApprovalDate__c = null;
+                invoice.ApprovedDate__c = null;
             }
 
 
