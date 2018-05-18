@@ -244,12 +244,13 @@ The Invoice has its status changed
    3. The system displays the "Revert" and "Reprocess" buttons
    4. The back office user presses the "Revert" button
    5. The system changes the Invoice status to "Canceled"
-   6. The system reverts the related approval transaction
-   7. The system refreshes the Invoice details page
-   8. The system clears the Approval History
-   9. The system hides the "Revert" button
-   10. The system displays the "Reopen" button and maintains the "Reprocess" button
-   11. End of flow
+   6. The system clears the "Approved Date" field
+   7. The system reverts the related approval transaction
+   8. The system refreshes the Invoice details page
+   9. The system clears the Approval History
+   10. The system hides the "Revert" button
+   11. The system displays the "Reopen" button and maintains the "Reprocess" button
+   12. End of flow
 
 ##### 15. The back office user reverts an approved Invoice that belongs to a program that has the option "Request Invoice Authorization" set to FALSE (step 1 of basic flow)
    1. The back office user selects, in the Invoices landing page, an invoice which status is "Approved" from a program where the option "Request Invoice Authorization" is set to false
@@ -257,12 +258,13 @@ The Invoice has its status changed
    3. The system displays the "Revert" and "Reprocess" buttons
    4. The back office user presses the "Revert" button
    5. The system changes the Invoice status to "Canceled"
-   6. The system reverts the related approval transaction
-   7. The system refreshes the Invoice details page
-   8. The system clears the Approval History
-   9. The system hides the "Revert" button
-   10. The system displays the "Reopen" button and maintains the "Reprocess" button
-   11. End of flow
+   6. The system clears the "Approved Date" field
+   7. The system reverts the related approval transaction
+   8. The system refreshes the Invoice details page
+   9. The system clears the Approval History
+   10. The system hides the "Revert" button
+   11. The system displays the "Reopen" button and maintains the "Reprocess" button
+   12. End of flow
 
 ##### 16. The back office user reprocesses an approved Invoice that belongs to a program that has the option "Request Invoice Authorization" set to true (step 1 of basic flow)
    1. The back office user selects, in the Invoices landing page, an invoice which status is "Approved" from a program where the option "Request Invoice Authorization" is set to true
@@ -270,10 +272,11 @@ The Invoice has its status changed
    3. The system displays the "Revert" and "Reprocess" buttons
    4. The back office user presses the "Reprocess" button
    5. The system maintains the Invoice status in "Approved"
-   6. The system reprocesses the invoice
-   7. The system refreshes the Invoice details page
-   8. The system maintains the "Revert" and "Reprocess" buttons
-   9. End of flow
+   6. The systems does not update the "Approved Date" field
+   7. The system reprocesses the invoice
+   8. The system refreshes the Invoice details page
+   9. The system maintains the "Revert" and "Reprocess" buttons
+   10. End of flow
 
 ##### 17. The back office user reprocesses an approved Invoice that belongs to a program that has the option "Request Invoice Authorization" set to FALSE (step 1 of basic flow)
    1. The back office user selects, in the Invoices landing page, an invoice which status is "Approved" from a program where the option "Request Invoice Authorization" is set to false
@@ -281,10 +284,11 @@ The Invoice has its status changed
    3. The system displays the "Revert" and "Reprocess" buttons
    4. The back office user presses the "Reprocess" button
    5. The system maintains the Invoice status in "Approved"
-   6. The system reprocesses the invoice
-   7. The system refreshes the Invoice details page
-   8. The system maintains the "Revert" and "Reprocess" buttons
-   9. End of flow
+   6. The systems does not update the "Approved Date" field
+   7. The system reprocesses the invoice
+   8. The system refreshes the Invoice details page
+   9. The system maintains the "Revert" and "Reprocess" buttons
+   10. End of flow
 
 ##### 18. The back office user reopens a rejected Invoice that belongs to a program that has the option "Request Invoice Authorization" set to true (step 1 of basic flow)
    1. The back office user selects, in the Invoices landing page, an invoice which status is "Rejected" from a program where the option "Request Invoice Authorization" is set to true
