@@ -64,10 +64,13 @@ public class TestChangeInvoiceStatus {
         Test.startTest();
 
         invoices[0].Status__c = 'Approved';
+        Date dt = (System.now()).date();
 
         update invoices;
 
-        system.assertEquals('Approved', ((Invoice__c)[SELECT Id, Status__c FROM Invoice__c]).Status__c);
+        invoices[0] = (Invoice__c)[SELECT Id, Status__c, ApprovedDate__c FROM Invoice__c];
+        system.assertEquals('Approved', invoices[0].Status__c);
+        system.assertEquals(dt,(invoices[0].ApprovedDate__c).date());
 
         Test.stopTest();
     }
@@ -169,8 +172,11 @@ public class TestChangeInvoiceStatus {
 
         update invoices;
 
+        invoices[0] = [SELECT Id, Status__c,ApprovedDate__c FROM Invoice__c LIMIT 1];
+
         system.assertEquals(true,[Select Id, Name, FieloPLT__IsReverted__c From FieloPLT__Transaction__c WHERE Invoice__c =: invoices[0].Id ].FieloPLT__IsReverted__c);
-        system.assertEquals('Canceled',[SELECT Id, Status__c FROM Invoice__c LIMIT 1].Status__c);
+        system.assertEquals('Canceled',invoices[0].Status__c);
+        system.assertEquals(null,invoices[0].ApprovedDate__c);
 
         Test.stopTest();
     }
@@ -196,10 +202,15 @@ public class TestChangeInvoiceStatus {
         invoices[0].Status__c = 'Approved';
 
         update invoices;
+        invoices[0] = (Invoice__c)[SELECT Id, ApprovedDate__c FROM Invoice__c LIMIT 1];
+        Datetime dtm = invoices[0].ApprovedDate__c;
 
         InvoiceService.reprocessInvoice(new Set<Id>{invoices[0].Id});
 
-        system.assertEquals('Approved',[SELECT Id, Status__c FROM Invoice__c LIMIT 1].Status__c);
+        invoices[0] = [SELECT Id, Status__c, ApprovedDate__c FROM Invoice__c LIMIT 1];
+
+        system.assertEquals('Approved',invoices[0].Status__c);
+        system.assertEquals(dtm,invoices[0].ApprovedDate__c);
 
         Test.stopTest();
     }
@@ -301,11 +312,17 @@ public class TestChangeInvoiceStatus {
 
         invoices[0].Comments__c = 'Comment Test';
 
-        update invoices;
-        
-        system.assertEquals('Approved',[SELECT Id, Status__c FROM Invoice__c LIMIT 1].Status__c);
+        Date dt = (System.now()).date();
 
-        system.assertEquals('Comment Test',[SELECT Id, Comments__c FROM Invoice__c LIMIT 1].Comments__c);
+        update invoices;
+
+        invoices[0] = (Invoice__c)[SELECT Id, Status__c, Comments__c, ApprovedDate__c FROM Invoice__c];
+        
+        system.assertEquals('Approved',invoices[0].Status__c);
+
+        system.assertEquals('Comment Test',invoices[0].Comments__c);
+
+        system.assertEquals(dt,(invoices[0].ApprovedDate__c).date());
 
 
         Test.stopTest();
@@ -495,13 +512,17 @@ public class TestChangeInvoiceStatus {
         invoices[0].Comments__c = 'Commenting Test';
         
         invoices[0].Status__c = 'Approved';
+
+        Date dt = (System.now()).date();
                 
         update invoices;
+        invoices[0] = (Invoice__c)[SELECT Id, Status__c, Comments__c, ApprovedDate__c FROM Invoice__c LIMIT 1];
 
-        system.assertEquals('Approved',[SELECT Id, Status__c FROM Invoice__c LIMIT 1].Status__c);
+        system.assertEquals('Approved',invoices[0].Status__c);
 
-        system.assertEquals('Commenting Test',[SELECT Id, Comments__c FROM Invoice__c LIMIT 1].Comments__c);
-
+        system.assertEquals('Commenting Test',invoices[0].Comments__c);
+        
+        system.assertEquals(dt,(invoices[0].ApprovedDate__c).date());
         Test.stopTest();
     }
 
@@ -588,14 +609,18 @@ public class TestChangeInvoiceStatus {
 
         invoices[0].Status__c = 'Approved';
         invoices[0].Comments__c = 'Approved Test';
+        Date dt = (System.now()).date();
+
 
         update invoices;
 
-        system.assertEquals('Approved',[SELECT Id, Status__c FROM Invoice__c LIMIT 1].Status__c);        
+        invoices[0] = (Invoice__c)[SELECT Id, Status__c, Comments__c, ApprovedDate__c FROM Invoice__c];
+
+        system.assertEquals('Approved',invoices[0].Status__c);        
                 
-        system.assertEquals('Approved Test',[SELECT Id, Comments__c FROM Invoice__c LIMIT 1].Comments__c);
+        system.assertEquals('Approved Test',invoices[0].Comments__c);
 
-
+        system.assertEquals(dt,(invoices[0].ApprovedDate__c).date());
         Test.stopTest();
     }
 
@@ -682,8 +707,11 @@ public class TestChangeInvoiceStatus {
         system.assertEquals('Canceled',[SELECT Id, Status__c FROM Invoice__c LIMIT 1].Status__c);
 
         InvoiceService.updateInvoiceStatus(new Set<Id>{invoices[0].Id}, 'Approved');
+        Date dt = (System.now()).date();
+        invoices[0] = (Invoice__c)[SELECT Id, Status__c, ApprovedDate__c FROM Invoice__c LIMIT 1];
 
-        system.assertEquals('Approved',[SELECT Id, Status__c FROM Invoice__c LIMIT 1].Status__c);
+        system.assertEquals('Approved',invoices[0].Status__c);
+        system.assertEquals(dt,(invoices[0].ApprovedDate__c).date());
 
         Test.stopTest();
     }
@@ -754,13 +782,16 @@ public class TestChangeInvoiceStatus {
 
         invoices[0].Status__c = 'Approved';
         invoices[0].Comments__c = 'Approved Test';
+        Date dt = (System.now()).date();
         
         update invoices;
 
-        system.assertEquals('Approved',[SELECT Id, Status__c FROM Invoice__c LIMIT 1].Status__c);
-    
-        system.assertEquals('Approved Test',[SELECT Id, Comments__c FROM Invoice__c LIMIT 1].Comments__c);
+        invoices[0] = (Invoice__c)[SELECT Id, Status__c, Comments__c, ApprovedDate__c FROM Invoice__c LIMIT 1];
 
+        system.assertEquals('Approved',invoices[0].Status__c);
+    
+        system.assertEquals('Approved Test',invoices[0].Comments__c);
+        system.assertEquals(dt,(invoices[0].ApprovedDate__c).date());
     }
 
     /*  TEST-1649
@@ -973,11 +1004,14 @@ public class TestChangeInvoiceStatus {
 
         update invoices;
 
-        system.assertEquals('Canceled',[SELECT Id, Status__c FROM Invoice__c LIMIT 1].Status__c);
+        invoices[0] = (Invoice__c)[SELECT Id, Status__c, Comments__c, RejectReason__c, ApprovedDate__c FROM Invoice__c];
+        system.assertEquals('Canceled',invoices[0].Status__c);
         
-        system.assertEquals(null,[SELECT Id, Comments__c FROM Invoice__c LIMIT 1].Comments__c);
+        system.assertEquals(null,invoices[0].Comments__c);
         
-        system.assertEquals(null,[SELECT Id, RejectReason__c FROM Invoice__c LIMIT 1].RejectReason__c);
+        system.assertEquals(null,invoices[0].RejectReason__c);
+
+        system.assertEquals(null,invoices[0].ApprovedDate__c);
 
     }
 
@@ -1035,10 +1069,13 @@ public class TestChangeInvoiceStatus {
         invoices[0].Status__c = 'Approved';
 
         update invoices;
+        invoices[0] = (Invoice__c)[SELECT Id, ApprovedDate__c FROM Invoice__c LIMIT 1];
+        Datetime dtm = invoices[0].ApprovedDate__c;
 
         InvoiceService.reprocessInvoice(new Set<Id>{invoices[0].Id});
-
-        system.assertEquals('Approved',[SELECT Id, Status__c FROM Invoice__c LIMIT 1].Status__c);
+        invoices[0] = (Invoice__c)[SELECT Id, Status__c, ApprovedDate__c FROM Invoice__c LIMIT 1];
+        system.assertEquals('Approved',invoices[0].Status__c);
+        system.assertEquals(dtm,invoices[0].ApprovedDate__c);
     }
 
     /*  TEST-1659
@@ -1141,9 +1178,13 @@ public class TestChangeInvoiceStatus {
         system.assertEquals('Canceled',[SELECT Id, Status__c FROM Invoice__c LIMIT 1].Status__c);
 
         invoices[0].Status__c = 'Approved';
+        Date dt = (System.now()).date();
 
         update invoices;
+        invoices[0] = (Invoice__c)[SELECT Id, Status__c, Comments__c, ApprovedDate__c FROM Invoice__c LIMIT 1];
         
-        system.assertEquals('Approved',[SELECT Id, Status__c FROM Invoice__c LIMIT 1].Status__c);
+        system.assertEquals('Approved',invoices[0].Status__c);
+        system.assertEquals(dt,(invoices[0].ApprovedDate__c).date());
+
     }
 }
