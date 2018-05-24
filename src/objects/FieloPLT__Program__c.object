@@ -12,7 +12,9 @@
     <fields>
         <fullName>RequestInvoiceAuthorization__c</fullName>
         <defaultValue>false</defaultValue>
+        <description>When on, Invoices uploaded by Members will have to be approved before being processed for points rewarding.</description>
         <externalId>false</externalId>
+        <inlineHelpText>When on, Invoices uploaded by Members will have to be approved before being processed for points rewarding.</inlineHelpText>
         <label>Request Invoice Authorization</label>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
@@ -20,7 +22,9 @@
     <fields>
         <fullName>RequestInvoiceProducts__c</fullName>
         <defaultValue>false</defaultValue>
+        <description>When on, Members will be asked to itemize the products on the Invoices they upload.</description>
         <externalId>false</externalId>
+        <inlineHelpText>When on, Members will be asked to itemize the products on the Invoices they upload.</inlineHelpText>
         <label>Request Invoice Products</label>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
