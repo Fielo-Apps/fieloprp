@@ -1,5 +1,5 @@
 public class InvoiceFilterController {
-	@auraEnabled
+	@AuraEnabled
 	public static String getFieldData(String objectName, String fieldNames, String rangedFields) {
 		try{
 			Set<String> rangedFieldSet = new Set<String>(rangedFields != '' && rangedFields != null ? rangedFields.split(',') : new List<String>());
@@ -17,6 +17,13 @@ public class InvoiceFilterController {
 				fieldAttributes = (Map<String, Object>) fieldMeta.get('attributes');
 				if (!fieldAttributes.containsKey('isRanged')) {
 					fieldAttributes.put('isRanged', (Object) String.valueOf(rangedFieldSet.contains(String.valueOf(fieldAttributes.get('name')))));
+					if (rangeLabel.containsKey(String.valueOf(fieldAttributes.get('type')))) {
+						fieldAttributes.put('rangeLabel', (Object) String.valueOf(rangeLabel.get(String.valueOf(fieldAttributes.get('type')))));	
+					} else {
+						fieldAttributes.put('rangeLabel', (Object) Label.RangeSuffix);
+					}
+					
+
 				}
 				fieldMeta.put('attributes', (Object) fieldAttributes);
 				newfieldsInfo.add(fieldMeta);
@@ -30,4 +37,17 @@ public class InvoiceFilterController {
         }
         return null;
 	}
+
+	public static Map<String, String> rangeLabel {get{
+		if (rangeLabel == null) {
+			rangeLabel = new Map<String, String>{
+				'currency' => Label.CurrencyRangeSuffix,
+        		'double' => Label.DoubleRangeSuffix,
+        		'percent' => Label.PercentRangeSuffix,
+        		'date' => Label.DateRangeSuffix,
+        		'datetime' => Label.DatetimeRangeSuffix
+			};
+		}
+		return rangeLabel;
+	} set; }
 }

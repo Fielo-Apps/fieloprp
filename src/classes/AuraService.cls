@@ -69,6 +69,7 @@ public class AuraService {
 				fieldAttributes.put('soaptype', fieldDescribe.getSOAPType().name().toLowerCase());
 				fieldAttributes.put('scale', String.valueOf(fieldDescribe.getScale()));
 				fieldAttributes.put('precision', String.valueOf(fieldDescribe.getPrecision()));
+				fieldAttributes.put('tooltip', fieldDescribe.getInlineHelpText());
 				if (fieldDescribe.getScale()!=null) {
 					fieldAttributes.put('step', '0.' + '0'.repeat(fieldDescribe.getScale()-1) + '1' );
 				}
@@ -89,7 +90,11 @@ public class AuraService {
                 }
                 if (fieldAttributes.get('type') == 'currency') {
                     fieldAttributes.put('currencyCode', UserInfo.getDefaultCurrency());
+                    fieldAttributes.put('formatter', 'currency');
                 }
+                if (fieldAttributes.get('type') == 'percent') {
+                	fieldAttributes.put('formatter', 'percent');	
+               	}
 				if (fieldAttributes.get('type') == 'reference') {
 					relatedObjectDescribe = fieldDescribe.getReferenceTo()[0].getDescribe();
 					fieldAttributes.put('referenceTo', relatedObjectDescribe.getName());

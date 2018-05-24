@@ -30,6 +30,12 @@ public class MyInvoicesController {
             if (fieldsInvoicesSet.contains('FieloPRP__InvoiceItems__r')) {
                 fieldsInvoicesSet.remove('FieloPRP__InvoiceItems__r');
             }
+            if (fieldsInvoicesSet.contains('FieloPRP__Transactions__r')) {
+                fieldsInvoicesSet.remove('FieloPRP__Transactions__r');
+            }
+            if (fieldsInvoicesSet.contains('FieloPRP__Trackers__r')) {
+                fieldsInvoicesSet.remove('FieloPRP__Trackers__r');
+            }
 
             System.debug('whereClause = ' + whereClause);
             List<SObject> myInvoices = InvoiceService.getInvoices(
