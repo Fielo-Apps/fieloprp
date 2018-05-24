@@ -94,7 +94,7 @@
         <description>The date an Invoice was issued.</description>
         <externalId>false</externalId>
         <inlineHelpText>Select the date the invoice was issued.</inlineHelpText>
-        <label>Date</label>
+        <label>Date of Issue</label>
         <required>false</required>
         <trackTrending>false</trackTrending>
         <type>Date</type>
@@ -117,7 +117,7 @@
         <description>The Salesforce Account of the issuer of an Invoice.</description>
         <externalId>false</externalId>
         <inlineHelpText>Enter the issuer of the invoice. This must be an Account in your org.</inlineHelpText>
-        <label>Distributor</label>
+        <label>Seller</label>
         <referenceTo>Account</referenceTo>
         <relationshipLabel>Invoices</relationshipLabel>
         <relationshipName>Invoices</relationshipName>
