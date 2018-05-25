@@ -1,5 +1,5 @@
 public class MyInvoicesController {
-	@auraEnabled
+	@AuraEnabled
 	public static List<SObject> getInvoices(List<String> fieldsInvoices, Id memberId, String whereClause, Integer quantity, Integer offset, String orderBy) {
         try{
             Map<String, DescribeFieldResult> fieldsDescribeMap = AuraService.getFieldsDescribe('FieloPRP__Invoice__c', fieldsInvoices);
@@ -81,25 +81,20 @@ public class MyInvoicesController {
         }
     }
 
-    @auraEnabled    
-    public static Map<String, map<String, String>> getPicklistsValues(List<String> listPicklistsToTranslate){
-        if(listPicklistsToTranslate == null || listPicklistsToTranslate.isEmpty()){return null;}
+    @AuraEnabled
+    public static FieloPLT__Program__c getActiveProgram(String memberId) {
+        try{
+            List<FieloPLT__Member__c> members = [SELECT Id, FieloPLT__Program__r.Id, FieloPLT__Program__r.FieloPRP__ProductInjectQuery__c, FieloPLT__Program__r.FieloPRP__RequestInvoiceProducts__c FROM FieloPLT__Member__c WHERE Id = :memberId];
 
-        map<String, map<String, String>> mapPicklistsValues = new map<String, map<String, String>>();
-
-        for(String picklistAPIName: listPicklistsToTranslate){
-            if(Invoice__c.sObjectType.getDescribe().fields.getMap().containsKey(picklistAPIName.toLowerCase())){
-                Schema.Describefieldresult dfield = (Invoice__c.sObjectType.getDescribe().fields.getMap().get(picklistAPIName.toLowerCase())).getDescribe();
-                if(String.ValueOf(dfield.getType()).toLowerCase() == 'picklist'){
-                    mapPicklistsValues.put(picklistAPIName, new map<String, String>());
-                    for (Schema.PicklistEntry pValues: dfield.getPicklistValues()) {
-                        mapPicklistsValues.get(picklistAPIName).put(pValues.getValue(), pValues.getLabel());
-                    }
-                }
+            if (!members.isEmpty()) {
+                FieloPLT__Program__c program = members[0].FieloPLT__Program__r;
+                return program;
             }
+        } catch (DmlException e) {
+            throw new AuraHandledException(e.getDmlMessage(0));
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
         }
-
-        return mapPicklistsValues;
+        return null;
     }
-
 }
