@@ -6,7 +6,8 @@ public with sharing class InvoiceViewController extends PageSettingsController {
     public String hiddenClass {get;set;}
     public Boolean lockedRecord {get;set;}
     public Map<String,FieloPLT__PageSettings__c> lookupSettings {get;set;}
-
+	
+    public InvoiceViewController(){}
     /**
     * @brief constructor
     */
