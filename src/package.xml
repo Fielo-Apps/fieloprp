@@ -39,6 +39,8 @@
 		<members>FieloPLT__Program__c.RequestInvoiceProducts__c</members>
 		<members>FieloPLT__PublicSettings__c.ProductLookupField__c</members>
 		<members>FieloPLT__PublicSettings__c.InvoiceDuplicateClass__c</members>
+		<members>FieloPLT__PublicSettings__c.MaxFileChunkSize__c</members>
+		<members>FieloPLT__PublicSettings__c.MaxFileSize__c</members>
 		<members>FieloPLT__Tracker__c.Invoice__c</members>
 		<members>FieloPLT__Transaction__c.Invoice__c</members>
 		<members>FieloPLT__EmailAlert__c.Invoice__c</members>
