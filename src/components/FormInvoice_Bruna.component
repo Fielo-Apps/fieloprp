@@ -1,0 +1,148 @@
+<apex:component controller="FormInvoiceController">
+    <!-- Generales del Form -->
+    <apex:attribute name="formId" type="String" default="form" description="" />
+    <apex:attribute name="heading" type="String" default="" description="Text of First heading line" />
+    <apex:attribute name="className" description="Inject a css class to the form container" type="String" />
+    <!-- Controladores -->
+    <apex:attribute name="namespace" description="namespace of package" type="String" default="" />
+    <apex:attribute name="saveController" description="controller with save remote action" type="String" default="FormController.save" />
+    <apex:attribute name="retrieveController" description="controller with retrieve remote action" type="String" default="FormController.retrieve" />
+    <apex:attribute name="secondaryParameters" description="Parameters to be passed after sobject. Separated by comma" type="String" default="" />
+
+    <!-- Sections y Elementos -->
+    <apex:attribute name="mode" description="new, update, view" type="String" />
+    <apex:attribute name="sObjectName" type="String" default="" description="" assignTo="{!csObjectName}" />
+    <apex:attribute name="fieldset" type="String" default="" description="Form Fields" assignTo="{!cFieldset}"/>
+    <apex:attribute name="productRecentSection" type="String" default="" description="Form Fields" assignTo="{!cProductRecentSection}"/>
+    <apex:attribute name="productSection" type="String" default="" description="Form Fields" assignTo="{!cProductSection}"/>
+    <apex:attribute name="itemsSection" type="String" default="" description="Form Fields" assignTo="{!cItemsSection}"/>
+
+    <apex:attribute name="record" type="SObject" description="" />
+    <apex:attribute name="redirect" description="Redirects after save" type="Boolean" default="true" />
+
+    <apex:attribute name="saveConfirm" description="Confirmation before save" type="String" default="false" />
+    <apex:attribute name="saveConfirmMessage" description="Confirmation message before save" type="String" default="false" />
+
+      <div id="{!formId}" role="dialog" tabindex="-1" 
+      aria-labelledby="{!formId}headerModal" 
+      class="slds-hide slds-modal slds-fade-in-open slds-form {!className}" 
+      data-on-show="FieloFormInvoice_retrieve" 
+      data-save-controller="{!IF(ISBLANK(namespace),'',namespace + '.')}{!saveController}" data-retrieve-controller="{!IF(ISBLANK(namespace),'',namespace + '.')}{!retrieveController}" data-object-name="{!sObjectName}" 
+      data-fields="{!fields}" 
+      data-secondary-parameters="{!secondaryParameters}" 
+      data-redirect="{!redirect}" 
+      data-product-field-name="{!productField}" 
+      data-product-query="{!program.FieloPRP__ProductInjectQuery__c}">
+
+        <div class="slds-modal__container">
+          <div class="slds-modal__header slds-text-heading--medium">
+            <button class="slds-button slds-modal__close slds-button--icon-inverse" data-aljs-dismiss="modal" title="{!$Label.Close}">
+              <svg xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" class="slds-button__icon slds-button__icon--large">
+                <use xlink:href="{!URLFOR($Resource.FieloSalesforce_Backend)}/lightning/icons/utility-sprite/svg/symbols.svg#close"></use>
+              </svg>
+              <span class="slds-assistive-text">{!$Label.Close}</span>
+            </button>
+            <h2 id="{!formId}headerModal" class="slds-text-heading--medium">{!heading}</h2>
+          </div>
+          <div class="slds-modal__content slds-p-around--medium">
+            <c:Sections record="{!record}" formId="{!formId}" sObjectName="{!sObjectName}" fieldset="{!fieldset}" mode="{!mode}" layout="stacked"/>
+
+            <!-- layout horizontal, stacked, inline, table -->
+
+            <!-- TODO Form Items with Buttons -->
+            <c:Items formid="{!formId}" 
+              buttons="{'Name':'Add Products', 'Type':'Modal', 'CssClass': 'slds-button--addproducts','Label':'{!$Label.ButtonAddProducts}', 'Action':'invoiceForm-addProductsForm'},{'Name':'New', 'Type':'Link', 'CssClass': 'slds-button--new','Label':'{!$Label.New}','Action':'#'}"
+              sObjectName="FieloPRP__InvoiceItem__c"
+              fieldset="{!itemsSectionString}"
+              productFieldName="{!productField}"
+              productInjectQuery="{!program.FieloPRP__ProductInjectQuery__c}"
+              />
+
+              <!--Bruna added -->
+             <!-- <c:Items formid="{!formId}" 
+              buttons="{'Name':'Add Products', 'Type':'Modal', 'CssClass': 'slds-button--addproducts','Label':'{!$Label.ButtonAddProducts}', 'Action':'invoiceForm-addProductsForm'},{'Name':'New', 'Type':'Link', 'CssClass': 'slds-button--new','Label':'{!$Label.New}','Action':'#'}"
+              sObjectName="FieloPRP__InvoiceItem__c"
+              fieldset="{!itemsSection}"
+              productFieldName="{!productField}"
+              productInjectQuery="{!program.FieloPRP__ProductInjectQuery__c}"
+              />-->
+
+            <c:MultiFileUploader formid="{!formId}multifileuploader" 
+              className="fielosf-multi-file-uploader"
+            />
+
+          </div>
+
+          <div class="slds-modal__footer">
+            <a data-aljs-dismiss="modal" class="slds-button slds-button--neutral slds-form__cancel">{!$Label.Cancel}</a>
+            <a class="slds-button slds-button--brand slds-form__save" data-confirm="{!saveConfirm}" data-confirm-message="{!saveConfirmMessage}">{!$Label.Save}</a>
+          </div>          
+        </div>
+
+        <div id="{!formId}-addProductsForm" role="dialog" tabindex="-1" aria-labelledby="{!formId}-addProductsForm-headerModal" class="slds-hide slds-modal slds-modal--large slds-fade-in-open slds-form {!className}-addproducts" data-on-show="FieloForm_retrieve" data-save-controller="{!IF(ISBLANK(namespace),'',namespace + '.')}{!saveController}" data-retrieve-controller="{!IF(ISBLANK(namespace),'',namespace + '.')}{!retrieveController}" data-object-name="{!sObjectName}" data-fields="{!fields}" data-secondary-parameters="{!secondaryParameters}" data-redirect="{!redirect}">
+          <div class="slds-modal__container">
+            <div class="slds-modal__header slds-text-heading--medium">
+              <button class="slds-button slds-modal__close slds-button--icon-inverse" data-aljs-dismiss="modal" title="{!$Label.Close}">
+                <svg xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" class="slds-button__icon slds-button__icon--large">
+                  <use xlink:href="{!URLFOR($Resource.FieloSalesforce_Backend)}/lightning/icons/utility-sprite/svg/symbols.svg#close"></use>
+                </svg>
+                <span class="slds-assistive-text">{!$Label.Close}</span>
+              </button>
+              <h2 id="{!formId}-addProductsForm-headerModal" class="slds-text-heading--medium">{!$Label.AddProducts}</h2>
+            </div>
+            <div class="slds-modal__content slds-p-around--medium">
+
+            <!--<c:Sections formId="{!formId}-filter" sObjectName="{!$ObjectType['FieloPRP__InvoiceItem__c'].fields[productField].referenceTo[0].Name}" fieldset="{!productSectionString}" mode="{!mode}" layout="compound" /> -->
+
+            <!--Bruna added -->  
+            <c:Sections formId="{!formId}-filter" sObjectName="{!$ObjectType['FieloPRP__InvoiceItem__c'].fields[productField].referenceTo[0].Name}" fieldset="{!productSection}" mode="{!mode}" layout="compound" />
+            
+            <a class="slds-button slds-button--brand slds-form-product__search" >{!$Label.Search}</a>
+            
+            <!--<c:RecentRecords namespace="FieloPRP" 
+            recentId="recentProductRecords" 
+            sObjectName="{!filterSObjectName}" 
+            title="{!$ObjectType[filterSObjectName].labelPlural}"
+            async="false"
+            dataFilters=""
+            showCheckboxes="true"
+            fieldset="{!filterRecentRecords}" 
+            dataController="FormInvoiceController.getProductRecords"
+            show="true"
+            />-->
+
+            <!--Bruna added -->
+            <c:RecentRecords namespace="FieloPRP" 
+            recentId="recentProductRecords" 
+            sObjectName="{!filterSObjectName}" 
+            title="{!$ObjectType[filterSObjectName].labelPlural}"
+            async="false"
+            dataFilters=""
+            showCheckboxes="true"
+            fieldset="{!productRecentSection}" 
+            dataController="FormInvoiceController.getProductRecords"
+            show="true"
+            /> -->
+            </div>
+
+            <div class="slds-modal__footer">
+              <a data-aljs="modal" data-aljs-show="{!formId}" class="slds-button slds-button--neutral slds-form-product__cancel">{!$Label.Cancel}</a>
+              <a data-aljs="modal" data-aljs-show="{!formId}" class="slds-button slds-button--brand slds-form-product__add" >{!$Label.Add}</a>
+            </div>          
+          </div>
+        </div>
+      </div>
+      <script>
+    if(typeof BackEndJSSettings == 'undefined') {
+      var BackEndJSSettings = {};
+    }
+    if(typeof BackEndJSSettings.LABELS == 'undefined') {
+      BackEndJSSettings.LABELS = {};
+    }
+    BackEndJSSettings.LABELS.MemberMustBeChosen = '{!$Label.fieloplt__MemberMustBeChosen}';
+    BackEndJSSettings.LABELS.InvoiceDetailInsertDisabled = '{!$Label.fieloprp__InvoiceDetailInsertDisabled}';
+    BackEndJSSettings.LABELS.InvoiceSavedSuccess = '{!$Label.fieloprp__InvoiceSavedSuccess}';
+    BackEndJSSettings.LABELS.ChooseFileFirst = '{!$Label.fieloprp__ChooseFileFirst}';
+    BackEndJSSettings.LABELS.MaxFileSize = '{!$Label.fieloprp__MaxFileSize}';
+  </script>
+</apex:component>

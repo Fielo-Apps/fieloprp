@@ -31,11 +31,12 @@ private class PhotoUploadControllerTest {
 
     insert item;
 
+    List<Folder> folders = [SELECT DeveloperName,Id,NamespacePrefix FROM Folder WHERE DeveloperName='FieloImages' AND NamespacePrefix='FieloPLT'];
     Document doc = new Document();
     doc.Name='Logo Fielo';
     doc.Body=EncodingUtil.Base64Decode('/services/data/v42/sobjects/Document/01546000000SgEKAA0/Body');
     doc.ContentType = 'image/png';
-    doc.folderId='00l46000000VH4nAAG';
+    doc.folderId=folders[0].Id;
     insert doc;
 
 

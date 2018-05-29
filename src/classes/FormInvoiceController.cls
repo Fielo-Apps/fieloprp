@@ -64,16 +64,29 @@ public with sharing class FormInvoiceController {
 
     /*****  Secciones Y Fields  *****/
     public String cFieldset{get;set;}
+    public String cProductSection{get;set;}
+    public String cProductRecentSection{get;set;}
+    public String cItemsSection{get;set;}
 
-    public class Section {
+    //Bruna deleted
+    /*public class Section {
         public String Name{get;set;}
         public List<List<FormField>> Rows{get;set;}
 
-        //PRP Properties
+        //PRP Properties    
         public List<List<FormField>> FieloPRP_Product{get;set;}
         public List<List<FormField>> FieloPRP_ProductRecent{get;set;}
         public List<List<FormField>> FieloPRP_InvoiceItems{get;set;}
+
+    }*/
+
+    //Bruna added
+    public class Section {
+        public String Name{get;set;}
+        public List<List<FormField>> Rows{get;set;}
     }
+
+
     public class FormField {
         public String Type{get;set;}
         public String Name{get;set;}
@@ -129,9 +142,9 @@ public with sharing class FormInvoiceController {
         }
         fixedRows.addAll(rows);
         return fixedRows;
-    }
+    }  
 
-    public List<Section> sections { get {
+    /*public List<Section> sections { get {
         if ( sections == null ) {
             if ( !String.isBlank(cFieldset)  ) {
                 // Si empieza con [ es un valor seteado en una visual force => lo tiene que modificar para que sea json
@@ -146,37 +159,112 @@ public with sharing class FormInvoiceController {
         return sections;
     } 
         set;
-    }
+    }*/
 
-    public String productSectionString {get{
-        if (productSectionString==null) {
-            Section productSection = new Section();
-            for(Section s: sections) {
-                if(s.FieloPRP_Product != null){
-                    productSection.Name = Schema.describeSObjects(new String[]{ 'FieloPRP__InvoiceItem__c' }).get(0).fields.getMap().get(productField).getDescribe().getReferenceTo()[0].getDescribe().getLabelPlural();
-                    productSection.rows = s.FieloPRP_Product;
-                    break;
+    //Bruna added
+        public List<Section> sections { get {
+            if ( sections == null ) {
+                if ( !String.isBlank(cFieldset)  ) {
+                    // Si empieza con [ es un valor seteado en una visual force => lo tiene que modificar para que sea json
+                    if ( !cFieldset.startsWith('[') ) {
+                        cFieldset = '[' + cFieldset.replace('\'', '"') + ']';
+                    }
+                    sections = (List<Section>) JSON.deserialize( cFieldset, List<FormInvoiceController.Section>.class );
+                } else {
+                    sections = new List<Section>();
                 }
             }
-            productSectionString = JSON.serialize(productSection);
+            return sections;
+        } 
+            set;
+        }
+
+
+    //Bruna added
+    public List<FormField> listProductSection { get{
+        System.debug('Chegou em listProductSection: '+ cProductSection);
+        if ( String.isNotBlank(cProductSection)  ) {
+            System.debug('Chegou em cProductSection e não ta em branco');
+            // Si empieza con [ es un valor seteado en una visual force => lo tiene que modificar para que sea json
+            if ( !cProductSection.startsWith('[') ) {
+                cProductSection = '[' + cProductSection.replace('\'', '"') + ']';
+            }
+            listProductSection = (List<FormField>) JSON.deserialize( cProductSection, List<FormInvoiceController.FormField>.class );
+        } else {
+            listProductSection = new List<FormField>();
+        }
+        
+        return listProductSection;
+    } 
+        set;
+    }
+    
+
+    //Bruna added
+    public List<FormField> listItemsSection { get{
+        System.debug('Chegou em cItemsSection: '+ cItemsSection);
+        if ( String.isNotBlank(cItemsSection)  ) {
+            // Si empieza con [ es un valor seteado en una visual force => lo tiene que modificar para que sea json
+            if ( !cItemsSection.startsWith('[') ) {
+               cItemsSection = '[' + cItemsSection.replace('\'', '"') + ']';
+            }
+            listItemsSection = (List<FormField>) JSON.deserialize( cItemsSection, List<FormInvoiceController.FormField>.class );
+        } else {
+            listItemsSection = new List<FormField>();
+        }
+        
+        return listItemsSection;
+    } 
+        set;
+    }
+
+
+    //Bruna added
+    public List<FormField> listProductRecentSection { get{
+        if ( String.isNotBlank(cProductRecentSection) ) {
+            // Si empieza con [ es un valor seteado en una visual force => lo tiene que modificar para que sea json
+            if ( !cProductRecentSection.startsWith('[') ) {
+                cProductRecentSection = '[' + cProductRecentSection.replace('\'', '"') + ']';
+            }
+            listProductRecentSection = (List<FormField>) JSON.deserialize( cProductRecentSection, List<FormInvoiceController.FormField>.class );
+        } else {
+            listProductRecentSection = new List<FormField>();
+        }
+        
+        return listProductRecentSection;
+    } 
+        set;
+    }
+    
+
+    //Bruna added
+    public String productSectionString { get{
+        System.debug('Chegou em productSectionString');
+        if (productSectionString==null) {
+            Section newProductSection = new Section();
+            if( listProductSection != null) {
+                newProductSection.Name = Schema.describeSObjects(new String[]{ 'FieloPRP__InvoiceItem__c' }).get(0).fields.getMap().get(productField).getDescribe().getReferenceTo()[0].getDescribe().getLabelPlural();
+                newProductSection.rows = new List<List<FormField>>{listProductSection};
+            }           
+            productSectionString = JSON.serialize(newProductSection);
         }
         return productSectionString;
     }
         set;
     }
 
-    public String itemsSectionString {get{
+    //Bruna added
+    public String itemsSectionString { get{
+        System.debug('Chegou em itemsSectionString');
         if (itemsSectionString==null) {
-            Section itemSection = new Section();
-            for(Section s: sections) {
-                if(s.FieloPRP_InvoiceItems != null){
-                    itemSection.Name = Label.Items;
-                    itemSection.rows = s.FieloPRP_InvoiceItems;
-                    itemSection.rows = checkFields(itemSection.rows);
-                    break;
+            Section newItemSection = new Section();
+            if(listItemsSection != null){
+                newItemSection.Name = Label.Items;
+                newItemSection.rows = new List<List<FormField>>{listItemsSection};
+                newItemSection.rows = checkFields(newItemSection.rows);
                 }
-            }
-            itemsSectionString = JSON.serialize(itemSection);
+            
+            itemsSectionString = JSON.serialize(newItemSection);
         }
         return itemsSectionString;
     }
@@ -214,14 +302,13 @@ public with sharing class FormInvoiceController {
             filterFieldMap = describes.get(0).fields.getMap();
         }
         return filterFieldMap;
-    }
-        set;
-    }
+        }set;}
 
-    public List<Map<String,String>> filterRecentRecordsMap{get{
+    //Bruna deleted
+    /*public List<Map<String,String>> filterRecentRecordsMap{get{
         if (filterRecentRecordsMap==null) {
             filterRecentRecordsMap = new List<Map<String,String>>();
-            for ( Section s :sections ) {
+            for ( Section s : sections ) {
                 for ( List<FormField> r :s.FieloPRP_ProductRecent ) {
                     for ( FormField f :r ) {
                         if ( !String.isBlank(f.Name) ) {
@@ -241,7 +328,32 @@ public with sharing class FormInvoiceController {
         return filterRecentRecordsMap;
     }
         set;
+    }*/
+
+    //Bruna added
+    public List<Map<String,String>> filterRecentRecordsMap{get{
+        if (filterRecentRecordsMap==null) {
+            filterRecentRecordsMap = new List<Map<String,String>>();
+            for ( FormField f : listProductRecentSection ) {
+                        if ( !String.isBlank(f.Name) ) {
+                            if ( f.Name != 'Name' ){
+                                filterRecentRecordsMap.add(new Map<String,String>{
+                                        'Name' => f.Name,
+                                        'Type' => filterFieldMap.get(f.Name).getDescribe().getType().name(),
+                                        'Label' => filterFieldMap.get(f.Name).getDescribe().getLabel()
+                                    }
+                                );
+                            }
+                        }
+                    }
+                }
+            
+        
+        return filterRecentRecordsMap;
     }
+        set;
+    }
+
 
     @RemoteAction
     public static RemoteActionResult save(FieloPRP__Invoice__c record, List<FieloPRP__InvoiceItem__c> items, List<String> nullFields){
