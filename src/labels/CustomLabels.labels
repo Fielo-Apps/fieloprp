@@ -424,4 +424,237 @@
         <shortDescription>UploadFiles</shortDescription>
         <value>UploadFiles</value>
     </labels>
+        <labels>
+        <fullName>EmptyProductList</fullName>
+        <categories>AddProducts.cmp</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>EmptyProductList</shortDescription>
+        <value>Your list of selected products is empty</value>
+    </labels>
+    <labels>
+        <fullName>SelectedProducts</fullName>
+        <categories>AddProducts.cmp</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SelectedProducts</shortDescription>
+        <value>Selected products</value>
+    </labels>
+    <labels>
+        <fullName>Invoice</fullName>
+        <categories>InvoiceDetail.cmp</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Invoice</shortDescription>
+        <value>Invoice</value>
+    </labels>
+    <labels>
+        <fullName>DuplicateThisInvoice</fullName>
+        <categories>InvoiceDetail.cmp</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>DuplicateThisInvoice</shortDescription>
+        <value>Duplicate this invoice</value>
+    </labels>
+    <labels>
+        <fullName>InvoiceFileListHeader</fullName>
+        <categories>InvoiceFileList.cmp</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>InvoiceFileListHeader</shortDescription>
+        <value>Invoices uploaded (you may upload more than one file)</value>
+    </labels>
+    <labels>
+        <fullName>CurrencyRangeSuffix</fullName>
+        <categories>InvoiceFilter.cmp</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CurrencyRangeSuffix</shortDescription>
+        <value>Range ($)</value>
+    </labels>
+    <labels>
+        <fullName>DoubleRangeSuffix</fullName>
+        <categories>InvoiceFilter.cmp</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>DoubleRangeSuffix</shortDescription>
+        <value>Range</value>
+    </labels>
+    <labels>
+        <fullName>PercentRangeSuffix</fullName>
+        <categories>InvoiceFilter.cmp</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PercentRangeSuffix</shortDescription>
+        <value>% Range</value>
+    </labels>
+    <labels>
+        <fullName>DateRangeSuffix</fullName>
+        <categories>InvoiceFilter.cmp</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>DateRangeSuffix</shortDescription>
+        <value>Range</value>
+    </labels>
+    <labels>
+        <fullName>DatetimeRangeSuffix</fullName>
+        <categories>InvoiceFilter.cmp</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>DatetimeRangeSuffix</shortDescription>
+        <value>Range</value>
+    </labels>
+    <labels>
+        <fullName>ProductPlural</fullName>
+        <categories>InvoiceItems.cmp</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ProductPlural</shortDescription>
+        <value>Products</value>
+    </labels>
+    <labels>
+        <fullName>TotalAmountLabel</fullName>
+        <categories>InvoiceItems.cmp</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TotalAmountLabel</shortDescription>
+        <value>Total Amount (USD):</value>
+    </labels>
+#ERROR!
+    <labels>
+        <fullName>ProductsIncluded</fullName>
+        <categories>InvoiceItemsListView.cmp</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ProductsIncluded</shortDescription>
+        <value>Products included in this invoice</value>
+    </labels>
+    <labels>
+        <fullName>YourInvoiceIs</fullName>
+        <categories>InvoiceStatusCard.cmp</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>YourInvoiceIs</shortDescription>
+        <value>Your invoice is</value>
+    </labels>
+    <labels>
+        <fullName>FirstHeading</fullName>
+        <categories>InvoiceUpload.cmp</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>FirstHeading</shortDescription>
+        <value>First, identify your invoice</value>
+    </labels>
+    <labels>
+        <fullName>SecondHeading</fullName>
+        <categories>InvoiceUpload.cmp</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SecondHeading</shortDescription>
+        <value>Then, upload your invoice files</value>
+    </labels>
+    <labels>
+        <fullName>ThirdHeading</fullName>
+        <categories>InvoiceUpload.cmp</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ThirdHeading</shortDescription>
+        <value>Finally, add the products included in your invoice</value>
+    </labels>
+    <labels>
+        <fullName>ThirdHeadingSubtitle</fullName>
+        <categories>InvoiceUpload.cmp</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ThirdHeadingSubtitle</shortDescription>
+        <value>The products included in your invoice must be from our catalog</value>
+    </labels>
+    <labels>
+        <fullName>AddMultipleProducts</fullName>
+        <categories>InvoiceUpload.cmp</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>AddMultipleProducts</shortDescription>
+        <value>Add multiple products from our catalog to the list</value>
+    </labels>
+    <labels>
+        <fullName>AddMultipleProductsSubtitle</fullName>
+        <categories>InvoiceUpload.cmp</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>AddMultipleProductsSubtitle</shortDescription>
+        <value>or include the products one by one in the list bellow</value>
+    </labels>
+    <labels>
+        <fullName>AddProductsHeader</fullName>
+        <categories>InvoiceUpload.cmp</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>AddProductsHeader</shortDescription>
+        <value>Add the products to your invoice from our catalog</value>
+    </labels>
+    <labels>
+        <fullName>Submit</fullName>
+        <categories>InvoiceUpload.cmp</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Submit</shortDescription>
+        <value>Submit</value>
+    </labels>
+    <labels>
+        <fullName>FilesHelpText</fullName>
+        <categories>InvoiceUpload.cmp</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>FilesHelpText</shortDescription>
+        <value>Filetypes: JPG, JPEG, GIF, PNG or PDF. Filesize less than 3Mb.</value>
+    </labels>
+    <labels>
+        <fullName>InvoiceUploaded</fullName>
+        <categories>InvoiceUpload.cmp</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>InvoiceUploaded</shortDescription>
+        <value>Your invoice was submitted successfully</value>
+    </labels>
+    <labels>
+        <fullName>NoFileAttached</fullName>
+        <categories>InvoiceUpload.cmp</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>NoFileAttached</shortDescription>
+        <value>Invoice file is missing</value>
+    </labels>
+    <labels>
+        <fullName>MyInvoices</fullName>
+        <categories>InvoiceUpload.cmp</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>MyInvoices</shortDescription>
+        <value>My Invoices</value>
+    </labels>
+    <labels>
+        <fullName>ThirdHeadingAmount</fullName>
+        <categories>InvoiceUpload.cmp</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ThirdHeadingAmount</shortDescription>
+        <value>Finally, add the total amount</value>
+    </labels>
+    <labels>
+        <fullName>NewInvoice</fullName>
+        <categories>NewInvoiceButton.cmp</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>NewInvoice</shortDescription>
+        <value>New Invoice</value>
+    </labels>
+    <labels>
+        <fullName>Select</fullName>
+        <categories>RecordSelector.cmp</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Select</shortDescription>
+        <value>Select</value>
+    </labels>
 </CustomLabels>

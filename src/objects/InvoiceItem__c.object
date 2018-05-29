@@ -43,6 +43,7 @@
     <allowInChatterGroups>false</allowInChatterGroups>
     <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
     <deploymentStatus>Deployed</deploymentStatus>
+    <description>An Invoice Item is an incentivized product or service charged on an Invoice.</description>
     <enableActivities>false</enableActivities>
     <enableBulkApi>true</enableBulkApi>
     <enableChangeDataCapture>false</enableChangeDataCapture>
@@ -54,7 +55,9 @@
     <enableStreamingApi>true</enableStreamingApi>
     <fields>
         <fullName>Description__c</fullName>
+        <description>An identifying description of an Invoice Item. Only used when not identifying an item with a lookup to Product2 or any other Salesforce object.</description>
         <externalId>false</externalId>
+        <inlineHelpText>Enter an identifying description for the Invoice Item.</inlineHelpText>
         <label>Description</label>
         <length>255</length>
         <required>false</required>
@@ -65,7 +68,9 @@
     <fields>
         <fullName>Invoice__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
+        <description>The Invoice on which an Invoice Item appears.</description>
         <externalId>false</externalId>
+        <inlineHelpText>This is the Invoice that this Invoice Item is on.</inlineHelpText>
         <label>Invoice</label>
         <referenceTo>Invoice__c</referenceTo>
         <relationshipLabel>Invoice Items</relationshipLabel>
@@ -77,9 +82,12 @@
     <fields>
         <fullName>Product__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
+        <description>The Product related to this Invoice Item.</description>
         <externalId>false</externalId>
+        <inlineHelpText>Enter the name of the Product purchased. This must be a Product in your org.</inlineHelpText>
         <label>Product</label>
         <referenceTo>Product2</referenceTo>
+        <relationshipLabel>Invoice Items</relationshipLabel>
         <relationshipName>InvoiceItems</relationshipName>
         <required>false</required>
         <trackTrending>false</trackTrending>
@@ -87,7 +95,9 @@
     </fields>
     <fields>
         <fullName>Quantity__c</fullName>
+        <description>The quantity of an Invoice Item purchased.</description>
         <externalId>false</externalId>
+        <inlineHelpText>Enter the quantity purchased of the item.</inlineHelpText>
         <label>Quantity</label>
         <precision>12</precision>
         <required>false</required>
@@ -98,6 +108,7 @@
     </fields>
     <fields>
         <fullName>TotalPrice__c</fullName>
+        <description>The total price of an Invoice Item (Quantity x Unit Price)</description>
         <externalId>false</externalId>
         <label>Total Price</label>
         <precision>18</precision>
@@ -108,7 +119,9 @@
     </fields>
     <fields>
         <fullName>UnitPrice__c</fullName>
+        <description>The price per unit of an Invoice Item.</description>
         <externalId>false</externalId>
+        <inlineHelpText>Enter the price per unit of the item purchased.</inlineHelpText>
         <label>Unit Price</label>
         <precision>18</precision>
         <required>false</required>
@@ -129,18 +142,20 @@
     <validationRules>
         <fullName>ValidateInvoiceNull</fullName>
         <active>true</active>
+        <description>This Invoice Item must be associated with an Invoice.</description>
         <errorConditionFormula>ISBLANK( Invoice__c )</errorConditionFormula>
-        <errorMessage>Invoice is a required field.</errorMessage>
+        <errorMessage>This Invoice Item must be associated with an Invoice.</errorMessage>
     </validationRules>
     <validationRules>
         <fullName>ValidateInvoiceUpdate</fullName>
         <active>true</active>
+        <description>You cannot change the Invoice associated with an Invoice Item.</description>
         <errorConditionFormula>AND(
  ISCHANGED( Invoice__c ),
  NOT(ISBLANK(PRIORVALUE(Invoice__c))),
  PRIORVALUE(Invoice__c)!=Invoice__c
 )</errorConditionFormula>
-        <errorMessage>Can not update the Invoice field.</errorMessage>
+        <errorMessage>You cannot change the Invoice associated with an Invoice Item.</errorMessage>
     </validationRules>
     <visibility>Public</visibility>
 </CustomObject>

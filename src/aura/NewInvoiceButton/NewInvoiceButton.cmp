@@ -1,0 +1,6 @@
+<aura:component >
+    <aura:registerEvent name="newInvoice" type="c:NewInvoice"/>
+    <div class="newInvoiceBtn">
+        <lightning:button variant="brand" onclick="{!c.newInvoice}" label="{!$Label.c.NewInvoice}" />
+    </div>
+</aura:component>

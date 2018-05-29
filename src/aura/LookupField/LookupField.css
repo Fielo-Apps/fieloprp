@@ -1,0 +1,8 @@
+.THIS .slds-has-selection input{
+    -webkit-box-shadow: 0 0 0 2px #fff inset, 0 0 0 3px #dddbda inset;
+	box-shadow: 0 0 0 2px #fff inset, 0 0 0 3px #dddbda inset;   
+}
+
+.THIS .fielo-lookup-search-button{
+    cursor:pointer;
+}

@@ -54,7 +54,7 @@ public class InvoiceItemsSelector extends SObjectSelector{
             query += 'WHERE ' + String.join(whereConditions, 'AND');
         }
         
-        query += 'order by {2} {3} {4}';        
+        query += 'order by {2} {3} {4}';
         
         return (List<InvoiceItem__c>) Database.query(String.format(query,
                 new List<String> {
@@ -71,10 +71,12 @@ public class InvoiceItemsSelector extends SObjectSelector{
                   'from {1} ' +
                   'where Id not In : excludedItemIds ' +
                   'and Invoice__c in : invoiceIds ' +
-                  'order by {2}',
+                  'order by {2} {3} {4}',
                 new List<String> {
                     getFieldListString(),
                     getSObjectName(),
-                    getOrderBy() } ));
+                    getOrderBy(),
+                    getLimitCondition(),
+                    getOffsetCondition() } ));
     }
 }

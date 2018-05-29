@@ -1,0 +1,39 @@
+<design:component label="FieloPRP - My Invoices">
+    <design:attribute label="Title" name="titleValue" description="Enter the title to be displayed at the top of the component." default="My Invoices" />
+    
+    <design:attribute label="Show title" name="showHeader" description="Display or Hide the My Invoices title." default="true" />
+    
+    <design:attribute label="Filter Fields" name="filterFields" description="Comma separated field api names to use in filter." default="FieloPRP__Status__c,FieloPRP__Amount__c,FieloPRP__Date__c" />
+    
+    <design:attribute label="Filter Ranged Fields" name="rangedFields" description="Comma separated field api names to use as a range in filter." default="FieloPRP__Amount__c,FieloPRP__Date__c" />
+    
+    <design:attribute label="My Invoices Fields" name="fields" description="Enter the API names of fields to display in the Invoice list, separated by commas." 
+                      default='FieloPRP__InvoiceNumber__c,FieloPRP__InvoiceItems__r,FieloPRP__Transactions__r,FieloPRP__Trackers__r,FieloPRP__Amount__c,FieloPRP__Date__c/date,FieloPRP__Distributor__c,FieloPRP__Status__c' />
+    
+    <design:attribute label="My Invoices Rows Per Page" name="quantity" description="Enter the number of rows to be displayed in the Invoice list" default="6"/>
+    
+	<design:attribute label="My Invoices Sort Order" name="orderBy" description="Enter the API name of field to sort the Invoice list, separated by commas." 
+                      default='LastModifiedDate DESC' />
+    
+    <design:attribute label="Invoice Detail Fields" name="invoiceDetailFields" description="Enter the API names of fields to display in the Invoice detail page, separated by commas." 
+                      default="FieloPRP__Amount__c,FieloPRP__Date__c,FieloPRP__Distributor__c" />
+    
+    <design:attribute label="Invoice Detail Items Fields" name="invoiceItemFields" description="Enter the API names of Invoice Item fields to display in the Invoice detail page, separated by commas." 
+                      default="FieloPRP__Product__c,FieloPRP__Quantity__c,FieloPRP__UnitPrice__c,FieloPRP__TotalPrice__c" />
+    
+    <design:attribute label="New Invoice Fields" name="newInvoiceFields" description="Enter the API names of fields to display in the New Invoice page, separated by commas." 
+                      default="FieloPRP__InvoiceNumber__c,FieloPRP__Date__c,FieloPRP__Distributor__c" />
+    
+    <design:attribute label="New Invoice Item Fields" name="newInvoiceItemFields" description="Enter the API names of invoice item fields to display in the New Invoice page, separated by commas" 
+                      default="FieloPRP__Product__c,FieloPRP__Quantity__c,FieloPRP__UnitPrice__c,FieloPRP__TotalPrice__c" />
+    
+    <design:attribute label="New Invoice Submit Mode" name="newInvoiceSubmitMode" description="Choose the Invoice Submit Mode"
+                      default="Submit" datasource="Submit,Close" />
+    
+    <design:attribute label="Disable Items" name="disableItems" description="Hides Invoice Items from all pages"
+                      default="false" />
+    
+    <design:attribute label="Request File Upload" name="requestFileUpload" description="When on, the file upload is mandatory"
+                      default="true" />
+    
+</design:component>

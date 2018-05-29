@@ -8,6 +8,14 @@ global class InvoiceService {
         return  selector.selectByProgramAndStatus(status, programId);
     }
 
+    public static List<SObject> getInvoices(Set<String> fields, Id memberId, String whereClause, Integer quantity, Integer offset, String orderBy) {
+        InvoicesSelector selector = new InvoicesSelector(fields);
+        selector.setOrderBy(orderBy);
+        selector.setLimit(quantity);
+        selector.setOffset(offset);
+        return  selector.selectByMemberIdAndWhereClause(memberId, whereClause);
+    }
+
     public static List<Invoice__c> updateInvoiceStatus(Set<Id> invoiceIds, String status){
         if(!invoiceIds.isEmpty()){
             SObjectUnitOfWork uow = new SObjectUnitOfWork(new List<Schema.SObjectType>{Invoice__c.SObjectType});

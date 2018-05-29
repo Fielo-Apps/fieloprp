@@ -1,0 +1,3 @@
+<aura:event type="COMPONENT" description="Add Selected Products to Invoice">
+    <aura:attribute type="sObject[]" name="products"/>
+</aura:event>
