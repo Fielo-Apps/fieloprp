@@ -127,9 +127,7 @@ private class PageSettingsControllerTest {
 		System.assert(pagesRelated.size()>0);
 		List<FieloPLT__PageSettings__c> pagesForm = psc.relatedFormsSettings;
 		System.assert(pagesForm.size()>0);
-        ApexPages.StandardController standardController = new ApexPages.StandardController(invoices[0]);
-        InvoiceViewController controller = new InvoiceViewController(standardController);
-		controller.getLookupSetting('FieloPRP__Invoice__c',null,null);
+		psc.getLookupSetting('FieloPRP__Invoice__c',null,null);
 		Boolean res = psc.filterResult(invoices[0],'FieloPRP__Date__c','greater than',Date.newInstance(2018, 1, 1));
 		System.assertEquals(true,res);
 		Boolean result = psc.filterResult(invoices[0],'FieloPRP__Amount__c','greater than',0.00);
