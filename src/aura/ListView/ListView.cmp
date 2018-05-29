@@ -1,0 +1,93 @@
+<aura:component controller="ListViewController" >
+    
+    <aura:attribute type="sObject[]" name="fieldset" default="[]"/>
+    <aura:attribute type="sObject[]" name="renderFieldset" default="[]"/>
+    <aura:attribute type="String" name="objectType" />
+    <aura:attribute type="String" name="columns" />
+    <aura:attribute type="sObject[]" name="records" default="[]" />
+    <aura:attribute type="sObject[]" name="renderRecords" default="[]" />
+    <aura:attribute type="String" name="layout" default="table" description="table, grid" />
+    <aura:attribute type="String" name="whereCondition" default="" />    
+    <aura:attribute type="String" name="title" default="" />    
+    <aura:attribute type="Boolean" name="showTitle" default="false" />         
+    <aura:attribute type="Boolean" name="showItems" default="false" />        
+    
+    <aura:attribute type="sObject" name="labelsMap" />
+    
+    <aura:attribute type="String" name="objectAPIName" />
+    
+    <aura:attribute type="Boolean" name="noRecords" default="false" />
+    
+    <aura:handler name="change" value="{!v.records}" action="{!c.updateRecords}"/>
+    
+    <!-- RECORD DETAIL -->    
+    <aura:attribute type="sObject" name="recordDetail" />
+    <aura:attribute type="String" name="recordDetailConfig" />    
+    <aura:attribute type="Boolean" name="showRecord" default="false" />        
+    <aura:handler name="change" value="{!v.recordDetail}" action="{!c.showRecordDetail}"/>
+    <aura:handler name="recordDetailDismiss" event="c:ListViewBack" action="{!c.dismissDetail}"/>    
+    <!-- RECORD DETAIL -->
+    
+    <!-- PAGINATOR -->
+    <aura:attribute name="quantity" type="Integer" />        
+    <aura:attribute name="lastPage" type="Integer" default="false" />
+    <aura:attribute name="paging" type="Boolean" />
+    <!-- PAGINATOR -->
+    
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>          
+    
+    
+    <aura:if isTrue="{!v.showItems}">
+        <aura:if isTrue="{!v.showTitle}">
+            <div class="slds-m-top--small">
+                <h3 class="slds-section-title--divider">{!v.title}</h3>        
+            </div>
+        </aura:if>
+        <aura:if isTrue="{!v.layout == 'table'}">
+            <table class="slds-box slds-box_xx-small slds-p-around_none slds-table slds-table_bordered slds-table_cell-buffer slds-table_striped slds-no-row-hover">
+                <thead>
+                    <tr class="slds-text-heading_small">
+                        <aura:iteration items="{!v.renderFieldset}" var="field">
+                            <th scope="col">
+                                <div class="slds-truncate" title="">
+                                    <aura:if isTrue="{!field.showLabel}">
+                                        {!field.label.labelValue}               
+                                    </aura:if>                    
+                                </div>
+                            </th>
+                        </aura:iteration>                                 
+                    </tr>
+                </thead>
+                <tbody>            
+                    
+                    <aura:iteration items="{!v.renderRecords}" var="record">
+                        <c:ListViewItem layout="{!v.layout}" record="{!record}" fieldset="{!v.fieldset}"  />                                        
+                    </aura:iteration>
+                    
+                </tbody>
+            </table>
+        </aura:if>        
+        <aura:if isTrue="{!v.layout == 'grid'}">
+            <div class="slds-grid slds-wrap slds-grid_pull-padded slds-grid_align-center">
+                <aura:iteration items="{!v.renderRecords}" var="record">
+                    <c:ListViewItem columns="{!v.columns}" layout="{!v.layout}" record="{!record}" fieldset="{!v.fieldset}"  />                                        
+                </aura:iteration>  
+            </div>    
+        </aura:if>    
+    </aura:if>                        
+    
+    <aura:if isTrue="{!v.noRecords}">            
+        <div class="noRecords" >                
+            {!$Label.c.NoRecordsToShow}
+        </div>                                    
+    </aura:if>
+    <aura:if isTrue="{!v.paging}">
+        <c:Paginator quantity="{!v.quantity}" lastPage="{!v.lastPage}"/>
+    </aura:if>
+    
+    <aura:if isTrue="{!v.showRecord}">        
+        <c:RecordDetail labels="{!v.labelsMap}" record="{!v.recordDetail}" config="{!v.recordDetailConfig}" />
+    </aura:if>
+    
+    
+</aura:component>

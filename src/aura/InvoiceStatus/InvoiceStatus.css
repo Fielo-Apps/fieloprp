@@ -1,0 +1,11 @@
+.THIS.fielo-invoice-status--approved{
+    color: #39BC58;
+}
+
+.THIS.fielo-invoice-status--rejected{
+    color: #FC0000;
+}
+
+.THIS.fielo-invoice-status--pending{
+    color: #FCB000;
+}

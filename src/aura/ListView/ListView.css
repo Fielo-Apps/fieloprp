@@ -1,0 +1,8 @@
+.THIS img{
+	max-width: 180px;
+}
+
+.THIS.noRecords, .THIS .noRecords{
+    text-align: center;
+    padding: 20px 0;
+}

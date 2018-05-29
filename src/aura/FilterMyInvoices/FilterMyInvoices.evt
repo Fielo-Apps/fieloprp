@@ -1,0 +1,4 @@
+<aura:event type="COMPONENT" description="Called By InvoiceFilter">
+    <aura:attribute name="filterObject" type="Object"/>
+    <aura:attribute name="whereClause" type="String"/>
+</aura:event>

@@ -1,0 +1,7 @@
+.THIS {
+    background-color: t(colorBackgroundRowNew);
+}
+
+.THIS .slds-pill {
+    background-color: t(colorBackgroundRowNew);
+}

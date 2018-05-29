@@ -1,0 +1,8 @@
+<aura:component >
+    <aura:attribute type="sObject" name="record"/>
+    
+    <aura:registerEvent name="cloneInvoice" type="c:CloneInvoice"/>
+    <div class="cloneInvoiceBtn">
+        <lightning:button variant="neutral" onclick="{!c.cloneInvoice}" label="{!$Label.c.DuplicateThisInvoice}" iconName="utility:add" iconPosition="left"/>
+    </div>
+</aura:component>
