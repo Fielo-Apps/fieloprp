@@ -3,7 +3,7 @@
 */
 public with sharing class InvoiceLandingController extends PageSettingsSetController{
     private ApexPages.StandardSetController controller {get;set;}
-    private Map<String,FieloPLT__PageSettings__c> lookupSettings {get;set;}
+    public Map<String,FieloPLT__PageSettings__c> lookupSettings {get;set;}
 
     public FieloPLT__Program__c currentProgram { get {
         if ( currentProgram == null) {
