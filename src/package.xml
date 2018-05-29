@@ -58,5 +58,9 @@
 		<members>*</members>
 		<name>ReportType</name>
 	</types>
+	<types>
+        <members>*</members>
+        <name>AuraDefinitionBundle</name>
+    </types>
 	<version>41.0</version>
 </Package>
