@@ -657,4 +657,12 @@
         <shortDescription>Select</shortDescription>
         <value>Select</value>
     </labels>
+    <labels>
+        <fullName>RangeSuffix</fullName>
+        <categories>InvoiceFilter.cmp</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RangeSuffix</shortDescription>
+        <value>Range</value>
+    </labels>
 </CustomLabels>
