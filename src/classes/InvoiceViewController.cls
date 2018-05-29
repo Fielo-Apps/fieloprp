@@ -5,11 +5,54 @@ public with sharing class InvoiceViewController extends PageSettingsController {
     public String buttonString {get;set;}
     public String hiddenClass {get;set;}
     public Boolean lockedRecord {get;set;}
-
+    public Map<String,FieloPLT__PageSettings__c> lookupSettings {get;set;}
 
     /**
     * @brief constructor
     */
+
+    //get the related lookup pages
+    public void getLookupSetting( String objectNames, String targetObject, String targetField ) {      
+
+        String query = 'SELECT Name, FieloPLT__Filters__c, FieloPLT__Fieldset__c FROM FieloPLT__PageSettings__c ';
+        // WHERE CONDITION 
+        query += ' WHERE FieloPLT__isActive__c = true AND FieloPLT__Type__c = \'Lookup\'  AND FieloPLT__Object__c = :objectNames  ';
+
+        /*FieloPLT__Program__c activeProgram = ProgramService.getActiveProgram();
+        Id programId;
+        if ( activeProgram != null  ) {
+            programId = activeProgram.Id;
+            query += ' AND ( FieloPLT__Program__c = :programId OR FieloPLT__Program__c = null )';
+        }*/
+
+        if ( String.isNotBlank(targetObject ) ) {
+            query += ' AND FieloPLT__TargetObject__c = :targetObject';
+        } 
+        if ( String.isNotBlank(targetField ) ) {
+            query += ' AND FieloPLT__TargetField__c = :targetField';
+        }
+        // ORDER BY & LIMIT 
+        //query += ' ORDER BY FieloPLT__Object__c, FieloPLT__Order__c LIMIT 1 ';
+
+        query += ' ORDER BY FieloPLT__Object__c, FieloPLT__Order__c';
+        List<FieloPLT__PageSettings__c> pageSetting = Database.query(query);
+        List<FieloPLT__PageSettings__c> lista = pageSetting.isEmpty() ? null : pageSetting;
+
+        this.lookupSettings = new Map<String,FieloPLT__PageSettings__c>();
+        
+        if (lista.size()>0){
+            for(FieloPLT__PageSettings__c p :lista){
+                if(p.Name == 'Products > Lookup'){
+                    lookupSettings.put('productSection', p);
+                }else if(p.Name == 'Product Recent > Lookup'){
+                    lookupSettings.put('productRecentSection', p);
+                }else if(p.Name == 'Invoice Item > Lookup'){
+                    lookupSettings.put('itemsSection', p);
+                }
+            }
+        }
+    }
+
     public InvoiceViewController(ApexPages.StandardController controller) {
         this.controller = controller;
 
@@ -89,7 +132,10 @@ public with sharing class InvoiceViewController extends PageSettingsController {
 
         images = [SELECT Id, Name FROM Attachment WHERE ParentId =: record.Id];
 
+        
         initPageSettings( 'FieloPRP__Invoice__c', (SObject) record, buttonString, '', '' );
+        getLookupSetting('FieloPRP__Invoice__c',null,null);
+        
     }
 
 }

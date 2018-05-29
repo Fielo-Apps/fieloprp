@@ -12,7 +12,12 @@
     <!-- Sections y Elementos -->
     <apex:attribute name="mode" description="new, update, view" type="String" />
     <apex:attribute name="sObjectName" type="String" default="" description="" assignTo="{!csObjectName}" />
+
     <apex:attribute name="fieldset" type="String" default="" description="Form Fields" assignTo="{!cFieldset}"/>
+    <apex:attribute name="productSection" type="String" default="" description="Form Fields" assignTo="{!cProductSection}"/>
+    <apex:attribute name="productRecentSection" type="String" default="" description="Form Fields" assignTo="{!cProductRecentSection}"/>
+    <apex:attribute name="itemsSection" type="String" default="" description="Form Fields" assignTo="{!cItemsSection}"/>
+
     <apex:attribute name="record" type="SObject" description="" />
     <apex:attribute name="redirect" description="Redirects after save" type="Boolean" default="true" />
 

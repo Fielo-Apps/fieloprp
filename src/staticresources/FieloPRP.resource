@@ -41,7 +41,7 @@
             "value" : "Approved"
           }, {
             "apiName" : "fieloplt__date__c",
-            "value" : "FieloPRP__ApprovedDate__c"
+            "value" : "CreatedDate"
           }, {
             "apiName" : "fieloplt__externalid__c",
             "value" : "Invoice"
@@ -239,7 +239,7 @@
             "value" : "[{'Rows':[[{'Name':'Name', 'Type':'input'},{'Name':'Family','Type':'picklist'},{'Name':'ProductCode','Type':'input'}]]}]"
           }, {
             "apiName" : "fieloplt__isactive__c",
-            "value" : "true"
+            "value" : "false"
           }, {
             "apiName" : "fieloplt__iscustom__c",
             "value" : "false"
@@ -253,6 +253,43 @@
           }, {
             "apiName" : "fieloplt__sections__c",
             "value" : "{\r\n\t\"Name\":\"Information\",\r\n\t\"Rows\":[\r\n\t\t[\r\n\t\t\t{\"Name\":\"FieloPRP__Member__c\",\"Type\":\"lookup\"},\r\n\t\t\t{\"Name\":\"FieloPRP__HasDetails__c\",\"Type\":\"checkbox\"}\r\n\t\t],\r\n\t\t[\r\n\t\t\t{\"Name\":\"FieloPRP__InvoiceNumber__c\",\"Type\":\"input\"}\r\n\t\t],\r\n\t\t[\r\n\t\t\t{\"Name\":\"FieloPRP__Amount__c\",\"Type\":\"input\"},\r\n\t\t\t{\"Name\":\"FieloPRP__Date__c\",\"Type\":\"input\"}\r\n\t\t],\r\n\t\t[\r\n\t\t\t{\"Name\":\"FieloPRP__Description__c\",\"Type\":\"input\"}\r\n\t\t\t,{\"Name\":\"FieloPRP__Distributor__c\",\"Type\":\"lookup\"}\r\n\t\t]\r\n\t],\r\n\t\"FieloPRP_Product\":[\r\n\t\t[\r\n\t\t\t{\"Name\":\"Name\", \"Type\":\"input\"},\r\n\t\t\t{\"Name\":\"Family\",\"Type\":\"picklist\"},\r\n\t\t\t{\"Name\":\"ProductCode\",\"Type\":\"input\"}\r\n\t\t]\r\n\t],\r\n\t\"FieloPRP_ProductRecent\": [\r\n\t\t[\r\n\t\t\t{\"Name\":\"Name\", \"Type\":\"input\"},\r\n\t\t\t{\"Name\":\"Family\",\"Type\":\"picklist\"},\r\n\t\t\t{\"Name\":\"ProductCode\",\"Type\":\"input\"}\r\n\t\t]\r\n\t],\r\n\t\"FieloPRP_InvoiceItems\": [\r\n\t\t[\r\n\t\t\t{\"Name\":\"FieloPRP__Quantity__c\", \"Type\":\"input\", \"ClassName\": \"fielosf-product_qty\", \"onchange\": \"refreshTotalPriceProxy_\"},\r\n\t\t\t{\"Name\":\"FieloPRP__Product__c\", \"Type\":\"lookup\", \"ClassName\": \"fielosf-product_name\", \"onchange\": \"refreshTotalPriceProxy_\"},\r\n\t\t\t{\"Name\":\"FieloPRP__UnitPrice__c\", \"Type\": \"input\", \"ClassName\": \"fielosf-product_unit-price\", \"onchange\": \"refreshTotalPriceProxy_\"},\r\n\t\t\t{\"Name\":\"FieloPRP__TotalPrice__c\", \"Type\": \"input\", \"ClassName\": \"fielosf-product_total-price\", \"onchange\": \"refreshTotalPriceProxy_\"}\r\n\t\t]\r\n\t]\r\n}"
+          }, {
+            "apiName" : "fieloplt__standardactions__c",
+            "value" : "Settings"
+          }, {
+            "apiName" : "fieloplt__type__c",
+            "value" : "Edit"
+          } ],
+          "relatedList" : [ {
+            "objectAPIName" : "fieloplt__programassignment__c",
+            "records" : [ ]
+          } ]
+        }, {
+          "fieldsValues" : [ {
+            "apiName" : "name",
+            "value" : "Invoice > Edit (Copy)"
+          }, {
+            "apiName" : "fieloplt__externalid__c",
+            "value" : "00D460000013Gun-a0Q460000038gb8"
+          }, {
+            "apiName" : "fieloplt__filters__c",
+            "value" : "[{'Rows':[[{'Name':'Name', 'Type':'input'},{'Name':'Family','Type':'picklist'},{'Name':'ProductCode','Type':'input'}]]}]"
+          }, {
+            "apiName" : "fieloplt__isactive__c",
+            "value" : "true"
+          }, {
+            "apiName" : "fieloplt__iscustom__c",
+            "value" : "true"
+          }, {
+            "apiName" : "fieloplt__library__c.fieloplt__externalid__c",
+            "value" : "FieloPRP",
+            "refObject" : "fieloplt__library__c"
+          }, {
+            "apiName" : "fieloplt__object__c",
+            "value" : "FieloPRP__Invoice__c"
+          }, {
+            "apiName" : "fieloplt__sections__c",
+            "value" : "{\r\n\t\"Name\":\"Information\",\r\n\t\"Rows\":[\r\n\t\t[\r\n\t\t\t{\"Name\":\"FieloPRP__Member__c\",\"Type\":\"lookup\"},\r\n\t\t\t{\"Name\":\"FieloPRP__HasDetails__c\",\"Type\":\"checkbox\"}\r\n\t\t],\r\n\t\t[\r\n\t\t\t{\"Name\":\"FieloPRP__InvoiceNumber__c\",\"Type\":\"input\"}\r\n\t\t],\r\n\t\t[\r\n\t\t\t{\"Name\":\"FieloPRP__Amount__c\",\"Type\":\"input\"},\r\n\t\t\t{\"Name\":\"FieloPRP__Date__c\",\"Type\":\"input\"}\r\n\t\t],\r\n\t\t[\r\n\t\t\t{\"Name\":\"FieloPRP__Description__c\",\"Type\":\"input\"}\r\n\t\t\t,{\"Name\":\"FieloPRP__Distributor__c\",\"Type\":\"lookup\"}\r\n\t\t]\r\n\t]\r\n}"
           }, {
             "apiName" : "fieloplt__standardactions__c",
             "value" : "Settings"
@@ -430,7 +467,7 @@
             "value" : "00D46000000bvJ0-a0g460000012Kee"
           }, {
             "apiName" : "fieloplt__fieldset__c",
-            "value" : "{\"Name\":\"FieloPRP__Status__c\"},\r\n{\"Name\":\"FieloPRP__InvoiceNumber__c\"},\r\n{\"Name\":\"FieloPRP__Distributor__r.Name\"},\r\n{\"Name\":\"FieloPRP__Member__r.Name\"},\r\n{\"Name\":\"FieloPRP__Amount__c\"},\r\n{\"Name\":\"FieloPRP__Date__c\"},\r\n{\"Name\":\"FieloPRP__Comments__c\"},\r\n{\"Name\":\"FieloPRP__ApprovedDate__c\"}"
+            "value" : "{\"Name\":\"FieloPRP__Status__c\"},\r\n{\"Name\":\"FieloPRP__InvoiceNumber__c\"},\r\n{\"Name\":\"FieloPRP__Distributor__r.Name\"},\r\n{\"Name\":\"FieloPRP__Member__r.Name\"},\r\n{\"Name\":\"FieloPRP__Amount__c\"},\r\n{\"Name\":\"FieloPRP__Date__c\"},\r\n{\"Name\":\"FieloPRP__Comments__c\"}"
           }, {
             "apiName" : "fieloplt__isactive__c",
             "value" : "true"
@@ -563,6 +600,37 @@
         }, {
           "fieldsValues" : [ {
             "apiName" : "name",
+            "value" : "Invoice Item > Lookup"
+          }, {
+            "apiName" : "fieloplt__externalid__c",
+            "value" : "00D460000013Gun-a0Q460000038gTj"
+          }, {
+            "apiName" : "fieloplt__fieldset__c",
+            "value" : "{\"Name\":\"FieloPRP__Quantity__c\", \"Type\":\"input\", \"ClassName\": \"fielosf-product_qty\", \"onchange\": \"refreshTotalPriceProxy_\"}, \r\n{\"Name\":\"FieloPRP__Product__c\", \"Type\":\"lookup\", \"ClassName\": \"fielosf-product_name\", \"onchange\": \"refreshTotalPriceProxy_\"}, \r\n{\"Name\":\"FieloPRP__UnitPrice__c\", \"Type\": \"input\", \"ClassName\": \"fielosf-product_unit-price\", \"onchange\": \"refreshTotalPriceProxy_\"}, \r\n{\"Name\":\"FieloPRP__TotalPrice__c\", \"Type\": \"input\", \"ClassName\": \"fielosf-product_total-price\", \"onchange\": \"refreshTotalPriceProxy_\"}"
+          }, {
+            "apiName" : "fieloplt__isactive__c",
+            "value" : "true"
+          }, {
+            "apiName" : "fieloplt__iscustom__c",
+            "value" : "true"
+          }, {
+            "apiName" : "fieloplt__library__c.fieloplt__externalid__c",
+            "value" : "FieloPRP",
+            "refObject" : "fieloplt__library__c"
+          }, {
+            "apiName" : "fieloplt__object__c",
+            "value" : "FieloPRP__Invoice__c"
+          }, {
+            "apiName" : "fieloplt__type__c",
+            "value" : "Lookup"
+          } ],
+          "relatedList" : [ {
+            "objectAPIName" : "fieloplt__programassignment__c",
+            "records" : [ ]
+          } ]
+        }, {
+          "fieldsValues" : [ {
+            "apiName" : "name",
             "value" : "Member > Related > Invoice"
           }, {
             "apiName" : "fieloplt__externalid__c",
@@ -595,6 +663,68 @@
           }, {
             "apiName" : "fieloplt__type__c",
             "value" : "Related"
+          } ],
+          "relatedList" : [ {
+            "objectAPIName" : "fieloplt__programassignment__c",
+            "records" : [ ]
+          } ]
+        }, {
+          "fieldsValues" : [ {
+            "apiName" : "name",
+            "value" : "Product Recent > Lookup"
+          }, {
+            "apiName" : "fieloplt__externalid__c",
+            "value" : "00D460000013Gun-a0Q460000038gTe"
+          }, {
+            "apiName" : "fieloplt__fieldset__c",
+            "value" : "{\"Name\":\"Name\", \"Type\":\"input\"}, \r\n{\"Name\":\"Family\",\"Type\":\"picklist\"}, \r\n{\"Name\":\"ProductCode\",\"Type\":\"input\"}"
+          }, {
+            "apiName" : "fieloplt__isactive__c",
+            "value" : "true"
+          }, {
+            "apiName" : "fieloplt__iscustom__c",
+            "value" : "true"
+          }, {
+            "apiName" : "fieloplt__library__c.fieloplt__externalid__c",
+            "value" : "FieloPRP",
+            "refObject" : "fieloplt__library__c"
+          }, {
+            "apiName" : "fieloplt__object__c",
+            "value" : "FieloPRP__Invoice__c"
+          }, {
+            "apiName" : "fieloplt__type__c",
+            "value" : "Lookup"
+          } ],
+          "relatedList" : [ {
+            "objectAPIName" : "fieloplt__programassignment__c",
+            "records" : [ ]
+          } ]
+        }, {
+          "fieldsValues" : [ {
+            "apiName" : "name",
+            "value" : "Products > Lookup"
+          }, {
+            "apiName" : "fieloplt__externalid__c",
+            "value" : "00D460000013Gun-a0Q460000038gTZ"
+          }, {
+            "apiName" : "fieloplt__fieldset__c",
+            "value" : "{\"Name\":\"Name\", \"Type\":\"input\"}, \r\n{\"Name\":\"Family\",\"Type\":\"picklist\"}, \r\n{\"Name\":\"ProductCode\",\"Type\":\"input\"}"
+          }, {
+            "apiName" : "fieloplt__isactive__c",
+            "value" : "true"
+          }, {
+            "apiName" : "fieloplt__iscustom__c",
+            "value" : "true"
+          }, {
+            "apiName" : "fieloplt__library__c.fieloplt__externalid__c",
+            "value" : "FieloPRP",
+            "refObject" : "fieloplt__library__c"
+          }, {
+            "apiName" : "fieloplt__object__c",
+            "value" : "FieloPRP__Invoice__c"
+          }, {
+            "apiName" : "fieloplt__type__c",
+            "value" : "Lookup"
           } ],
           "relatedList" : [ {
             "objectAPIName" : "fieloplt__programassignment__c",
