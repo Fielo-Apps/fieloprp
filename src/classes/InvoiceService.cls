@@ -1,6 +1,6 @@
 global class InvoiceService {
     
-    public static List<Invoice__c> getInvoices(Set<String> fields, Set<String> status, Id programId, Integer quantity, Integer offset, String orderBy) {   
+    public static List<Invoice__c> getInvoices(Set<String> fields, Set<String> status, Id programId, Decimal quantity, Decimal offset, String orderBy) {   
         InvoicesSelector selector = new InvoicesSelector(fields);
         selector.setOrderBy(orderBy);
         selector.setLimit(quantity);
@@ -8,7 +8,7 @@ global class InvoiceService {
         return  selector.selectByProgramAndStatus(status, programId);
     }
 
-    public static List<SObject> getInvoices(Set<String> fields, Id memberId, String whereClause, Integer quantity, Integer offset, String orderBy) {
+    public static List<SObject> getInvoices(Set<String> fields, Id memberId, String whereClause, Decimal quantity, Decimal offset, String orderBy) {
         InvoicesSelector selector = new InvoicesSelector(fields);
         selector.setOrderBy(orderBy);
         selector.setLimit(quantity);
