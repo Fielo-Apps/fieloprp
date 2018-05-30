@@ -665,4 +665,12 @@
         <shortDescription>RangeSuffix</shortDescription>
         <value>Range</value>
     </labels>
+    <labels>
+        <fullName>AddOneProduct</fullName>
+        <categories>InvoiceItems.cmp</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>AddOneProduct</shortDescription>
+        <value>+ Add one or more product in this list</value>
+    </labels>
 </CustomLabels>
