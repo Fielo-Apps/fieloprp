@@ -1,6 +1,6 @@
 public class MyInvoicesController {
 	@AuraEnabled
-	public static List<SObject> getInvoices(List<String> fieldsInvoices, Id memberId, String whereClause, Decimal quantity, Decimal offset, String orderBy) {
+	public static List<SObject> getInvoices(List<String> fieldsInvoices, Id memberId, String whereClause, Integer quantity, Integer offset, String orderBy) {
         try{
             Map<String, DescribeFieldResult> fieldsDescribeMap = AuraService.getFieldsDescribe('FieloPRP__Invoice__c', fieldsInvoices);
             Set<String> fieldsInvoicesSet = new Set<String>(fieldsInvoices);
