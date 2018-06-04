@@ -22,8 +22,9 @@ public class InvoiceFilterController {
 					} else {
 						fieldAttributes.put('rangeLabel', (Object) Label.RangeSuffix);
 					}
-					
-
+				}
+				if (String.valueOf(fieldAttributes.get('type')) == 'picklist' ) {
+					fieldMeta.put('firstOptionLabel', (Object) Label.All);
 				}
 				fieldMeta.put('attributes', (Object) fieldAttributes);
 				newfieldsInfo.add(fieldMeta);

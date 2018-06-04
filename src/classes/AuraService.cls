@@ -77,7 +77,6 @@ public class AuraService {
 				fieldAttributes.put('id', fieldDescribe.getName().replace('_',''));
 				if (fieldAttributes.get('type') == 'picklist') {
 					picklistEntries = new List<Map<String, String>>();
-					picklistEntries.add(new Map<String, String>{'value' => '','label'=> Label.SelectAnOption});
 					for (Schema.PicklistEntry pValues: fieldDescribe.getPicklistValues()) {
 						picklistEntries.add(new Map<String, String>{'value' => pValues.getValue(),'label'=> pValues.getLabel()});
 					}

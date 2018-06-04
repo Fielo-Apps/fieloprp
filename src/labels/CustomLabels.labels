@@ -673,4 +673,12 @@
         <shortDescription>AddOneProduct</shortDescription>
         <value>+ Add one or more product in this list</value>
     </labels>
+    <labels>
+        <fullName>Results</fullName>
+        <categories>LookupSearch.cmp</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Results</shortDescription>
+        <value>Results</value>
+    </labels>
 </CustomLabels>
