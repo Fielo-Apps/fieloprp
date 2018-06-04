@@ -1,0 +1,7 @@
+<aura:component >
+    <aura:attribute name="record" type="sObject"/>
+    <aura:attribute name="name" type="String" />
+    
+    <aura:registerEvent name="showRecord" type="c:ShowRecordEvent"/>    
+    <a onclick="{!c.showRecord}" > {!v.name}</a>
+</aura:component>

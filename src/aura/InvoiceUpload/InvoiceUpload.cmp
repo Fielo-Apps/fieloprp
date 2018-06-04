@@ -44,8 +44,10 @@
     <aura:registerEvent name="hideContent" type="c:HideContent"/>
     
     <lightning:breadcrumbs >
-        <lightning:breadcrumb label="My Invoices" onclick="{!c.backToMyInvoices}" />
-        <lightning:breadcrumb label="New Invoice"/>
+        <lightning:breadcrumb label="{!$Label.c.MyInvoices}" onclick="{!c.backToMyInvoices}" />
+        <li class="slds-breadcrumb__item slds-text-title_caps fielo-breadcrumb__current">
+            {!$Label.c.NewInvoice}
+        </li>
     </lightning:breadcrumbs>
     
     <div class="invoice-upload-container">
