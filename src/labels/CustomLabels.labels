@@ -681,4 +681,12 @@
         <shortDescription>Results</shortDescription>
         <value>Results</value>
     </labels>
+    <labels>
+        <fullName>OpenImage</fullName>
+        <categories>ImageView.cmp</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>OpenImage</shortDescription>
+        <value>Open Image</value>
+    </labels>
 </CustomLabels>
