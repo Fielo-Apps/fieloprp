@@ -97,7 +97,7 @@
     </lightning:layout>
     
     <!-- RELATED AREA-->
-    <aura:if isTrue="{!v.disableItems == false}">
+    <aura:if isTrue="{!v.record.FieloPRP__HasDetails__c}">
         <div class="slds-p-top_medium slds-size_2-of-3">
             <c:InvoiceItemsListView invoiceId="{!v.record.Id}" invoiceItemFields="{!v.invoiceItemFields}"/>
         </div>    

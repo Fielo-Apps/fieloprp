@@ -1,18 +1,39 @@
 ({
     fileCounter: 0,
+    fileIndex: 0,
     upload: function(component, file, base64Data, callback) {
         try{
-            console.log('type: ' + file.type);
+            var toastEvent = $A.get("e.force:showToast");
+            var config = component.get('v.config');
+            var supportedFiles = ['image/png','image/jpg','image/jpeg','image/png','image/gif','application/pdf'];
             var filesList = component.get("v.filesList");
+            var fileSize = base64Data.length*3/4;
             if (!filesList) {
                 filesList = [];
             }
-            filesList.push({
-                fileName: file.name,
-                base64Data: base64Data,
-                contentType: file.type,
-                id: this.fileCounter
-            });
+            if (supportedFiles.indexOf(file.type) == -1) {
+                toastEvent.setParams({
+                    "title": $A.get('$Label.c.InvalidFileType'),
+                    "message": " ",
+                    "type": "error"
+                });
+                toastEvent.fire();
+            } else if(fileSize > config.maxFileSize) {
+                toastEvent.setParams({
+                    "title": $A.get('$Label.c.InvalidFileSize'),
+                    "message": " ",
+                    "type": "error"
+                });
+                toastEvent.fire();
+            } else {
+                filesList.push({
+                    fileName: file.name,
+                    base64Data: base64Data,
+                    contentType: file.type,
+                    id: this.fileCounter
+                });
+            }
+            
             this.fileCounter = this.fileCounter+1;
             component.set("v.filesList", filesList);
             component.set("v.showFileList", true);
@@ -29,14 +50,13 @@
             
             if (filesList) {
                 if (filesList.length > 0) {
-                    var file = filesList[0];
-                    filesList = filesList.filter( function(fileRecord) {
-                        return fileRecord.id != file.id;
-                    });
-                    component.set('v.filesList', filesList);
+                    var file = filesList[this.fileIndex];
                     if (file) {
+                        this.fileIndex++;
                         var fileContents = file.base64Data;
                         this.saveFile(component, invoiceId, file, fileContents);
+                    } else {
+                        console.log('no files... =(');
                     }
                 }
             }
@@ -53,6 +73,7 @@
         this.saveChunk(component, parentId, file, fileContents, fromPos, toPos, '');
     },
     saveChunk: function(component, parentId, file, fileContents, fromPos, toPos, fileId) {
+        console.log('saveChunk');
         var config = component.get('v.config');
         var chunk = fileContents.substring(fromPos, toPos);
         var action = component.get('c.saveTheChunk');
@@ -79,7 +100,7 @@
                 if (fromPos < toPos) {
                     this.saveChunk(component, parentId, file, fileContents, fromPos, toPos, fileId);
                 } else if (filesList) {
-                    if (filesList.length > 0) {
+                    if (this.fileIndex < filesList.length) {
                         this.uploadFile(component);
                     } else {
                         toastEvent.setParams({
@@ -206,12 +227,12 @@
             var fieldInfo;
             var typedFieldValue;
             [].forEach.call(Object.keys(invoiceFieldsCompsMap), function(fieldName) {
-				fieldInfo = invoiceFieldsCompsMap[fieldName].get("v.fieldMeta").attributes;
+                fieldInfo = invoiceFieldsCompsMap[fieldName].get("v.fieldMeta").attributes;
                 if (fieldInfo.jsType == 'string' || fieldInfo.isQuoted) {
                     if (String(invoiceFieldsCompsMap[fieldName].get('v.fieldValue')) == 'null') {
                         invoice[fieldName] = null;
                     } else {
-                    	invoice[fieldName] = String(invoiceFieldsCompsMap[fieldName].get('v.fieldValue'));    
+                        invoice[fieldName] = String(invoiceFieldsCompsMap[fieldName].get('v.fieldValue'));    
                     }
                 } else if (fieldInfo.jsType == 'number') {
                     invoice[fieldName] = Number(invoiceFieldsCompsMap[fieldName].get('v.fieldValue'));

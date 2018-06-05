@@ -68,7 +68,7 @@
         
         <div class="invoice-upload-file-container">
             <h3 class="slds-text-heading_small slds-p-top_medium"><b>{!$Label.c.SecondHeading}</b></h3>
-            <lightning:input aura:id="invoice-file-input" type="file" name="file" multiple="false" accept="image/png, image/jpg, image/jpeg, .zip" files="{!v.fileToBeUploaded}" onchange="{! c.handleFilesChange }"/>
+            <lightning:input aura:id="invoice-file-input" type="file" name="file" multiple="false" accept="image/png, image/jpg, image/jpeg, application/pdf, image/gif" files="{!v.fileToBeUploaded}" onchange="{! c.handleFilesChange }"/>
             <div class="slds-p-top_small">
                 {!$Label.c.FilesHelpText}
             </div>

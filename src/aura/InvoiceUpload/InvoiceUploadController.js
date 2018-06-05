@@ -335,6 +335,7 @@
         }
     },
     uploadFile: function(component,event,helper) {
+        helper.fileIndex = 0;
         helper.uploadFile(component);
     },
     doneWaiting: function(component,event,helper) {

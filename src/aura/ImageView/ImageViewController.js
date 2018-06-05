@@ -25,5 +25,12 @@
         } catch(e) {
             console.log(e);
         }
+    },
+    downloadFile: function(component, event, helper) {
+        try{
+            location.href = component.get('v.file').url;
+        } catch(e) {
+            console.log(e);
+        }
     }
 })
