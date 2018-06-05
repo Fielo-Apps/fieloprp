@@ -98,7 +98,7 @@ public class InvoiceUploadController {
             if (fileId == '') {
 	            fileId = saveFile(parentId, fileName, base64Data, contentType);
 	        } else {
-	            appendToFile(parentId, fileId, base64Data);
+	            fileId = appendToFile(parentId, fileId, base64Data);
 	        }
         	return Id.valueOf(fileId);
         } catch (DmlException e) {
@@ -111,7 +111,7 @@ public class InvoiceUploadController {
         return null;
     }
 
-    private static void appendToFile(Id parentId, Id fileId, String base64Data) {
+    private static Id appendToFile(Id parentId, Id fileId, String base64Data) {
         ContentVersion existingCV = [SELECT Id, VersionData, Title, PathOnClient, ContentDocumentId FROM ContentVersion WHERE Id = :fileId ORDER BY CreatedDate DESC LIMIT 1];
 
         base64Data = EncodingUtil.urlDecode(base64Data, 'UTF-8');
@@ -131,9 +131,10 @@ public class InvoiceUploadController {
         if (Schema.sObjectType.ContentVersion.fields.IsMajorVersion.isCreateable()) {
             cv.IsMajorVersion = true;
         }
-        insert cv;
 
         delete [SELECT Id FROM ContentDocument WHERE Id = :existingCV.ContentDocumentId];
+
+        insert cv;
 
         ContentDocumentLink cdl = new ContentDocumentLink();
         if (Schema.sObjectType.ContentDocumentLink.fields.ContentDocumentId.isCreateable()) {
@@ -146,5 +147,7 @@ public class InvoiceUploadController {
             cdl.ShareType = 'V';
         }
         insert cdl;
+
+        return cv.Id;
     }
 }
