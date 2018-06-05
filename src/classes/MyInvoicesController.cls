@@ -5,6 +5,7 @@ public class MyInvoicesController {
             Map<String, DescribeFieldResult> fieldsDescribeMap = AuraService.getFieldsDescribe('FieloPRP__Invoice__c', fieldsInvoices);
             Set<String> fieldsInvoicesSet = new Set<String>(fieldsInvoices);
             fieldsInvoicesSet.add('Id');
+            fieldsInvoicesSet.add('FieloPRP__HasDetails__c');
             String fieldType;
             for (String fieldName: fieldsInvoicesSet) {
                 if (fieldsDescribeMap.containsKey(fieldName)) {
