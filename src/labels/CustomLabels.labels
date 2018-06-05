@@ -689,4 +689,20 @@
         <shortDescription>OpenImage</shortDescription>
         <value>Open Image</value>
     </labels>
+    <labels>
+        <fullName>InvalidFileType</fullName>
+        <categories>ImageView.cmp</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>InvalidFileType</shortDescription>
+        <value>This file type is not supported</value>
+    </labels>
+    <labels>
+        <fullName>InvalidFileSize</fullName>
+        <categories>ImageView.cmp</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>InvalidFileSize</shortDescription>
+        <value>File size should be less than 3MB</value>
+    </labels>
 </CustomLabels>
