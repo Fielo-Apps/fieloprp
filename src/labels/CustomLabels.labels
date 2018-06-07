@@ -46,7 +46,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>DuplicatedInvoiceRecord</shortDescription>
-        <value>Duplicated Invoice Number for this Distributor</value>
+        <value>Duplicated Invoice Number for this Seller</value>
     </labels>
     <labels>
         <fullName>FutureDateField</fullName>
