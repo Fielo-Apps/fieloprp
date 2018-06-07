@@ -101,7 +101,7 @@ global class InvoiceService {
             for(Invoice__c invoice : invoices){
                 if(invoice.Member__r.FieloPLT__Program__r.RequestInvoiceAuthorization__c){
                     invoice.Status__c = 'Pending for Approval';
-                    uow.registerForApproval(invoice.Id, 'Invoice subbmited for Approval');
+                    uow.registerForApproval(invoice.Id, Label.FirstStepComments);
                 }else{
                     invoice.Status__c = 'Approved';
                 }

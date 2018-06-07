@@ -705,4 +705,12 @@
         <shortDescription>InvalidFileSize</shortDescription>
         <value>File size should be less than 3MB</value>
     </labels>
+    <labels>
+        <fullName>FirstStepComments</fullName>
+        <categories>InvoiceService.cls</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>FirstStepComments</shortDescription>
+        <value>Invoice submited for Approval</value>
+    </labels>
 </CustomLabels>
