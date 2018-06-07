@@ -1,29 +1,5 @@
 public class AuraService {
 
-	public static Map<String, String> getInvoiceUploadConfiguration(String memberId) {
-    	Map<String, String> invoiceConfigurations = new Map<String, String>();
-    	
-    	List<FieloPLT__Member__c> members = new MembersSelector(new Set<String>{'FieloPLT__Program__r.FieloPRP__RequestInvoiceProducts__c','FieloPLT__Program__r.FieloPRP__ProductInjectQuery__c'})
-    		.selectById(new Set<Id>{memberId});
-
-    	if (!members.isEmpty()) {
-    		invoiceConfigurations.put('requestInvoiceProducts', String.valueOf(members[0].FieloPLT__Program__r.RequestInvoiceProducts__c));
-    		invoiceConfigurations.put('productInjectQuery', members[0].FieloPLT__Program__r.ProductInjectQuery__c);
-    	}
-    	
-    	if (settings != null) {
-    		invoiceConfigurations.put('productLookupField', settings.FieloPRP__ProductLookupField__c != null ? settings.FieloPRP__ProductLookupField__c : 'FieloPRP__Product__c');
-    		invoiceConfigurations.put('maxFileSize', settings.FieloPRP__MaxFileSize__c != null ? String.valueOf(Integer.valueOf(settings.FieloPRP__MaxFileSize__c)) : '4350000');
-    		invoiceConfigurations.put('maxChunkSize', settings.FieloPRP__MaxFileChunkSize__c != null ? String.valueOf(Integer.valueOf(settings.FieloPRP__MaxFileChunkSize__c)) : '950000');
-    	} else {
-    		invoiceConfigurations.put('productLookupField', 'FieloPRP__Product__c');
-    		invoiceConfigurations.put('maxFileSize', '4350000');
-    		invoiceConfigurations.put('maxChunkSize', '950000');
-    	}
-
-    	return invoiceConfigurations;
-    }
-
     public static Map<String, DescribeFieldResult> getFieldsDescribe(String objectName, List<String> fieldNames) {
 		DescribeSObjectResult objectDescribe = Schema.describeSObjects(new String[]{objectName})[0];
 		Set<String> fieldNamesSet = new Set<String>(fieldNames);
