@@ -4,6 +4,7 @@
     <aura:attribute type="String" name="iconName"/>
     <aura:attribute type="sObject" name="record"/>
     <aura:attribute type="String" name="output"/>
+    <aura:attribute type="String" name="outputSubtitle"/>
     <aura:attribute type="String" name="variant"/>
     
     <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
@@ -17,6 +18,9 @@
                     </lightning:layoutItem>
                     <lightning:layoutItem class="slds-p-left_x-small">
                         <div class="slds-text-heading_small">{!v.output}</div>
+                        <aura:if isTrue="{! and(v.outputSubtitle != '', v.outputSubtitle != null)}">
+                            <div class="slds-text-heading_x-small">{!v.outputSubtitle}</div>
+                        </aura:if>
                     </lightning:layoutItem>
                 </lightning:layout>
             </div>

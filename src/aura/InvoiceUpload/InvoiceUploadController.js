@@ -21,11 +21,9 @@
             
             if (component.isValid() && state === 'SUCCESS') {                    
                 var objectInfo = JSON.parse(response.getReturnValue());
-                console.log(objectInfo.fields);
                 var amountField = objectInfo.fields.filter( function(field) {
-					return field.attributes.name == 'FieloPRP__Amount__c';
+                    return field.attributes.name == 'FieloPRP__Amount__c';
                 });
-                console.log(amountField);
                 component.set('v.fieldset', objectInfo.fields);
                 component.set('v.amountField', amountField[0]);
             }else {
@@ -229,7 +227,7 @@
             invoice.FieloPRP__Member__c = member.Id;
             var invoiceItems = null;
             if (invoiceItemsComponent) {
-            	invoiceItems = invoiceItemsComponent.getItems();    
+                invoiceItems = invoiceItemsComponent.getItems();    
             }
             var filesList = component.get('v.filesList');
             var referenceFiles = filesList.filter(function(file){
@@ -397,12 +395,12 @@
                                 "type": "error"
                             });
                             toastEvent.fire();
-                            var spinner = $A.get("e.c:ToggleSpinnerEvent");
-                            if(spinner){
-                                spinner.setParam('show', false);
-                                spinner.fire();    
-                            }
-                        }   
+                        }
+                        var spinner = $A.get("e.c:ToggleSpinnerEvent");
+                        if(spinner){
+                            spinner.setParam('show', false);
+                            spinner.fire();    
+                        }
                     } catch(e) {
                         console.log(e);
                     }

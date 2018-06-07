@@ -96,7 +96,7 @@
                 </lightning:layout>
                 
                 <div class="slds-p-top_medium slds-size_2-of-3">
-                    <c:InvoiceItems invoiceItemFields="{!v.invoiceItemFields}"/>
+                    <c:InvoiceItems invoiceItemFields="{!v.invoiceItemFields}" amountFieldMeta="{!v.amountField}"/>
                 </div>
             </div>
         </aura:if>

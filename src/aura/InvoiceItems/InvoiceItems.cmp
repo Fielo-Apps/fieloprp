@@ -11,6 +11,7 @@
     <aura:attribute type="Object" name="itemMap"/>
     <aura:attribute type="Boolean" name="disableAmountUpdate" default="false"/>
     <aura:attribute type="Boolean" name="allItemsRegistered" default="false"/>
+    <aura:attribute type="Object" name="amountFieldMeta"/>
     
     <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
     <aura:handler event="c:RegisterComponent" name="invoiceItemRegister" action="{!c.invoiceItemRegister}"/>
@@ -37,7 +38,7 @@
         <div class="slds-card__body slds-card__body_inner">
             <lightning:layout class="slds-border_top invoice-total-amount" verticalAlign="end" horizontalAlign="end">
                 <lightning:layoutItem class="slds-p-around_small">
-                    {!$Label.c.TotalAmountLabel + ' ' + v.totalAmount}
+                    {!$Label.c.TotalAmountLabel + ' '}<c:InvoiceOutputField fieldName="{!v.amountFieldMeta.attributes.name}" fieldValue="{!v.totalAmount}" fieldMeta="{!v.amountFieldMeta}"/>
                 </lightning:layoutItem>
             </lightning:layout>
             
@@ -71,7 +72,7 @@
             
             <lightning:layout class="slds-border_bottom invoice-total-amount" verticalAlign="end" horizontalAlign="end">
                 <lightning:layoutItem class="slds-p-around_small">
-                    {!$Label.c.TotalAmountLabel + ' ' + v.totalAmount}
+                    {!$Label.c.TotalAmountLabel + ' '}<c:InvoiceOutputField fieldName="{!v.amountFieldMeta.attributes.name}" fieldValue="{!v.totalAmount}" fieldMeta="{!v.amountFieldMeta}"/>
                 </lightning:layoutItem>
             </lightning:layout>
         </div>

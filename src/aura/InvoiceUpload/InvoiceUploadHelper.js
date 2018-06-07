@@ -148,10 +148,8 @@
             if (record) {
                 var invoice = component.get('v.invoice');
                 var fieldMap = component.get('v.invoiceFieldsCompsMap');
-                console.log(JSON.stringify(fieldMap, null, 2));
                 if (fieldMap) {
                     [].forEach.call(Object.keys(record), function(fieldName) {
-                        console.log('setting field: ' + fieldName);
                         if (Object.keys(fieldMap).indexOf(fieldName) != -1) {
                             fieldMap[fieldName].setFieldValue(Object.prototype.valueOf.call(record[fieldName]));
                         }

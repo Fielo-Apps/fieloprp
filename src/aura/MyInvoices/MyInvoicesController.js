@@ -34,67 +34,43 @@
             }
             // TITLE
             
-            // FIELDSET
-            fieldset = [], fields = [];
-            var fieldsConfig = component.get('v.fields').trim();
-            console.log(fieldsConfig);
-            if(fieldsConfig.length == 0){
-                fieldset = config.fieldset;                
-            } else if (fieldsConfig.indexOf('[') == 0) {
-                fieldset = JSON.parse(fieldsConfig);
-            } else {
-                var newField, nameAndType, apiName, type;
-                var fieldsList = fieldsConfig.split(',');
-                fieldsList.forEach(function(field){
-                    nameAndType = field.split('/');
-                    apiName = nameAndType[0].trim();
-                    if (apiName == 'FieloPRP__InvoiceNumber__c') {
-                        fieldset.push({
-                            "apiName": "FieloPRP__InvoiceNumber__c",
-                            "type": "subcomponent",
-                            "subcomponent": "c:ShowRecord",
-                            "label": {
-                                "type": "default"
-                            },
-                            "showLabel": true
-                        });
-                    } else if (apiName == 'FieloPRP__Status__c') {
-                        fieldset.push({
-                            "apiName": "FieloPRP__Status__c",
-                            "type": "subcomponent",
-                            "subcomponent": "c:InvoiceStatus",
-                            "label": {
-                                "type": "default"
-                            },
-                            "showLabel": true
-                        });
-                    } else if (apiName == 'FieloPRP__InvoiceItems__r') {
-                        fieldset.push({
-                            "apiName": "FieloPRP__InvoiceItems__r",
-                            "type": "subcomponent",
-                            "subcomponent": "c:InvoiceItemsCount",
-                            "label": {
-                                "type": "custom",
-                                "value": $A.get("$Label.c.ProductPlural")
-                            },
-                            "showLabel": true
-                        });
-                    } else {
-                        type = nameAndType[1] ? nameAndType[1].trim().toLowerCase() : 'output';
-                        newField = {
-                            'apiName': apiName,
-                            'type': type,
-                            'label': {
-                                "type": "default"
-                            },
-                            'showLabel': true
+            var fields = component.get('v.fields');
+            var action = component.get('c.getFieldData');
+            action.setParams({
+                'objectName': 'FieloPRP__Invoice__c',
+                'fieldNames': fields
+            });
+            action.setCallback(this, function(response) {
+                    try{
+                        var spinner = $A.get("e.c:ToggleSpinnerEvent");
+                        var toastEvent = $A.get("e.force:showToast");
+                        var state = response.getState();
+                        if (component.isValid() && state === 'SUCCESS') {                    
+                            var objectInfo = JSON.parse(response.getReturnValue());
+                            var fieldMap = {};
+                            objectInfo.fields.forEach(function(fieldInfo) {
+                                fieldMap[fieldInfo.attributes.name] = fieldInfo;
+                            });
+                            component.set('v.fieldMap', fieldMap);
+                            helper.setFieldSet(component);
+                        }else {
+                            var errorMsg = response.getError()[0].message;
+                            toastEvent.setParams({
+                                "title": "loadInvoices: " + errorMsg,
+                                "message": " ",
+                                "type": "error"
+                            });
+                            toastEvent.fire(); 
                         }
-                        fieldset.push(newField);                        
+                        if(spinner){
+                            spinner.setParam('show', false);
+                            spinner.fire();    
+                        }    
+                    } catch(e) {
+                        console.log(e);
                     }
-                })
-            }
-            // console.log(JSON.stringify(fieldset, null, 2));
-            component.set('v.fieldset', fieldset);
+                });    
+            $A.enqueueAction(action);
             // console.log('doInit done!')
         } catch(e) {
             component.set('v.error', e);
@@ -106,7 +82,11 @@
         component.set('v.member', member);
         component.set('v.showFilter', true);
         helper.getProgram(component, event, helper);
-        helper.loadInvoices(component, event, helper, 0);
+        helper.loadInvoices(component, event, helper, 0);    
+        if(component.get('v.currentView') != 'myinvoices') {
+            var action = component.get('c.showMyInvoices');
+            $A.enqueueAction(action);
+        }
     },
     showInvoiceRecord: function(component, event, helper){
         try{

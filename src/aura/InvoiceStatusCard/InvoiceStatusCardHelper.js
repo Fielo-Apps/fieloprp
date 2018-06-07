@@ -20,7 +20,7 @@
         'Pending for Approval': 'base',
         'Approved': 'inverse',
         'Rejected': 'inverse',
-        'Canceled': 'base',
+        'Canceled': 'inverse',
         'New': 'base'
     }
 })
