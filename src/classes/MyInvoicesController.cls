@@ -6,6 +6,7 @@ public class MyInvoicesController {
             Set<String> fieldsInvoicesSet = new Set<String>(fieldsInvoices);
             fieldsInvoicesSet.add('Id');
             fieldsInvoicesSet.add('FieloPRP__HasDetails__c');
+            fieldsInvoicesSet.add('FieloPRP__Comments__c');
             String fieldType;
             for (String fieldName: fieldsInvoicesSet) {
                 if (fieldsDescribeMap.containsKey(fieldName)) {
@@ -97,5 +98,20 @@ public class MyInvoicesController {
             throw new AuraHandledException(e.getMessage());
         }
         return null;
+    }
+
+    @AuraEnabled
+    public static String getFieldData(String objectName, String fieldNames) {
+        try{
+            Set<String> fieldsInvoicesSet = new Set<String>(fieldNames != '' && fieldNames != null ? fieldNames.split(',') : new List<String>());
+            fieldsInvoicesSet.add('Id');
+            fieldsInvoicesSet.add('FieloPRP__HasDetails__c');
+            fieldsInvoicesSet.add('FieloPRP__Comments__c');
+            return AuraService.getFieldData(objectName,String.join(new List<String>(fieldsInvoicesSet),','));
+        } catch (DmlException e) {
+            throw new AuraHandledException(e.getDmlMessage(0));
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
     }
 }
