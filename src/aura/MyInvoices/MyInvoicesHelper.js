@@ -11,6 +11,14 @@
         } else {
             var newField, nameAndType, apiName, type;
             var fieldsList = fieldsConfig.split(',');
+            var pointsFieldAdded = false;
+            var pointsFieldApiName = [];
+            if (fieldsList.indexOf('FieloPRP__Transactions__r')) {
+                pointsFieldApiName.push('FieloPRP__Transactions__r');
+            }
+            if (fieldsList.indexOf('FieloPRP__Trackers__r')) {
+                pointsFieldApiName.push('FieloPRP__Trackers__r');
+            }
             fieldsList.forEach(function(field){
                 nameAndType = field.split('/');
                 apiName = nameAndType[0].trim();
@@ -53,6 +61,19 @@
                         "label": {
                             "type": "custom",
                             "value": fieldMap['FieloPRP__Amount__c'].attributes.label
+                        },
+                        "config": JSON.stringify(fieldMap['FieloPRP__Amount__c']),
+                        "showLabel": true
+                    });
+                } else if ((apiName == 'FieloPRP__Transactions__r' || apiName == 'FieloPRP__Trackers__r') && !pointsFieldAdded) {
+                    pointsFieldAdded = true;
+                    fieldset.push({
+                        "apiName": pointsFieldApiName.join(','),
+                        "type": "subcomponent",
+                        "subcomponent": "c:InvoicePoints",
+                        "label": {
+                            "type": "custom",
+                            "value": $A.get("$Label.c.Points")
                         },
                         "config": JSON.stringify(fieldMap['FieloPRP__Amount__c']),
                         "showLabel": true

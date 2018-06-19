@@ -16,7 +16,7 @@
                     title = {
                         "value": component.get('v.titleValue'),
                         "type": "text"
-                    };                    
+                    };
                 }
             }
             if (title) {
