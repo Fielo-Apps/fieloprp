@@ -535,7 +535,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>YourInvoiceIs</shortDescription>
-        <value>Your invoice is</value>
+        <value>Your invoice has been</value>
     </labels>
     <labels>
         <fullName>FirstHeading</fullName>
@@ -712,5 +712,13 @@
         <protected>true</protected>
         <shortDescription>FirstStepComments</shortDescription>
         <value>Invoice submited for Approval</value>
+    </labels>
+    <labels>
+        <fullName>NegativeAmount</fullName>
+        <categories>Invoices.cls</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>NegativeAmount</shortDescription>
+        <value>Ammount cannot be negative</value>
     </labels>
 </CustomLabels>

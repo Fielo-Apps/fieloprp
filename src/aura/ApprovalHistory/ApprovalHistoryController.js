@@ -16,15 +16,28 @@
                         if (columns) {
                             if (columns.length>0) {
                                 [].forEach.call(columns, function(field) {
-                                    fieldset.push({
-                                        'apiName': field.name,
-                                        'type': helper.fieldTypeMap[field.name],
-                                        'label': {
-                                            'type': 'custom',
-                                            'value': field.label
-                                        },
-                                        'showLabel': true
-                                    });
+                                    if(field.name == 'status') {
+                                        fieldset.push({
+                                            "apiName": field.name,
+                                            "type": "subcomponent",
+                                            "subcomponent": "c:ApprovalStepStatus",
+                                            "label": {
+                                                "type": "Custom",
+                                                "value": field.label
+                                            },
+                                            "showLabel": true
+                                        });
+                                    } else {
+                                        fieldset.push({
+                                            'apiName': field.name,
+                                            'type': helper.fieldTypeMap[field.name],
+                                            'label': {
+                                                'type': 'custom',
+                                                'value': field.label
+                                            },
+                                            'showLabel': true
+                                        });    
+                                    }
                                 });
                                 component.set('v.fieldset',fieldset);
                                 component.set('v.showApprovalHistory',true);

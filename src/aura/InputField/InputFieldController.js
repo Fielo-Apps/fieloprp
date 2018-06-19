@@ -19,10 +19,23 @@
         try{
             var fieldMeta = component.get("v.fieldMeta");
             var compEvent = component.getEvent("fieldUpdate");
+            var oldFieldValue = component.get("v.oldFieldValue");
             var fieldName = event.getSource().get('v.name');
             var fieldValue = event.getSource().get('v.value');
-            component.set('v.fieldValue', Object.prototype.valueOf.call(fieldValue));
-            helper.fireFieldUpdate(component, fieldName, Object.prototype.valueOf.call(fieldValue));
+            var fireEvent = true;
+            
+            if (fieldMeta.attributes.type == "date") {
+                if((new Date(String(fieldValue))).getFullYear() >= 10000) {
+                    component.set('v.fieldValue', oldFieldValue);
+                    helper.setFieldValueByType(component, oldFieldValue);
+                    fireEvent = false;
+                } 
+            }
+            if (fireEvent) {
+            	component.set('v.fieldValue', Object.prototype.valueOf.call(fieldValue));
+            	helper.fireFieldUpdate(component, fieldName, Object.prototype.valueOf.call(fieldValue));
+            	component.set('v.oldFieldValue', Object.prototype.valueOf.call(fieldValue));    
+            }
         } catch (e) {
             console.log(e.toString());
         }

@@ -1,4 +1,4 @@
-.THIS .invoice-filter-container{
+.THIS {
 	display: inline-flex;
 }
 
@@ -28,8 +28,7 @@
 }
 
 .THIS .filterBtn{
-    position: relative;
-    top: -1px;
+    bottom: -1px;
 }
 
 .THIS .range-middle-text{
@@ -37,6 +36,11 @@
     margin-right: 10px;
 }
 
-.THIS .filterBtn .slds-button__icon{
-    margin-right: 0;
+.THIS .fielo-filter-to-container{
+    margin-bottom: 15px;
+    margin-right: 10px;
+}
+
+.THIS .filterBtn-container{
+    margin-bottom: 10px;
 }

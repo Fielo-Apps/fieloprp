@@ -47,6 +47,7 @@
     hide: function(component,event,helper) {
         component.set('v.backDropClass', 'slds-backdrop');
         component.set('v.modalClass', 'slds-modal');
+        component.set('v.searchValue', null);
     },
     paginator: function(component, event, helper) {
         event.stopPropagation();

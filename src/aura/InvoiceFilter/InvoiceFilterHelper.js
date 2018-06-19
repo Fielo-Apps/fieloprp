@@ -22,7 +22,6 @@
             var fieldTypes = component.get('v.fieldTypes');
             var fieldMap = component.get('v.fieldMap');
             var rangedFields = component.get('v.rangedFields').split(',');
-            console.log(rangedFields);
             [].forEach.call(Object.keys(filterObject), function(filterField) {
                 if (filterObject[filterField] != '' && filterObject[filterField] != null && filterObject[filterField] != undefined) {
                     if (filterField.indexOf('-to') == -1) {
@@ -41,10 +40,14 @@
                             whereCondition += ' ) ';
                             whereConditions.push(whereCondition);
                         }
+                    } else if (filterField.indexOf('-to') != -1) {
+                        var fieldFrom = filterObject[filterField.replace('-to','')];
+                        if (fieldFrom == '' || fieldFrom == null || fieldFrom == undefined) {
+                            whereConditions.push(this.getWhereClause(filterField.replace('-to',''), filterObject[filterField], '<=', fieldTypes));    
+                        }
                     }
                 }
             }, this);
-            console.log('whereConditions = ' + whereConditions.join(' AND '));
             return whereConditions.join(' AND ');
         } catch(e) {
             console.log(e);
@@ -69,7 +72,7 @@
         'percent': false,
         'phone': true,
         'picklist': true,
-        'reference': false,
+        'reference': true,
         'string': true,
         'textarea': true,
         'time': false,

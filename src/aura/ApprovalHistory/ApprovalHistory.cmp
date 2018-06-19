@@ -23,5 +23,4 @@
         <h3 class="slds-text-heading_small slds-p-bottom_medium"><b>{!$Label.FieloPLT.ApprovalHistory}</b></h3>
     	<c:ListView objectAPIName="ProcessInstance" layout="table" columns="{!v.columns}" fieldset="{!v.fieldset}" records="{!v.steps}" paging="false" quantity="200" />
     </aura:if>
-    
 </aura:component>

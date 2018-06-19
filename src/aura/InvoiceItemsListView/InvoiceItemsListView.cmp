@@ -6,6 +6,7 @@
     <aura:attribute type="Boolean" name="showItems" default="true"/>
     
     <aura:attribute type="Object[]" name="fieldset"/>
+    <aura:attribute type="Object" name="fieldMap"/>
     <aura:attribute type="InvoiceItem__c[]" name="items"/>
     
     <!-- DESIGN ATTRIBUTES -->

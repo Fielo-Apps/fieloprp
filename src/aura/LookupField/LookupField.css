@@ -5,4 +5,9 @@
 
 .THIS .fielo-lookup-search-button{
     cursor:pointer;
+    pointer-events: auto;
+}
+
+.THIS .fielo-lookup-search-button .slds-icon-utility-search{
+    pointer-events: auto;
 }

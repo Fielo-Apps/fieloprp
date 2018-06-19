@@ -36,8 +36,14 @@ public with sharing class Invoices extends SObjectDomain {
             for(Invoice__c invoice: (List<Invoice__c>)records){
                 if( invoice.Amount__c != null && invoice.Amount__c != 0.0 )
                     if(invoice.Member__c!=null)
-                        if( !disabledUpdateMembers.containsKey( invoice.Member__c ) )
+                        if( !disabledUpdateMembers.containsKey( invoice.Member__c ) ) {
                             invoice.addError( Label.AmountUpdateDisabled );
+                        } else {
+                            if (invoice.Amount__c < 0.0) {
+                                invoice.addError( Label.NegativeAmount );
+                            }
+                        }
+                            
                 if( invoice.Date__c == null ) {
                     invoice.addError( Label.DateFieldNull );
                 } else if ( invoice.Date__c > System.today() ){
@@ -88,6 +94,10 @@ public with sharing class Invoices extends SObjectDomain {
                     invoice.Status__c != 'Open' &&
                     invoice.Status__c != 'New') {
                     invoice.addError( Label.ZeroAmount );
+                }
+
+                if (newAmount < 0.0) {
+                    invoice.addError( Label.NegativeAmount );
                 }
 
                 String priorValue = ((Invoice__c)existingRecords.get(invoice.Id)).Status__c;
