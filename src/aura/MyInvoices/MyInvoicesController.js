@@ -116,7 +116,6 @@
     },
     filterMyInvoices: function(component, event, helper) {
         try{
-            console.log('filterMyInvoices');
             var params = event.getParams();
             // console.log(JSON.stringify(params, null, 2));
             component.set('v.whereClause', params.whereClause);

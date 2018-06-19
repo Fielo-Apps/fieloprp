@@ -66,7 +66,6 @@
             if (!filterObject) {
                 filterObject = {};
             }
-            console.log(JSON.stringify(params, null, 2));
             if (params.fieldName) {
                 if (params.jsType == 'string' || params.isQuoted) {
                     filterObject[params.fieldName] = String(params.fieldValue);
@@ -92,8 +91,6 @@
         if (filterObject) {
             whereClause = helper.assembleWhereClause(component, filterObject);
         }
-        console.log(JSON.stringify(filterObject, null, 2));
-        console.log('whereClause = ' + whereClause);
         compEvent.setParams({
             "filterObject" : filterObject,
             "whereClause" : whereClause

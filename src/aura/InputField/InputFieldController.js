@@ -15,7 +15,6 @@
         }
     },
     handleChange : function(component, event, helper) {
-        console.log('handleChange');
         try{
             var fieldMeta = component.get("v.fieldMeta");
             var compEvent = component.getEvent("fieldUpdate");
