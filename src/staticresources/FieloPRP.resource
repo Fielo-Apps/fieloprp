@@ -22,7 +22,7 @@
         "value" : "FieloPRP"
       }, {
         "apiName" : "fieloplt__version__c",
-        "value" : "1.009"
+        "value" : "1.010"
       } ],
       "relatedList" : [ {
         "objectAPIName" : "fieloplt__ruletrigger__c",
@@ -41,7 +41,7 @@
             "value" : "Approved"
           }, {
             "apiName" : "fieloplt__date__c",
-            "value" : "CreatedDate"
+            "value" : "FieloPRP__ApprovedDate__c"
           }, {
             "apiName" : "fieloplt__externalid__c",
             "value" : "Invoice"
