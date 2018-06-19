@@ -82,7 +82,7 @@ public class InvoiceUploadController {
     public static String save(Invoice__c invoice, List<InvoiceItem__c> items, String submitMode, List<Id> fileIds) {
         try{
             Invoice__c submittedInvoice = InvoiceService.submitInvoice(invoice, items, null);
-            if (submitMode == 'Close') {
+            if (submitMode == 'Approval Workflow') {
                 submittedInvoice = InvoiceService.closeInvoice(submittedInvoice.Id);
             }
             if (!fileIds.isEmpty()) {
