@@ -13,10 +13,10 @@
             var fieldsList = fieldsConfig.split(',');
             var pointsFieldAdded = false;
             var pointsFieldApiName = [];
-            if (fieldsList.indexOf('FieloPRP__Transactions__r')) {
+            if (fieldsList.indexOf('FieloPRP__Transactions__r') != -1) {
                 pointsFieldApiName.push('FieloPRP__Transactions__r');
             }
-            if (fieldsList.indexOf('FieloPRP__Trackers__r')) {
+            if (fieldsList.indexOf('FieloPRP__Trackers__r') != -1) {
                 pointsFieldApiName.push('FieloPRP__Trackers__r');
             }
             fieldsList.forEach(function(field){
