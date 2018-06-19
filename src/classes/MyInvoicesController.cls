@@ -21,11 +21,11 @@ public class MyInvoicesController {
                 if (fieldName == 'FieloPRP__InvoiceItems__r') {
                     fieldsInvoicesSet.add('(SELECT Id FROM FieloPRP__InvoiceItems__r) Products');
                 }
-                if (fieldName == 'FieloPRP__Transactions__r') {
-                    fieldsInvoicesSet.add('(SELECT Id FROM FieloPRP__Transactions__r) Transactions');
+                if (fieldName.contains('FieloPRP__Transactions__r')) {
+                    fieldsInvoicesSet.add('(SELECT Id, FieloPLT__Points__c FROM FieloPRP__Transactions__r) Transactions');
                 }
-                if (fieldName == 'FieloPRP__Trackers__r') {
-                    fieldsInvoicesSet.add('(SELECT Id FROM FieloPRP__Trackers__r) Trackers');
+                if (fieldName.contains('FieloPRP__Trackers__r')) {
+                    fieldsInvoicesSet.add('(SELECT Id, FieloPLT__Transaction__r.FieloPLT__Points__c FROM FieloPRP__Trackers__r) Trackers');
                 }
             }
 
@@ -37,6 +37,12 @@ public class MyInvoicesController {
             }
             if (fieldsInvoicesSet.contains('FieloPRP__Trackers__r')) {
                 fieldsInvoicesSet.remove('FieloPRP__Trackers__r');
+            }
+            if (fieldsInvoicesSet.contains('FieloPRP__Transactions__r,FieloPRP__Trackers__r')) {
+                fieldsInvoicesSet.remove('FieloPRP__Transactions__r,FieloPRP__Trackers__r');
+            }
+            if (fieldsInvoicesSet.contains('FieloPRP__Trackers__r,FieloPRP__Transactions__r')) {
+                fieldsInvoicesSet.remove('FieloPRP__Trackers__r,FieloPRP__Transactions__r');
             }
 
             System.debug('whereClause = ' + whereClause);
