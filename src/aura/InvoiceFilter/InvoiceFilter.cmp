@@ -22,7 +22,7 @@
         <div class="fielo-filter-container">
             <lightning:layout verticalAlign="end" horizontalAlign="spread">
                 <aura:iteration items="{!v.fieldset}" var="field">
-                    <aura:if isTrue="{!or(field.attributes.isToField == 'true',field.attributes.isToField == true)}">
+                    <aura:if isTrue="{!field.attributes.isToField == true}">
                         <lightning:layoutItem>
                             <div class="fielo-filter-to-container">
                                 <lightning:formattedText value="{!$Label.c.To}" />

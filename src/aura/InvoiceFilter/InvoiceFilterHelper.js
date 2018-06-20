@@ -83,7 +83,11 @@
             var whereClause = '';
             if (fieldValue != null && fieldValue != '' && fieldValue != undefined) {
                 if (this.isQuoted[fieldTypes[fieldName]]) {
-                    whereClause = fieldName + ' ' + operator + ' \'\'' + fieldValue.replace(new RegExp('\'','g'),'\\\'\'') + '\'\'';
+                    if (fieldTypes[fieldName] != 'string' && fieldTypes[fieldName] != 'textarea') {
+                    	whereClause = fieldName + ' ' + operator + ' \'\'' + fieldValue.replace(new RegExp('\'','g'),'\\\'\'') + '\'\'';    
+                    } else {
+                        whereClause = fieldName + ' LIKE \'\'%' + fieldValue.replace(new RegExp('\'','g'),'\\\'\'') + '%\'\'';
+                    }
                 }else {
                     whereClause = fieldName + ' ' + operator + ' ' + fieldValue + '';
                 }    

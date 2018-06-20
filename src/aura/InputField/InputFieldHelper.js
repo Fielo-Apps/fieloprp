@@ -53,7 +53,7 @@
             component.set('v.booleanValue', Boolean(fieldValue));
         }
         if (this.fieldMap[fieldType] == 'decimalValue') {
-            component.set('v.decimalValue', Number(fieldValue));
+            component.set('v.decimalValue', Number(fieldValue).toFixed((component.get('v.fieldMeta').attributes.step.split('.')[1] || []).length));
         }
     },
     getFieldValueByType: function(component, fieldValue) {

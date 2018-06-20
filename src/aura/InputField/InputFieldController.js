@@ -31,12 +31,23 @@
                 } 
             }
             if (fireEvent) {
-            	component.set('v.fieldValue', Object.prototype.valueOf.call(fieldValue));
+				component.set('v.fieldValue', Object.prototype.valueOf.call(fieldValue));    
             	helper.fireFieldUpdate(component, fieldName, Object.prototype.valueOf.call(fieldValue));
-            	component.set('v.oldFieldValue', Object.prototype.valueOf.call(fieldValue));    
+            	component.set('v.oldFieldValue', Object.prototype.valueOf.call(fieldValue));
             }
         } catch (e) {
             console.log(e.toString());
+        }
+    },
+    formatField: function(component, event, helper) {
+        try{
+            var fieldMeta = component.get("v.fieldMeta");
+            var fieldValue = component.get("v.fieldValue");
+            if (component.get('v.fieldMeta').attributes.inputType == 'number') {
+            	component.set('v.decimalValue', Number(fieldValue).toFixed((component.get('v.fieldMeta').attributes.step.split('.')[1] || []).length));    
+            }
+        } catch(e) {
+            console.log(e);
         }
     },
     setFieldValue: function(component, event, helper) {
