@@ -172,7 +172,7 @@ global class InvoiceService {
             SObjectUnitOfWork uow = new SObjectUnitOfWork(new List<Schema.SObjectType>{Invoice__c.SObjectType});
             for(Id recordId : recordIds){
                 uow.registerDirty(new Invoice__c(Id = recordId, Status__c = 'Pending for Approval'));
-                uow.registerForApproval(recordId, 'Invoice submitted for Approval');
+                uow.registerForApproval(recordId, Label.FirstStepComments);
             }
             uow.commitWork();
         }
