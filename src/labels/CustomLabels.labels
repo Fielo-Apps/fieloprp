@@ -711,7 +711,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>FirstStepComments</shortDescription>
-        <value>Invoice submited for Approval</value>
+        <value>Invoice submitted for approval</value>
     </labels>
     <labels>
         <fullName>NegativeAmount</fullName>
