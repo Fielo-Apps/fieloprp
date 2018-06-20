@@ -1,7 +1,7 @@
 <aura:component controller="InvoiceUploadController">
     <aura:attribute type="String" name="invoiceFields"/>
     <aura:attribute type="String" name="invoiceItemFields"/>
-    <aura:attribute type="String" name="objectName" default="FieloPRP__Invoice__c"/>
+    <aura:attribute type="String" name="objectName" default="Invoice__c"/>
     <aura:attribute type="String" name="submitMode" default="Submit"/>
     <aura:attribute type="String" name="invoiceId"/>
     <aura:attribute type="String" name="cloneId"/>
@@ -19,6 +19,7 @@
     <aura:attribute type="Object[]" name="selectedProducts"/>
     <aura:attribute type="Object[]" name="fileToBeUploaded"/>
     <aura:attribute type="Object[]" name="filesList"/>
+    <aura:attribute type="Object[]" name="newFiles"/>
     <aura:attribute type="Object" name="invoiceFieldsCompsMap"/>
     <aura:attribute type="Aura.Component" name="invoiceItemsCmp"/>
     

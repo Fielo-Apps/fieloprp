@@ -46,11 +46,11 @@
         console.log('helper.uploadFile');
         try {
             var invoiceId = component.get('v.invoiceId');
-            var filesList = component.get('v.filesList');
+            var newFiles = component.get('v.newFiles');
             
-            if (filesList) {
-                if (filesList.length > 0) {
-                    var file = filesList[this.fileIndex];
+            if (newFiles) {
+                if (newFiles.length > 0) {
+                    var file = newFiles[this.fileIndex];
                     if (file) {
                         this.fileIndex++;
                         var fileContents = file.base64Data;
@@ -89,7 +89,7 @@
             var state = response.getState();
             var toastEvent = $A.get("e.force:showToast");
             var spinner = $A.get("e.c:ToggleSpinnerEvent");
-            var filesList = component.get('v.filesList');
+            var newFiles = component.get('v.newFiles');
             
             if (component.isValid() && state === 'SUCCESS') {
                 // Handle Response
@@ -99,8 +99,8 @@
                 
                 if (fromPos < toPos) {
                     this.saveChunk(component, parentId, file, fileContents, fromPos, toPos, fileId);
-                } else if (filesList) {
-                    if (this.fileIndex < filesList.length) {
+                } else if (newFiles) {
+                    if (this.fileIndex < newFiles.length) {
                         this.uploadFile(component);
                     } else {
                         toastEvent.setParams({
