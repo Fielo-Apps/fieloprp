@@ -721,4 +721,12 @@
         <shortDescription>NegativeAmount</shortDescription>
         <value>Ammount cannot be negative</value>
     </labels>
+    <labels>
+        <fullName>CongratulationsMsg</fullName>
+        <categories>InvoiceStatusCard.cmp</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CongratulationsMsg</shortDescription>
+        <value>Congratulations! You've earned {0} points</value>
+    </labels>
 </CustomLabels>
