@@ -272,6 +272,22 @@ public abstract class SObjectSelector{
         return string.join(setParentFields,', ');
     }
 
+    public String getRelatedParentFieldListStringToLabel(String relation){
+        List<String> setParentFields = new List<String>();
+        for(String field: this.fields){
+
+            //chequeo si el campo viene con el toLabel()
+            if(field.contains('toLabel(')){
+                //remuevo el toLabel( y lo pongo adelante
+                field = field.remove('toLabel(');
+                setParentFields.add('toLabel(' + relation + '.' + field);
+            }else{
+                setParentFields.add(relation + '.' + field);
+            }
+        }
+        return string.join(setParentFields,', ');
+    }
+
     /**
      * Returns the string representaiton of the SObject this selector represents
      **/
