@@ -1,9 +1,9 @@
-<aura:component implements="flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes" controller="InvoiceFilterController" access="global" >
+<aura:component implements="flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes" controller="InvoiceFilterController">
     
-    <aura:attribute type="Boolean" name="showFilter" default="false" access="global"/>
-    <aura:attribute type="String" name="objectName" access="global"/>
-    <aura:attribute type="String" name="filterFields" access="global"/>
-    <aura:attribute type="String" name="rangedFields" access="global"/>
+    <aura:attribute type="Boolean" name="showFilter" default="false"/>
+    <aura:attribute type="String" name="objectName"/>
+    <aura:attribute type="String" name="filterFields"/>
+    <aura:attribute type="String" name="rangedFields"/>
     <aura:attribute type="Object[]" name="fieldset"/>
     <aura:attribute type="Object" name="fieldMap"/>
     <aura:attribute type="Object" name="fieldTypes"/>

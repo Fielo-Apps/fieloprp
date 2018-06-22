@@ -6,10 +6,8 @@
     <aura:attribute type="Object[]" name="fieldset"/>
     <aura:attribute type="InvoiceItem__c[]" name="steps"/>
     
-    <!-- DESIGN ATTRIBUTES -->
-    <aura:attribute type="String" name="layout" access="global" />
-	<aura:attribute type="Integer" name="columns" access="global" />
-    <!-- DESIGN ATTRIBUTES -->
+    <aura:attribute type="String" name="layout"/>
+	<aura:attribute type="Integer" name="columns"/>
     
     <!-- PAGINADOR -->
     <aura:attribute name="paging" type="Boolean" />

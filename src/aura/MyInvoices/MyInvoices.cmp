@@ -13,11 +13,11 @@
     <aura:attribute type="String" name="newInvoiceFields" access="global" default="FieloPRP__InvoiceNumber__c,FieloPRP__Date__c,FieloPRP__Distributor__c"/>
     <aura:attribute type="String" name="newInvoiceItemFields" access="global" default="FieloPRP__Product__c,FieloPRP__Quantity__c,FieloPRP__UnitPrice__c,FieloPRP__TotalPrice__c"/>
     <aura:attribute type="String" name="newInvoiceSubmitMode" access="global" default="Close"/>
-    <aura:attribute type="String" name="currentView" access="global" default="myinvoices"/>
+    <aura:attribute type="String" name="currentView" default="myinvoices"/>
     <aura:attribute type="Boolean" name="disableItems" access="global" default="false"/>
     <aura:attribute type="Boolean" name="requestFileUpload" access="global" default="false"/>
-    <aura:attribute type="String" name="layout" access="global" default="table"/>
-    <aura:attribute type="Integer" name="columns" access="global" default="6"/>
+    <aura:attribute type="String" name="layout" default="table"/>
+    <aura:attribute type="Integer" name="columns" default="6"/>
     <!-- DESIGN ATTRIBUTES -->
     
     <!-- PAGINADOR -->

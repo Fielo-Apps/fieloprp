@@ -10,8 +10,8 @@
     <aura:attribute type="InvoiceItem__c[]" name="items"/>
     
     <!-- DESIGN ATTRIBUTES -->
-    <aura:attribute type="String" name="layout" access="global" />
-	<aura:attribute type="Integer" name="columns" access="global" />
+    <aura:attribute type="String" name="layout"/>
+	<aura:attribute type="Integer" name="columns"/>
     <!-- DESIGN ATTRIBUTES -->
     
     <!-- PAGINADOR -->
