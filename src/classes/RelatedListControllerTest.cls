@@ -28,7 +28,6 @@ private class RelatedListControllerTest {
     	controller.cDataFilters = '{"FieloPRP__Status__c":"Active"}';
     	controller.csObjectName = 'Invoice__c';
     	controller.cNameField = 'FieloPRP__Status__c';
-    	controller.cAsync = false;
     	controller.orderBy = 'FieloPRP__Member__r.Name';
     	controller.cRecordsPerPage = 10;
     	controller.cWhereClause = '';
