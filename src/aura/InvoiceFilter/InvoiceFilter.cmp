@@ -1,4 +1,4 @@
-<aura:component implements="flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes" controller="InvoiceFilterController">
+<aura:component controller="InvoiceFilterController">
     
     <aura:attribute type="Boolean" name="showFilter" default="false"/>
     <aura:attribute type="String" name="objectName"/>
