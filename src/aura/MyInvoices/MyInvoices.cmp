@@ -22,7 +22,7 @@
     
     <!-- PAGINADOR -->
     <aura:attribute name="paging" type="Boolean" />
-    <aura:attribute name="quantity" type="Integer" default="6"/>
+    <aura:attribute name="quantity" type="Integer" default="6" access="global"/>
     <aura:handler name="paging" event="c:PaginatorEvent" action="{!c.paginator}" default="false"/>
     <!-- PAGINADOR -->
     
