@@ -37,18 +37,20 @@ public with sharing class InvoiceViewController extends PageSettingsController {
 
         query += ' ORDER BY FieloPLT__Object__c, FieloPLT__Order__c';
         List<FieloPLT__PageSettings__c> pageSetting = Database.query(query);
-        List<FieloPLT__PageSettings__c> lista = pageSetting.isEmpty() ? null : pageSetting;
+        List<FieloPLT__PageSettings__c> lookupPSList = pageSetting.isEmpty() ? null : pageSetting;
 
         this.lookupSettings = new Map<String,FieloPLT__PageSettings__c>();
         
-        if (lista.size()>0){
-            for(FieloPLT__PageSettings__c p :lista){
-                if(p.Name == 'Products > Lookup'){
-                    lookupSettings.put('productSection', p);
-                }else if(p.Name == 'Product Recent > Lookup'){
-                    lookupSettings.put('productRecentSection', p);
-                }else if(p.Name == 'Invoice Item > Lookup'){
-                    lookupSettings.put('itemsSection', p);
+        if (lookupPSList != null) {
+            if (lookupPSList.size()>0){
+                for(FieloPLT__PageSettings__c p :lookupPSList){
+                    if(p.Name == 'Products > Lookup'){
+                        lookupSettings.put('productSection', p);
+                    }else if(p.Name == 'Product Recent > Lookup'){
+                        lookupSettings.put('productRecentSection', p);
+                    }else if(p.Name == 'Invoice Item > Lookup'){
+                        lookupSettings.put('itemsSection', p);
+                    }
                 }
             }
         }
