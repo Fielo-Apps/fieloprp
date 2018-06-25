@@ -93,7 +93,9 @@ public class AuraService {
 		if (!Test.isRunningTest()) {
 			String communityId = Network.getNetworkId();
 			Network community = [SELECT Id, Name, UrlPathPrefix FROM Network WHERE Id = :communityId];
-			prefix += community.UrlPathPrefix;
+			if (community.UrlPathPrefix != null) {
+				prefix += community.UrlPathPrefix;
+			}
 		}
         for (Attachment a: atts) {
         	formatList = a.ContentType.toLowerCase().split('/');
