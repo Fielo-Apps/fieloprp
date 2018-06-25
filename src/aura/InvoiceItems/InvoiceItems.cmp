@@ -1,0 +1,80 @@
+<aura:component controller="InvoiceItemsController">
+    <aura:attribute type="Decimal" name="totalAmount" default="0.0"/>
+    <aura:attribute type="String" name="objectName" default="FieloPRP__InvoiceItem__c"/>
+    <aura:attribute type="String" name="productField" default="FieloPRP__Product__c"/>
+    <aura:attribute type="String" name="invoiceItemFields" default="FieloPRP__Product__c,FieloPRP__Quantity__c,FieloPRP__UnitPrice__c,FieloPRP__TotalPrice__c"/>
+    <aura:attribute type="Object[]" name="fieldset"/>
+    <aura:attribute type="InvoiceItem__c[]" name="items"/>
+    <aura:attribute type="InvoiceItem__c[]" name="newItems"/>
+    <aura:attribute type="Object" name="selectedProductsMap"/>
+    <aura:attribute type="InvoiceItem__c[]" name="updatedItems"/>
+    <aura:attribute type="Object" name="itemMap"/>
+    <aura:attribute type="Boolean" name="disableAmountUpdate" default="false"/>
+    <aura:attribute type="Boolean" name="allItemsRegistered" default="false"/>
+    <aura:attribute type="Object" name="amountFieldMeta"/>
+    
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+    <aura:handler event="c:RegisterComponent" name="invoiceItemRegister" action="{!c.invoiceItemRegister}"/>
+    <aura:handler event="c:RemoveInvoiceItem" name="removeInvoiceItem" action="{!c.removeItem}"/>
+    <aura:handler event="c:UpdateInvoiceAmount" name="updateInvoiceAmount" action="{!c.updateInvoiceAmount}"/>
+    
+    <aura:registerEvent name="registerInvoiceItems" type="c:RegisterComponent"/>
+    
+    <aura:method name="addProducts" action="{!c.addProducts}"> 
+        <aura:attribute type="Object[]" name="products"/>
+    </aura:method>
+    
+    <aura:method name="setItems" action="{!c.setItems}"> 
+        <aura:attribute type="Object[]" name="items"/>
+    </aura:method>
+    
+    <aura:method name="getItems" action="{!c.getItems}"/>
+    
+    
+    <article class="slds-card ">
+        <div class="slds-card__header">
+            <h3 class="slds-text-heading_small"><b>{!$Label.c.ProductPlural}</b></h3>
+        </div>
+        <div class="slds-card__body slds-card__body_inner">
+            <lightning:layout class="slds-border_top invoice-total-amount" verticalAlign="end" horizontalAlign="end">
+                <lightning:layoutItem class="slds-p-around_small">
+                    {!$Label.c.TotalAmountLabel + ' '}<c:InvoiceOutputField fieldName="{!v.amountFieldMeta.attributes.name}" fieldValue="{!v.totalAmount}" fieldMeta="{!v.amountFieldMeta}"/>
+                </lightning:layoutItem>
+            </lightning:layout>
+            
+            <table class="slds-p-around_none slds-table slds-table_bordered slds-table_cell-buffer slds-table_striped slds-no-row-hover">
+                <thead>
+                    <tr class="slds-text-heading_small">
+                        <aura:iteration items="{!v.fieldset}" var="field">
+                            <th scope="col">
+                                <div class="slds-truncate" title="">
+                                    {!field.attributes.label}
+                                </div>
+                            </th>
+                        </aura:iteration>
+                        <th scope="col">
+                            <div class="slds-truncate" title="">
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>            
+                    <aura:iteration items="{!v.items}" var="item" >
+                        <c:InvoiceItem item="{!item}" fieldset="{!v.fieldset}" productField="{!v.productField}"/>
+                    </aura:iteration>
+                </tbody>
+            </table>
+            <lightning:layout class="slds-border_bottom invoice-total-amount" verticalAlign="end" horizontalAlign="start">
+                <lightning:layoutItem class="slds-p-around_small">
+                    <a class="slds-p-left_medium" onclick="{!c.addItem}">{!$Label.c.AddOneProduct}</a>
+                </lightning:layoutItem>
+            </lightning:layout>
+            
+            <lightning:layout class="slds-border_bottom invoice-total-amount" verticalAlign="end" horizontalAlign="end">
+                <lightning:layoutItem class="slds-p-around_small">
+                    {!$Label.c.TotalAmountLabel + ' '}<c:InvoiceOutputField fieldName="{!v.amountFieldMeta.attributes.name}" fieldValue="{!v.totalAmount}" fieldMeta="{!v.amountFieldMeta}"/>
+                </lightning:layoutItem>
+            </lightning:layout>
+        </div>
+    </article>
+</aura:component>

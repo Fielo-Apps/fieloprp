@@ -1,0 +1,112 @@
+<aura:component controller="InvoiceDetailController">
+    <aura:attribute type="sObject" name="record"/>
+    <aura:attribute type="String" name="fieldSetString" default="FieloPRP__Amount__c,FieloPRP__Date__c,FieloPRP__Distributor__c"/>
+    <aura:attribute type="String" name="invoiceItemFields"/>
+    <aura:attribute type="Object" name="fieldSet"/>
+    <aura:attribute type="Object" name="fieldMap"/>
+    <aura:attribute type="String[]" name="outputFields"/>
+    <aura:attribute type="String" name="invoiceLabel"/>
+    <aura:attribute type="Object[]" name="fileList"/>
+    <aura:attribute type="Object" name="currentFile"/>
+    <aura:attribute type="Integer" name="filePtr"/>
+    <aura:attribute type="Boolean" name="disableItems"/>
+    
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+    
+    <aura:registerEvent name="showMyInvoices" type="c:ShowMyInvoices"/>
+    <div data-record-id="{!v.record.Id}" />
+    <lightning:breadcrumbs >
+        <lightning:breadcrumb label="{!$Label.c.MyInvoices}" onclick="{!c.backToMyInvoices}" />
+        <li class="slds-breadcrumb__item slds-text-title_caps fielo-breadcrumb__current">
+            {!v.invoiceLabel}
+        </li>
+    </lightning:breadcrumbs>
+    
+    <h3 class="slds-text-heading_large slds-p-top_medium"><b>{!v.invoiceLabel}</b></h3>
+    
+    <!-- DETAIL AREA-->
+    <lightning:layout class="slds-size_2-of-3" verticalAlign="start">
+        <lightning:layoutItem class="slds-size_1-of-2 slds-p-top_small">
+            <!-- FIELD AREA-->
+            <lightning:layout class="slds-size_2-of-2" verticalAlign="start" horizontalAlign="start">
+                <!-- STATUS CARD -->
+                <lightning:layoutItem class="slds-size_2-of-2">
+                    <c:InvoiceStatusCard class="slds-size_2-of-2" record="{!v.record}" />
+                </lightning:layoutItem>
+            </lightning:layout>
+            <lightning:layout class="slds-p-top_medium" verticalAlign="start" multipleRows="true">
+                <!-- FIELDS OUTPUT -->
+                <aura:iteration items="{!v.outputFields}" var="field">
+                    <lightning:layoutItem class="slds-size_2-of-2 slds-p-top_small slds-p-bottom_small slds-text-heading_medium">
+                        <lightning:layout verticalAlign="start" multipleRows="true">
+                            <lightning:layoutItem class="slds-p-right_x-small">
+                                {!field.fieldLabel+':'}
+                            </lightning:layoutItem>
+                            <lightning:layoutItem >
+                                <b><c:InvoiceOutputField record="{!v.record}" fieldName="{!field.fieldName}" fieldValue="{!field.untypedFieldValue}" fieldMeta="{!field.fieldMeta}"/></b>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </lightning:layoutItem>
+                </aura:iteration>
+                <lightning:layoutItem class="slds-size_2-of-2 slds-p-top_large slds-p-bottom_small">
+                    <c:CloneInvoiceButton record="{!v.record}"/>
+                </lightning:layoutItem>
+            </lightning:layout>
+        </lightning:layoutItem>
+        <lightning:layoutItem class="slds-size_1-of-2 slds-p-around_small">
+            <!-- IMAGE PREVIEW AREA -->
+            <aura:if isTrue="{! and(v.fileList != null, v.fileList.length != 0)}">
+                <!-- IMAGE ITSELF -->
+                <c:ImageView file="{!v.currentFile}" />
+                <!-- IMAGE PAGINATOR -->
+                <lightning:layout class="slds-size_8-of-12" verticalAlign="center" horizontalAlign="center">
+                    <lightning:layoutItem class="slds-size_1-of-3">
+                        <lightning:layout class="slds-size_2-of-2" verticalAlign="center" horizontalAlign="end">
+                            <lightning:layoutItem class="slds-size_1-of-3">
+                                <aura:if isTrue="{!(v.filePtr+0) == 0 ? true : false}">
+                                    <lightning:buttonIcon iconName="utility:chevronleft" variant="brand" disabled="true"/>
+                                    <aura:set attribute="else">
+                                        <lightning:buttonIcon iconName="utility:chevronleft" variant="brand" onclick="{! c.previous }"/>
+                                    </aura:set>
+                                </aura:if>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem class="slds-size_1-of-3">
+                        <lightning:layout class="slds-size_2-of-2" verticalAlign="center" horizontalAlign="center">
+                            <lightning:layoutItem class="slds-size_2-of-2 slds-align_absolute-center">
+                                {!(v.filePtr + 1) + '/' + v.fileList.length}
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem class="slds-size_1-of-3">
+                        <lightning:layout class="slds-size_2-of-2" verticalAlign="center" horizontalAlign="start">
+                            <lightning:layoutItem class="slds-size_1-of-3">
+                                <aura:if isTrue="{!(v.filePtr + 1) == v.fileList.length ? true : false}">
+                                    <lightning:buttonIcon iconName="utility:chevronright" variant="brand" disabled="true"/>
+                                    <aura:set attribute="else">
+                                        <lightning:buttonIcon iconName="utility:chevronright" variant="brand" onclick="{! c.next }"/>
+                                    </aura:set>
+                                </aura:if>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </aura:if>
+        </lightning:layoutItem>
+    </lightning:layout>
+    
+    <!-- RELATED AREA-->
+    <aura:if isTrue="{!v.record.FieloPRP__HasDetails__c}">
+        <div class="slds-p-top_medium slds-size_2-of-3">
+            <c:InvoiceItemsListView invoiceId="{!v.record.Id}" invoiceItemFields="{!v.invoiceItemFields}"/>
+        </div>    
+    </aura:if>
+    
+    <!-- RELATED AREA-->
+    <div class="slds-p-top_medium slds-size_2-of-3">
+        <c:ApprovalHistory invoiceId="{!v.record.Id}" />
+    </div>
+    
+    
+</aura:component>

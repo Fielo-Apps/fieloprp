@@ -1,0 +1,38 @@
+<aura:component >
+    <aura:attribute type="String" name="productField" access="public"/>
+    <aura:attribute type="Aura.Component[]" name="fields"/>
+    <aura:attribute type="Object" name="fieldMap"/>
+    <aura:attribute type="Object" name="item"/>
+    <aura:attribute type="Object[]" name="fieldset"/>
+    
+    <aura:registerEvent name="invoiceItemRegister" type="c:RegisterComponent"/>
+    <aura:registerEvent name="removeInvoiceItem" type="c:RemoveInvoiceItem"/>
+    <aura:registerEvent name="updateInvoiceAmount" type="c:UpdateInvoiceAmount"/>
+    
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+    <aura:handler event="c:RegisterComponent" name="fieldRegister" action="{!c.registerField}"/>
+    <aura:handler event="c:FieldUpdate" name="fieldUpdate" action="{!c.refreshTotalPrice}"/>
+    
+    <aura:method name="updateItem" action="{!c.updateItem}"> 
+        <aura:attribute type="Object" name="item"/>
+    </aura:method>
+    
+    <aura:method name="setFieldValue" action="{!c.setFieldValue}"> 
+        <aura:attribute type="Object" name="fieldValue"/>
+    </aura:method>
+    
+    <tr data-record-id="{!v.item.Id}">
+        <aura:iteration items="{!v.fieldset}" var="field" >
+            <td class="slds-p-around_none" >
+                <div>
+                    <c:InputField fieldMeta="{!field}" showLabel="false" />
+                </div>
+            </td>
+        </aura:iteration>
+        <td>
+            <div>
+                <lightning:buttonIcon name="{!v.item.Id}" class="removeBtn" iconName="utility:delete" variant="bare" size="small" onclick="{!c.removeItem}" alternativeText="{!$Label.c.Remove}" />
+            </div>
+        </td>
+    </tr>
+</aura:component>

@@ -1,0 +1,26 @@
+.THIS .fielo-invoice-status--approved{
+    background-color: #04844B;
+    color: white;
+}
+
+.THIS .fielo-invoice-status--rejected{
+    background-color: #C23934;
+    color: white;
+}
+
+.THIS .fielo-invoice-status--pending{
+    background-color: #FCB000;
+    color: #54698D;
+}
+
+.THIS .slds-text-heading_x-small{
+    max-width: 365px;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
+    white-space: pre-wrap;      /* CSS3 */   
+    white-space: -moz-pre-wrap; /* Firefox */    
+    white-space: -pre-wrap;     /* Opera <7 */   
+    white-space: -o-pre-wrap;   /* Opera 7 */    
+    word-wrap: break-word;      /* IE */
+}

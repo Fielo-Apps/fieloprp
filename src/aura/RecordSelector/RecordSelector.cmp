@@ -1,0 +1,21 @@
+<aura:component >
+    <aura:attribute type="sObject" name="record"/>
+    <aura:attribute type="String" name="name"/>
+    <aura:attribute type="Boolean" name="selected" />
+    
+    <aura:registerEvent name="selectRecord" type="c:SelectRecord"/>
+    <aura:registerEvent name="unselectRecord" type="c:UnselectRecord"/>
+    <aura:registerEvent name="registerSelector" type="c:RegisterComponent"/>
+    
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+    
+    <div class="slds-checkbox_add-button">
+        <input type="checkbox" class="slds-assistive-text" id="{!v.name}" checked="{!v.selected}" value="{!v.selected}" onchange="{!c.handleChange}"/>
+        <label for="{!v.name}" class="slds-checkbox_faux">
+            <span class="slds-assistive-text">{!$Label.c.Select}</span>
+        </label>
+    </div>
+    <!--
+  		value="{!v.selected}" onchange="{!c.handleChange}"
+ 	-->
+</aura:component>

@@ -89,22 +89,22 @@ public with sharing abstract class PageSettingsController {
         Integer pos = 0;
         for(FilterWrapper filter : filterWrappers){
             if(filter.andOrOperator == null && pos != 0){
-            	filter.andOrOperator = 'and';
+                filter.andOrOperator = 'and';
             }else if(pos == 0){
-            	filter.andOrOperator = '';
+                filter.andOrOperator = '';
             }
             filter.andOrOperator = filter.andOrOperator.touppercase();
 
             if(String.isBlank(filter.operator)){
-            	filter.operator = 'equals';
+                filter.operator = 'equals';
             }
 
             if(filter.openPars == null){
-            	filter.openPars = '';
+                filter.openPars = '';
             }
 
             if(filter.closePars == null){
-            	filter.closePars = '';
+                filter.closePars = '';
             }
 
 
@@ -129,13 +129,13 @@ public with sharing abstract class PageSettingsController {
 
     private Map<String,Map<String,Schema.SObjectField>> objectsMap;
     private Map<String,Schema.SObjectField> getObjectFieldsMap(String objectName){
-    	if(objectsMap == null){
-    		objectsMap = new Map<String,Map<String,Schema.SObjectField>>();
-    	}
-    	if(!objectsMap.containsKey(objectName)){
-    		objectsMap.put(objectName, ((sObject)Type.forName(objectName).newInstance()).getSObjectType().getDescribe().fields.getMap());
-    	}
-		return objectsMap.get(objectName);
+        if(objectsMap == null){
+            objectsMap = new Map<String,Map<String,Schema.SObjectField>>();
+        }
+        if(!objectsMap.containsKey(objectName)){
+            objectsMap.put(objectName, ((sObject)Type.forName(objectName).newInstance()).getSObjectType().getDescribe().fields.getMap());
+        }
+        return objectsMap.get(objectName);
     }
 
     public Boolean filterResult(SObject record, String fieldName, String operator, Object compareValue){
@@ -327,6 +327,7 @@ public with sharing abstract class PageSettingsController {
         }
         return relatedSettings;
     } set; }
+
     public List<FieloPLT__PageSettings__c> relatedFormsSettings { get {
         if (relatedFormsSettings == null){
             if(relatedFormsPS != null && !relatedFormsPS.isEmpty()){
@@ -341,6 +342,7 @@ public with sharing abstract class PageSettingsController {
         return relatedFormsSettings;
 
     } set; }
+
     public FieloPLT__PageSettings__c editSettings { get {
         if (editSettings == null){
             // Quita la primer , que concatena los settings
@@ -350,9 +352,12 @@ public with sharing abstract class PageSettingsController {
             
             editSettings = editPS;
         }
+        
         return editSettings;
 
     } set; }
+
+    
     public FieloPLT__PageSettings__c viewSettings { get {
         if (viewSettings == null){
             if(!String.isBlank(viewPS.FieloPLT__Fieldset__c)){
@@ -388,6 +393,7 @@ public with sharing abstract class PageSettingsController {
         if ( defaultIcon == null ) {
             defaultIcon = 'action-sprite/svg/symbols.svg#record';
         }
+
         // 
         List<String> recordTypeNames = new List<String>();
         String recordTypeName;
@@ -633,7 +639,7 @@ public with sharing abstract class PageSettingsController {
 
             //if ( opciones.contains('Delete') && describeObject.isDeletable()){
             if ( opciones.contains('Delete') && describeObjectResult.isDeletable()){
-//              viewPS.Tools__c = '{"Label": "' + Label.Delete + '", "CssClass": "slds-button--destructive fielosf-button__delete", "Confirm": true, "Type": "Remote", "Action": "FieloPLT.BackendHeaderRecordController.deleteRecord" }' + (String.isBlank(viewPS.Tools__c)?'':',') + viewPS.Tools__c;
+            // viewPS.Tools__c = '{"Label": "' + Label.Delete + '", "CssClass": "slds-button--destructive fielosf-button__delete", "Confirm": true, "Type": "Remote", "Action": "FieloPLT.BackendHeaderRecordController.deleteRecord" }' + (String.isBlank(viewPS.Tools__c)?'':',') + viewPS.Tools__c;
                 viewPS.FieloPLT__Tools__c = '{"Label": "' + Label.FieloPLT.Delete + '", "CssClass": "slds-button--destructive fielosf-button__delete", "Confirm": true, "Type": "Action", "Action": "Delete", "ObjectName" : "' + objectName + '" }' + (String.isBlank(viewPS.FieloPLT__Tools__c)?'':',') + viewPS.FieloPLT__Tools__c;
             }
 
@@ -726,31 +732,6 @@ public with sharing abstract class PageSettingsController {
         return json;
     }
 
-    public static FieloPLT__PageSettings__c getLookupSetting( String objectNames, String targetObject, String targetField ) {        
-        String query = 'SELECT FieloPLT__Filters__c, FieloPLT__Fieldset__c FROM FieloPLT__PageSettings__c ';
-        // WHERE CONDITION 
-        query += ' WHERE FieloPLT__isActive__c = true AND FieloPLT__Type__c = \'Lookup\'  AND FieloPLT__Object__c = :objectNames  ';
-
-        FieloPLT__Program__c activeProgram = ProgramService.getActiveProgram();
-        Id programId;
-        if ( activeProgram != null  ) {
-            programId = activeProgram.Id;
-            query += ' AND ( FieloPLT__Program__c = :programId OR FieloPLT__Program__c = null )';
-        }
-
-        if ( String.isNotBlank(targetObject ) ) {
-            query += ' AND FieloPLT__TargetObject__c = :targetObject';
-        } 
-        if ( String.isNotBlank(targetField ) ) {
-            query += ' AND FieloPLT__TargetField__c = :targetField';
-        }
-        // ORDER BY & LIMIT 
-        query += ' ORDER BY FieloPLT__Object__c, FieloPLT__Order__c LIMIT 1 ';
-
-        List<FieloPLT__PageSettings__c> pageSetting = Database.query(query);
-
-        return pageSetting.isEmpty() ? null : pageSetting.get(0);       
-    }
 
     public static List<FieloPLT__PageSettings__c> getPageSettings( List<String> settingType, List<String> recordTypes, String objectName ) {
 

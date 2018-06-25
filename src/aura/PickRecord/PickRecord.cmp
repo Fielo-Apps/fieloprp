@@ -1,0 +1,9 @@
+<aura:component >
+    <aura:attribute type="sObject" name="record"/>
+    <aura:attribute type="String" name="name"/>
+    
+    <aura:registerEvent name="selectOption" type="c:SelectRecord"/>
+    
+    <a onclick="{!c.pickRecord}" > {!v.name}</a>
+	
+</aura:component>

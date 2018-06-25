@@ -1,0 +1,9 @@
+<aura:component >
+    <aura:attribute type="sObject" name="record"/>
+    <aura:attribute type="String" name="name"/>
+    <aura:attribute type="String" name="output"/>
+    <aura:attribute type="String" name="class"/>
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+    
+    <div class="{!v.class}">{!v.output}</div>
+</aura:component>

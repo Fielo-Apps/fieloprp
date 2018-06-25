@@ -1,0 +1,134 @@
+<aura:component controller="InvoiceUploadController">
+    <aura:attribute type="String" name="invoiceFields"/>
+    <aura:attribute type="String" name="invoiceItemFields"/>
+    <aura:attribute type="String" name="objectName" default="Invoice__c"/>
+    <aura:attribute type="String" name="submitMode" default="Submit"/>
+    <aura:attribute type="String" name="invoiceId"/>
+    <aura:attribute type="String" name="cloneId"/>
+    <aura:attribute type="Boolean" name="showFileList" default="false"/>
+    <aura:attribute type="Boolean" name="showAddProducts" default="false"/>
+    <aura:attribute type="Boolean" name="isDoneRendering" default="false"/>
+    <aura:attribute type="Boolean" name="isDoneWaiting" default="false"/>
+    <aura:attribute type="Boolean" name="lastFieldRegistered" default="false"/>
+    <aura:attribute type="Boolean" name="disableItems" default="false"/>
+    <aura:attribute type="Boolean" name="requestInvoiceProducts" default="false"/>
+    <aura:attribute type="Boolean" name="requestFileUpload" default="false"/>
+    <aura:attribute type="Object" name="config"/>
+    <aura:attribute type="Object[]" name="fieldset"/>
+    <aura:attribute type="Object" name="amountField"/>
+    <aura:attribute type="Object[]" name="selectedProducts"/>
+    <aura:attribute type="Object[]" name="fileToBeUploaded"/>
+    <aura:attribute type="Object[]" name="filesList"/>
+    <aura:attribute type="Object[]" name="newFiles"/>
+    <aura:attribute type="Object" name="invoiceFieldsCompsMap"/>
+    <aura:attribute type="Aura.Component" name="invoiceItemsCmp"/>
+    
+    <!-- MODAL ATTRIBUTES -->
+    <aura:attribute type="String" name="modalClass" default="slds-modal"/>
+    <aura:attribute type="String" name="backDropClass" default=""/>
+    <!-- MODAL ATTRIBUTES -->
+    
+    <aura:attribute type="Invoice__c" name="invoice"/>
+    <aura:attribute type="FieloPLT__Member__c" name="member" />
+    
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+    <aura:handler event="aura:doneWaiting" action="{!c.doneWaiting}"/>
+    
+    <aura:handler event="c:FieldUpdate" name="fieldUpdate" action="{!c.updateInvoiceField}"/>
+    <aura:handler event="c:RemoveInvoiceFile" name="removeInvoiceFile" action="{!c.removeInvoiceFile}"/>
+    <aura:handler event="c:CloseModal" name="closeAddProducts" action="{!c.hideAddProducts}"/>
+    <aura:handler event="c:SaveProducts" name="saveProducts" action="{!c.saveProducts}"/>
+    <aura:handler event="c:RegisterComponent" name="registerInvoiceItems" action="{!c.registerComponent}"/>
+    <aura:handler event="c:RegisterComponent" name="fieldRegister" action="{!c.registerComponent}"/>
+    
+    <aura:registerEvent name="showMyInvoices" type="c:ShowMyInvoices"/>
+    <aura:registerEvent name="hideContent" type="c:HideContent"/>
+    
+    <lightning:breadcrumbs >
+        <lightning:breadcrumb label="{!$Label.c.MyInvoices}" onclick="{!c.backToMyInvoices}" />
+        <li class="slds-breadcrumb__item slds-text-title_caps fielo-breadcrumb__current">
+            {!$Label.c.NewInvoice}
+        </li>
+    </lightning:breadcrumbs>
+    
+    <div class="invoice-upload-container">
+        <h3 class="slds-text-heading_small slds-p-top_medium"><b>{!$Label.c.FirstHeading}</b></h3>
+        
+        <div class="invoice-upload-fieldset">
+            <lightning:layout verticalAlign="start">
+                <aura:iteration items="{!v.fieldset}" var="field">
+                    <aura:if isTrue="{!field.attributes.name != 'FieloPRP__Amount__c'}">
+                        <lightning:layoutItem class="slds-p-around_small">
+                            <c:InputField fieldMeta="{!field}"/>
+                        </lightning:layoutItem>
+                    </aura:if>
+                </aura:iteration>
+            </lightning:layout>
+        </div>
+        
+        
+        <div class="invoice-upload-file-container">
+            <h3 class="slds-text-heading_small slds-p-top_medium"><b>{!$Label.c.SecondHeading}</b></h3>
+            <lightning:input aura:id="invoice-file-input" type="file" name="file" multiple="false" accept="image/png, image/jpg, image/jpeg, application/pdf, image/gif" files="{!v.fileToBeUploaded}" onchange="{! c.handleFilesChange }"/>
+            <div class="slds-p-top_small">
+                {!$Label.c.FilesHelpText}
+            </div>
+            <aura:if isTrue="{! and(v.showFileList, v.filesList.length > 0)}">
+                <div class="slds-p-top_medium slds-size_1-of-3">
+                    <c:InvoiceFileList filesList="{!v.filesList}"/>
+                </div>
+            </aura:if>
+        </div>
+        
+        <aura:if isTrue="{!and(v.disableItems == false, v.requestInvoiceProducts == true)}" >
+            <div class="invoice-upload-items-container">
+                <h3 class="slds-text-heading_small slds-p-top_large"><b>{!$Label.c.ThirdHeading}</b></h3>
+                <div class="slds-p-top_small">
+                    {!$Label.c.ThirdHeadingSubtitle}
+                </div>
+                
+                <lightning:layout verticalAlign="center" horizontalAlign="start">
+                    <lightning:layoutItem class="slds-p-around_small">
+                        <lightning:button label="{!$Label.c.AddMultipleProducts}" onclick="{!c.showAddProducts}" /> <!-- variant="inverse" -->
+                    </lightning:layoutItem>
+                    <lightning:layoutItem >
+                        {!$Label.c.AddMultipleProductsSubtitle}
+                    </lightning:layoutItem>
+                </lightning:layout>
+                
+                <div class="slds-p-top_medium slds-size_2-of-3">
+                    <c:InvoiceItems invoiceItemFields="{!v.invoiceItemFields}" amountFieldMeta="{!v.amountField}"/>
+                </div>
+            </div>
+        </aura:if>
+        
+        <aura:if isTrue="{!and(v.amountField != null, v.requestInvoiceProducts == false)}">
+            <div class="invoice-upload-items-container">
+                <h3 class="slds-text-heading_small slds-p-top_large"><b>{!$Label.c.ThirdHeadingAmount}</b></h3>
+                <div class="invoice-amount-field">
+                    <lightning:layout verticalAlign="start">
+                        <lightning:layoutItem class="slds-p-around_small">
+                            <c:InputField fieldMeta="{!v.amountField}"/>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                </div>
+            </div>
+        </aura:if>
+        
+        <div class="invoice-upload-buttons-container">
+            <div class="slds-p-top_medium slds-size_2-of-3">
+                <lightning:layout verticalAlign="end" horizontalAlign="end">
+                    <lightning:layoutItem >
+                        <div class="submitInvoiceBtn" data-submit-mode="{!v.submitMode}" data-request-fileupload="{!v.requestFileUpload}">
+                            <lightning:button variant="brand" onclick="{!c.submitInvoice}" label="{!$Label.c.Submit}" />
+                        </div>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </div>
+        </div>
+    </div>
+    <aura:if isTrue="{!v.showAddProducts}">
+        <c:AddProducts modalClass="{!v.modalClass}" backDropClass="{!v.backDropClass}"/>
+    </aura:if>
+    <c:Spinner />
+</aura:component>

@@ -13,7 +13,7 @@
   <div class="fielosf fielosf-invoices-landing">
     <!--HEADER -->
     <c:BackendHeaderRecord firstHeading="Invoices"
-      secondHeading="{!$Label.Recent} {!$ObjectType.Invoice__c.labelPlural}"
+      secondHeading="{!$Label.fieloprp__recent} {!$ObjectType.Invoice__c.labelPlural}"
       sObjectName="FieloPRP__Invoice__c"
       icon="{!URLFOR($Resource.FieloSalesforce_Backend)}/lightning/icons/standard-sprite/svg/symbols.svg#campaign"
       helpUrl="http://documentation.fielo.com/docs/incentives"
@@ -30,9 +30,12 @@
       {'Label': 'Export', 'Type': 'Link', 'Action': '{!URLFOR($Page.XMLExport,null,[ retURL = $CurrentPage.url, type = 'incentives'])}', 'CssClass': '' },
       {'Label': 'Import', 'CssClass': '', 'Type': 'Link', 'Action': '{!URLFOR($Page.XMLImport,null,[retURL = $CurrentPage.url, type = 'incentives'])}'}"-->
     <c:FormInvoice namespace="FieloPRP" formId="invoiceForm"
-      heading="{!$Label.New} {!$ObjectType.Invoice__c.label}"
+      heading="{!$Label.fieloprp__new} {!$ObjectType.Invoice__c.label}"
       sObjectName="FieloPRP__Invoice__c"
       fieldset="{!newSettings.FieloPLT__Sections__c}"
+      itemsSection="{!lookupSettings['itemsSection'].FieloPLT__Fieldset__c}"
+      productSection="{!lookupSettings['productSection'].FieloPLT__Fieldset__c}"
+      productRecentSection="{!lookupSettings['productRecentSection'].FieloPLT__Fieldset__c}"
       mode="new"
       className="fielosf-invoice-form"
     />

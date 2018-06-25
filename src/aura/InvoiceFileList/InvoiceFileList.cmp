@@ -1,0 +1,20 @@
+<aura:component >
+    <aura:attribute type="Object[]" name="filesList"/>
+    
+    <aura:registerEvent name="removeInvoiceFile" type="c:RemoveInvoiceFile"/>
+    
+    <article class="slds-card">
+        <div class="slds-card__header slds-grid">
+            <b>{!$Label.c.InvoiceFileListHeader}</b>
+        </div>
+        <div class="slds-card__body slds-card__body_inner">
+            <ul>
+                <aura:iteration items="{!v.filesList}" var="file">
+                    <li class="slds-p-top_small">
+                        <lightning:pill name="{! 'file-' + file.id}" label="{!file.fileName}" onremove="{! c.handleRemove }"/>
+                    </li>
+                </aura:iteration>
+            </ul>
+        </div>
+    </article>
+</aura:component>

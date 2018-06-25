@@ -8,6 +8,14 @@ global class InvoiceService {
         return  selector.selectByProgramAndStatus(status, programId);
     }
 
+    public static List<SObject> getInvoices(Set<String> fields, Id memberId, String whereClause, Integer quantity, Integer offset, String orderBy) {
+        InvoicesSelector selector = new InvoicesSelector(fields);
+        selector.setOrderBy(orderBy);
+        selector.setLimit(quantity);
+        selector.setOffset(offset);
+        return  selector.selectByMemberIdAndWhereClause(memberId, whereClause);
+    }
+
     public static List<Invoice__c> updateInvoiceStatus(Set<Id> invoiceIds, String status){
         if(!invoiceIds.isEmpty()){
             SObjectUnitOfWork uow = new SObjectUnitOfWork(new List<Schema.SObjectType>{Invoice__c.SObjectType});
@@ -93,7 +101,7 @@ global class InvoiceService {
             for(Invoice__c invoice : invoices){
                 if(invoice.Member__r.FieloPLT__Program__r.RequestInvoiceAuthorization__c){
                     invoice.Status__c = 'Pending for Approval';
-                    uow.registerForApproval(invoice.Id, 'Invoice subbmited for Approval');
+                    uow.registerForApproval(invoice.Id, Label.FirstStepComments);
                 }else{
                     invoice.Status__c = 'Approved';
                 }
@@ -164,7 +172,7 @@ global class InvoiceService {
             SObjectUnitOfWork uow = new SObjectUnitOfWork(new List<Schema.SObjectType>{Invoice__c.SObjectType});
             for(Id recordId : recordIds){
                 uow.registerDirty(new Invoice__c(Id = recordId, Status__c = 'Pending for Approval'));
-                uow.registerForApproval(recordId, 'Invoice submitted for Approval');
+                uow.registerForApproval(recordId, Label.FirstStepComments);
             }
             uow.commitWork();
         }

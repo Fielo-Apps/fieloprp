@@ -1,0 +1,109 @@
+<aura:component controller="AddProductsController">
+    <aura:attribute name="configDefault" type="String" default='{"fieldset":[{"type":"subcomponent","subcomponent":"FieloPRP:RecordSelector","apiName":"Id","label":{"type":"default"},"showLabel":true},{"type":"output","apiName":"Name","label":{"type":"default"},"showLabel":true},{"type":"output","apiName":"Family","label":{"type":"default"},"showLabel":true}],"quantity":5}'/>
+    
+    <!-- DESIGN ATTRIBUTES -->
+    <aura:attribute type="String" name="titleValue" default="Products"/>
+    <aura:attribute type="String" name="layout"/>
+    <aura:attribute type="String" name="productFields"/>
+    <aura:attribute type="String" name="invoiceLayout"/>
+    <aura:attribute type="String" name="invoiceColumns"/>
+    <aura:attribute type="String" name="fields" default="Name,Family"/>
+    <aura:attribute type="Integer" name="columns"/>
+    <!-- DESIGN ATTRIBUTES -->
+    
+    <!-- MODAL ATTRIBUTES -->
+    <aura:attribute type="String" name="modalClass" default="slds-modal"/>
+    <aura:attribute type="String" name="backDropClass" default=""/>
+    <!-- MODAL ATTRIBUTES -->
+    
+    <!-- PAGINADOR -->
+    <aura:attribute name="paging" type="Boolean" />
+    <aura:attribute name="quantity" type="Integer"/>
+    <aura:handler name="paging" event="c:PaginatorEvent" action="{!c.paginator}" default="false"/>
+    <!-- PAGINADOR -->
+    
+    <aura:attribute type="String" name="whereClause"/>
+    
+    <aura:attribute type="sObject[]" name="productRecords" default="[]"/>
+    <aura:attribute type="sObject[]" name="selectedProducts" default="[]"/>
+    <aura:attribute type="sObject[]" name="fieldset" default="[]" />
+    <aura:attribute type="sObject[]" name="selectedProductfieldset" default="[]" />
+    
+    <aura:attribute type="Aura.Component[]" name="rowSelectors" />
+    
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+    <aura:handler event="c:SelectRecord" name="selectRecord" action="{!c.productSelected}"/>
+    <aura:handler event="c:UnselectRecord" name="unselectRecord" action="{!c.productUnselected}"/>
+    <aura:handler event="c:FilterMyInvoices" name="filterMyInvoices" action="{!c.filterProducts}"/>
+    <aura:handler event="c:RegisterComponent" name="registerSelector" action="{!c.registerComponent}"/>
+    
+    <aura:handler name="change" value="{!v.rowSelectors}" action="{!c.handleAddSelector}"/>
+    
+    <aura:registerEvent name="closeAddProducts" type="c:CloseModal"/>
+    <aura:registerEvent name="saveProducts" type="c:SaveProducts"/>
+    
+    <div class="fielo-add-products">
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="{!v.modalClass}">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-modal__close slds-button--icon-inverse" title="Close" onclick="{!c.closeModal}">
+                        X
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">{!$Label.c.AddProductsHeader}</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    
+                    <c:InvoiceFilter objectName="Product2" filterFields="Name,Family" rangedFields="" />
+                    
+                    <article class="slds-card invoice-products">
+                        <div class="slds-card__header">
+                            <h3 class="slds-text-heading_small"><b>{!$Label.c.ProductPlural}</b></h3>
+                        </div>
+                        <div class="slds-card__body slds-card__body_inner">
+                            <c:ListView objectAPIName="Product2" layout="table" columns="{!v.columns}" fieldset="{!v.fieldset}" records="{!v.productRecords}" paging="true" quantity="{!v.quantity}" />
+                        </div>
+                    </article>
+                    
+                    <aura:if isTrue="{!v.selectedProducts.length == 0}">
+                        <div class="slds-p-top_medium">
+                            <article class="slds-box slds-box_xx-small invoice-selected-products">
+                                <div class="slds-card__header slds-grid slds-align_absolute-center">
+                                    {!$Label.c.EmptyProductList}
+                                </div>
+                                <div class="slds-card__body slds-card__body_inner">
+                                    &nbsp;
+                                </div>
+                            </article>
+                        </div>
+                    </aura:if>
+                    
+                    <aura:if isTrue="{!v.selectedProducts.length > 0}">
+                        <div class="slds-p-top_medium">
+                            <article class="slds-card invoice-products">
+                                <div class="slds-card__header">
+                                    <h3 class="slds-text-heading_small"><b>{!$Label.c.SelectedProducts}</b></h3>
+                                </div>
+                                <div class="slds-card__body slds-card__body_inner">
+                                    <c:ListView objectAPIName="Product2" layout="table" columns="{!v.columns}" fieldset="{!v.selectedProductfieldset}" records="{!v.selectedProducts}" paging="false" quantity="{!v.quantity}" />
+                                </div>
+                            </article>
+                        </div>
+                    </aura:if>
+                    
+                </div>
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick="{!c.closeModal}">Cancel</button>
+                    <aura:if isTrue="{!v.selectedProducts.length > 0}">
+                        <button class="slds-button slds-button_brand" onclick="{!c.addProducts}">{!$Label.c.Save}</button>
+                    </aura:if>
+                    <aura:if isTrue="{!v.selectedProducts.length == 0}">
+                        <button class="slds-button slds-button_brand" disabled="true">{!$Label.c.Save}</button>
+                    </aura:if>
+                </footer>
+            </div>
+        </section>
+        <div class="{!v.backDropClass}"></div>
+    </div>
+    
+</aura:component>

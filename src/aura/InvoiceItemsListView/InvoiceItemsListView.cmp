@@ -1,0 +1,31 @@
+<aura:component controller="InvoiceItemsListViewController">
+    <aura:attribute type="String" name="objectName" default="FieloPRP__InvoiceItem__c"/>
+    <aura:attribute type="String" name="productField" default="FieloPRP__Product__c"/>
+    <aura:attribute type="String" name="invoiceItemFields"/>
+    <aura:attribute type="String" name="invoiceId" />
+    <aura:attribute type="Boolean" name="showItems" default="true"/>
+    
+    <aura:attribute type="Object[]" name="fieldset"/>
+    <aura:attribute type="Object" name="fieldMap"/>
+    <aura:attribute type="InvoiceItem__c[]" name="items"/>
+    
+    <!-- DESIGN ATTRIBUTES -->
+    <aura:attribute type="String" name="layout"/>
+	<aura:attribute type="Integer" name="columns"/>
+    <!-- DESIGN ATTRIBUTES -->
+    
+    <!-- PAGINADOR -->
+    <aura:attribute name="paging" type="Boolean" />
+    <aura:attribute name="quantity" type="Integer"/>
+    <aura:handler name="paging" event="c:PaginatorEvent" action="{!c.paginator}" default="false"/>
+    <!-- PAGINADOR -->
+    
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+    
+    <aura:if isTrue="{!v.showItems}">
+        <h3 class="slds-text-heading_small slds-p-bottom_medium"><b>{!$Label.c.ProductsIncluded}</b></h3>
+    
+    	<c:ListView objectAPIName="FieloPRP__InvoiceItem__c" layout="table" columns="{!v.columns}" fieldset="{!v.fieldset}" records="{!v.items}" paging="true" quantity="{!v.quantity}" />
+    </aura:if>
+    
+</aura:component>

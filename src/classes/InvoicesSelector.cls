@@ -29,6 +29,23 @@ public class InvoicesSelector extends SObjectSelector{
         return (List<Invoice__c>) selectSObjectsById(invoiceIds);
     }
 
+    public List<Invoice__c> selectByIdWithChilds(Set<Id> invoiceIds, String itemFields){
+        Set<String> itemFieldSet = new Set<String>(itemFields != null && itemFields != '' ? itemFields.split(',') : new List<String>{'Id'});
+
+        return (List<Invoice__c>) Database.query(String.format(
+                'select {0} ' +
+                  ', (SELECT Id, ContentDocument.Id, ContentDocument.Title, ContentDocument.FileType FROM ContentDocumentLinks)' +
+                  ', (SELECT Id, Name, ContentType FROM Attachments)' +
+                  ', (SELECT ' + String.join(new List<String>(itemFieldSet), ',') + ' FROM FieloPRP__InvoiceItems__r)' +
+                  'from {1} ' +
+                  'where Id In: invoiceIds ' +
+                  'order by {2}',
+                new List<String> {
+                    getFieldListString(),
+                    getSObjectName(),
+                    getOrderBy() } ));
+    }
+
     public List<Invoice__c> selectByItemIdWithItemInfo(Set<Id> invoiceItemIds){
         return (List<Invoice__c>) Database.query(String.format(
                 'select {0}, (Select Id, TotalPrice__c From InvoiceItems__r) ' +
@@ -139,6 +156,38 @@ public class InvoicesSelector extends SObjectSelector{
             );
         }
         if(!whereConditions.isEmpty()){
+            query += 'WHERE ' + String.join(whereConditions, ' AND ');
+        }
+        
+        query += ' order by {2} {3} {4}';
+
+        query = String.format(query,
+                new List<String> {
+                    getFieldListString(),
+                    getSObjectName(),
+                    getOrderBy(),
+                    getLimitCondition(),
+                    getOffsetCondition() } );
+
+        System.debug('query'+ query);
+        
+        return (List<Invoice__c>) Database.query(query);
+    }
+
+    public List<Invoice__c> selectByMemberIdAndWhereClause(Id memberId, String whereClause){
+        assertIsAccessible();
+        String query = 'SELECT {0} ' + ' FROM {1} ';
+
+        List<String> whereConditions = new List<String>();
+        if (whereClause != null && whereClause != '') {
+            System.debug('whereClause = ' + whereClause);
+            whereConditions.add(whereClause);
+        } 
+        if (memberId != null) {
+            whereConditions.add(' Member__c =: memberId ');
+        }
+        if(!whereConditions.isEmpty()){
+            System.debug(JSON.serializePretty(whereConditions));
             query += 'WHERE ' + String.join(whereConditions, ' AND ');
         }
         

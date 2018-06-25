@@ -3,6 +3,7 @@
 */
 public with sharing class InvoiceLandingController extends PageSettingsSetController{
     private ApexPages.StandardSetController controller {get;set;}
+    public Map<String,FieloPLT__PageSettings__c> lookupSettings {get;set;}
 
     public FieloPLT__Program__c currentProgram { get {
         if ( currentProgram == null) {
@@ -11,10 +12,54 @@ public with sharing class InvoiceLandingController extends PageSettingsSetContro
         return currentProgram;
     }set;}
 
+    public void getLookupSetting( String objectNames, String targetObject, String targetField ) {      
+
+        String query = 'SELECT Name, FieloPLT__Filters__c, FieloPLT__Fieldset__c FROM FieloPLT__PageSettings__c ';
+        // WHERE CONDITION 
+        query += ' WHERE FieloPLT__isActive__c = true AND FieloPLT__Type__c = \'Lookup\'  AND FieloPLT__Object__c = :objectNames  ';
+
+        FieloPLT__Program__c activeProgram = ProgramService.getActiveProgram();
+        Id programId;
+        if ( activeProgram != null  ) {
+            programId = activeProgram.Id;
+            query += ' AND ( FieloPLT__Program__c = :programId OR FieloPLT__Program__c = null )';
+        }
+
+        if ( String.isNotBlank(targetObject ) ) {
+            query += ' AND FieloPLT__TargetObject__c = :targetObject';
+        } 
+        if ( String.isNotBlank(targetField ) ) {
+            query += ' AND FieloPLT__TargetField__c = :targetField';
+        }
+        // ORDER BY & LIMIT 
+        //query += ' ORDER BY FieloPLT__Object__c, FieloPLT__Order__c LIMIT 1 ';
+
+        query += ' ORDER BY FieloPLT__Object__c, FieloPLT__Order__c';
+        List<FieloPLT__PageSettings__c> pageSetting = Database.query(query);
+        List<FieloPLT__PageSettings__c> lista = pageSetting.isEmpty() ? null : pageSetting;
+
+        this.lookupSettings = new Map<String,FieloPLT__PageSettings__c>();
+        
+        if (!lista.isEmpty()){
+            for(FieloPLT__PageSettings__c p :lista){
+                if(p.Name == 'Products > Lookup'){
+                    lookupSettings.put('productSection', p);
+                }else if(p.Name == 'Product Recent > Lookup'){
+                    lookupSettings.put('productRecentSection', p);
+                }else if(p.Name == 'Invoice Item > Lookup'){
+                    lookupSettings.put('itemsSection', p);
+                }
+            }
+        }
+    }
+
+
     public InvoiceLandingController(ApexPages.StandardSetController stController) {
         this.controller = stController;
 
         initPageSettings('FieloPRP__Invoice__c','','','');
+        getLookupSetting('FieloPRP__Invoice__c','','');
+        //System.debug('lookupSettings: '+ lookupSettings);
 
         if(!Test.isRunningTest()) {
             this.newSettings.FieloPLT__Sections__c = getSectionsWithMemberWhereCondition(this.newSettings.FieloPLT__Sections__c, currentProgram.Id);
@@ -62,9 +107,9 @@ public with sharing class InvoiceLandingController extends PageSettingsSetContro
         public List<List<FormField>> Rows{get;set;}
 
         //PRP Properties
-        public List<List<FormField>> FieloPRP_Product{get;set;}
+        /*public List<List<FormField>> FieloPRP_Product{get;set;}
         public List<List<FormField>> FieloPRP_ProductRecent{get;set;}
-        public List<List<FormField>> FieloPRP_InvoiceItems{get;set;}
+        public List<List<FormField>> FieloPRP_InvoiceItems{get;set;}*/
     }
 
     public class FormField {

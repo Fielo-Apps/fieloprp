@@ -1,0 +1,8 @@
+<aura:component >
+    <aura:attribute type="sObject" name="record"/>
+    <aura:attribute type="String" name="name"/>
+    <aura:attribute type="String" name="output"/>
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+    
+    <div class="fielo-invoice-points">{!v.output}</div>
+</aura:component>

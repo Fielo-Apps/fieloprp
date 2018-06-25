@@ -1,0 +1,25 @@
+.THIS {
+    background-color: #F4F6F9;
+}
+
+.THIS .invoice-total-amount {
+    background-color: t(colorBackgroundModal);
+}
+
+.THIS .slds-card__body_inner {
+    padding-right: 0px;
+    padding-left: 0px;
+}
+
+.THIS .removeBtn{
+    position: relative;
+    top: -1px;
+}
+
+.THIS .removeBtn .slds-button__icon{
+    margin-right: 0;
+}
+
+.THIS tr:first-child .removeBtn{
+    display: none;
+}
