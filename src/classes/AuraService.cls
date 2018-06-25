@@ -94,7 +94,7 @@ public class AuraService {
 			String communityId = Network.getNetworkId();
 			Network community = [SELECT Id, Name, UrlPathPrefix FROM Network WHERE Id = :communityId];
 			if (community.UrlPathPrefix != null) {
-				prefix += community.UrlPathPrefix;
+				prefix += '/' + community.UrlPathPrefix;
 			}
 		}
         for (Attachment a: atts) {
@@ -106,7 +106,7 @@ public class AuraService {
         			'id' => a.Id,
         			'name' => a.Name,
         			'contentType' => format,
-        			'url' => '/' + prefix + '/servlet/servlet.FileDownload?file=' + a.Id + '&oid=' + UserInfo.getOrganizationId()
+        			'url' => prefix + '/servlet/servlet.FileDownload?file=' + a.Id + '&oid=' + UserInfo.getOrganizationId()
         		}
 			);
         }
@@ -128,7 +128,7 @@ public class AuraService {
         			'id' => cv.Id,
         			'name' => cv.Title,
         			'contentType' => cv.FileType.toLowerCase(),
-        			'url' => '/' + prefix + '/sfc/servlet.shepherd/version/download/' + cv.Id
+        			'url' => prefix + '/sfc/servlet.shepherd/version/download/' + cv.Id
         		}
 			);
         }
