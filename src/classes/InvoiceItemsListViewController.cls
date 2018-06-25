@@ -1,4 +1,15 @@
 public class InvoiceItemsListViewController {
+	
+	@AuraEnabled
+    public static String getFieldData(String objectName, String fieldNames) {
+        try{
+            return AuraService.getFieldData(objectName,fieldNames);
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+        return null;
+    }
+
 	@AuraEnabled
 	public static List<SObject> getItems(String itemFields, String invoiceId, Integer quantity, Integer offset, String orderBy) {
         try{

@@ -8,6 +8,8 @@ public class InvoiceFilterController {
 			List<Map<String, Object>> newfieldsInfo = new List<Map<String, Object>>();
 			Map<String, Object> fieldMeta;
 			Map<String, Object> fieldAttributes;
+			Map<String, Object> fieldToMeta;
+			Map<String, Object> fieldToAttributes;
 
 			objectInfo = (Map<String, Object>) JSON.deserializeUntyped(AuraService.getFieldData(objectName,fieldNames));
 			fieldsInfoObj = (List<Object>) objectInfo.get('fields');
@@ -22,11 +24,30 @@ public class InvoiceFilterController {
 					} else {
 						fieldAttributes.put('rangeLabel', (Object) Label.RangeSuffix);
 					}
-					
-
+				}
+				if (String.valueOf(fieldAttributes.get('type')) == 'picklist' ) {
+					fieldMeta.put('firstOptionLabel', (Object) Label.All);
 				}
 				fieldMeta.put('attributes', (Object) fieldAttributes);
 				newfieldsInfo.add(fieldMeta);
+
+				// Add Field-To value
+				if (Boolean.valueOf(fieldAttributes.get('isRanged'))) {
+					fieldToMeta = new Map<String, Object>(fieldMeta);
+					fieldToAttributes = new Map<String, Object>(fieldAttributes);
+					fieldToAttributes.put('isToField', (Object) 'true');
+					fieldToAttributes.put('name', (Object) String.valueOf(String.valueOf(fieldToAttributes.get('name') + '-to')));
+					fieldToAttributes.put('label', (Object) '');
+					fieldToMeta.put('attributes', (Object) fieldToAttributes);
+					
+					if (rangeLabel.containsKey(String.valueOf(fieldToAttributes.get('type')))) {
+						fieldToAttributes.put('rangeLabel', (Object) String.valueOf(rangeLabel.get(String.valueOf(fieldToAttributes.get('type')))));	
+					} else {
+						fieldToAttributes.put('rangeLabel', (Object) Label.RangeSuffix);
+					}
+					
+					newfieldsInfo.add(fieldToMeta);
+				}
 			}
 			objectInfo.put('fields', (Object) newfieldsInfo);
             return JSON.serialize(objectInfo);

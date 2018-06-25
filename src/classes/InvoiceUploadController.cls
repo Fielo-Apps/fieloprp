@@ -16,7 +16,29 @@ public class InvoiceUploadController {
 	@AuraEnabled
     public static Map<String, String> getInvoiceUploadConfiguration(String memberId) {
     	try{
-            return AuraService.getInvoiceUploadConfiguration(memberId);
+            Map<String, String> invoiceConfigurations = new Map<String, String>();
+        
+            List<FieloPLT__Member__c> members = new MembersSelector(new Set<String>{'FieloPLT__Program__r.FieloPRP__RequestInvoiceProducts__c','FieloPLT__Program__r.FieloPRP__ProductInjectQuery__c'})
+                .selectById(new Set<Id>{memberId});
+
+            if (!members.isEmpty()) {
+                invoiceConfigurations.put('requestInvoiceProducts', String.valueOf(members[0].FieloPLT__Program__r.RequestInvoiceProducts__c));
+                invoiceConfigurations.put('productInjectQuery', members[0].FieloPLT__Program__r.ProductInjectQuery__c);
+            }
+            
+            FieloPLT__PublicSettings__c settings = AuraService.settings;
+
+            if (settings != null) {
+                invoiceConfigurations.put('productLookupField', settings.FieloPRP__ProductLookupField__c != null ? settings.FieloPRP__ProductLookupField__c : 'FieloPRP__Product__c');
+                invoiceConfigurations.put('maxFileSize', settings.FieloPRP__MaxFileSize__c != null ? String.valueOf(Integer.valueOf(settings.FieloPRP__MaxFileSize__c)) : '4350000');
+                invoiceConfigurations.put('maxChunkSize', settings.FieloPRP__MaxFileChunkSize__c != null ? String.valueOf(Integer.valueOf(settings.FieloPRP__MaxFileChunkSize__c)) : '950000');
+            } else {
+                invoiceConfigurations.put('productLookupField', 'FieloPRP__Product__c');
+                invoiceConfigurations.put('maxFileSize', '4350000');
+                invoiceConfigurations.put('maxChunkSize', '950000');
+            }
+
+            return invoiceConfigurations;
         } catch (DmlException e) {
             throw new AuraHandledException(e.getDmlMessage(0));
         } catch (Exception e) {
@@ -28,7 +50,26 @@ public class InvoiceUploadController {
     @AuraEnabled
     public static String getFieldData(String objectName, String fieldNames) {
         try{
-            return AuraService.getFieldData(objectName,fieldNames);
+            Map<String, Object> objectInfo = new Map<String, Object>();
+            List<Object> fieldsInfoObj = new List<Object>();
+            List<Map<String, Object>> newfieldsInfo = new List<Map<String, Object>>();
+            Map<String, Object> fieldMeta;
+            Map<String, Object> fieldAttributes;
+
+            objectInfo = (Map<String, Object>) JSON.deserializeUntyped(AuraService.getFieldData(objectName,fieldNames));
+            fieldsInfoObj = (List<Object>) objectInfo.get('fields');
+
+            for (Object fieldMetaObject: fieldsInfoObj) {
+                fieldMeta = (Map<String, Object>) fieldMetaObject;
+                fieldAttributes = (Map<String, Object>) fieldMeta.get('attributes');
+                if (String.valueOf(fieldAttributes.get('name')) == 'FieloPRP__Amount__c') {
+                    fieldAttributes.put('min', (Object) 0);
+                }
+                fieldMeta.put('attributes', (Object) fieldAttributes);
+                newfieldsInfo.add(fieldMeta);
+            }
+            objectInfo.put('fields', (Object) newfieldsInfo);
+            return JSON.serialize(objectInfo);
         } catch (DmlException e) {
             throw new AuraHandledException(e.getDmlMessage(0));
         } catch (Exception e) {
@@ -41,7 +82,7 @@ public class InvoiceUploadController {
     public static String save(Invoice__c invoice, List<InvoiceItem__c> items, String submitMode, List<Id> fileIds) {
         try{
             Invoice__c submittedInvoice = InvoiceService.submitInvoice(invoice, items, null);
-            if (submitMode == 'Close') {
+            if (submitMode == 'Approval Workflow') {
                 submittedInvoice = InvoiceService.closeInvoice(submittedInvoice.Id);
             }
             if (!fileIds.isEmpty()) {
@@ -98,7 +139,7 @@ public class InvoiceUploadController {
             if (fileId == '') {
 	            fileId = saveFile(parentId, fileName, base64Data, contentType);
 	        } else {
-	            appendToFile(parentId, fileId, base64Data);
+	            fileId = appendToFile(parentId, fileId, base64Data);
 	        }
         	return Id.valueOf(fileId);
         } catch (DmlException e) {
@@ -111,7 +152,7 @@ public class InvoiceUploadController {
         return null;
     }
 
-    private static void appendToFile(Id parentId, Id fileId, String base64Data) {
+    private static Id appendToFile(Id parentId, Id fileId, String base64Data) {
         ContentVersion existingCV = [SELECT Id, VersionData, Title, PathOnClient, ContentDocumentId FROM ContentVersion WHERE Id = :fileId ORDER BY CreatedDate DESC LIMIT 1];
 
         base64Data = EncodingUtil.urlDecode(base64Data, 'UTF-8');
@@ -131,9 +172,10 @@ public class InvoiceUploadController {
         if (Schema.sObjectType.ContentVersion.fields.IsMajorVersion.isCreateable()) {
             cv.IsMajorVersion = true;
         }
-        insert cv;
 
         delete [SELECT Id FROM ContentDocument WHERE Id = :existingCV.ContentDocumentId];
+
+        insert cv;
 
         ContentDocumentLink cdl = new ContentDocumentLink();
         if (Schema.sObjectType.ContentDocumentLink.fields.ContentDocumentId.isCreateable()) {
@@ -146,5 +188,7 @@ public class InvoiceUploadController {
             cdl.ShareType = 'V';
         }
         insert cdl;
+
+        return cv.Id;
     }
 }

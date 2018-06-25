@@ -46,7 +46,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>DuplicatedInvoiceRecord</shortDescription>
-        <value>Duplicated Invoice Number for this Distributor</value>
+        <value>Duplicated Invoice Number for this Seller</value>
     </labels>
     <labels>
         <fullName>FutureDateField</fullName>
@@ -535,7 +535,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>YourInvoiceIs</shortDescription>
-        <value>Your invoice is</value>
+        <value>Your invoice has been</value>
     </labels>
     <labels>
         <fullName>FirstHeading</fullName>
@@ -656,5 +656,77 @@
         <protected>true</protected>
         <shortDescription>Select</shortDescription>
         <value>Select</value>
+    </labels>
+    <labels>
+        <fullName>RangeSuffix</fullName>
+        <categories>InvoiceFilter.cmp</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RangeSuffix</shortDescription>
+        <value>Range</value>
+    </labels>
+    <labels>
+        <fullName>AddOneProduct</fullName>
+        <categories>InvoiceItems.cmp</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>AddOneProduct</shortDescription>
+        <value>+ Add one or more product in this list</value>
+    </labels>
+    <labels>
+        <fullName>Results</fullName>
+        <categories>LookupSearch.cmp</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Results</shortDescription>
+        <value>Results</value>
+    </labels>
+    <labels>
+        <fullName>OpenImage</fullName>
+        <categories>ImageView.cmp</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>OpenImage</shortDescription>
+        <value>Open Image</value>
+    </labels>
+    <labels>
+        <fullName>InvalidFileType</fullName>
+        <categories>ImageView.cmp</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>InvalidFileType</shortDescription>
+        <value>This file type is not supported</value>
+    </labels>
+    <labels>
+        <fullName>InvalidFileSize</fullName>
+        <categories>ImageView.cmp</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>InvalidFileSize</shortDescription>
+        <value>File size should be less than 3MB</value>
+    </labels>
+    <labels>
+        <fullName>FirstStepComments</fullName>
+        <categories>InvoiceService.cls</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>FirstStepComments</shortDescription>
+        <value>Invoice submitted for approval</value>
+    </labels>
+    <labels>
+        <fullName>NegativeAmount</fullName>
+        <categories>Invoices.cls</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>NegativeAmount</shortDescription>
+        <value>Ammount cannot be negative</value>
+    </labels>
+    <labels>
+        <fullName>CongratulationsMsg</fullName>
+        <categories>InvoiceStatusCard.cmp</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CongratulationsMsg</shortDescription>
+        <value>Congratulations! You've earned {0} points</value>
     </labels>
 </CustomLabels>

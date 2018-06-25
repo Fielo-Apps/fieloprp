@@ -1,4 +1,100 @@
 ({
+    setFieldSet: function(component) {
+        // FIELDSET
+        var fieldset = [], fields = [];
+        var fieldMap = component.get('v.fieldMap');
+        var fieldsConfig = component.get('v.fields').trim();
+        if(fieldsConfig.length == 0){
+            fieldset = config.fieldset;
+        } else if (fieldsConfig.indexOf('[') == 0) {
+            fieldset = JSON.parse(fieldsConfig);
+        } else {
+            var newField, nameAndType, apiName, type;
+            var fieldsList = fieldsConfig.split(',');
+            var pointsFieldAdded = false;
+            var pointsFieldApiName = [];
+            if (fieldsList.indexOf('FieloPRP__Transactions__r') != -1) {
+                pointsFieldApiName.push('FieloPRP__Transactions__r');
+            }
+            if (fieldsList.indexOf('FieloPRP__Trackers__r') != -1) {
+                pointsFieldApiName.push('FieloPRP__Trackers__r');
+            }
+            fieldsList.forEach(function(field){
+                nameAndType = field.split('/');
+                apiName = nameAndType[0].trim();
+                if (apiName == 'FieloPRP__InvoiceNumber__c') {
+                    fieldset.push({
+                        "apiName": "FieloPRP__InvoiceNumber__c",
+                        "type": "subcomponent",
+                        "subcomponent": "c:ShowRecord",
+                        "label": {
+                            "type": "default"
+                        },
+                        "showLabel": true
+                    });
+                } else if (apiName == 'FieloPRP__Status__c') {
+                    fieldset.push({
+                        "apiName": "FieloPRP__Status__c",
+                        "type": "subcomponent",
+                        "subcomponent": "c:InvoiceStatus",
+                        "label": {
+                            "type": "default"
+                        },
+                        "showLabel": true
+                    });
+                } else if (apiName == 'FieloPRP__InvoiceItems__r') {
+                    fieldset.push({
+                        "apiName": "FieloPRP__InvoiceItems__r",
+                        "type": "subcomponent",
+                        "subcomponent": "c:InvoiceItemsCount",
+                        "label": {
+                            "type": "custom",
+                            "value": $A.get("$Label.c.ProductPlural")
+                        },
+                        "showLabel": true
+                    });
+                } else if (apiName == 'FieloPRP__Amount__c') {
+                    fieldset.push({
+                        "apiName": "FieloPRP__Amount__c",
+                        "type": "subcomponent",
+                        "subcomponent": "c:InvoiceOutputField",
+                        "label": {
+                            "type": "custom",
+                            "value": fieldMap['FieloPRP__Amount__c'].attributes.label
+                        },
+                        "config": JSON.stringify(fieldMap['FieloPRP__Amount__c']),
+                        "showLabel": true
+                    });
+                } else if ((apiName == 'FieloPRP__Transactions__r' || apiName == 'FieloPRP__Trackers__r') && !pointsFieldAdded) {
+                    pointsFieldAdded = true;
+                    fieldset.push({
+                        "apiName": pointsFieldApiName.join(','),
+                        "type": "subcomponent",
+                        "subcomponent": "c:InvoicePoints",
+                        "label": {
+                            "type": "custom",
+                            "value": $A.get("$Label.c.Points")
+                        },
+                        "config": JSON.stringify(fieldMap['FieloPRP__Amount__c']),
+                        "showLabel": true
+                    });
+                } else {
+                    type = nameAndType[1] ? nameAndType[1].trim().toLowerCase() : 'output';
+                    newField = {
+                        'apiName': apiName,
+                        'type': type,
+                        'label': {
+                            "type": "default"
+                        },
+                        'showLabel': true
+                    }
+                    fieldset.push(newField);                        
+                }
+            })
+        }
+        // console.log(JSON.stringify(fieldset, null, 2));
+        component.set('v.fieldset', fieldset);  
+    },
     getProgram: function(component, event, helper) {
         try{
             var memberId = component.get('v.member').Id;
@@ -140,6 +236,6 @@
                 component.set('v.showInvoiceRecord', false);
                 break;
         }
-        
+        component.set('v.currentView', viewName.toLowerCase());
     }
 })

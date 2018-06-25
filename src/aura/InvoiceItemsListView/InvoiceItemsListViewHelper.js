@@ -1,4 +1,57 @@
 ({
+    setFieldset: function(component) {
+        var invoiceItemFields = component.get('v.invoiceItemFields');
+        var fieldMap = component.get('v.fieldMap');
+        var fieldset = [];
+        if (invoiceItemFields) {
+            var fieldNames = invoiceItemFields.split(',');
+            if (fieldNames && fieldNames.length > 0) {
+                var nameAndType, type, apiName;
+                fieldNames.forEach(function(fieldName) {
+                    nameAndType = fieldName.split('/');
+                    apiName = nameAndType[0].trim();
+                    type = nameAndType[1] ? nameAndType[1].trim().toLowerCase() : 'output';
+                    if (fieldNames.indexOf(fieldName) == 0) {
+                        fieldset.push({
+                            'apiName': apiName,
+                            'type': type,
+                            'label': {
+                                "type": "default"
+                            },
+                            'showLabel': true
+                        });
+                    } else {
+                        if (fieldMap[apiName]) {
+                            fieldset.push({
+                                "apiName": apiName,
+                                "type": "subcomponent",
+                                "subcomponent": "c:InvoiceOutputField",
+                                "label": {
+                                    "type": "default",
+                                    "value": fieldMap[apiName].attributes.label
+                                },
+                                "config": JSON.stringify(fieldMap[apiName]),
+                                "showLabel": true
+                            });    
+                        } else {
+                            fieldset.push({
+                                'apiName': apiName,
+                                'type': type,
+                                'label': {
+                                    "type": "default"
+                                },
+                                'showLabel': true
+                            });
+                        }    
+                    }
+                    
+                });
+                component.set('v.fieldset', fieldset);
+                component.set('v.showItems', false);
+                component.set('v.showItems', true);
+            }
+        }
+    },
     loadItems: function(component, event, helper, offset) {
         try{
             console.log('loadItems');

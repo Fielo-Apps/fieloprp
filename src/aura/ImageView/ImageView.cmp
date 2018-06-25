@@ -12,12 +12,12 @@
     <aura:if isTrue="{!v.file != null ? true : false}">
         <lightning:layout class="slds-size_2-of-2" verticalAlign="start" horizontalAlign="start">
             <lightning:layoutItem class="slds-size_8-of-12 slds-text-heading_medium">
-                <lightning:layout class="slds-size_2-of-2" verticalAlign="start" horizontalAlign="center">
-                    <lightning:layoutItem class="slds-size_8-of-12">
-                        <aura:if isTrue="{! (v.file.contentType == 'jpeg' || v.file.contentType == 'jpg' || v.file.contentType == 'png' || v.file.contentType == 'png' || v.file.contentType == 'gif') ? true : false }">
+                <lightning:layout class="slds-size_2-of-2" verticalAlign="center" horizontalAlign="center">
+                    <lightning:layoutItem class="fielo-image-container slds-size_8-of-12">
+                        <aura:if isTrue="{! (v.file.contentType == 'jpeg' || v.file.contentType == 'jpg' || v.file.contentType == 'png' || v.file.contentType == 'gif') ? true : false }">
                             <img src="{!v.file.url}" alt="{!v.file.name}" onclick="{! c.openImage }"/>
                             <aura:set attribute="else">
-                                <lightning:layout class="slds-size_2-of-2" verticalAlign="center" horizontalAlign="center">
+                                <lightning:layout class="fielo-unknown-file slds-size_2-of-2" verticalAlign="center" horizontalAlign="center">
                                     <lightning:layoutItem >
                                         <lightning:icon iconName="doctype:unknown"/>
                                     </lightning:layoutItem>
@@ -33,8 +33,11 @@
                 </lightning:layout>
             </lightning:layoutItem>
             <lightning:layoutItem class="slds-size_2-of-12 slds-text-heading_medium">
-                <aura:if isTrue="{! (v.file.contentType == 'jpeg' || v.file.contentType == 'jpg' || v.file.contentType == 'png' || v.file.contentType == 'png' || v.file.contentType == 'gif') ? true : false }">
-                    <lightning:buttonIcon iconName="utility:zoomin" variant="neutral" onclick="{! c.openImage }" alternativeText="Close window." />
+                <aura:if isTrue="{! (v.file.contentType == 'jpeg' || v.file.contentType == 'jpg' || v.file.contentType == 'png' || v.file.contentType == 'gif') ? true : false }">
+                    <lightning:buttonIcon iconName="utility:zoomin" variant="neutral" onclick="{! c.openImage }" alternativeText="{!$Label.c.OpenImage}" />
+                    <aura:set attribute="else">
+                        <lightning:buttonIcon iconName="utility:download" variant="neutral" onclick="{! c.downloadFile }" alternativeText="{!$Label.c.Download}"/>
+                    </aura:set>
                 </aura:if>
             </lightning:layoutItem>
         </lightning:layout>
@@ -48,7 +51,7 @@
                     <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">{!v.header}</h2>
                 </header>
                 <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
-                    <img aura:id="modalImage" class="slds-size_1-of-3 slds-align_absolute-center" src="{!v.file.url}" alt="{!v.file.name}"/>
+                    <img aura:id="modalImage" class="slds-size_2-of-3 slds-align_absolute-center" src="{!v.file.url}" alt="{!v.file.name}"/>
                 </div>
             </div>
         </section>

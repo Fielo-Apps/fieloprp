@@ -5,6 +5,8 @@ public class MyInvoicesController {
             Map<String, DescribeFieldResult> fieldsDescribeMap = AuraService.getFieldsDescribe('FieloPRP__Invoice__c', fieldsInvoices);
             Set<String> fieldsInvoicesSet = new Set<String>(fieldsInvoices);
             fieldsInvoicesSet.add('Id');
+            fieldsInvoicesSet.add('FieloPRP__HasDetails__c');
+            fieldsInvoicesSet.add('FieloPRP__Comments__c');
             String fieldType;
             for (String fieldName: fieldsInvoicesSet) {
                 if (fieldsDescribeMap.containsKey(fieldName)) {
@@ -19,11 +21,11 @@ public class MyInvoicesController {
                 if (fieldName == 'FieloPRP__InvoiceItems__r') {
                     fieldsInvoicesSet.add('(SELECT Id FROM FieloPRP__InvoiceItems__r) Products');
                 }
-                if (fieldName == 'FieloPRP__Transactions__r') {
-                    fieldsInvoicesSet.add('(SELECT Id FROM FieloPRP__Transactions__r) Transactions');
+                if (fieldName.contains('FieloPRP__Transactions__r')) {
+                    fieldsInvoicesSet.add('(SELECT Id, FieloPLT__Points__c FROM FieloPRP__Transactions__r) Transactions');
                 }
-                if (fieldName == 'FieloPRP__Trackers__r') {
-                    fieldsInvoicesSet.add('(SELECT Id FROM FieloPRP__Trackers__r) Trackers');
+                if (fieldName.contains('FieloPRP__Trackers__r')) {
+                    fieldsInvoicesSet.add('(SELECT Id, FieloPLT__Transaction__r.FieloPLT__Points__c FROM FieloPRP__Trackers__r) Trackers');
                 }
             }
 
@@ -35,6 +37,12 @@ public class MyInvoicesController {
             }
             if (fieldsInvoicesSet.contains('FieloPRP__Trackers__r')) {
                 fieldsInvoicesSet.remove('FieloPRP__Trackers__r');
+            }
+            if (fieldsInvoicesSet.contains('FieloPRP__Transactions__r,FieloPRP__Trackers__r')) {
+                fieldsInvoicesSet.remove('FieloPRP__Transactions__r,FieloPRP__Trackers__r');
+            }
+            if (fieldsInvoicesSet.contains('FieloPRP__Trackers__r,FieloPRP__Transactions__r')) {
+                fieldsInvoicesSet.remove('FieloPRP__Trackers__r,FieloPRP__Transactions__r');
             }
 
             System.debug('whereClause = ' + whereClause);
@@ -96,5 +104,20 @@ public class MyInvoicesController {
             throw new AuraHandledException(e.getMessage());
         }
         return null;
+    }
+
+    @AuraEnabled
+    public static String getFieldData(String objectName, String fieldNames) {
+        try{
+            Set<String> fieldsInvoicesSet = new Set<String>(fieldNames != '' && fieldNames != null ? fieldNames.split(',') : new List<String>());
+            fieldsInvoicesSet.add('Id');
+            fieldsInvoicesSet.add('FieloPRP__HasDetails__c');
+            fieldsInvoicesSet.add('FieloPRP__Comments__c');
+            return AuraService.getFieldData(objectName,String.join(new List<String>(fieldsInvoicesSet),','));
+        } catch (DmlException e) {
+            throw new AuraHandledException(e.getDmlMessage(0));
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
     }
 }

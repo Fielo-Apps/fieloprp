@@ -192,11 +192,13 @@
             var searchValue = component.get('v.searchValue');
             component.set('v.searchValue',null);
             helper.refreshOptions(component);
-            lookupModal.set('v.searchValue', searchValue);
-            if (lookupModal.find('lookup-filter')) {
-                if (lookupModal.find('lookup-filter').find('invoice-filter-input')) {
-                    lookupModal.find('lookup-filter').find('invoice-filter-input').setFieldValue(Object.prototype.valueOf.call(searchValue));
-                }
+            if (searchValue) {
+                lookupModal.set('v.searchValue', searchValue);
+                if (lookupModal.find('lookup-filter')) {
+                    if (lookupModal.find('lookup-filter').find('invoice-filter-input')) {
+                        lookupModal.find('lookup-filter').find('invoice-filter-input').setFieldValue(Object.prototype.valueOf.call(searchValue));
+                    }
+                }    
             }
             lookupModal.show();
         } catch(e) {

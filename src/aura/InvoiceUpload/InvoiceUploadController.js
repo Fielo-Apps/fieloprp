@@ -21,11 +21,9 @@
             
             if (component.isValid() && state === 'SUCCESS') {                    
                 var objectInfo = JSON.parse(response.getReturnValue());
-                console.log(objectInfo.fields);
                 var amountField = objectInfo.fields.filter( function(field) {
-					return field.attributes.name == 'FieloPRP__Amount__c';
+                    return field.attributes.name == 'FieloPRP__Amount__c';
                 });
-                console.log(amountField);
                 component.set('v.fieldset', objectInfo.fields);
                 component.set('v.amountField', amountField[0]);
             }else {
@@ -229,7 +227,7 @@
             invoice.FieloPRP__Member__c = member.Id;
             var invoiceItems = null;
             if (invoiceItemsComponent) {
-            	invoiceItems = invoiceItemsComponent.getItems();    
+                invoiceItems = invoiceItemsComponent.getItems();    
             }
             var filesList = component.get('v.filesList');
             var referenceFiles = filesList.filter(function(file){
@@ -241,15 +239,14 @@
                     fileIds.push(file.id);
                 });
             }
-            console.log(fileIds);
-            var filesList = filesList.filter(function(file){
+            var newFiles = filesList.filter(function(file){
                 return file.base64Data != null && file.base64Data != '' && file.base64Data != undefined;
             });
-            component.set('v.filesList', filesList);
+            component.set('v.newFiles', newFiles);
             var hasFiles = true;
-            if (!filesList && requestFileUpload) {
+            if (!newFiles && requestFileUpload) {
                 hasFiles = false;
-            } else if (filesList.length == 0 && fileIds.length == 0 && requestFileUpload) {
+            } else if (newFiles.length == 0 && fileIds.length == 0 && requestFileUpload) {
                 hasFiles = false;
             } else {
                 console.log(JSON.stringify(invoice, null, 2));
@@ -274,8 +271,8 @@
                             component.set('v.invoiceId', invoiceId);
                             console.log('Invoice Submited: ' + invoiceId);
                             var hasFiles = false;
-                            if (filesList != null && filesList != undefined) {
-                                if (filesList.length != 0) {
+                            if (newFiles != null && newFiles != undefined) {
+                                if (newFiles.length != 0) {
                                     hasFiles = true;
                                     console.log('Uploading Files');
                                     var uploadFiles = component.get('c.uploadFile');
@@ -335,6 +332,7 @@
         }
     },
     uploadFile: function(component,event,helper) {
+        helper.fileIndex = 0;
         helper.uploadFile(component);
     },
     doneWaiting: function(component,event,helper) {
@@ -396,12 +394,12 @@
                                 "type": "error"
                             });
                             toastEvent.fire();
-                            var spinner = $A.get("e.c:ToggleSpinnerEvent");
-                            if(spinner){
-                                spinner.setParam('show', false);
-                                spinner.fire();    
-                            }
-                        }   
+                        }
+                        var spinner = $A.get("e.c:ToggleSpinnerEvent");
+                        if(spinner){
+                            spinner.setParam('show', false);
+                            spinner.fire();    
+                        }
                     } catch(e) {
                         console.log(e);
                     }

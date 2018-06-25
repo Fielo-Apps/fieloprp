@@ -1,14 +1,14 @@
 <aura:component controller="AddProductsController">
-    <aura:attribute name="configDefault" type="String" access="global" default='{"fieldset":[{"type":"subcomponent","subcomponent":"FieloPRP:RecordSelector","apiName":"Id","label":{"type":"default"},"showLabel":true},{"type":"output","apiName":"Name","label":{"type":"default"},"showLabel":true},{"type":"output","apiName":"Family","label":{"type":"default"},"showLabel":true}],"quantity":5}'/>
+    <aura:attribute name="configDefault" type="String" default='{"fieldset":[{"type":"subcomponent","subcomponent":"FieloPRP:RecordSelector","apiName":"Id","label":{"type":"default"},"showLabel":true},{"type":"output","apiName":"Name","label":{"type":"default"},"showLabel":true},{"type":"output","apiName":"Family","label":{"type":"default"},"showLabel":true}],"quantity":5}'/>
     
     <!-- DESIGN ATTRIBUTES -->
-    <aura:attribute type="String" name="titleValue" access="global" default="Products"/>
-    <aura:attribute type="String" name="layout" access="global" />
-    <aura:attribute type="String" name="productFields" access="global" />
-    <aura:attribute type="String" name="invoiceLayout" access="global" />
-    <aura:attribute type="String" name="invoiceColumns" access="global" />
-    <aura:attribute type="String" name="fields" access="global" default="Name,Family"/>
-    <aura:attribute type="Integer" name="columns" access="global" />
+    <aura:attribute type="String" name="titleValue" default="Products"/>
+    <aura:attribute type="String" name="layout"/>
+    <aura:attribute type="String" name="productFields"/>
+    <aura:attribute type="String" name="invoiceLayout"/>
+    <aura:attribute type="String" name="invoiceColumns"/>
+    <aura:attribute type="String" name="fields" default="Name,Family"/>
+    <aura:attribute type="Integer" name="columns"/>
     <!-- DESIGN ATTRIBUTES -->
     
     <!-- MODAL ATTRIBUTES -->
@@ -50,7 +50,7 @@
                         X
                         <span class="slds-assistive-text">Close</span>
                     </button>
-                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Modal Header</h2>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">{!$Label.c.AddProductsHeader}</h2>
                 </header>
                 <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
                     

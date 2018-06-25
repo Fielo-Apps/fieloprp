@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
     <fields>
-        <fullName>ProductLookupField__c</fullName>
+        <fullName>InvoiceDuplicateClass__c</fullName>
         <externalId>false</externalId>
-        <label>Product Lookup Field</label>
+        <label>Invoice duplicate Class</label>
         <length>45</length>
         <required>false</required>
         <trackTrending>false</trackTrending>
@@ -11,9 +11,31 @@
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>InvoiceDuplicateClass__c</fullName>
+        <fullName>MaxFileChunkSize__c</fullName>
         <externalId>false</externalId>
-        <label>Invoice duplicate Class</label>
+        <label>Max File Chunk Size</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>MaxFileSize__c</fullName>
+        <externalId>false</externalId>
+        <label>Max File Size</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ProductLookupField__c</fullName>
+        <externalId>false</externalId>
+        <label>Product Lookup Field</label>
         <length>45</length>
         <required>false</required>
         <trackTrending>false</trackTrending>

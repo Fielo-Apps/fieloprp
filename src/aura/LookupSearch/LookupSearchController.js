@@ -39,7 +39,7 @@
         component.set('v.backDropClass', 'slds-backdrop slds-backdrop--open');
         var searchValue = component.get('v.searchValue');
         if (searchValue) {
-            component.set('v.whereClause', 'Name Like \'\'' + searchValue.replace(new RegExp('\\*','g'),'%') + '\'\'');
+            component.set('v.whereClause', 'Name Like \'\'%' + searchValue + '%\'\'');
             component.set('v.searchValue', null);
         }
         helper.loadResults(component, event, helper, 0);
@@ -47,6 +47,7 @@
     hide: function(component,event,helper) {
         component.set('v.backDropClass', 'slds-backdrop');
         component.set('v.modalClass', 'slds-modal');
+        component.set('v.searchValue', null);
     },
     paginator: function(component, event, helper) {
         event.stopPropagation();

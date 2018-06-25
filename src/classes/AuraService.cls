@@ -1,29 +1,5 @@
 public class AuraService {
 
-	public static Map<String, String> getInvoiceUploadConfiguration(String memberId) {
-    	Map<String, String> invoiceConfigurations = new Map<String, String>();
-    	
-    	List<FieloPLT__Member__c> members = new MembersSelector(new Set<String>{'FieloPLT__Program__r.FieloPRP__RequestInvoiceProducts__c','FieloPLT__Program__r.FieloPRP__ProductInjectQuery__c'})
-    		.selectById(new Set<Id>{memberId});
-
-    	if (!members.isEmpty()) {
-    		invoiceConfigurations.put('requestInvoiceProducts', String.valueOf(members[0].FieloPLT__Program__r.RequestInvoiceProducts__c));
-    		invoiceConfigurations.put('productInjectQuery', members[0].FieloPLT__Program__r.ProductInjectQuery__c);
-    	}
-    	
-    	if (settings != null) {
-    		invoiceConfigurations.put('productLookupField', settings.FieloPRP__ProductLookupField__c);
-    		invoiceConfigurations.put('maxFileSize', String.valueOf(Integer.valueOf(settings.FieloPRP__MaxFileSize__c)));
-    		invoiceConfigurations.put('maxChunkSize', String.valueOf(Integer.valueOf(settings.FieloPRP__MaxFileChunkSize__c)));
-    	} else {
-    		invoiceConfigurations.put('productLookupField', 'FieloPRP__Product__c');
-    		invoiceConfigurations.put('maxFileSize', '4350000');
-    		invoiceConfigurations.put('maxChunkSize', '950000');
-    	}
-
-    	return invoiceConfigurations;
-    }
-
     public static Map<String, DescribeFieldResult> getFieldsDescribe(String objectName, List<String> fieldNames) {
 		DescribeSObjectResult objectDescribe = Schema.describeSObjects(new String[]{objectName})[0];
 		Set<String> fieldNamesSet = new Set<String>(fieldNames);
@@ -77,7 +53,6 @@ public class AuraService {
 				fieldAttributes.put('id', fieldDescribe.getName().replace('_',''));
 				if (fieldAttributes.get('type') == 'picklist') {
 					picklistEntries = new List<Map<String, String>>();
-					picklistEntries.add(new Map<String, String>{'value' => '','label'=> Label.SelectAnOption});
 					for (Schema.PicklistEntry pValues: fieldDescribe.getPicklistValues()) {
 						picklistEntries.add(new Map<String, String>{'value' => pValues.getValue(),'label'=> pValues.getLabel()});
 					}
@@ -114,6 +89,14 @@ public class AuraService {
         List<Attachment> atts = [SELECT Id, Name, ContentType FROM Attachment WHERE ParentId =: parentId AND ContentType like '%image%'];
         List<String> formatList;
         String format;
+		String prefix = '';
+		if (!Test.isRunningTest()) {
+			String communityId = Network.getNetworkId();
+			Network community = [SELECT Id, Name, UrlPathPrefix FROM Network WHERE Id = :communityId];
+			if (community.UrlPathPrefix != null) {
+				prefix += '/' + community.UrlPathPrefix;
+			}
+		}
         for (Attachment a: atts) {
         	formatList = a.ContentType.toLowerCase().split('/');
         	format = formatList.size() == 1 ? formatList[0] : formatList[1];
@@ -123,7 +106,7 @@ public class AuraService {
         			'id' => a.Id,
         			'name' => a.Name,
         			'contentType' => format,
-        			'url' => '/servlet/servlet.FileDownload?file=' + a.Id + '&oid=' + UserInfo.getOrganizationId()
+        			'url' => prefix + '/servlet/servlet.FileDownload?file=' + a.Id + '&oid=' + UserInfo.getOrganizationId()
         		}
 			);
         }
@@ -145,7 +128,7 @@ public class AuraService {
         			'id' => cv.Id,
         			'name' => cv.Title,
         			'contentType' => cv.FileType.toLowerCase(),
-        			'url' => '/sfc/servlet.shepherd/version/download/' + cv.Id
+        			'url' => prefix + '/sfc/servlet.shepherd/version/download/' + cv.Id
         		}
 			);
         }

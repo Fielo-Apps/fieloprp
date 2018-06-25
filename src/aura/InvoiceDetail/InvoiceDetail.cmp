@@ -17,7 +17,9 @@
     <div data-record-id="{!v.record.Id}" />
     <lightning:breadcrumbs >
         <lightning:breadcrumb label="{!$Label.c.MyInvoices}" onclick="{!c.backToMyInvoices}" />
-        <lightning:breadcrumb label="{!v.invoiceLabel}"/>
+        <li class="slds-breadcrumb__item slds-text-title_caps fielo-breadcrumb__current">
+            {!v.invoiceLabel}
+        </li>
     </lightning:breadcrumbs>
     
     <h3 class="slds-text-heading_large slds-p-top_medium"><b>{!v.invoiceLabel}</b></h3>
@@ -95,7 +97,7 @@
     </lightning:layout>
     
     <!-- RELATED AREA-->
-    <aura:if isTrue="{!v.disableItems == false}">
+    <aura:if isTrue="{!v.record.FieloPRP__HasDetails__c}">
         <div class="slds-p-top_medium slds-size_2-of-3">
             <c:InvoiceItemsListView invoiceId="{!v.record.Id}" invoiceItemFields="{!v.invoiceItemFields}"/>
         </div>    

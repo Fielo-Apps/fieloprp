@@ -15,4 +15,7 @@
             <span class="slds-assistive-text">{!$Label.c.Select}</span>
         </label>
     </div>
+    <!--
+  		value="{!v.selected}" onchange="{!c.handleChange}"
+ 	-->
 </aura:component>
