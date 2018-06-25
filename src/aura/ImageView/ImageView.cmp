@@ -12,7 +12,7 @@
     <aura:if isTrue="{!v.file != null ? true : false}">
         <lightning:layout class="slds-size_2-of-2" verticalAlign="start" horizontalAlign="start">
             <lightning:layoutItem class="slds-size_8-of-12 slds-text-heading_medium">
-                <lightning:layout class="slds-size_2-of-2" verticalAlign="start" horizontalAlign="center">
+                <lightning:layout class="slds-size_2-of-2" verticalAlign="center" horizontalAlign="center">
                     <lightning:layoutItem class="slds-size_8-of-12">
                         <aura:if isTrue="{! (v.file.contentType == 'jpeg' || v.file.contentType == 'jpg' || v.file.contentType == 'png' || v.file.contentType == 'gif') ? true : false }">
                             <img src="{!v.file.url}" alt="{!v.file.name}" onclick="{! c.openImage }"/>
@@ -51,7 +51,7 @@
                     <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">{!v.header}</h2>
                 </header>
                 <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
-                    <img aura:id="modalImage" class="slds-size_1-of-3 slds-align_absolute-center" src="{!v.file.url}" alt="{!v.file.name}"/>
+                    <img aura:id="modalImage" class="slds-size_2-of-3 slds-align_absolute-center" src="{!v.file.url}" alt="{!v.file.name}"/>
                 </div>
             </div>
         </section>

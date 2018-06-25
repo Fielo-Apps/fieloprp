@@ -89,6 +89,12 @@ public class AuraService {
         List<Attachment> atts = [SELECT Id, Name, ContentType FROM Attachment WHERE ParentId =: parentId AND ContentType like '%image%'];
         List<String> formatList;
         String format;
+		String prefix = '';
+		if (!Test.isRunningTest()) {
+			String communityId = Network.getNetworkId();
+			Network community = [SELECT Id, Name, UrlPathPrefix FROM Network WHERE Id = :communityId];
+			prefix += community.UrlPathPrefix;
+		}
         for (Attachment a: atts) {
         	formatList = a.ContentType.toLowerCase().split('/');
         	format = formatList.size() == 1 ? formatList[0] : formatList[1];
@@ -98,7 +104,7 @@ public class AuraService {
         			'id' => a.Id,
         			'name' => a.Name,
         			'contentType' => format,
-        			'url' => '/servlet/servlet.FileDownload?file=' + a.Id + '&oid=' + UserInfo.getOrganizationId()
+        			'url' => '/' + prefix + '/servlet/servlet.FileDownload?file=' + a.Id + '&oid=' + UserInfo.getOrganizationId()
         		}
 			);
         }
@@ -120,7 +126,7 @@ public class AuraService {
         			'id' => cv.Id,
         			'name' => cv.Title,
         			'contentType' => cv.FileType.toLowerCase(),
-        			'url' => '/sfc/servlet.shepherd/version/download/' + cv.Id
+        			'url' => '/' + prefix + '/sfc/servlet.shepherd/version/download/' + cv.Id
         		}
 			);
         }
