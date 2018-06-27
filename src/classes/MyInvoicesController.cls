@@ -1,4 +1,4 @@
-public class MyInvoicesController {
+public with sharing class MyInvoicesController {
 	@AuraEnabled
 	public static List<SObject> getInvoices(List<String> fieldsInvoices, Id memberId, String whereClause, Integer quantity, Integer offset, String orderBy) {
         try{

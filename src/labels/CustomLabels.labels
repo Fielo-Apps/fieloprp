@@ -520,7 +520,6 @@
         <shortDescription>TotalAmountLabel</shortDescription>
         <value>Total Amount (USD):</value>
     </labels>
-#ERROR!
     <labels>
         <fullName>ProductsIncluded</fullName>
         <categories>InvoiceItemsListView.cmp</categories>
@@ -728,5 +727,13 @@
         <protected>true</protected>
         <shortDescription>CongratulationsMsg</shortDescription>
         <value>Congratulations! You've earned {0} points</value>
+    </labels>
+    <labels>
+        <fullName>PermissionOnObject</fullName>
+        <categories>ExceptionMessage</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PermissionOnObject</shortDescription>
+        <value>You don't have the required permissions on the object {0}</value>
     </labels>
 </CustomLabels>
