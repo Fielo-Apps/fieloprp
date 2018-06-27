@@ -1,4 +1,4 @@
-public class InvoiceItems extends SObjectDomain {
+public with sharing class InvoiceItems extends SObjectDomain {
     public static Boolean totalPriceChanged = false;
     public static Boolean totalPriceZero = false;
     public static Boolean unitPriceChanged = false;
