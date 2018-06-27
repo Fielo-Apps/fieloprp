@@ -1,4 +1,4 @@
-public class MyInvoicesController {
+public with sharing class MyInvoicesController {
 	@AuraEnabled
 	public static List<SObject> getInvoices(List<String> fieldsInvoices, Id memberId, String whereClause, Integer quantity, Integer offset, String orderBy) {
         try{
@@ -22,10 +22,10 @@ public class MyInvoicesController {
                     fieldsInvoicesSet.add('(SELECT Id FROM FieloPRP__InvoiceItems__r) Products');
                 }
                 if (fieldName.contains('FieloPRP__Transactions__r')) {
-                    fieldsInvoicesSet.add('(SELECT Id, FieloPLT__Points__c FROM FieloPRP__Transactions__r) Transactions');
+                    fieldsInvoicesSet.add('(SELECT Id, FieloPLT__Points__c FROM FieloPRP__Transactions__r WHERE FieloPLT__IsReverted__c = false AND FieloPLT__IsProcessed__c = true) Transactions');
                 }
                 if (fieldName.contains('FieloPRP__Trackers__r')) {
-                    fieldsInvoicesSet.add('(SELECT Id, FieloPLT__Transaction__r.FieloPLT__Points__c FROM FieloPRP__Trackers__r) Trackers');
+                    fieldsInvoicesSet.add('(SELECT Id, FieloPLT__Transaction__r.FieloPLT__Points__c FROM FieloPRP__Trackers__r WHERE FieloPLT__IsReverted__c = false AND FieloPLT__IsProcessed__c = true) Trackers');
                 }
             }
 
