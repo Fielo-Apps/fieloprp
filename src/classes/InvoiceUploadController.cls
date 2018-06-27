@@ -182,7 +182,7 @@ public with sharing class InvoiceUploadController {
                 cv.IsMajorVersion = true;
             }
 
-            if (Schema.sObjectType.ContentDocumentLink.isDeletable()) {
+            if (Schema.sObjectType.ContentDocument.isDeletable()) {
                 delete [SELECT Id FROM ContentDocument WHERE Id = :existingCV.ContentDocumentId];
             }
             if (Schema.sObjectType.ContentVersion.isCreateable()) {
