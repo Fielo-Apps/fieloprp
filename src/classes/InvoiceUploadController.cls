@@ -1,4 +1,4 @@
-public class InvoiceUploadController {
+public with sharing class InvoiceUploadController {
 
     @AuraEnabled
     public static sObject getRecord(String invoiceId, String fields, String itemFields) {
@@ -115,7 +115,11 @@ public class InvoiceUploadController {
         if (Schema.sObjectType.ContentVersion.fields.IsMajorVersion.isCreateable()) {
             cv.IsMajorVersion = false;
         }
-        insert cv;
+        if (Schema.sObjectType.ContentVersion.isCreateable()) {
+            insert cv;
+        } else {
+            throw new FieloException(String.format(Label.PermissionOnObject, new List<String>{'ContentVersion'}));
+        }
 
         ContentDocumentLink cdl = new ContentDocumentLink();
         if (Schema.sObjectType.ContentDocumentLink.fields.ContentDocumentId.isCreateable()) {
@@ -127,7 +131,11 @@ public class InvoiceUploadController {
         if (Schema.sObjectType.ContentDocumentLink.fields.ShareType.isCreateable()) {
             cdl.ShareType = 'V';
         }
-        insert cdl;
+        if (Schema.sObjectType.ContentDocumentLink.isCreateable()) {
+            insert cdl;
+        } else {
+            throw new FieloException(String.format(Label.PermissionOnObject, new List<String>{'ContentDocumentLink'}));
+        }
 
         return cv.Id;
     }
@@ -153,42 +161,55 @@ public class InvoiceUploadController {
     }
 
     private static Id appendToFile(Id parentId, Id fileId, String base64Data) {
-        ContentVersion existingCV = [SELECT Id, VersionData, Title, PathOnClient, ContentDocumentId FROM ContentVersion WHERE Id = :fileId ORDER BY CreatedDate DESC LIMIT 1];
+        if (Schema.sObjectType.ContentVersion.isAccessible()) {
+            ContentVersion existingCV = [SELECT Id, VersionData, Title, PathOnClient, ContentDocumentId FROM ContentVersion WHERE Id = :fileId ORDER BY CreatedDate DESC LIMIT 1];
 
-        base64Data = EncodingUtil.urlDecode(base64Data, 'UTF-8');
-        
-        String existingBody = EncodingUtil.base64Encode(existingCV.VersionData);
-        
-        ContentVersion cv = new ContentVersion();
-        if (Schema.sObjectType.ContentVersion.fields.Title.isCreateable()) {
-            cv.Title = existingCV.Title;
-        }
-        if (Schema.sObjectType.ContentVersion.fields.PathOnClient.isCreateable()) {
-            cv.PathOnClient = existingCV.Title;
-        }
-        if (Schema.sObjectType.ContentVersion.fields.VersionData.isCreateable()) {
-            cv.VersionData = EncodingUtil.base64Decode(existingBody + base64Data); 
-        }
-        if (Schema.sObjectType.ContentVersion.fields.IsMajorVersion.isCreateable()) {
-            cv.IsMajorVersion = true;
-        }
+            base64Data = EncodingUtil.urlDecode(base64Data, 'UTF-8');
+            
+            String existingBody = EncodingUtil.base64Encode(existingCV.VersionData);
+            
+            ContentVersion cv = new ContentVersion();
+            if (Schema.sObjectType.ContentVersion.fields.Title.isCreateable()) {
+                cv.Title = existingCV.Title;
+            }
+            if (Schema.sObjectType.ContentVersion.fields.PathOnClient.isCreateable()) {
+                cv.PathOnClient = existingCV.Title;
+            }
+            if (Schema.sObjectType.ContentVersion.fields.VersionData.isCreateable()) {
+                cv.VersionData = EncodingUtil.base64Decode(existingBody + base64Data); 
+            }
+            if (Schema.sObjectType.ContentVersion.fields.IsMajorVersion.isCreateable()) {
+                cv.IsMajorVersion = true;
+            }
 
-        delete [SELECT Id FROM ContentDocument WHERE Id = :existingCV.ContentDocumentId];
+            if (Schema.sObjectType.ContentDocument.isDeletable()) {
+                delete [SELECT Id FROM ContentDocument WHERE Id = :existingCV.ContentDocumentId];
+            }
+            if (Schema.sObjectType.ContentVersion.isCreateable()) {
+                insert cv;
+            } else {
+                throw new FieloException(String.format(Label.PermissionOnObject, new List<String>{'ContentVersion'}));
+            }
 
-        insert cv;
+            ContentDocumentLink cdl = new ContentDocumentLink();
+            if (Schema.sObjectType.ContentDocumentLink.fields.ContentDocumentId.isCreateable()) {
+                cdl.ContentDocumentId = [SELECT Id, ContentDocumentId FROM ContentVersion WHERE Id =: cv.Id].ContentDocumentId;
+            }
+            if (Schema.sObjectType.ContentDocumentLink.fields.LinkedEntityId.isCreateable()) {
+                cdl.LinkedEntityId = parentId;
+            }
+            if (Schema.sObjectType.ContentDocumentLink.fields.ShareType.isCreateable()) {
+                cdl.ShareType = 'V';
+            }
+            if (Schema.sObjectType.ContentDocumentLink.isCreateable()) {
+                insert cdl;
+            } else {
+                throw new FieloException(String.format(Label.PermissionOnObject, new List<String>{'ContentDocumentLink'}));
+            }
 
-        ContentDocumentLink cdl = new ContentDocumentLink();
-        if (Schema.sObjectType.ContentDocumentLink.fields.ContentDocumentId.isCreateable()) {
-            cdl.ContentDocumentId = [SELECT Id, ContentDocumentId FROM ContentVersion WHERE Id =: cv.Id].ContentDocumentId;
+            return cv.Id;
+        } else {
+            throw new FieloException(String.format(Label.PermissionOnObject, new List<String>{'ContentVersion'}));
         }
-        if (Schema.sObjectType.ContentDocumentLink.fields.LinkedEntityId.isCreateable()) {
-            cdl.LinkedEntityId = parentId;
-        }
-        if (Schema.sObjectType.ContentDocumentLink.fields.ShareType.isCreateable()) {
-            cdl.ShareType = 'V';
-        }
-        insert cdl;
-
-        return cv.Id;
     }
 }

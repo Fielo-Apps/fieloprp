@@ -1,4 +1,4 @@
-public class ApprovalHistoryController {
+public with sharing class ApprovalHistoryController {
 	public static String recordId {get;set;}
 	public Invoice__c cRecord {get;set{
 			cRecord = value;
