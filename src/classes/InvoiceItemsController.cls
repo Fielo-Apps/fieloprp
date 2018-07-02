@@ -1,6 +1,6 @@
 public class InvoiceItemsController {
 	@auraEnabled
-	public static String getFieldData(String objectName, String fieldNames) {
+	public static String getFieldData(String objectName, String fieldNames, String productFieldName, String productInjectQuery) {
 		try{
 			Map<String, Object> objectInfo = new Map<String, Object>();
 			List<Object> fieldsInfoObj = new List<Object>();
@@ -18,6 +18,11 @@ public class InvoiceItemsController {
 					String.valueOf(fieldAttributes.get('name')) == 'FieloPRP__UnitPrice__c' ||
 					String.valueOf(fieldAttributes.get('name')) == 'FieloPRP__Quantity__c') {
 					fieldAttributes.put('min', (Object) 0);
+				}
+				if ( String.valueOf(fieldAttributes.get('name')) == productFieldName) {
+					if (productInjectQuery != '' && productInjectQuery != null) {
+						fieldAttributes.put('whereCondition', (Object) productInjectQuery);
+					}
 				}
 				fieldMeta.put('attributes', (Object) fieldAttributes);
 				newfieldsInfo.add(fieldMeta);

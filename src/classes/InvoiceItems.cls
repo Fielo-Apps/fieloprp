@@ -168,7 +168,11 @@ public with sharing class InvoiceItems extends SObjectDomain {
 
                     SObjectUnitOfWork uow = new SObjectUnitOfWork(new List<Schema.SObjectType>{Invoice__c.SObjectType});
                     uow.registerDirty(invoicesList);
-                    uow.commitWork();
+                    if (Schema.sObjectType.Invoice__c.isUpdateable()) {
+                        uow.commitWork();
+                    } else {
+                        throw new FieloException(String.format(Label.PermissionOnObject,new List<String>{'FieloPRP__Invoice__c'}));
+                    }
 
                     if (!runningAsAdmin && !validateAdminFields) {
                         InvoiceService.enableAdminPermission(false);
@@ -352,7 +356,11 @@ public with sharing class InvoiceItems extends SObjectDomain {
                     }
                     SObjectUnitOfWork uow = new SObjectUnitOfWork(new List<Schema.SObjectType>{Invoice__c.SObjectType});
                     uow.registerDirty(invoicesList);
-                    uow.commitWork();
+                    if (Schema.sObjectType.Invoice__c.isUpdateable()) {
+                        uow.commitWork();
+                    } else {
+                        throw new FieloException(String.format(Label.PermissionOnObject,new List<String>{'FieloPRP__Invoice__c'}));
+                    }
                     
                     if (!runningAsAdmin && !validateAdminFields) {
                         InvoiceService.enableAdminPermission(false);
@@ -385,7 +393,11 @@ public with sharing class InvoiceItems extends SObjectDomain {
                 }
                 SObjectUnitOfWork uow = new SObjectUnitOfWork(new List<Schema.SObjectType>{Invoice__c.SObjectType});
                 uow.registerDirty(invoicesList);
-                uow.commitWork();
+                if (Schema.sObjectType.Invoice__c.isUpdateable()) {
+                        uow.commitWork();
+                } else {
+                    throw new FieloException(String.format(Label.PermissionOnObject,new List<String>{'FieloPRP__Invoice__c'}));
+                }
 
                 if (!runningAsAdmin && !validateAdminFields) {
                     InvoiceService.enableAdminPermission(false);

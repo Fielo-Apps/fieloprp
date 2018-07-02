@@ -26,7 +26,11 @@ global class InvoiceService {
             for(Id invoiceId : invoiceIds){
                 uow.registerDirty(new Invoice__c(Id = invoiceId, Status__c = status));
             }
-            uow.commitWork();
+            if (Schema.sObjectType.Invoice__c.isUpdateable()) {
+                uow.commitWork();
+            } else {
+                throw new FieloException(String.format(Label.PermissionOnObject,new List<String>{'FieloPRP__Invoice__c'}));
+            }
             return (List<Invoice__c>)uow.m_dirtyMapByType.get('FieloPRP__Invoice__c').values();
         }
         return null;
@@ -57,21 +61,29 @@ global class InvoiceService {
             }
         }else{
             if(!Schema.sObjectType.Invoice__c.isUpdateable())
-                throw new FieloPLT.FieloException('Insufficient permission to update invoices.');
+                throw new FieloException(String.format(Label.PermissionOnObject,new List<String>{'FieloPRP__Invoice__c'}));
 
             uow.registerDirty(invoice);
             Set<Id> existingItems = new Set<Id>();
             if(invoiceItems != null){
                 for(InvoiceItem__c item : invoiceItems){
                     if(item.Id == null){
+                        if(!Schema.sObjectType.InvoiceItem__c.isCreateable())
+                            throw new FieloException(String.format(Label.PermissionOnObject,new List<String>{'FieloPRP__InvoiceItem__c'}));
+
                         uow.registerNew(item, InvoiceItem__c.Invoice__c, invoice);
                     }else{
+                        if(!Schema.sObjectType.InvoiceItem__c.isUpdateable())
+                            throw new FieloException(String.format(Label.PermissionOnObject,new List<String>{'FieloPRP__InvoiceItem__c'}));
+
                         uow.registerDirty(item);
                         existingItems.add(item.Id);
                     }
                 }
             }
-            
+            if(!Schema.sObjectType.InvoiceItem__c.isCreateable())
+                throw new FieloException(String.format(Label.PermissionOnObject,new List<String>{'FieloPRP__InvoiceItem__c'}));
+
             uow.registerDeleted(new InvoiceItemsSelector().selectByInvoiceId(new Set<Id>{invoice.Id}, existingItems));
         }
 
