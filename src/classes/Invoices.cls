@@ -211,7 +211,11 @@ public with sharing class Invoices extends SObjectDomain {
                 InvoiceService.enableAdminPermission(true);
                 SObjectUnitOfWork uow = new SObjectUnitOfWork(new List<Schema.SObjectType>{InvoiceItem__c.SObjectType});
                 uow.registerDeleted([SELECT Id FROM InvoiceItem__c WHERE Invoice__c IN : invoices]);
-                uow.commitWork();
+                if (Schema.sObjectType.Invoice__c.isDeletable()) {
+                    uow.commitWork();
+                } else {
+                    throw new FieloException(String.format(Label.PermissionOnObject,new List<String>{'FieloPRP__InvoiceItem__c'}));
+                }
                 InvoiceService.enableAdminPermission(false);
             }
         }catch(Exception e){
