@@ -221,21 +221,21 @@ public class InvoicesSelector extends SObjectSelector{
 
     public static List<ProcessInstance> selectInvoiceApprovalProcessInstance(Set<Id> invoiceIds){
         String query = 'SELECT Id, TargetObjectId, '
-                + ' (SELECT Id, StepStatus,Actor.Name, Comments, CreatedDate, ProcessNode.Name FROM StepsAndWorkitems where StepStatus = \'Pending\')'
+                + ' (SELECT Id, toLabel(StepStatus) StepStatus ,Actor.Name, Comments, CreatedDate, ProcessNode.Name FROM StepsAndWorkitems where StepStatus = \'Pending\')'
                 + ' FROM ProcessInstance WHERE TargetObjectId in :invoiceIds';
         return (List<ProcessInstance>) Database.query(query);
     }
 
     public static List<ProcessInstance> selectAllInvoiceApprovalProcessInstance(Set<Id> invoiceIds){
         String query = 'SELECT Id, TargetObjectId, ProcessDefinitionId, LastActor.Name, '
-                + ' (SELECT Id, StepStatus,Actor.Name, Comments, CreatedDate, ProcessNode.Name, OriginalActor.Name FROM StepsAndWorkitems ORDER BY CreatedDate DESC, ProcessNode.Name NULLS LAST)'
+                + ' (SELECT Id, toLabel(StepStatus) StepStatus,Actor.Name, Comments, CreatedDate, ProcessNode.Name, OriginalActor.Name FROM StepsAndWorkitems ORDER BY CreatedDate DESC, ProcessNode.Name NULLS LAST)'
                 + ' FROM ProcessInstance WHERE TargetObjectId in :invoiceIds ORDER BY CreatedDate DESC';
         return (List<ProcessInstance>) Database.query(query);
     }
 
     public static List<ProcessInstance> selectLastInvoiceWorkingItem(Set<Id> invoiceIds){
         String query = 'SELECT Id, TargetObjectId, '
-                + ' (SELECT Id, StepStatus,Actor.Name, Comments, CreatedDate, ProcessNode.Name FROM StepsAndWorkitems where StepStatus = \'Pending\' ORDER BY CreatedDate DESC LIMIT 1)'
+                + ' (SELECT Id, toLabel(StepStatus) StepStatus,Actor.Name, Comments, CreatedDate, ProcessNode.Name FROM StepsAndWorkitems where StepStatus = \'Pending\' ORDER BY CreatedDate DESC LIMIT 1)'
                 + ' FROM ProcessInstance WHERE TargetObjectId in :invoiceIds';
         return (List<ProcessInstance>) Database.query(query);
     }
