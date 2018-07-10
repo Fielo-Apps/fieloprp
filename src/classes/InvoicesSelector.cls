@@ -235,7 +235,7 @@ public class InvoicesSelector extends SObjectSelector{
 
     public static List<ProcessInstance> selectLastInvoiceWorkingItem(Set<Id> invoiceIds){
         String query = 'SELECT Id, TargetObjectId, '
-                + ' (SELECT Id, toLabel(StepStatus) StepStatus,Actor.Name, Comments, CreatedDate, ProcessNode.Name FROM StepsAndWorkitems where StepStatus = \'Pending\' ORDER BY CreatedDate DESC LIMIT 1)'
+                + ' (SELECT Id, StepStatus,Actor.Name, Comments, CreatedDate, ProcessNode.Name FROM StepsAndWorkitems where StepStatus = \'Pending\' ORDER BY CreatedDate DESC LIMIT 1)'
                 + ' FROM ProcessInstance WHERE TargetObjectId in :invoiceIds';
         return (List<ProcessInstance>) Database.query(query);
     }
