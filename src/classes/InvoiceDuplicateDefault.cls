@@ -10,6 +10,7 @@ public class InvoiceDuplicateDefault implements InvoiceDuplicateInterface{
 			}
 		}
 
+
 		Map<Id,FieloPLT__Member__c> membersMap = new Map<Id,FieloPLT__Member__c>([SELECT FieloPLT__Program__c FROM FieloPLT__Member__c WHERE Id in : memberIds]);
 		for(Invoice__c invoice : invoices){
 			if(invoice.InvoiceNumber__c != null){
