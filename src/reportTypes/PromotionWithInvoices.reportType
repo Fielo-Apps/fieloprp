@@ -101,7 +101,7 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Unique__c</field>
+            <field>UniqueKey__c</field>
             <table>Invoice__c</table>
         </columns>
         <masterLabel>Invoices</masterLabel>
