@@ -9,6 +9,20 @@
                 });
                 registerFieldEvent.fire();
                 component.set('v.registered',true);
+                
+                var ua = navigator.userAgent.toLowerCase(); 
+                if (ua.indexOf('safari') != -1) { 
+                  if (ua.indexOf('chrome') > -1) {
+                    var isSafari = false;
+                  } else {
+                    var isSafari = true;
+                  }
+                }
+                //var isSafari = navigator.userAgent.toLowerCase().indexOf('safari/') > -1;
+                    //  /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && safari.pushNotification));
+                var notSafari = isSafari ? false : true;
+                console.log('Safari? ' + isSafari);
+                component.set('v.notSafari', notSafari);
             }
         } catch(e) {
             console.log(e);
@@ -22,6 +36,7 @@
             var fieldName = event.getSource().get('v.name');
             var fieldValue = event.getSource().get('v.value');
             var fireEvent = true;
+            console.log('inputType: ' + fieldMeta.attributes.inputType);
             
             if (fieldMeta.attributes.type == "date") {
                 if((new Date(String(fieldValue))).getFullYear() >= 10000) {
@@ -31,12 +46,13 @@
                 } 
             }
             if (fireEvent) {
+                fieldValue = fieldValue ? fieldValue : '';
 				component.set('v.fieldValue', Object.prototype.valueOf.call(fieldValue));    
             	helper.fireFieldUpdate(component, fieldName, Object.prototype.valueOf.call(fieldValue));
             	component.set('v.oldFieldValue', Object.prototype.valueOf.call(fieldValue));
             }
         } catch (e) {
-            console.log(e.toString());
+            console.log(e);
         }
     },
     formatField: function(component, event, helper) {

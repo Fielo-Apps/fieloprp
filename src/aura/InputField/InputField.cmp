@@ -1,5 +1,7 @@
 <aura:component >
+    <aura:attribute type="Boolean" name="notSafari"/>
     <aura:attribute type="Boolean" name="showLabel" default="true"/>
+    <aura:attribute type="String" name="title"/>
     <aura:attribute type="Object" name="fieldMeta"/>
     <aura:attribute type="String" name="stringValue"/>
     <aura:attribute type="Boolean" name="booleanValue"/>
@@ -21,7 +23,7 @@
     </aura:method>
     
     <aura:if isTrue="{!v.fieldMeta.attributes.inputType == 'picklist'}">
-        <lightning:select aura:id="field-input" name="{!v.fieldMeta.attributes.name}" label="{!v.fieldMeta.attributes.label}" onchange="{!c.handleChange}" title="{!v.fieldMeta.attributes.tooltip}">
+        <lightning:select aura:id="field-input" class="fielo-picklist" name="{!v.fieldMeta.attributes.name}" label="{!v.fieldMeta.attributes.label}" onchange="{!c.handleChange}" title="{!v.fieldMeta.attributes.tooltip}">
             <aura:if isTrue="{!and(v.fieldMeta.firstOptionLabel != null, v.fieldMeta.firstOptionLabel != '') ? true : false }">
                 <option value="">{!v.fieldMeta.firstOptionLabel}</option>
                 <aura:set attribute="else">
@@ -38,15 +40,20 @@
         <lightning:input aura:id="field-input" name="{!v.fieldMeta.attributes.name}" type="Number" label="{!v.fieldMeta.attributes.label}" variant="{!v.showLabel == true ? '' : 'label-hidden'}" onchange="{!c.handleChange}" onblur="{!c.formatField}" value="{!v.decimalValue}" step="{!v.fieldMeta.attributes.step}" formatter="{!v.fieldMeta.attributes.formatter}" title="{!v.fieldMeta.attributes.tooltip}" min="{!v.fieldMeta.attributes.min}"/>
     </aura:if>
     
-    <aura:if isTrue="{!v.fieldMeta.attributes.inputType == 'date'}">
+    <aura:if isTrue="{!and(v.fieldMeta.attributes.inputType == 'date', v.notSafari)}">
         <lightning:input aura:id="field-input" name="{!v.fieldMeta.attributes.name}" type="Date" label="{!v.fieldMeta.attributes.label}" variant="{!v.showLabel == true ? '' : 'label-hidden'}" onchange="{!c.handleChange}" value="{!v.stringValue}" title="{!v.fieldMeta.attributes.tooltip}"/>
+        <aura:set attribute="else">
+            <aura:if isTrue="{!v.fieldMeta.attributes.inputType == 'date'}">
+            	<lightning:input class="fielo-date-input-safari" aura:id="field-input" name="{!v.fieldMeta.attributes.name}" type="date" label="{!v.fieldMeta.attributes.label}" variant="{!v.showLabel == true ? '' : 'label-hidden'}" id="datePicker" onchange="{!c.handleChange}" title="{!v.fieldMeta.attributes.tooltip}"/>              
+            </aura:if>
+        </aura:set>
     </aura:if>
     
     <aura:if isTrue="{!v.fieldMeta.attributes.inputType == 'text'}">
         <lightning:input aura:id="field-input" name="{!v.fieldMeta.attributes.name}" label="{!v.fieldMeta.attributes.label}" variant="{!v.showLabel == true ? '' : 'label-hidden'}" onchange="{!c.handleChange}" value="{!v.stringValue}" title="{!v.fieldMeta.attributes.tooltip}"/>
     </aura:if>
     
-	<aura:if isTrue="{!v.fieldMeta.attributes.inputType == 'reference'}">
+    <aura:if isTrue="{!v.fieldMeta.attributes.inputType == 'reference'}">
         <c:LookupField aura:id="lookup-field" field="{!v.fieldMeta}" showLabel="{!v.showLabel}" fieldValue="{!v.stringValue}"/>
     </aura:if>
     
