@@ -4096,7 +4096,7 @@ If it is a CRM Person Account, a Fielo Individual Member account is created.</va
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>To</shortDescription>
-        <value>To</value>
+        <value>to</value>
     </labels>
     <labels>
         <fullName>Tools</fullName>
