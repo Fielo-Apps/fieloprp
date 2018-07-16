@@ -1,9 +1,15 @@
 <aura:component controller="InvoiceFilterController">
     
+    <ltng:require scripts="{!$Resource.jQuery + '/jquery-ui-1.12.1.custom/jquery-ui.min.js'}" afterScriptsLoaded="{!c.scriptLoaded}"/>
+    
+    <aura:attribute name="isjQueryLoaded" type="Boolean" default="false"/>
     <aura:attribute type="Boolean" name="showFilter" default="false"/>
     <aura:attribute type="String" name="objectName"/>
+    <aura:attribute type="String" name="dateInput"/>
     <aura:attribute type="String" name="filterFields"/>
+    <aura:attribute type="String" name="filterFieldsSafari"/>
     <aura:attribute type="String" name="rangedFields"/>
+    <aura:attribute type="String" name="rangedFieldsSafari"/>
     <aura:attribute type="Object[]" name="fieldset"/>
     <aura:attribute type="Object" name="fieldMap"/>
     <aura:attribute type="Object" name="fieldTypes"/>

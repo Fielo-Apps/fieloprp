@@ -162,6 +162,8 @@
             compEvent.setParams(params);
             component.set('v.fieldValue', params.fieldValue);
             compEvent.fire();
+                        
+            helper.hide(component);            
         } catch(e) {
             console.log(e);
         }
