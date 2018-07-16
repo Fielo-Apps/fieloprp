@@ -87,7 +87,7 @@ public with sharing class ApprovalHistoryController {
 				for (ProcessInstance pi: pis) {
 					if (pi.StepsAndWorkitems != null) {
 						for (ProcessInstanceHistory pih : pi.StepsAndWorkitems) {
-							records.add(new Row((pih.StepStatus == 'Started' ? Label.ApprovalRequestSubmitted : ('Step: ' + (pih.ProcessNode!=null?pih.ProcessNode.Name:''))),pih.CreatedDate,pih.OriginalActor.Name,pi.LastActor.Name,pih.StepStatus == 'Started' ? Label.Submitted : pih.StepStatus,pih.Comments));
+							records.add(new Row((pih.StepStatus == 'Started' ? Label.ApprovalRequestSubmitted : (Label.StepName + ': ' + (pih.ProcessNode!=null?pih.ProcessNode.Name:''))),pih.CreatedDate,pih.OriginalActor.Name,pi.LastActor.Name,pih.StepStatus == 'Started' ? Label.Submitted : pih.StepStatus,pih.Comments));
 						}
 					}
 				}
