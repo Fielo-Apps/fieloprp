@@ -100,7 +100,11 @@
         }
     },
     scriptLoaded : function(component, event, helper) {
-        component.set("v.isjQueryLoaded", true);
-        $('#datePicker').datepicker({}).prop('readonly');
+        try{
+        	//$('#datePicker').datepicker({}).prop('readonly');
+        }
+        catch(e){
+            console.log(e);
+        }
     }
 })
