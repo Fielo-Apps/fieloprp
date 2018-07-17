@@ -10,16 +10,16 @@
                 registerFieldEvent.fire();
                 component.set('v.registered',true);
                 
+                var isSafari = false;
                 var ua = navigator.userAgent.toLowerCase(); 
                 if (ua.indexOf('safari') != -1) { 
-                  if (ua.indexOf('chrome') > -1) {
-                    var isSafari = false;
-                  } else {
-                    var isSafari = true;
-                  }
+                    if (ua.indexOf('chrome') > -1) {
+                        var isSafari = false;
+                    } else {
+                        var isSafari = true;
+                    }
                 }
-                //var isSafari = navigator.userAgent.toLowerCase().indexOf('safari/') > -1;
-                    //  /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && safari.pushNotification));
+                
                 var notSafari = isSafari ? false : true;
                 console.log('Safari? ' + isSafari);
                 component.set('v.notSafari', notSafari);
@@ -47,9 +47,9 @@
             }
             if (fireEvent) {
                 fieldValue = fieldValue ? fieldValue : '';
-				component.set('v.fieldValue', Object.prototype.valueOf.call(fieldValue));    
-            	helper.fireFieldUpdate(component, fieldName, Object.prototype.valueOf.call(fieldValue));
-            	component.set('v.oldFieldValue', Object.prototype.valueOf.call(fieldValue));
+                component.set('v.fieldValue', Object.prototype.valueOf.call(fieldValue));    
+                helper.fireFieldUpdate(component, fieldName, Object.prototype.valueOf.call(fieldValue));
+                component.set('v.oldFieldValue', Object.prototype.valueOf.call(fieldValue));
             }
         } catch (e) {
             console.log(e);
@@ -59,25 +59,48 @@
         try{
             var fieldMeta = component.get("v.fieldMeta");
             var fieldValue = component.get("v.fieldValue");
+            
+             console.log('------- '+JSON.stringify(fieldMeta,null,2));
             if (component.get('v.fieldMeta').attributes.inputType == 'number') {
-            	component.set('v.decimalValue', Number(fieldValue).toFixed((component.get('v.fieldMeta').attributes.step.split('.')[1] || []).length));    
+                 console.log('------- '+JSON.stringify(fieldMeta,null,2));
+                component.set('v.decimalValue', Number(fieldValue).toFixed((component.get('v.fieldMeta').attributes.step.split('.')[1] || []).length));    
             }
         } catch(e) {
             console.log(e);
         }
     },
     setFieldValue: function(component, event, helper) {
-        var params = event.getParam('arguments');
-        component.set('v.fieldValue', params.fieldValue);
-        helper.setFieldValueByType(component, params.fieldValue);
+        try{
+            var params = event.getParam('arguments');
+            component.set('v.fieldValue', params.fieldValue);
+            helper.setFieldValueByType(component, params.fieldValue);
+        } catch(e) {
+            console.log(e);
+        }
     },
     handleUpdate: function(component, event, helper) {
-        helper.setFieldValueByType(component, component.get('v.fieldValue'));
+        try {
+            helper.setFieldValueByType(component, component.get('v.fieldValue'));
+        } catch(e) {
+            console.log(e);
+        }
     },
     lookupRegister: function(component, event, helper) {
-        component.set('v.lookupComponent', event.getParam('component'));
+        try {
+            component.set('v.lookupComponent', event.getParam('component'));
+        } catch(e) {
+            console.log(e);
+        }
     },
     lookupUpdate: function(component, event, helper) {
-        component.set('v.fieldValue', event.getParam('fieldValue'));
+        try {
+            component.set('v.fieldValue', event.getParam('fieldValue'));
+        } catch(e) {
+            console.log(e);
+        }
+    },
+    scriptLoaded : function(component, event, helper) {
+        component.set("v.isjQueryLoaded", true);
+        $('#datePicker').datepicker({}).prop('readonly');
     }
 })

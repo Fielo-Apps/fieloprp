@@ -60,15 +60,23 @@
         }
     },
     showOptions: function(component, event, helper) {
-        helper.show(component);
+        try{
+            helper.show(component);
+        } catch(e) {
+            console.log(e);
+        }
     },
     hideOptions: function(component, event, helper) {
-        helper.hide(component);
+        try{
+            helper.hide(component);
+        } catch(e) {
+            console.log(e);
+        }
     },
     optionSelected: function(component, event, helper) {
         console.log('optionSelected');
-        event.stopPropagation();
         try{
+        	event.stopPropagation();
             var record = event.getParam('record');
             helper.selectOption(component, record);
         } catch(e) {
@@ -132,10 +140,14 @@
         }
     },
     setRecord: function(component, event, helper) {
-        var params = event.getParam('arguments');
-        var record = params.record;
-        if (record) {
-            helper.selectOption(component, record);    
+        try{
+            var params = event.getParam('arguments');
+            var record = params.record;
+            if (record) {
+                helper.selectOption(component, record);    
+            }
+        } catch(e) {
+            console.log(e);
         }
     },
     handleChange: function(component, event, helper) {
@@ -182,11 +194,15 @@
         }
     },
     filterRecords: function(component, event, helper) {
-        var searchValue = event.target.value;
-        component.set('v.searchValue', searchValue);
-        helper.filterOptions(component);
-        helper.hide(component);
-        helper.show(component);
+        try{
+            var searchValue = event.target.value;
+            component.set('v.searchValue', searchValue);
+            helper.filterOptions(component);
+            helper.hide(component);
+            helper.show(component);
+        } catch(e) {
+            console.log(e);
+        }
     },
     openSearchModal: function(component, event, helper) {
         try{
