@@ -1,4 +1,6 @@
-<aura:component >
+<aura:component >    
+    <ltng:require scripts="{!$Resource.jQuery + '/jquery-ui-1.12.1.custom/jquery-ui.min.js'}" afterScriptsLoaded="{!c.scriptLoaded}"/>
+    
     <aura:attribute type="Boolean" name="notSafari"/>
     <aura:attribute type="Boolean" name="showLabel" default="true"/>
     <aura:attribute type="String" name="title"/>
@@ -40,13 +42,15 @@
         <lightning:input aura:id="field-input" name="{!v.fieldMeta.attributes.name}" type="Number" label="{!v.fieldMeta.attributes.label}" variant="{!v.showLabel == true ? '' : 'label-hidden'}" onchange="{!c.handleChange}" onblur="{!c.formatField}" value="{!v.decimalValue}" step="{!v.fieldMeta.attributes.step}" formatter="{!v.fieldMeta.attributes.formatter}" title="{!v.fieldMeta.attributes.tooltip}" min="{!v.fieldMeta.attributes.min}"/>
     </aura:if>
     
-    <aura:if isTrue="{!and(v.fieldMeta.attributes.inputType == 'date', v.notSafari)}">
-        <lightning:input aura:id="field-input" name="{!v.fieldMeta.attributes.name}" type="Date" label="{!v.fieldMeta.attributes.label}" variant="{!v.showLabel == true ? '' : 'label-hidden'}" onchange="{!c.handleChange}" value="{!v.stringValue}" title="{!v.fieldMeta.attributes.tooltip}"/>
-        <aura:set attribute="else">
-            <aura:if isTrue="{!v.fieldMeta.attributes.inputType == 'date'}">
-            	<lightning:input class="fielo-date-input-safari" aura:id="field-input" name="{!v.fieldMeta.attributes.name}" type="date" label="{!v.fieldMeta.attributes.label}" variant="{!v.showLabel == true ? '' : 'label-hidden'}" id="datePicker" onchange="{!c.handleChange}" title="{!v.fieldMeta.attributes.tooltip}"/>              
-            </aura:if>
-        </aura:set>
+    <aura:if isTrue="{!v.fieldMeta.attributes.inputType == 'date'}">
+        <aura:if isTrue="{!v.notSafari}">
+            <lightning:input aura:id="field-input" name="{!v.fieldMeta.attributes.name}" type="Date" label="{!v.fieldMeta.attributes.label}" variant="{!v.showLabel == true ? '' : 'label-hidden'}" onchange="{!c.handleChange}" value="{!v.stringValue}" title="{!v.fieldMeta.attributes.tooltip}" />
+            <aura:set attribute="else">
+                <aura:if isTrue="{!v.fieldMeta.attributes.inputType == 'date'}">
+                    <lightning:input class="fielo-date-input-safari" aura:id="field-input" name="{!v.fieldMeta.attributes.name}" type="date" label="{!v.fieldMeta.attributes.label}" variant="{!v.showLabel == true ? '' : 'label-hidden'}" id="datePicker" onchange="{!c.handleChange}" title="{!v.fieldMeta.attributes.tooltip}" />              
+                </aura:if>
+            </aura:set>
+        </aura:if>
     </aura:if>
     
     <aura:if isTrue="{!v.fieldMeta.attributes.inputType == 'text'}">

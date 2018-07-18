@@ -18,7 +18,7 @@
                     var state = response.getState();
                     if (component.isValid() && state === 'SUCCESS') {     
                         var fieldMeta = JSON.parse(response.getReturnValue());
-                        component.set('v.fieldset', fieldMeta.fields);
+                        component.set('v.fieldset', fieldMeta.fields);  
                         component.set('v.showFilter', true);
                         helper.getTypes(component);
                         helper.getFieldMap(component);
@@ -98,13 +98,9 @@
             "filterObject" : filterObject,
             "whereClause" : whereClause
         });
-        console.log('date input: ' + dateInput);
         compEvent.fire();
     },
     registerComponent: function(component, event, helper) {
         event.stopPropagation();
-    },
-    scriptLoaded : function(component, event, helper) {
-        component.set("v.isjQueryLoaded", true);
     }
 })

@@ -292,16 +292,16 @@
         </valueSet>
     </fields>
     <fields>
-        <fullName>UniqueKey__c</fullName>
+        <fullName>Unique__c</fullName>
         <description>The unique key of an Invoice. Internal use only.</description>
-        <externalId>false</externalId>
+        <externalId>true</externalId>
         <inlineHelpText>This is the unique key of this invoice. Internal use only.</inlineHelpText>
-        <label>Unique Key</label>
+        <label>Unique</label>
         <length>255</length>
         <required>false</required>
         <trackTrending>false</trackTrending>
         <type>Text</type>
-        <unique>false</unique>
+        <unique>true</unique>
     </fields>
     <gender>Feminine</gender>
     <label>Invoice</label>
@@ -326,23 +326,6 @@
     <searchLayouts/>
     <sharingModel>ReadWrite</sharingModel>
     <validationRules>
-        <fullName>ValidateInvoiceStatus</fullName>
-        <active>false</active>
-        <description>Only Invoices with status Draft can be edited.</description>
-        <errorConditionFormula>AND(
- NOT(TEXT(Status__c)=&apos;Pending&apos;),
- OR(
-  ISCHANGED(Amount__c),
-  ISCHANGED(Date__c),
-  ISCHANGED(Description__c),
-  ISCHANGED(Image__c),
-  ISCHANGED(InvoiceNumber__c),
-  ISCHANGED(Member__c)
- )
-)</errorConditionFormula>
-        <errorMessage>Only Invoices with status Draft can be edited.</errorMessage>
-    </validationRules>
-    <validationRules>
         <fullName>ValidateMember</fullName>
         <active>true</active>
         <description>New Invoices must be associated with a Member.</description>
@@ -362,28 +345,6 @@ NOT(ISBLANK(PRIORVALUE(Member__c ))),
 PRIORVALUE(Member__c )!=Member__c 
 )</errorConditionFormula>
         <errorMessage>You cannot change the Member associated with this Invoice.</errorMessage>
-    </validationRules>
-    <validationRules>
-        <fullName>ValidateStatusChange</fullName>
-        <active>false</active>
-        <description>Status changes must follow a logical pattern (e.g. Open --&gt; Approved, Pending Approval --&gt; Rejected, etc).</description>
-        <errorConditionFormula>AND(
-  ISCHANGED(Status__c),
-  NOT(AND( TEXT(PRIORVALUE(Status__c))=&apos;Open&apos;, TEXT(Status__c)=&apos;Pending for Approval&apos;)),
-  NOT(AND( TEXT(PRIORVALUE(Status__c))=&apos;Open&apos;, TEXT(Status__c)=&apos;Approved&apos;)),
-  
-  
-  NOT(AND( TEXT(PRIORVALUE(Status__c))=&apos;Pending for Approval&apos;, TEXT(Status__c)=&apos;Approved&apos;)),
-  NOT(AND( TEXT(PRIORVALUE(Status__c))=&apos;Pending for Approval&apos;, TEXT(Status__c)=&apos;Rejected&apos;)),
-  
-  NOT(AND( TEXT(PRIORVALUE(Status__c))=&apos;Approved&apos;, TEXT(Status__c)=&apos;Canceled&apos;)),
-  
-  NOT(AND( TEXT(PRIORVALUE(Status__c))=&apos;Rejected&apos;, TEXT(Status__c)=&apos;Open&apos;)),
-  
-  NOT(AND( TEXT(PRIORVALUE(Status__c))=&apos;Canceled&apos;, TEXT(Status__c)=&apos;Approved&apos;)),
-  NOT(AND( TEXT(PRIORVALUE(Status__c))=&apos;Canceled&apos;, TEXT(Status__c)=&apos;Open&apos;))
-)</errorConditionFormula>
-        <errorMessage>Status changes must follow a logical pattern (e.g. Open --&gt; Approved, Pending Approval --&gt; Rejected, etc).</errorMessage>
     </validationRules>
     <visibility>Public</visibility>
 </CustomObject>
