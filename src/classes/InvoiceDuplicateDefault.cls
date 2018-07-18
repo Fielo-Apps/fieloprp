@@ -15,7 +15,9 @@ public class InvoiceDuplicateDefault implements InvoiceDuplicateInterface{
 		for(Invoice__c invoice : invoices){
 			if(invoice.InvoiceNumber__c != null){
 				if(!isUpdate || (invoice.Distributor__c != ((Invoice__c)Trigger.oldMap.get(invoice.Id)).Distributor__c || invoice.InvoiceNumber__c != ((Invoice__c)Trigger.oldMap.get(invoice.Id)).InvoiceNumber__c)){
-					invoice.Unique__c = String.valueOf(membersMap.get(invoice.Member__c).FieloPLT__Program__c) + String.valueOf(invoice.Distributor__c) + invoice.InvoiceNumber__c;
+					invoice.Unique__c = String.valueOf(membersMap.get(invoice.Member__c).FieloPLT__Program__c);
+                    invoice.Unique__c = String.valueOf(invoice.Distributor__c) == null ? invoice.Unique__c : invoice.Unique__c + String.valueOf(invoice.Distributor__c);
+                    invoice.Unique__c +=  invoice.InvoiceNumber__c;
 				}
 			}else{
 				invoice.Unique__c = null;
