@@ -2,8 +2,11 @@
     
     <aura:attribute type="Boolean" name="showFilter" default="false"/>
     <aura:attribute type="String" name="objectName"/>
+    <aura:attribute type="String" name="dateInput"/>
     <aura:attribute type="String" name="filterFields"/>
+    <aura:attribute type="String" name="filterFieldsSafari"/>
     <aura:attribute type="String" name="rangedFields"/>
+    <aura:attribute type="String" name="rangedFieldsSafari"/>
     <aura:attribute type="Object[]" name="fieldset"/>
     <aura:attribute type="Object" name="fieldMap"/>
     <aura:attribute type="Object" name="fieldTypes"/>

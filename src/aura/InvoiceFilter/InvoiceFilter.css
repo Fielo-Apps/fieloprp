@@ -2,12 +2,22 @@
 	display: inline-flex;
 }
 
-.THIS .slds-form-element:nth-of-type(n){
+.THIS lightning-input:nth-of-type(n){
     display: inline-block;
     padding: 10px;
 }
 
-.THIS .slds-form-element:nth-of-type(1){
+.THIS lightning-input:nth-of-type(1){
+    display: inline-block;
+	padding-left: 0px;
+}
+
+.THIS .fielo-picklist:nth-of-type(n){
+    display: inline-block;
+    padding: 10px;
+}
+
+.THIS .fielo-picklist:nth-of-type(1){
     display: inline-block;
 	padding-left: 0px;
 }
@@ -43,4 +53,19 @@
 
 .THIS .filterBtn-container{
     margin-bottom: 10px;
+}
+
+.THIS #datepicker {
+    background-color: rgb(255, 255, 255);
+    width: 100%;
+    display: inline-block;
+    line-height: 1.875rem;
+    min-height: calc(1.875rem + 2px);
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(212, 212, 212);
+    border-image: initial;
+    border-radius: 0.25rem;
+    transition: border 0.1s linear, background-color 0.1s linear;
+    padding: 0px 1rem 0px 0.75rem;
 }

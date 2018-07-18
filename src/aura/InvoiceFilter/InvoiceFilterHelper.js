@@ -12,6 +12,7 @@
         var fieldMap = {};
         [].forEach.call(fieldInfo, function(info) {
             fieldMap[info.attributes.name] = info;
+            console.log('info: ' + info.attributes);
         });
         component.set('v.fieldMap', fieldMap);
     },

@@ -1,6 +1,6 @@
 ({
     doInit: function(component, event, helper){
-        try{
+        try{        
             var objectName = component.get('v.objectName');
             var fieldList = component.get('v.filterFields');
             var rangedFields = component.get('v.rangedFields');
@@ -9,17 +9,16 @@
                 'objectName': objectName,
                 'fieldNames': fieldList,
                 'rangedFields': rangedFields
-            });
+            }); 
             
             action.setCallback(this, function(response) {
                 try{
                     var toastEvent = $A.get("e.force:showToast");
                     var spinner = $A.get("e.c:ToggleSpinnerEvent");
                     var state = response.getState();
-                    if (component.isValid() && state === 'SUCCESS') {                    
+                    if (component.isValid() && state === 'SUCCESS') {     
                         var fieldMeta = JSON.parse(response.getReturnValue());
-                        // console.log(JSON.stringify(fieldInfo, null, 2));
-                        component.set('v.fieldset', fieldMeta.fields);
+                        component.set('v.fieldset', fieldMeta.fields);  
                         component.set('v.showFilter', true);
                         helper.getTypes(component);
                         helper.getFieldMap(component);
@@ -37,13 +36,14 @@
                         } 
                     }    
                 } catch(e) {
-                    console.log(e);
+            		console.log(e);
                 }
             });
             
             $A.enqueueAction(action);   
-        } catch(e) {
             
+        } catch(e) {
+            console.log('Erro FilterController 79: ' + e);
         }
     },
     updFilterObject: function(component, event, helper) {
@@ -56,6 +56,8 @@
         } else {
             delete filterObject[event.getSource().get("v.name")];
         }
+        console.log(JSON.stringify(filterObject, null, 2));
+        console.log('filterObject: ' + filterObject);
         component.set('v.filterObject', filterObject);
     },
     updFilterObjectEvt: function(component, event, helper) {
@@ -84,6 +86,7 @@
     },
     filter: function(component, event, helper){
         event.stopPropagation();
+        var dateInput = component.get("v.dateInput");
         var fields = component.get('v.fieldset');
         var filterObject = component.get('v.filterObject');
         var compEvent = component.getEvent("filterMyInvoices");
