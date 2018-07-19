@@ -292,7 +292,7 @@
         </valueSet>
     </fields>
     <fields>
-        <fullName>Unique__c</fullName>
+        <fullName>UniqueKeyField__c</fullName>
         <description>The unique key of an Invoice. Internal use only.</description>
         <externalId>true</externalId>
         <inlineHelpText>This is the unique key of this invoice. Internal use only.</inlineHelpText>
@@ -301,7 +301,7 @@
         <required>false</required>
         <trackTrending>false</trackTrending>
         <type>Text</type>
-        <unique>true</unique>
+        <unique>false</unique>
     </fields>
     <gender>Feminine</gender>
     <label>Invoice</label>
