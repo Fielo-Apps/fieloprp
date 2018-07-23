@@ -91,11 +91,7 @@ public class AuraService {
         String format;
 		String prefix = '';
 		if (!Test.isRunningTest()) {
-			String communityId = Network.getNetworkId();
-			Network community = [SELECT Id, Name, UrlPathPrefix FROM Network WHERE Id = :communityId];
-			if (community.UrlPathPrefix != null) {
-				prefix += '/' + community.UrlPathPrefix;
-			}
+			prefix = communityPrefix;
 		}
         for (Attachment a: atts) {
         	formatList = a.ContentType.toLowerCase().split('/');
@@ -135,6 +131,21 @@ public class AuraService {
 
         return (List<Object>) images;
     }
+
+	public static String communityPrefix {get{
+		if (communityPrefix == null) {
+			String fullURL = Network.getLoginUrl(Network.getNetworkId());
+			String path = fullURL.substring(fullURL.indexOf('/',9)+1);
+			if (path.lastIndexOf('/') != -1 ) {
+				String uselessString = path.substring(path.lastIndexOf('/'));
+				path = path.replace(uselessString, '');
+			} else {
+				path = '';
+			}
+			communityPrefix = path;
+		}
+		return communityPrefix;
+	} set;}
 
 	public static Map<String, String> inputTypeMap {get{
 		if (inputTypeMap == null) {
