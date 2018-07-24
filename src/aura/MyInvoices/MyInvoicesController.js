@@ -55,7 +55,7 @@
                             helper.setFieldSet(component);
                             if (localStorage.getItem('InvoicesReady') == null){
                                 localStorage.setItem('InvoicesReady', true);
-                               $A.get("e.force:refreshView").fire();
+                                $A.get("e.force:refreshView").fire();
                             }
                         }else {
                             var errorMsg = response.getError()[0].message;
@@ -79,11 +79,6 @@
         } catch(e) {
             component.set('v.error', e);
             component.set('v.showError', true);
-        }
-        
-        if(localStorage.getItem('myInvoicesRefresh') == null ){
-            localStorage.setItem('myInvoiceRefresh', true);
-            $A.get("e.force:refreshView").fire();
         }
             
     },
