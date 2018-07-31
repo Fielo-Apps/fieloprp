@@ -176,30 +176,21 @@ public class InvoicesSelector extends SObjectSelector{
 
     public List<Invoice__c> selectByMemberIdAndWhereClause(Id memberId, String whereClause){
         assertIsAccessible();
-        String query = 'SELECT {0} ' + ' FROM {1} ';
+        String query = 'SELECT ' + getFieldListString() + ' FROM ' + getSObjectName();
 
-        List<String> whereConditions = new List<String>();
-        if (whereClause != null && whereClause != '') {
-            System.debug('whereClause = ' + whereClause);
-            whereConditions.add(whereClause);
-        } 
+        String whereConditions = '';
         if (memberId != null) {
-            whereConditions.add(' Member__c =: memberId ');
+            whereConditions += ' Member__c =: memberId ';
         }
-        if(!whereConditions.isEmpty()){
-            System.debug(JSON.serializePretty(whereConditions));
-            query += 'WHERE ' + String.join(whereConditions, ' AND ');
+        if (whereClause != null && whereClause != '') {
+            whereConditions += ( whereConditions != '' && whereConditions != null ? ' AND ' : '' ) + whereClause;
         }
         
-        query += ' order by {2} {3} {4}';
-
-        query = String.format(query,
-                new List<String> {
-                    getFieldListString(),
-                    getSObjectName(),
-                    getOrderBy(),
-                    getLimitCondition(),
-                    getOffsetCondition() } );
+        if(whereConditions != null && whereConditions != ''){
+            query += ' WHERE ' + whereConditions;
+        }
+        
+        query += ' ORDER BY ' + getOrderBy() + ' ' + getLimitCondition() + ' ' + getOffsetCondition();
 
         System.debug('query'+ query);
         

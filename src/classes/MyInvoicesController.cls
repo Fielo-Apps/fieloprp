@@ -1,6 +1,6 @@
 public with sharing class MyInvoicesController {
 	@AuraEnabled
-	public static List<SObject> getInvoices(List<String> fieldsInvoices, Id memberId, String whereClause, Integer quantity, Integer offset, String orderBy) {
+	public static List<SObject> getInvoices(List<String> fieldsInvoices, Id memberId, String dynamicFilter, Integer quantity, Integer offset, String orderBy) {
         try{
             Map<String, DescribeFieldResult> fieldsDescribeMap = AuraService.getFieldsDescribe('FieloPRP__Invoice__c', fieldsInvoices);
             Set<String> fieldsInvoicesSet = new Set<String>(fieldsInvoices);
@@ -44,7 +44,8 @@ public with sharing class MyInvoicesController {
             if (fieldsInvoicesSet.contains('FieloPRP__Trackers__r,FieloPRP__Transactions__r')) {
                 fieldsInvoicesSet.remove('FieloPRP__Trackers__r,FieloPRP__Transactions__r');
             }
-
+            
+            String whereClause = dynamicFilter != '' && dynamicFilter != null ? FilterService.getDynamicWhereCondition(dynamicFilter,'FieloPRP__Invoice__c','FieloPRP') : '';
             System.debug('whereClause = ' + whereClause);
             List<SObject> myInvoices = InvoiceService.getInvoices(
             	fieldsInvoicesSet,
