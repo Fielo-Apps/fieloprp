@@ -131,9 +131,9 @@ public class FilterService {
                 if(filter.value == null){
                     whereCondition += prefix + filter.field + ' ' + operatorsMap.get(filter.operator) + ' null ';
                 }else if(nonQuotedTypes.contains(fieldType)){
-                    whereCondition += prefix + filter.field + ' ' + operatorsMap.get(filter.operator) + ' ' + filter.value;
+                    whereCondition += prefix + filter.field + ' ' + operatorsMap.get(filter.operator) + ' ' + String.escapeSingleQuotes(filter.value);
                 } else if(filter.operator == 'like'){
-                    whereCondition += prefix + filter.field + ' ' + operatorsMap.get(filter.operator) + ' \'%' + filter.value + '%\'';
+                    whereCondition += prefix + filter.field + ' ' + operatorsMap.get(filter.operator) + ' \'%' + String.escapeSingleQuotes(filter.value) + '%\'';
                 }else{
                     whereCondition += filter.field + ' ' + operatorsMap.get(filter.operator) + ' \'' + filter.value + '\'';
                 }
