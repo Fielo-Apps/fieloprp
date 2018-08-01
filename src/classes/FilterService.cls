@@ -70,7 +70,6 @@ public class FilterService {
 
     private static Integer deepLevel = 0;
     private static String getWhereCondition(List<FilterWrapper> filterWrappers, Map<String,String> operatorsMap, Set<String> andoroperators, Set<String> nonQuotedTypes, Map<String,Schema.SObjectField> fieldsTypeMap, String prefix){
-        Schema.DescribeSObjectResult[] descResult = Schema.describeSObjects(new String[]{'Account','Contact'});
         deepLevel++;
         String whereCondition = '';
         Integer position = 0;
@@ -152,6 +151,8 @@ public class FilterService {
                 if(String.isBlank(filter.subQueryFilter.field) || !fieldsTypeMapSubQuery.containsKey(filter.subQueryFilter.field)){
                     throw new FieloPLT.FieloException('Field ' + filter.field + ' not found in object.');
                 }
+
+                assertPermissions(results[0], filter.subQueryFilter.filters);
 
                 whereCondition += prefix + filter.field + ' in (SELECT ' + filter.subQueryFilter.field + ' FROM ' + filter.subQueryFilter.objectName + ' WHERE ' + getWhereCondition(filter.subQueryFilter.filters, operatorsMap, andoroperators, nonQuotedTypes, fieldsTypeMapSubQuery, prefix) + ')';
             }
