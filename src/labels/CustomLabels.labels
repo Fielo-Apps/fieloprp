@@ -78,7 +78,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>AddMultipleProductsSubtitle</shortDescription>
-        <value>or include the products one by one in the list bellow</value>
+        <value>or include the products one by one in the list below</value>
     </labels>
     <labels>
         <fullName>AddOneProduct</fullName>
@@ -86,7 +86,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>AddOneProduct</shortDescription>
-        <value>+ Add one or more product in this list</value>
+        <value>+ Add another product</value>
     </labels>
     <labels>
         <fullName>AddProducts</fullName>
