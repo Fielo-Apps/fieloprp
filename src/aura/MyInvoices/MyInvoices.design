@@ -8,7 +8,7 @@
     
     <design:attribute label="Ranged Filter Fields" name="rangedFields" description="Enter the API names of any filter fields that involve a range of values, separated by commas." default="FieloPRP__Amount__c,FieloPRP__Date__c" />
     
-    <design:attribute label="Sort By Fields" name="sortByFields" description="Enter the API names of any filter fields to apply sorting." default="LastModifiedDate,CreatedDate,FieloPRP__Date__c" />
+    <design:attribute label="Sort By Fields" name="sortByFields" description="Enter the API names of the fields you want to make available for sorting." default="LastModifiedDate,CreatedDate,FieloPRP__Date__c" />
     
     <design:attribute label="Invoice Fields" name="fields" description="Enter the API names of fields to include on the invoice list, separated by commas." 
                       default='FieloPRP__InvoiceNumber__c,FieloPRP__InvoiceItems__r,FieloPRP__Transactions__r,FieloPRP__Trackers__r,FieloPRP__Amount__c,FieloPRP__Date__c/date,FieloPRP__Distributor__c,FieloPRP__Status__c' />
@@ -35,6 +35,12 @@
     
     <design:attribute label="New Invoice Approval Mode" name="newInvoiceSubmitMode" description="Choose how you want submitted invoices to be handled by Invoicing: Manual to allow for manual adjustments or Approval Process to submit to an automated approval process."
                       default="Manual" datasource="Manual,Approval Process" />
+    
+    <design:attribute label="Product Fields" name="productFields" description="Enter the API names, separated by commas, of the fields you want to be displayed when a member is adding products to a new invoice." 
+                      default="Name,Family" />
+    
+    <design:attribute label="Product Filter Fields" name="productFilterFields" description="Enter the API names, separated by commas, of the fields you want to make available for filtering when a member is adding products to a new invoice." 
+                      default="Name,Family" />
     
     <design:attribute label="Request File Upload" name="requestFileUpload" description="When checked, members will be required to upload an image or PDF when submitting an invoice."
                       default="true" />
