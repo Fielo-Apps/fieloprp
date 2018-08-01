@@ -1,6 +1,8 @@
 <aura:component controller="InvoiceUploadController">
     <aura:attribute type="String" name="invoiceFields"/>
     <aura:attribute type="String" name="invoiceItemFields"/>
+    <aura:attribute type="String" name="productFields"/>
+    <aura:attribute type="String" name="productFilterFields"/>
     <aura:attribute type="String" name="objectName" default="Invoice__c"/>
     <aura:attribute type="String" name="submitMode" default="Submit"/>
     <aura:attribute type="String" name="invoiceId"/>
@@ -128,7 +130,7 @@
         </div>
     </div>
     <aura:if isTrue="{!v.showAddProducts}">
-        <c:AddProducts modalClass="{!v.modalClass}" backDropClass="{!v.backDropClass}"/>
+        <c:AddProducts modalClass="{!v.modalClass}" backDropClass="{!v.backDropClass}" productFields="{!v.productFields}" productFilterFields="{!v.productFilterFields}" productObject="{!v.config.productObjectName}"/>
     </aura:if>
     <c:Spinner />
 </aura:component>

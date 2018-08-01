@@ -34,12 +34,13 @@
             // TITLE
             // FIELDSET
             fieldset = [], fields = [];                        
-            var fieldsConfig = component.get('v.fields').trim();
+            var fieldsConfig = component.get('v.productFields').trim();
             if(fieldsConfig.length == 0){
                 fieldset = config.fieldset;                
             } else if (fieldsConfig.indexOf('[') == 0) {
                 fieldset = JSON.parse(fieldsConfig);
             } else {
+               	console.log('using provided fields.');
                 fieldset.push({
                     "apiName": "Id",
                     "type": "subcomponent",
@@ -104,8 +105,9 @@
     filterProducts: function(component, event, helper) {
         event.stopPropagation();
         try{
-            var whereClause = event.getParam('whereClause');
-            component.set('v.whereClause', whereClause);
+            console.log('AddProducts.filterProducts');
+            var dynamicFilter = event.getParam('dynamicFilter');
+            component.set('v.dynamicFilter', dynamicFilter);
             component.set('v.rowSelectors', []);
             helper.loadProducts(component, event, helper, 0);
         } catch(e) {

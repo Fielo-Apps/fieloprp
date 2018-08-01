@@ -5,9 +5,10 @@
     <aura:attribute type="String" name="titleValue" default="Products"/>
     <aura:attribute type="String" name="layout"/>
     <aura:attribute type="String" name="productFields"/>
+    <aura:attribute type="String" name="productFilterFields"/>
+    <aura:attribute type="String" name="productObject"/>
     <aura:attribute type="String" name="invoiceLayout"/>
     <aura:attribute type="String" name="invoiceColumns"/>
-    <aura:attribute type="String" name="fields" default="Name,Family"/>
     <aura:attribute type="Integer" name="columns"/>
     <!-- DESIGN ATTRIBUTES -->
     
@@ -23,6 +24,7 @@
     <!-- PAGINADOR -->
     
     <aura:attribute type="String" name="whereClause"/>
+    <aura:attribute type="String" name="dynamicFilter"/>
     
     <aura:attribute type="sObject[]" name="productRecords" default="[]"/>
     <aura:attribute type="sObject[]" name="selectedProducts" default="[]"/>
@@ -34,7 +36,7 @@
     <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
     <aura:handler event="c:SelectRecord" name="selectRecord" action="{!c.productSelected}"/>
     <aura:handler event="c:UnselectRecord" name="unselectRecord" action="{!c.productUnselected}"/>
-    <aura:handler event="c:FilterMyInvoices" name="filterMyInvoices" action="{!c.filterProducts}"/>
+    <aura:handler event="c:FilterRecords" name="filterRecords" action="{!c.filterProducts}"/>
     <aura:handler event="c:RegisterComponent" name="registerSelector" action="{!c.registerComponent}"/>
     
     <aura:handler name="change" value="{!v.rowSelectors}" action="{!c.handleAddSelector}"/>
@@ -42,7 +44,7 @@
     <aura:registerEvent name="closeAddProducts" type="c:CloseModal"/>
     <aura:registerEvent name="saveProducts" type="c:SaveProducts"/>
     
-    <div class="fielo-add-products">
+    <div class="fielo-add-products" data-product-fields="{!v.productFields}" data-product-object="{!v.productObject}">
         <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="{!v.modalClass}">
             <div class="slds-modal__container">
                 <header class="slds-modal__header">
@@ -54,7 +56,7 @@
                 </header>
                 <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
                     
-                    <c:InvoiceFilter objectName="Product2" filterFields="Name,Family" rangedFields="" />
+                    <c:Filter objectName="{!v.productObject}" filterFields="{!v.productFilterFields}" rangedFields="" showSortBy="false"/>
                     
                     <article class="slds-card invoice-products">
                         <div class="slds-card__header">

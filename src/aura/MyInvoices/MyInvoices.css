@@ -1,3 +1,7 @@
 .THIS.uiInput--input {
     background-color: transparent !important;
 }
+
+.THIS .fielo-myinvoices-filter-container {
+    padding-bottom: 30px;
+}

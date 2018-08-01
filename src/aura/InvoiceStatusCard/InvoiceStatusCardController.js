@@ -1,7 +1,10 @@
 ({
     doInit : function(component, event, helper) {
         var record = component.get('v.record');
-        var output = $A.get('$Label.c.YourInvoiceIs') + ' ' + record.FieloPRP__Status__label.toLowerCase();
+        var label = helper.getTextFromStatus(record.FieloPRP__Status__c);
+        label = label ? label : record.FieloPRP__Status__label.toLowerCase();
+        
+        var output = $A.get('$Label.c.YourInvoiceIs') + ' ' + label;
         component.set('v.output',output);
         if (record.FieloPRP__Status__c == 'Rejected' || record.FieloPRP__Status__c == 'Approved') {
             component.set('v.outputSubtitle', record.FieloPRP__Comments__c);    

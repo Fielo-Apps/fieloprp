@@ -39,7 +39,7 @@
     </aura:if>
     
     <aura:if isTrue="{!v.fieldMeta.attributes.inputType == 'number'}">
-        <lightning:input aura:id="field-input" name="{!v.fieldMeta.attributes.name}" type="Number" label="{!v.fieldMeta.attributes.label}" variant="{!v.showLabel == true ? '' : 'label-hidden'}" onchange="{!c.handleChange}" onblur="{!c.formatField}" value="{!v.decimalValue}" step="{!v.fieldMeta.attributes.step}" formatter="{!v.fieldMeta.attributes.formatter}" title="{!v.fieldMeta.attributes.tooltip}" min="{!v.fieldMeta.attributes.min}"/>
+        <lightning:input aura:id="field-input" name="{!v.fieldMeta.attributes.name}" type="Number" label="{!v.fieldMeta.attributes.label}" variant="{!v.showLabel == true ? '' : 'label-hidden'}" onchange="{!c.handleChange}" onblur="{!c.formatField}" value="{!v.decimalValue}" step="{!v.fieldMeta.attributes.step}" formatter="{!v.fieldMeta.attributes.formatter}" title="{!v.fieldMeta.attributes.tooltip}" min="{!v.fieldMeta.attributes.min}" onclick="{!c.selectValue}"/>
     </aura:if>
     
     <aura:if isTrue="{!v.fieldMeta.attributes.inputType == 'date'}">

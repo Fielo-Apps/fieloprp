@@ -117,7 +117,7 @@
             if (!invoce) {
                 invoce = {};
             }
-            console.log(JSON.stringify(params, null, 2));
+            // console.log(JSON.stringify(params, null, 2));
             if (params.fieldName) {
                 if (params.jsType == 'string' || params.isQuoted) {
                     invoce[params.fieldName] = String(params.fieldValue);
@@ -249,8 +249,8 @@
             } else if (newFiles.length == 0 && fileIds.length == 0 && requestFileUpload) {
                 hasFiles = false;
             } else {
-                console.log(JSON.stringify(invoice, null, 2));
-                console.log(invoiceItems);
+                // console.log(JSON.stringify(invoice, null, 2));
+                // console.log(invoiceItems);
                 var action = component.get('c.save');
                 action.setParams({
                     'invoice': invoice,
@@ -269,12 +269,12 @@
                         if (component.isValid() && state === 'SUCCESS') {                    
                             var invoiceId = response.getReturnValue();
                             component.set('v.invoiceId', invoiceId);
-                            console.log('Invoice Submited: ' + invoiceId);
+                            // console.log('Invoice Submited: ' + invoiceId);
                             var hasFiles = false;
                             if (newFiles != null && newFiles != undefined) {
                                 if (newFiles.length != 0) {
                                     hasFiles = true;
-                                    console.log('Uploading Files');
+                                    // console.log('Uploading Files');
                                     var uploadFiles = component.get('c.uploadFile');
                                     $A.enqueueAction(uploadFiles);
                                 } else {
