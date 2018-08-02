@@ -78,7 +78,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>AddMultipleProductsSubtitle</shortDescription>
-        <value>or include the products one by one in the list below</value>
+        <value>or include the products one by one in the list bellow</value>
     </labels>
     <labels>
         <fullName>AddOneProduct</fullName>
@@ -86,7 +86,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>AddOneProduct</shortDescription>
-        <value>+ Add another product</value>
+        <value>+ Add one or more product in this list</value>
     </labels>
     <labels>
         <fullName>AddProducts</fullName>
@@ -3178,6 +3178,14 @@ If it is a CRM Person Account, a Fielo Individual Member account is created.</va
         <value>Recent</value>
     </labels>
     <labels>
+        <fullName>RecentInvoices</fullName>
+        <categories>InvoiceLanding.page</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Recent Invoices</shortDescription>
+        <value>Recent Invoices</value>
+    </labels>
+    <labels>
         <fullName>RecentMembers</fullName>
         <categories>MemberLandingPageController.page</categories>
         <language>en_US</language>
@@ -3886,6 +3894,22 @@ If it is a CRM Person Account, a Fielo Individual Member account is created.</va
         <value>Sort</value>
     </labels>
     <labels>
+        <fullName>SortBy</fullName>
+        <categories>Filter.cmp</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SortBy</shortDescription>
+        <value>Sort By</value>
+    </labels>
+    <labels>
+        <fullName>SortByToolTip</fullName>
+        <categories>Filter.cmp</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SortByToolTip</shortDescription>
+        <value>Enter the name of the field by which you want to sort the records</value>
+    </labels>
+    <labels>
         <fullName>SpecifiedByField</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -3914,14 +3938,6 @@ If it is a CRM Person Account, a Fielo Individual Member account is created.</va
         <protected>false</protected>
         <shortDescription>Step</shortDescription>
         <value>Step</value>
-    </labels>
-    <labels>
-        <fullName>RecentInvoices</fullName>
-        <categories>InvoiceLanding.page</categories>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Recent Invoices</shortDescription>
-        <value>Recent Invoices</value>
     </labels>
     <labels>
         <fullName>StepName</fullName>
@@ -4410,7 +4426,7 @@ If it is a CRM Person Account, a Fielo Individual Member account is created.</va
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>YourInvoiceIs</shortDescription>
-        <value>Your invoice has been</value>
+        <value>Your invoice</value>
     </labels>
     <labels>
         <fullName>ZeroAmount</fullName>
@@ -4419,6 +4435,54 @@ If it is a CRM Person Account, a Fielo Individual Member account is created.</va
         <protected>true</protected>
         <shortDescription>ZeroAmount</shortDescription>
         <value>Amount cannot be zero.</value>
+    </labels>
+    <labels>
+        <fullName>labelForApproved</fullName>
+        <categories>InvoiceStatusCard.cmp</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>labelForApproved</shortDescription>
+        <value>has been approved</value>
+    </labels>
+    <labels>
+        <fullName>labelForCanceled</fullName>
+        <categories>InvoiceStatusCard.cmp</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>labelForCanceled</shortDescription>
+        <value>has been canceled</value>
+    </labels>
+    <labels>
+        <fullName>labelForNew</fullName>
+        <categories>InvoiceStatusCard.cmp</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>labelForNew</shortDescription>
+        <value>is new</value>
+    </labels>
+    <labels>
+        <fullName>labelForOpen</fullName>
+        <categories>InvoiceStatusCard.cmp</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>labelForOpen</shortDescription>
+        <value>has been submitted for approval</value>
+    </labels>
+    <labels>
+        <fullName>labelForPendingForApproval</fullName>
+        <categories>InvoiceStatusCard.cmp</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>labelForPendingForApproval</shortDescription>
+        <value>is pending approval</value>
+    </labels>
+    <labels>
+        <fullName>labelForRejected</fullName>
+        <categories>InvoiceStatusCard.cmp</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>labelForRejected</shortDescription>
+        <value>has been rejected</value>
     </labels>
     <labels>
         <fullName>security_error_field_not_insertable</fullName>
