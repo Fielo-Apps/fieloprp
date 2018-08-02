@@ -62,7 +62,7 @@
                 </lightning:layoutItem>
                 <lightning:layoutItem>
                     <div class="filterBtn-container">
-                        <lightning:button label="{!$Label.Filter}" class="filterBtn" variant="brand" onclick="{!c.filter}" />
+                        <lightning:button label="{!$Label.c.Filter}" class="filterBtn" variant="brand" onclick="{!c.filter}" />
                     </div>
                 </lightning:layoutItem>
             </lightning:layout>
