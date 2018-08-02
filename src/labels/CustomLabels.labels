@@ -570,6 +570,14 @@
         <value>You cannot delete these records.</value>
     </labels>
     <labels>
+        <fullName>CannotAccessRecords</fullName>
+        <categories>SObjectUnitOfWork.cls</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CannotAccessRecords</shortDescription>
+        <value>You cannot access these records.</value>
+    </labels>
+    <labels>
         <fullName>Categories</fullName>
         <categories>RewardLandingPageController.page</categories>
         <language>en_US</language>
