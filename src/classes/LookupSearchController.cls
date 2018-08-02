@@ -18,7 +18,15 @@ public  class LookupSearchController {
 
 			System.debug(query);
 
+
+
+ 		SObjectType convertType = Schema.getGlobalDescribe().get(sObjectName);
+
+        SecurityUtils.checkObjectIsReadable(convertType);
 			result = Database.query(query);
+
+
+
 
 			return result;
         } catch (DmlException e) {

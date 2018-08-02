@@ -93,7 +93,13 @@ public with sharing class MyInvoicesController {
     @AuraEnabled
     public static FieloPLT__Program__c getActiveProgram(String memberId) {
         try{
-            List<FieloPLT__Member__c> members = [SELECT Id, FieloPLT__Program__r.Id, FieloPLT__Program__r.FieloPRP__ProductInjectQuery__c, FieloPLT__Program__r.FieloPRP__RequestInvoiceProducts__c FROM FieloPLT__Member__c WHERE Id = :memberId];
+
+            if(Schema.sObjectType.FieloPLT__Member__c.isAccessible()){
+                List<FieloPLT__Member__c> members = [SELECT Id, FieloPLT__Program__r.Id, FieloPLT__Program__r.FieloPRP__ProductInjectQuery__c, FieloPLT__Program__r.FieloPRP__RequestInvoiceProducts__c FROM FieloPLT__Member__c WHERE Id = :memberId];
+             }else{
+            throw new FieloException(Label.CannotAccessRecords);
+            }
+
 
             if (!members.isEmpty()) {
                 FieloPLT__Program__c program = members[0].FieloPLT__Program__r;

@@ -32,7 +32,11 @@ public class InvoicesSelector extends SObjectSelector{
     public List<Invoice__c> selectByIdWithChilds(Set<Id> invoiceIds, String itemFields){
         Set<String> itemFieldSet = new Set<String>(itemFields != null && itemFields != '' ? itemFields.split(',') : new List<String>{'Id'});
 
-        return (List<Invoice__c>) Database.query(String.format(
+        List<Invoice__c> listInvoice;
+
+        if(Schema.sObjectType.Invoice__c.isAccessible()){
+
+        listInvoice = (List<Invoice__c>) Database.query(String.format(
                 'select {0} ' +
                   ', (SELECT Id, ContentDocument.Id, ContentDocument.Title, ContentDocument.FileType FROM ContentDocumentLinks)' +
                   ', (SELECT Id, Name, ContentType FROM Attachments)' +
@@ -44,10 +48,22 @@ public class InvoicesSelector extends SObjectSelector{
                     getFieldListString(),
                     getSObjectName(),
                     getOrderBy() } ));
+
+            }else{
+            throw new FieloException(Label.CannotAccessRecords);
+          }
+
+          return listInvoice;
     }
 
     public List<Invoice__c> selectByItemIdWithItemInfo(Set<Id> invoiceItemIds){
-        return (List<Invoice__c>) Database.query(String.format(
+
+
+         List<Invoice__c> listInvoice;
+
+        if(Schema.sObjectType.Invoice__c.isAccessible()){
+
+        listInvoice =  (List<Invoice__c>) Database.query(String.format(
                 'select {0}, (Select Id, TotalPrice__c From InvoiceItems__r) ' +
                   'from {1} ' +
                   'where Id In (Select FieloPRP__Invoice__c From FieloPRP__InvoiceItem__c Where Id in: invoiceItemIds) ' +
@@ -56,10 +72,24 @@ public class InvoicesSelector extends SObjectSelector{
                     getFieldListString(),
                     getSObjectName(),
                     getOrderBy() } ));
+
+                     }else{
+            throw new FieloException(Label.CannotAccessRecords);
+          }
+
+          return listInvoice;
+
+
     }
 
     public List<Invoice__c> selectByItemIdWithDetailedInvoiceDisabled(Set<Id> invoiceIds){
-        return (List<Invoice__c>) Database.query(String.format(
+
+
+        List<Invoice__c> listInvoice;
+
+        if(Schema.sObjectType.Invoice__c.isAccessible()){
+
+        listInvoice = (List<Invoice__c>) Database.query(String.format(
                 'select {0} ' +
                   'from {1} ' +
                   'where Id In: invoiceIds ' +
@@ -69,6 +99,15 @@ public class InvoicesSelector extends SObjectSelector{
                     getFieldListString(),
                     getSObjectName(),
                     getOrderBy() } ));
+
+
+                     }else{
+            throw new FieloException(Label.CannotAccessRecords);
+          }
+
+          return listInvoice;
+
+
     }
 
     public List<Invoice__c> selectByProgramAndStatus(Set<String> status, Id programId) {
@@ -85,14 +124,28 @@ public class InvoicesSelector extends SObjectSelector{
             query += 'WHERE ' + String.join(whereConditions, 'AND');
         }
         
-        query += 'order by {2} {3} {4}';        
-        return (List<Invoice__c>) Database.query(String.format(query,
+        query += 'order by {2} {3} {4}';     
+
+
+         List<Invoice__c> listInvoice;
+
+        if(Schema.sObjectType.Invoice__c.isAccessible()){
+
+        listInvoice = (List<Invoice__c>) Database.query(String.format(query,
                 new List<String> {
                     getFieldListString(),
                     getSObjectName(),
                     getOrderBy(),
                     getLimitCondition(),
                     getOffsetCondition() } ));
+
+                     }else{
+            throw new FieloException(Label.CannotAccessRecords);
+          }
+
+          return listInvoice;
+
+
     }
 
     public List<Invoice__c> selectByInvoiceNumberDistributorAndStatus(Set<String> invoiceNumbers, Set<String> distributors, String status) {
@@ -110,14 +163,28 @@ public class InvoicesSelector extends SObjectSelector{
             query += 'WHERE ' + String.join(whereConditions, 'AND');
         }
         
-        query += 'order by {2} {3} {4}';        
-        return (List<Invoice__c>) Database.query(String.format(query,
+        query += 'order by {2} {3} {4}';     
+
+
+         List<Invoice__c> listInvoice;
+
+        if(Schema.sObjectType.Invoice__c.isAccessible()){
+
+        listInvoice = (List<Invoice__c>) Database.query(String.format(query,
                 new List<String> {
                     getFieldListString(),
                     getSObjectName(),
                     getOrderBy(),
                     getLimitCondition(),
                     getOffsetCondition() } ));
+
+                     }else{
+            throw new FieloException(Label.CannotAccessRecords);
+          }
+
+          return listInvoice;
+
+
     }
 
     public List<Invoice__c> selectByMemberIdAndInvoiceIdBetweenDates(Set<Id> invoiceIds, Id memberId, Date fromdate, Date todate){
@@ -161,6 +228,8 @@ public class InvoicesSelector extends SObjectSelector{
         
         query += ' order by {2} {3} {4}';
 
+
+
         query = String.format(query,
                 new List<String> {
                     getFieldListString(),
@@ -169,9 +238,22 @@ public class InvoicesSelector extends SObjectSelector{
                     getLimitCondition(),
                     getOffsetCondition() } );
 
+
+
         System.debug('query'+ query);
         
-        return (List<Invoice__c>) Database.query(query);
+        List<Invoice__c> listInvoice;
+
+        if(Schema.sObjectType.Invoice__c.isAccessible()){
+
+        listInvoice = (List<Invoice__c>) Database.query(query);
+
+
+         }else{
+            throw new FieloException(Label.CannotAccessRecords);
+          }
+
+          return listInvoice;
     }
 
     public List<Invoice__c> selectByMemberIdAndWhereClause(Id memberId, String whereClause){
@@ -194,11 +276,27 @@ public class InvoicesSelector extends SObjectSelector{
 
         System.debug('query'+ query);
         
-        return (List<Invoice__c>) Database.query(query);
+         List<Invoice__c> listInvoice;
+
+        if(Schema.sObjectType.Invoice__c.isAccessible()){
+
+        listInvoice = (List<Invoice__c>) Database.query(query);
+
+
+         }else{
+            throw new FieloException(Label.CannotAccessRecords);
+          }
+
+          return listInvoice;
     }
 
     public List<Invoice__c> selectByIdWithDocuments(Set<Id> invoiceIds) {
-        return (List<Invoice__c>) Database.query(String.format(
+        
+        List<Invoice__c> listInvoice;
+
+        if(Schema.sObjectType.Invoice__c.isAccessible()){
+
+        listInvoice = (List<Invoice__c>) Database.query(String.format(
                 'select {0} ' +
                   ', (SELECT Id, ContentDocument.Id FROM ContentDocumentLinks)' +
                   'from {1} ' +
@@ -208,27 +306,62 @@ public class InvoicesSelector extends SObjectSelector{
                     getFieldListString(),
                     getSObjectName(),
                     getOrderBy() } ));
+
+                     }else{
+            throw new FieloException(Label.CannotAccessRecords);
+          }
+
+          return listInvoice;
     }
 
     public static List<ProcessInstance> selectInvoiceApprovalProcessInstance(Set<Id> invoiceIds){
-        String query = 'SELECT Id, TargetObjectId, '
+         String query = '';
+
+        if(Schema.sObjectType.ProcessInstance.isAccessible()){
+
+        query = 'SELECT Id, TargetObjectId, '
                 + ' (SELECT Id, toLabel(StepStatus) StepStatus ,Actor.Name, Comments, CreatedDate, ProcessNode.Name FROM StepsAndWorkitems where StepStatus = \'Pending\')'
                 + ' FROM ProcessInstance WHERE TargetObjectId in :invoiceIds';
         return (List<ProcessInstance>) Database.query(query);
+
+        }else{
+            throw new FieloException(Label.CannotAccessRecords);
+          }
+
+           return query;
     }
 
     public static List<ProcessInstance> selectAllInvoiceApprovalProcessInstance(Set<Id> invoiceIds){
-        String query = 'SELECT Id, TargetObjectId, ProcessDefinitionId, LastActor.Name, '
+        String query = '';
+
+        if(Schema.sObjectType.ProcessInstance.isAccessible()){
+
+        query = 'SELECT Id, TargetObjectId, ProcessDefinitionId, LastActor.Name, '
                 + ' (SELECT Id, toLabel(StepStatus) StepStatus,Actor.Name, Comments, CreatedDate, ProcessNode.Name, OriginalActor.Name FROM StepsAndWorkitems ORDER BY CreatedDate DESC, ProcessNode.Name NULLS LAST)'
                 + ' FROM ProcessInstance WHERE TargetObjectId in :invoiceIds ORDER BY CreatedDate DESC';
         return (List<ProcessInstance>) Database.query(query);
+        }else{
+            throw new FieloException(Label.CannotAccessRecords);
+          }
+
+        return query;
     }
 
     public static List<ProcessInstance> selectLastInvoiceWorkingItem(Set<Id> invoiceIds){
         String query = 'SELECT Id, TargetObjectId, '
                 + ' (SELECT Id, StepStatus,Actor.Name, Comments, CreatedDate, ProcessNode.Name FROM StepsAndWorkitems where StepStatus = \'Pending\' ORDER BY CreatedDate DESC LIMIT 1)'
                 + ' FROM ProcessInstance WHERE TargetObjectId in :invoiceIds';
-        return (List<ProcessInstance>) Database.query(query);
+         List<ProcessInstance> listInvoice;
+
+        if(Schema.sObjectType.ProcessInstance.isAccessible()){
+
+        listInvoice = (List<ProcessInstance>) Database.query(query);
+
+         }else{
+            throw new FieloException(Label.CannotAccessRecords);
+          }
+
+          return listInvoice;
     }
 
     public static List<ProcessInstance> selectPendingProcessInstances(Set<Id> invoiceIds){
@@ -236,6 +369,17 @@ public class InvoicesSelector extends SObjectSelector{
                 'FROM ProcessInstance ' +
                 'WHERE TargetObjectId IN :invoiceIds ' +
                 'AND Status = \'Pending\'';
-        return (List<ProcessInstance>) Database.query(query);
+         List<ProcessInstance> listInvoice;
+
+        if(Schema.sObjectType.ProcessInstance.isAccessible()){
+
+        listInvoice = (List<ProcessInstance>) Database.query(query);
+
+
+         }else{
+            throw new FieloException(Label.CannotAccessRecords);
+          }
+
+          return listInvoice;
     }
 }

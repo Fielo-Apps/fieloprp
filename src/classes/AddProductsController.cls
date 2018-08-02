@@ -27,7 +27,12 @@ public class AddProductsController {
 
             System.debug('Query: ' + query);
 
-            List<SObject> productRecords = Database.query(query);
+            SObjectType convertType = Schema.getGlobalDescribe().get(productObjectName);
+
+            SecurityUtils.checkObjectIsReadable(convertType);
+                List<SObject> productRecords = Database.query(query);
+
+
 
             return productRecords;
         } catch(DMLException e) {

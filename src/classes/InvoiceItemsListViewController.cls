@@ -2,7 +2,7 @@ public class InvoiceItemsListViewController {
 	
 	@AuraEnabled
     public static String getFieldData(String objectName, String fieldNames) {
-        try{
+        try{ 
             return AuraService.getFieldData(objectName,fieldNames);
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());

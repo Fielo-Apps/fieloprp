@@ -5,7 +5,7 @@ public class ApprovalHistoryListViewController {
 			
 		if (recordId!=null) {
 			List<ProcessInstance> pis = InvoicesSelector.selectAllInvoiceApprovalProcessInstance(new Set<Id>{recordId});
-
+ 
 			if (!pis.isEmpty()) {
 				for (ProcessInstance pi: pis) {
 					if (pi.StepsAndWorkitems != null) {
