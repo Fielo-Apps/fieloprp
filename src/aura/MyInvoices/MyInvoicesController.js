@@ -53,6 +53,10 @@
                             });
                             component.set('v.fieldMap', fieldMap);
                             helper.setFieldSet(component);
+                            if (localStorage.getItem('InvoicesReady') == null){
+                                localStorage.setItem('InvoicesReady', true);
+                                $A.get("e.force:refreshView").fire();
+                            }
                         }else {
                             var errorMsg = response.getError()[0].message;
                             toastEvent.setParams({
@@ -75,7 +79,8 @@
         } catch(e) {
             component.set('v.error', e);
             component.set('v.showError', true);
-        }            
+        }
+            
     },
     updateMember: function(component, event, helper){
         var member = event.getParam('member');
@@ -116,9 +121,12 @@
     },
     filterMyInvoices: function(component, event, helper) {
         try{
+            console.log('MyInvoices.filterMyInvoices');
             var params = event.getParams();
-            // console.log(JSON.stringify(params, null, 2));
+            console.log(JSON.stringify(params, null, 2));
             component.set('v.whereClause', params.whereClause);
+            component.set('v.dynamicFilter', params.dynamicFilter);
+            component.set('v.orderBy', params.sortByClause);
             component.set('v.showMyInvoices', false);
             helper.loadInvoices(component, event, helper, 0);
         } catch(e) {

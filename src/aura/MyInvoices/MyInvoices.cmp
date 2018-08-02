@@ -6,12 +6,15 @@
     <aura:attribute type="Boolean" name="showHeader" access="global" default="true" />
     <aura:attribute type="String" name="filterFields" access="global" default="FieloPRP__Status__c,FieloPRP__Amount__c,FieloPRP__Date__c"/>
     <aura:attribute type="String" name="rangedFields" access="global" default="FieloPRP__Amount__c,FieloPRP__Date__c"/>
+    <aura:attribute type="String" name="sortByFields" access="global" default="LastModifiedDate,CreatedDate,FieloPRP__Date__c"/>
     <aura:attribute type="String" name="fields" access="global" default="FieloPRP__InvoiceNumber__c,FieloPRP__InvoiceItems__r,FieloPRP__Transactions__r,FieloPRP__Trackers__r,FieloPRP__Amount__c,FieloPRP__Date__c/date,FieloPRP__Distributor__c,FieloPRP__Status__c"/>
     <aura:attribute type="String" name="orderBy" access="global" default="LastModifiedDate DESC"/>    
     <aura:attribute type="String" name="invoiceDetailFields" access="global" default="FieloPRP__Amount__c,FieloPRP__Date__c,FieloPRP__Distributor__c"/>
     <aura:attribute type="String" name="invoiceItemFields" access="global" default="FieloPRP__Product__c,FieloPRP__Quantity__c,FieloPRP__UnitPrice__c,FieloPRP__TotalPrice__c"/>
     <aura:attribute type="String" name="newInvoiceFields" access="global" default="FieloPRP__InvoiceNumber__c,FieloPRP__Date__c,FieloPRP__Distributor__c"/>
     <aura:attribute type="String" name="newInvoiceItemFields" access="global" default="FieloPRP__Product__c,FieloPRP__Quantity__c,FieloPRP__UnitPrice__c,FieloPRP__TotalPrice__c"/>
+    <aura:attribute type="String" name="productFields" access="global" default="Name,Family"/>
+    <aura:attribute type="String" name="productFilterFields" access="global" default="Name,Family"/>
     <aura:attribute type="String" name="newInvoiceSubmitMode" access="global" default="Close"/>
     <aura:attribute type="String" name="currentView" default="myinvoices"/>
     <aura:attribute type="Boolean" name="disableItems" access="global" default="false"/>
@@ -45,13 +48,13 @@
     <aura:attribute type="String" name="title"/>
     
     <aura:attribute type="String" name="whereClause" default="" />
-    
+    <aura:attribute type="String" name="dynamicFilter" default="" />
     <aura:attribute type="String" name="config" access="global"/>
     <aura:attribute type="String" name="redirectTo"/>
     
     <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
     <aura:handler event="FieloPLT:UpdateMemberEvent" action="{!c.updateMember}"/>
-    <aura:handler event="c:FilterMyInvoices" name="filterMyInvoices" action="{!c.filterMyInvoices}"/>
+    <aura:handler event="c:FilterRecords" name="filterRecords" action="{!c.filterMyInvoices}"/>
     <aura:handler event="c:NewInvoice" name="newInvoice" action="{!c.showNewInvoiceForm}"/>
     <aura:handler event="c:CloneInvoice" name="cloneInvoice" action="{!c.cloneInvoice}"/>
     <aura:handler event="c:ShowMyInvoices" name="showMyInvoices" action="{!c.showMyInvoices}"/>
@@ -64,10 +67,10 @@
                 <aura:if isTrue="{!v.title}">
                     <h3 class="slds-text-heading_large">{!v.title}</h3>
                 </aura:if>
-                <lightning:layout verticalAlign="end" horizontalAlign="spread">
+                <lightning:layout class="fielo-myinvoices-filter-container" verticalAlign="end" horizontalAlign="spread">
                     <aura:if isTrue="{!v.showFilter}">
-                        <lightning:layoutItem >
-                            <c:InvoiceFilter objectName="FieloPRP__Invoice__c" filterFields="{!v.filterFields}" rangedFields="{!v.rangedFields}" />
+                        <lightning:layoutItem>
+                            <c:Filter objectName="FieloPRP__Invoice__c" filterFields="{!v.filterFields}" rangedFields="{!v.rangedFields}" sortByFields="{!v.sortByFields}"/>
                         </lightning:layoutItem>
                     </aura:if>
                     <aura:if isTrue="{!v.showNewButton}">
@@ -78,14 +81,21 @@
                 </lightning:layout>
             </aura:renderIf>
             
-            
-            
             <aura:if isTrue="{!v.showMyInvoices}">
                 <c:ListView objectAPIName="FieloPRP__Invoice__c" layout="{!v.layout}" columns="{!v.columns}" fieldset="{!v.fieldset}" records="{!v.myInvoices}" paging="true" quantity="{!v.quantity}" />
             </aura:if>
             
             <aura:if isTrue="{!v.showNewInvoice}">
-                <c:InvoiceUpload member="{!v.member}" invoiceFields="{!v.newInvoiceFields}" invoiceItemFields="{!v.newInvoiceItemFields}" submitMode="{!v.newInvoiceSubmitMode}" disableItems="{!v.disableItems}" requestInvoiceProducts="{!v.program.FieloPRP__RequestInvoiceProducts__c}" requestFileUpload="{!v.requestFileUpload}"/>
+                <c:InvoiceUpload 
+                                 member="{!v.member}"
+                                 invoiceFields="{!v.newInvoiceFields}"
+                                 invoiceItemFields="{!v.newInvoiceItemFields}"
+                                 submitMode="{!v.newInvoiceSubmitMode}"
+                                 disableItems="{!v.disableItems}"
+                                 requestInvoiceProducts="{!v.program.FieloPRP__RequestInvoiceProducts__c}"
+                                 requestFileUpload="{!v.requestFileUpload}"
+                                 productFields="{!v.productFields}"
+                                 productFilterFields="{!v.productFilterFields}"/>
             </aura:if>
             
             <aura:if isTrue="{!v.showInvoiceRecord}">

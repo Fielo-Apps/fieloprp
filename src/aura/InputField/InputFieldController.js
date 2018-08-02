@@ -21,7 +21,6 @@
                 }
                 
                 var notSafari = isSafari ? false : true;
-                console.log('Safari? ' + isSafari);
                 component.set('v.notSafari', notSafari);
             }
         } catch(e) {
@@ -36,7 +35,6 @@
             var fieldName = event.getSource().get('v.name');
             var fieldValue = event.getSource().get('v.value');
             var fireEvent = true;
-            console.log('inputType: ' + fieldMeta.attributes.inputType);
             
             if (fieldMeta.attributes.type == "date") {
                 if((new Date(String(fieldValue))).getFullYear() >= 10000) {
@@ -60,9 +58,9 @@
             var fieldMeta = component.get("v.fieldMeta");
             var fieldValue = component.get("v.fieldValue");
             
-             console.log('------- '+JSON.stringify(fieldMeta,null,2));
+             //console.log('------- '+JSON.stringify(fieldMeta,null,2));
             if (component.get('v.fieldMeta').attributes.inputType == 'number') {
-                 console.log('------- '+JSON.stringify(fieldMeta,null,2));
+                 //console.log('------- '+JSON.stringify(fieldMeta,null,2));
                 component.set('v.decimalValue', Number(fieldValue).toFixed((component.get('v.fieldMeta').attributes.step.split('.')[1] || []).length));    
             }
         } catch(e) {
@@ -101,7 +99,18 @@
     },
     scriptLoaded : function(component, event, helper) {
         try{
-        	//$('#datePicker').datepicker({}).prop('readonly');
+        	$('#datePicker').datepicker({}).prop('readonly');
+        }
+        catch(e){
+            console.log(e);
+        }
+    },
+    selectValue: function(component, event, helper) {
+        try{
+        	console.log('selected content');
+            var element = event.getSource().getElement();
+            var input = element.querySelector('input');
+            input.select();
         }
         catch(e){
             console.log(e);

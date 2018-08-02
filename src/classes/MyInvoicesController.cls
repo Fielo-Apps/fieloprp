@@ -1,6 +1,6 @@
 public with sharing class MyInvoicesController {
 	@AuraEnabled
-	public static List<SObject> getInvoices(List<String> fieldsInvoices, Id memberId, String whereClause, Integer quantity, Integer offset, String orderBy) {
+	public static List<SObject> getInvoices(List<String> fieldsInvoices, Id memberId, String dynamicFilter, Integer quantity, Integer offset, String orderBy) {
         try{
             Map<String, DescribeFieldResult> fieldsDescribeMap = AuraService.getFieldsDescribe('FieloPRP__Invoice__c', fieldsInvoices);
             Set<String> fieldsInvoicesSet = new Set<String>(fieldsInvoices);
@@ -44,7 +44,8 @@ public with sharing class MyInvoicesController {
             if (fieldsInvoicesSet.contains('FieloPRP__Trackers__r,FieloPRP__Transactions__r')) {
                 fieldsInvoicesSet.remove('FieloPRP__Trackers__r,FieloPRP__Transactions__r');
             }
-
+            
+            String whereClause = dynamicFilter != '' && dynamicFilter != null ? FilterService.getDynamicWhereCondition(dynamicFilter,'FieloPRP__Invoice__c','') : '';
             System.debug('whereClause = ' + whereClause);
             List<SObject> myInvoices = InvoiceService.getInvoices(
             	fieldsInvoicesSet,
@@ -92,7 +93,14 @@ public with sharing class MyInvoicesController {
     @AuraEnabled
     public static FieloPLT__Program__c getActiveProgram(String memberId) {
         try{
-            List<FieloPLT__Member__c> members = [SELECT Id, FieloPLT__Program__r.Id, FieloPLT__Program__r.FieloPRP__ProductInjectQuery__c, FieloPLT__Program__r.FieloPRP__RequestInvoiceProducts__c FROM FieloPLT__Member__c WHERE Id = :memberId];
+            List<FieloPLT__Member__c> members;
+
+            if(Schema.sObjectType.FieloPLT__Member__c.isAccessible()){
+                members = [SELECT Id, FieloPLT__Program__r.Id, FieloPLT__Program__r.FieloPRP__ProductInjectQuery__c, FieloPLT__Program__r.FieloPRP__RequestInvoiceProducts__c FROM FieloPLT__Member__c WHERE Id = :memberId];
+             }else{
+            throw new FieloException(Label.CannotAccessRecords);
+            }
+
 
             if (!members.isEmpty()) {
                 FieloPLT__Program__c program = members[0].FieloPLT__Program__r;

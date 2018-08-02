@@ -7,13 +7,13 @@
         }
         var fieldset = component.get('v.fieldset');
         fieldset = helper.getFieldset(fieldset).fieldset;
-        var whereClause = component.get('v.whereClause');
+        var dynamicFilter = component.get('v.dynamicFilter');
         var quantity = component.get('v.quantity');
         var orderBy = component.get('v.orderBy');
         var action = component.get('c.getProducts');
         var params = {};
         params.fieldsInvoices = fieldset;
-        params.whereClause = whereClause ? whereClause : '';
+        params.dynamicFilter = dynamicFilter ? dynamicFilter : '';
         params.quantity = (quantity ? quantity : 6) + 1;
         params.offset = offset > 0 && offset != null ? offset : 0;
         params.orderBy = orderBy;

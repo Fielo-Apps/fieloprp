@@ -142,7 +142,7 @@
             var member = component.get('v.member');
             var fieldset = component.get('v.fieldset');
             fieldset = helper.getFieldset(fieldset).fieldset;
-            var whereClause = component.get('v.whereClause');
+            var dynamicFilter = component.get('v.dynamicFilter');
             var quantity = component.get('v.quantity');
             var orderBy = component.get('v.orderBy');
             if(member){            
@@ -150,7 +150,7 @@
                 var params = {};
                 params.fieldsInvoices = fieldset;
                 params.memberId = member.Id;
-                params.whereClause = whereClause ? whereClause : '';
+                params.dynamicFilter = dynamicFilter ? dynamicFilter : '';
                 params.quantity = (quantity ? quantity : 6) + 1;
                 params.offset = offset > 0 && offset != null ? offset : 0;
                 params.orderBy = orderBy;
