@@ -1,39 +1,48 @@
 <design:component label="FieloPRP - My Invoices">
-    <design:attribute label="Title" name="titleValue" description="Enter the title to be displayed at the top of the component." default="My Invoices" />
     
-    <design:attribute label="Show Title" name="showHeader" description="When ticked, Title will be shown at the top of the component." default="true" />
+    <design:attribute label="Show Title" name="showHeader" description="When checked, the title will be shown at the top of the component." default="true" />
     
-    <design:attribute label="Filter Fields" name="filterFields" description="Enter the API names of fields you want to use for invoice filtering, separated by commas." default="FieloPRP__Status__c,FieloPRP__Amount__c,FieloPRP__Date__c" />
+    <design:attribute label="Title" name="titleValue" description="Enter the title to be displayed at the top of the component. (Not applicable if Show Title is unchecked)" default="My Invoices" />
     
-    <design:attribute label="Ranged Filter Fields" name="rangedFields" description="Enter the API names of any Filter Fields that involve a range of values, separated by commas." default="FieloPRP__Amount__c,FieloPRP__Date__c" />
+    <design:attribute label="Filter Fields" name="filterFields" description="Enter the API names of all fields you want to use for invoice filtering, separated by commas." default="FieloPRP__Status__c,FieloPRP__Amount__c,FieloPRP__Date__c" />
     
-    <design:attribute label="My Invoices Fields" name="fields" description="Enter the API names of fields to include on the Invoice list, separated by commas." 
+    <design:attribute label="Ranged Filter Fields" name="rangedFields" description="Enter the API names of any filter fields that involve a range of values, separated by commas." default="FieloPRP__Amount__c,FieloPRP__Date__c" />
+    
+    <design:attribute label="Sort By Fields" name="sortByFields" description="Enter the API names of the fields you want to make available for sorting." default="LastModifiedDate,CreatedDate,FieloPRP__Date__c" />
+    
+    <design:attribute label="Invoice Fields" name="fields" description="Enter the API names of fields to include on the invoice list, separated by commas." 
                       default='FieloPRP__InvoiceNumber__c,FieloPRP__InvoiceItems__r,FieloPRP__Transactions__r,FieloPRP__Trackers__r,FieloPRP__Amount__c,FieloPRP__Date__c/date,FieloPRP__Distributor__c,FieloPRP__Status__c' />
     
-    <design:attribute label="My Invoices Rows Per Page" name="quantity" description="Enter the number of invoices you want to be displayed on a single page." default="6"/>
+    <design:attribute label="# of Invoices per Page" name="quantity" description="Enter the maximum number of invoices you want to be displayed on a single page." default="6"/>
     
-	<design:attribute label="My Invoices Sort Order" name="orderBy" description="Enter the API name of the field by which you want to sort invoices, followed by ASC for ascending order or DESC for descending order (e.g. CreatedDate ASC)." 
+	<design:attribute label="Order Invoices by" name="orderBy" description="Enter the API name of the field by which you want to sort invoices, followed by ASC for ascending order or DESC for descending order (e.g. CreatedDate ASC)." 
                       default='LastModifiedDate DESC' />
     
-    <design:attribute label="Invoice Detail Fields" name="invoiceDetailFields" description="Enter the API names of fields to include on the Invoice detail page, separated by commas." 
+    <design:attribute label="Invoice Detail Fields" name="invoiceDetailFields" description="Enter the API names of fields to include on Invoice detail pages, separated by commas." 
                       default="FieloPRP__Amount__c,FieloPRP__Date__c,FieloPRP__Distributor__c" />
     
-    <design:attribute label="Invoice Detail Item Fields" name="invoiceItemFields" description="Enter the API names of Invoice Item fields to include on the Invoice detail page, separated by commas." 
+    <design:attribute label="Hide Invoice Items" name="disableItems" description="When checked, Invoice Items will not be shown to members. If you've already disabled Invoice Items in your program, this setting will have no effect."
+                      default="false" />
+    
+    <design:attribute label="Invoice Item Fields" name="invoiceItemFields" description="Enter the API names of Invoice Item fields to include on Invoice detail pages, separated by commas. (Not applicable if Invoice Items are disabled in your program or Hide Invoice Items is checked)" 
                       default="FieloPRP__Product__c,FieloPRP__Quantity__c,FieloPRP__UnitPrice__c,FieloPRP__TotalPrice__c" />
     
     <design:attribute label="New Invoice Fields" name="newInvoiceFields" description="Enter the API names of fields to include on the New Invoice form, separated by commas." 
                       default="FieloPRP__InvoiceNumber__c,FieloPRP__Date__c,FieloPRP__Distributor__c" />
     
-    <design:attribute label="New Invoice Item Fields" name="newInvoiceItemFields" description="Enter the API names of Invoice Item fields to include on the New Invoice form, separated by commas." 
+    <design:attribute label="New Invoice Item Fields" name="newInvoiceItemFields" description="Enter the API names of Invoice Item fields to include on the New Invoice form, separated by commas. (Not applicable if Invoice Items are disabled in your program or Hide Invoice Items is checked)" 
                       default="FieloPRP__Product__c,FieloPRP__Quantity__c,FieloPRP__UnitPrice__c,FieloPRP__TotalPrice__c" />
     
-    <design:attribute label="New Invoice Approval Mode" name="newInvoiceSubmitMode" description="Choose how you want submitted invoices to be handled by Fielo Platform: Manual to allow for manual adjustments or Approval Workflow to submit to an automated approval process."
-                      default="Manual" datasource="Manual,Approval Workflow" />
+    <design:attribute label="New Invoice Approval Mode" name="newInvoiceSubmitMode" description="Choose how you want submitted invoices to be handled by Invoicing: Manual to allow for manual adjustments or Approval Process to submit to an automated approval process."
+                      default="Manual" datasource="Manual,Approval Process" />
     
-    <design:attribute label="Disable Items" name="disableItems" description="When ticked, Invoice Items will not be shown."
-                      default="false" />
+    <design:attribute label="Product Fields" name="productFields" description="Enter the API names, separated by commas, of the fields you want to be displayed when a member is adding products to a new invoice." 
+                      default="Name,Family" />
     
-    <design:attribute label="Request File Upload" name="requestFileUpload" description="When ticked, Members will be required to upload an image or PDF when submitting an invoice."
+    <design:attribute label="Product Filter Fields" name="productFilterFields" description="Enter the API names, separated by commas, of the fields you want to make available for filtering when a member is adding products to a new invoice." 
+                      default="Name,Family" />
+    
+    <design:attribute label="Request File Upload" name="requestFileUpload" description="When checked, members will be required to upload an image or PDF when submitting an invoice."
                       default="true" />
     
 </design:component>

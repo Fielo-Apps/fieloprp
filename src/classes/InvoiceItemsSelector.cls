@@ -28,7 +28,12 @@ public class InvoiceItemsSelector extends SObjectSelector{
 
     public List<InvoiceItem__c> selectByIdWithInvoiceStatusNotEditable(Set<Id> invoiceItemIds){
         String openStatus = 'Open';
-        return (List<InvoiceItem__c>) Database.query(String.format(
+        
+        List<InvoiceItem__c> listInvoice;
+
+        if(Schema.sObjectType.InvoiceItem__c.isAccessible()){
+
+        listInvoice = (List<InvoiceItem__c>) Database.query(String.format(
                 'select {0} ' +
                   'from {1} ' +
                   'where Id In: invoiceItemIds ' +
@@ -38,6 +43,12 @@ public class InvoiceItemsSelector extends SObjectSelector{
                     getFieldListString(),
                     getSObjectName(),
                     getOrderBy() } ));
+
+                     }else{
+            throw new FieloException(Label.CannotAccessRecords);
+          }
+
+          return listInvoice;
     }
 
     public List<InvoiceItem__c> selectByMemberIdAndInvoiceId(Set<Id> invoiceIds, Id memberId){
@@ -56,17 +67,33 @@ public class InvoiceItemsSelector extends SObjectSelector{
         
         query += 'order by {2} {3} {4}';
         
-        return (List<InvoiceItem__c>) Database.query(String.format(query,
+        List<InvoiceItem__c> listInvoice;
+
+        if(Schema.sObjectType.InvoiceItem__c.isAccessible()){
+
+        listInvoice =  (List<InvoiceItem__c>) Database.query(String.format(query,
                 new List<String> {
                     getFieldListString(),
                     getSObjectName(),
                     getOrderBy(),
                     getLimitCondition(),
                     getOffsetCondition() } ));
+
+                     }else{
+            throw new FieloException(Label.CannotAccessRecords);
+          }
+
+          return listInvoice;
     }
 
     public List<InvoiceItem__c> selectByInvoiceId(Set<Id> invoiceIds, Set<Id> excludedItemIds){
-        return (List<InvoiceItem__c>) Database.query(String.format(
+
+
+        List<InvoiceItem__c> listInvoice;
+
+        if(Schema.sObjectType.InvoiceItem__c.isAccessible()){
+
+        listInvoice =  (List<InvoiceItem__c>) Database.query(String.format(
                 'select {0} ' +
                   'from {1} ' +
                   'where Id not In : excludedItemIds ' +
@@ -78,5 +105,11 @@ public class InvoiceItemsSelector extends SObjectSelector{
                     getOrderBy(),
                     getLimitCondition(),
                     getOffsetCondition() } ));
+
+        }else{
+            throw new FieloException(Label.CannotAccessRecords);
+          }
+
+          return listInvoice;
     }
 }

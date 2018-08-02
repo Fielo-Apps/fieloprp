@@ -121,9 +121,12 @@
     },
     filterMyInvoices: function(component, event, helper) {
         try{
+            console.log('MyInvoices.filterMyInvoices');
             var params = event.getParams();
-            // console.log(JSON.stringify(params, null, 2));
+            console.log(JSON.stringify(params, null, 2));
             component.set('v.whereClause', params.whereClause);
+            component.set('v.dynamicFilter', params.dynamicFilter);
+            component.set('v.orderBy', params.sortByClause);
             component.set('v.showMyInvoices', false);
             helper.loadInvoices(component, event, helper, 0);
         } catch(e) {

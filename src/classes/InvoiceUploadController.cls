@@ -38,6 +38,8 @@ public with sharing class InvoiceUploadController {
                 invoiceConfigurations.put('maxChunkSize', '950000');
             }
 
+            invoiceConfigurations.put('productObjectName', Schema.SObjectType.InvoiceItem__c.fields.getMap().get( invoiceConfigurations.get('productLookupField') ).getDescribe().getReferenceTo()[0].getDescribe().getName() );
+
             return invoiceConfigurations;
         } catch (DmlException e) {
             throw new AuraHandledException(e.getDmlMessage(0));
@@ -82,7 +84,7 @@ public with sharing class InvoiceUploadController {
     public static String save(Invoice__c invoice, List<InvoiceItem__c> items, String submitMode, List<Id> fileIds) {
         try{
             Invoice__c submittedInvoice = InvoiceService.submitInvoice(invoice, items, null);
-            if (submitMode == 'Approval Workflow') {
+            if (submitMode == 'Approval Process') {
                 submittedInvoice = InvoiceService.closeInvoice(submittedInvoice.Id);
             }
             if (!fileIds.isEmpty()) {

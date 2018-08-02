@@ -19,7 +19,13 @@ public with sharing class LookupController {
 
 			System.debug(query);
 
-			return Database.query(query);
+			SObjectType convertType = Schema.getGlobalDescribe().get(objectName);
+
+       		SecurityUtils.checkObjectIsReadable(convertType);
+				return Database.query(query);
+
+
+
 		} catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }

@@ -1,21 +1,22 @@
 public class AddProductsController {
 	@auraEnabled
-	public static List<SObject> getProducts(List<String> fieldsInvoices, String whereClause, Integer quantity, Integer offset, String orderBy) {
+	public static List<SObject> getProducts(List<String> fieldsInvoices, String dynamicFilter, Integer quantity, Integer offset, String orderBy) {
         try{
             Set<String> fieldsInvoicesSet = new Set<String>(fieldsInvoices);
             fieldsInvoicesSet.add('Id');
-            System.debug('whereClause = ' + whereClause);
+            System.debug('dynamicFilter = ' + dynamicFilter);
 
             String query = 'SELECT ' + String.join(new List<String>(fieldsInvoicesSet), ',') +
             	' FROM ' + productObjectName;
 
-            if (whereClause != null && whereClause != '') {
-            	query += ' WHERE ' + whereClause + '{0}';
-            	query = String.format(query, new List<String>{''}) ;
+            String whereCondition = dynamicFilter != '' && dynamicFilter != null ? FilterService.getDynamicWhereCondition(dynamicFilter,productObjectName,'') : '';
+            System.debug('whereCondition = ' + whereCondition);
+            if (whereCondition != null && whereCondition != '') {
+            	query += ' WHERE ' + whereCondition;
             }
 
             if (orderBy != null) {
-            	query += ' ORDER BY '+ orderBy;	
+            	query += ' ORDER BY '+ orderBy;
             }
             if (quantity != null) {
             	query += ' LIMIT ' + quantity;
@@ -26,7 +27,12 @@ public class AddProductsController {
 
             System.debug('Query: ' + query);
 
-            List<SObject> productRecords = Database.query(query);
+            SObjectType convertType = Schema.getGlobalDescribe().get(productObjectName);
+
+            SecurityUtils.checkObjectIsReadable(convertType);
+                List<SObject> productRecords = Database.query(query);
+
+
 
             return productRecords;
         } catch(DMLException e) {
