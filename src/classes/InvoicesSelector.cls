@@ -328,7 +328,7 @@ public class InvoicesSelector extends SObjectSelector{
             throw new FieloException(Label.CannotAccessRecords);
           }
 
-           return query;
+           return null;
     }
 
     public static List<ProcessInstance> selectAllInvoiceApprovalProcessInstance(Set<Id> invoiceIds){
@@ -344,7 +344,7 @@ public class InvoicesSelector extends SObjectSelector{
             throw new FieloException(Label.CannotAccessRecords);
           }
 
-        return query;
+        return null;
     }
 
     public static List<ProcessInstance> selectLastInvoiceWorkingItem(Set<Id> invoiceIds){
