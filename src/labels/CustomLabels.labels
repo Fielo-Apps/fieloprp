@@ -25,6 +25,22 @@
         <value>Action</value>
     </labels>
     <labels>
+        <fullName>SortBy</fullName>
+        <categories>Filter.cmp</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SortBy</shortDescription>
+        <value>Sort By</value>
+    </labels>
+    <labels>
+        <fullName>SortByToolTip</fullName>
+        <categories>Filter.cmp</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SortByToolTip</shortDescription>
+        <value>Enter the name of the field by which you want to sort the records</value>
+    </labels>
+    <labels>
         <fullName>Actions</fullName>
         <categories>ChallengeRewardEditBackEnd.page</categories>
         <language>en_US</language>
@@ -560,6 +576,14 @@
         <protected>true</protected>
         <shortDescription>Cancelled</shortDescription>
         <value>cancelled</value>
+    </labels>
+    <labels>
+        <fullName>CannotAccessRecords</fullName>
+        <categories>SObjectUnitOfWork.cls</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CannotAccessRecords</shortDescription>
+        <value>Records cannot be Accessed.</value>
     </labels>
     <labels>
         <fullName>CannotDeleteRecords</fullName>
