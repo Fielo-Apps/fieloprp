@@ -64,7 +64,7 @@ public with sharing class InvoiceLandingController extends PageSettingsSetContro
         //Verify if a program was already created
         if(currentProgram != null)
         {      
-            initPageSettings('FieloPRP__Invoice__c','','','');
+            initPageSettings('FieloPRP__Invoice__c','','','',currentProgram.Id);
             getLookupSetting('FieloPRP__Invoice__c','','');
             //System.debug('lookupSettings: '+ lookupSettings);
 
