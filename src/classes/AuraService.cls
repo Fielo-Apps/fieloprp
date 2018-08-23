@@ -144,7 +144,7 @@ public class AuraService {
 			}
 			communityPrefix = path;
 		}
-		return '/' + communityPrefix;
+		return communityPrefix == '' ? '' : '/' + communityPrefix; 
 	} set;}
 
 	public static Map<String, String> inputTypeMap {get{
