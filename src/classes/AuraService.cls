@@ -139,6 +139,7 @@ public class AuraService {
 			if (path.lastIndexOf('/') != -1 ) {
 				String uselessString = path.substring(path.lastIndexOf('/'));
 				path = path.replace(uselessString, '');
+                path = path.replace('/s','');
 			} else {
 				path = '';
 			}
