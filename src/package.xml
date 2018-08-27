@@ -63,9 +63,8 @@
 		<name>AuraDefinitionBundle</name>
 	</types>
 	<types>
-		<members>Fielo_Templates</members>
-		<members>Fielo_Templates/Proof_of_Purchase_Approved</members>
-		<members>Fielo_Templates/Proof_of_Purchase_Submitted</members>
+		<members>email/Fielo_Templates/Proof_of_Purchase_Approved</members>
+		<members>email/Fielo_Templates/Proof_of_Purchase_Submitted</members>
 		<name>EmailTemplate</name>
 	</types>
 	<version>40.0</version>
