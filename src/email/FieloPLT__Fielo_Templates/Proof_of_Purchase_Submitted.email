@@ -1,0 +1,14 @@
+<table border="0" cellpadding="5" width="600" cellspacing="5" height="400" >
+<tr valign="top" height="50" >
+<td tEditID="c1r1" style=" background-color:#FFFFFF; bEditID:r3st1; color:#000000; bLabel:main; font-size:12pt; font-family:arial;" aEditID="c1r1" locked="0" >
+<![CDATA[]]></td>
+</tr>
+<tr valign="top" height="300" >
+<td tEditID="c1r2" style=" background-color:#FFFFFF; bEditID:r3st1; color:#000000; bLabel:main; font-size:12pt; font-family:arial;" aEditID="c1r2" locked="0" >
+<![CDATA[<div style=""><font face="arial">Hi {!FieloPRP__Invoice__c.FieloPRP__Member__r.Name},</font></div><div style=""><font face="arial"><br></font></div><div style=""><font face="arial">Your proof of purchase has been submitted and will be approved right away. You’re doing a great job and getting the hang of this fast. You’ll have points in no time.</font></div><div style=""><font face="arial"><br></font></div><div style=""><font face="arial">The more invoices you upload, the more points you’ll unlock - getting you one step closer to rewards from our catalog.</font></div><div style=""><font face="arial"><br></font></div><div style=""><font face="arial">We’ll keep you posted as soon as your invoice has been processed.</font></div><div style=""><font face="arial"><br></font></div><div style=""><font face="arial">All the best,</font></div><div style=""><font face="arial"><br></font></div><div style=""><font face="arial">&lt;Company Name&gt;</font></div>]]></td>
+</tr>
+<tr valign="top" height="50" >
+<td tEditID="c1r3" style=" background-color:#FFFFFF; bEditID:r3st1; color:#000000; bLabel:main; font-size:12pt; font-family:arial;" aEditID="c1r3" locked="0" >
+<![CDATA[]]></td>
+</tr>
+</table>
