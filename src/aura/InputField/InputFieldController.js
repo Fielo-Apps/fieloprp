@@ -99,7 +99,7 @@
     },
     scriptLoaded : function(component, event, helper) {
         try{
-        	$('#datePicker').datepicker({}).prop('readonly');
+        	// $('#datePicker').datepicker({}).prop('readonly');
         }
         catch(e){
             console.log(e);
