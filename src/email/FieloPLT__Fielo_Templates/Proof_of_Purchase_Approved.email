@@ -1,0 +1,14 @@
+<table border="0" cellpadding="5" width="600" cellspacing="5" height="400" >
+<tr valign="top" height="50" >
+<td tEditID="c1r1" style=" background-color:#FFFFFF; bEditID:r3st1; color:#000000; bLabel:main; font-size:12pt; font-family:arial;" aEditID="c1r1" locked="0" >
+<![CDATA[]]></td>
+</tr>
+<tr valign="top" height="300" >
+<td tEditID="c1r2" style=" background-color:#FFFFFF; bEditID:r3st1; color:#000000; bLabel:main; font-size:12pt; font-family:arial;" aEditID="c1r2" locked="0" >
+<![CDATA[<div style=""><font face="arial">Hello {!FieloPRP__Invoice__c.FieloPRP__Member__r.Name},</font></div><div style=""><font face="arial"><br></font></div><div style=""><font face="arial">Congratulations - your proof of purchase has been approved! You now have {!FieloPRP__Invoice__c.FieloPRP__Member__r.FieloPLT__Points__c} points, which can be redeemed for special prizes in our awards catalog.</font></div><div style=""><font face="arial"><br></font></div><div style=""><font face="arial">Remember, the more invoices you upload, the more points you’ll unlock, entitling you to bigger and better prizes.</font></div><div style=""><font face="arial"><br></font></div><div style=""><font face="arial">Keep up the great work.</font></div><div style=""><font face="arial"><br></font></div><div style=""><font face="arial">Best wishes,</font></div><div style=""><font face="arial"><br></font></div><div style=""><font face="arial">&lt;Company Name&gt;</font></div>]]></td>
+</tr>
+<tr valign="top" height="50" >
+<td tEditID="c1r3" style=" background-color:#FFFFFF; bEditID:r3st1; color:#000000; bLabel:main; font-size:12pt; font-family:arial;" aEditID="c1r3" locked="0" >
+<![CDATA[]]></td>
+</tr>
+</table>

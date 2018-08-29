@@ -9,7 +9,7 @@
     "fieldsToExclude" : "fieloplt__prefix__c"
   }, {
     "apiName" : "fieloplt__action__c",
-    "fieldsToExclude" : "fieloplt__rulesquantity__c,fieloplt__missionsquantity__c,fieloplt__criteriafields__c"
+    "fieldsToExclude" : "fieloplt__rulesquantity__c,fieloplt__missionsquantity__c,fieloplt__criteriafields__c,fieloplt__templatesquantity__c"
   } ],
   "migrationRecords" : [ {
     "objectAPIName" : "fieloplt__library__c",
@@ -22,14 +22,14 @@
         "value" : "FieloPRP"
       }, {
         "apiName" : "fieloplt__version__c",
-        "value" : "1.011"
+        "value" : "1.012"
       } ],
       "relatedList" : [ {
         "objectAPIName" : "fieloplt__ruletrigger__c",
         "records" : [ {
           "fieldsValues" : [ {
             "apiName" : "name",
-            "value" : "Invoice"
+            "value" : "Invoice is approved"
           }, {
             "apiName" : "fieloplt__conditionfield__c",
             "value" : "FieloPRP__Status__c"
@@ -84,9 +84,6 @@
               }, {
                 "apiName" : "fieloplt__targetmember__c",
                 "value" : "FieloPRP__Member__c"
-              }, {
-                "apiName" : "fieloplt__templatesquantity__c",
-                "value" : "0"
               } ],
               "relatedList" : [ {
                 "objectAPIName" : "fieloplt__programassignment__c",
@@ -165,6 +162,59 @@
               "relatedList" : [ ]
             } ]
           } ]
+        }, {
+          "fieldsValues" : [ {
+            "apiName" : "name",
+            "value" : "Member submits proof of purchase"
+          }, {
+            "apiName" : "fieloplt__date__c",
+            "value" : "CreatedDate"
+          }, {
+            "apiName" : "fieloplt__externalid__c",
+            "value" : "00D460000013HOJ-a0f46000001mrbc"
+          }, {
+            "apiName" : "fieloplt__library__c.fieloplt__externalid__c",
+            "value" : "FieloPRP",
+            "refObject" : "fieloplt__library__c"
+          }, {
+            "apiName" : "fieloplt__lookupfromemailalert__c",
+            "value" : "FieloPRP__Invoice__c"
+          }, {
+            "apiName" : "fieloplt__object__c",
+            "value" : "FieloPRP__Invoice__c"
+          } ],
+          "relatedList" : [ {
+            "objectAPIName" : "fieloplt__action__c",
+            "records" : [ {
+              "fieldsValues" : [ {
+                "apiName" : "name",
+                "value" : "Member submits proof of purchase > FieloPRP__Member__c"
+              }, {
+                "apiName" : "fieloplt__externalid__c",
+                "value" : "00D460000013HOJ-a0046000005QZ4W"
+              }, {
+                "apiName" : "fieloplt__ruletrigger__c.fieloplt__externalid__c",
+                "value" : "00D460000013HOJ-a0f46000001mrbc",
+                "refObject" : "fieloplt__ruletrigger__c"
+              }, {
+                "apiName" : "fieloplt__targetemailfield__c",
+                "value" : "FieloPRP__Member__r.FieloPLT__Email__c"
+              }, {
+                "apiName" : "fieloplt__targetemailobject__c",
+                "value" : "FieloPLT__Member__c"
+              }, {
+                "apiName" : "fieloplt__targetmember__c",
+                "value" : "FieloPRP__Member__c"
+              } ],
+              "relatedList" : [ {
+                "objectAPIName" : "fieloplt__programassignment__c",
+                "records" : [ ]
+              } ]
+            } ]
+          }, {
+            "objectAPIName" : "fieloplt__kpi__c",
+            "records" : [ ]
+          } ]
         } ]
       }, {
         "objectAPIName" : "fieloplt__model__c",
@@ -226,6 +276,9 @@
           } ]
         } ]
       }, {
+        "objectAPIName" : "fieloplt__consent__c",
+        "records" : [ ]
+      }, {
         "objectAPIName" : "fieloplt__pagesettings__c",
         "records" : [ {
           "fieldsValues" : [ {
@@ -237,9 +290,6 @@
           }, {
             "apiName" : "fieloplt__filters__c",
             "value" : "[{'Rows':[[{'Name':'Name', 'Type':'input'},{'Name':'Family','Type':'picklist'},{'Name':'ProductCode','Type':'input'}]]}]"
-          }, {
-            "apiName" : "fieloplt__isactive__c",
-            "value" : "false"
           }, {
             "apiName" : "fieloplt__iscustom__c",
             "value" : "false"
@@ -274,9 +324,6 @@
           }, {
             "apiName" : "fieloplt__filters__c",
             "value" : "[{'Rows':[[{'Name':'Name', 'Type':'input'},{'Name':'Family','Type':'picklist'},{'Name':'ProductCode','Type':'input'}]]}]"
-          }, {
-            "apiName" : "fieloplt__isactive__c",
-            "value" : "true"
           }, {
             "apiName" : "fieloplt__iscustom__c",
             "value" : "true"
@@ -315,9 +362,6 @@
             "apiName" : "fieloplt__fieldset__c",
             "value" : "{\"Name\":\"FieloPRP__Member__r.Name\"},{\"Name\":\"FieloPRP__Status__c\"},{\"Name\":\"FieloPRP__Amount__c\"}"
           }, {
-            "apiName" : "fieloplt__isactive__c",
-            "value" : "true"
-          }, {
             "apiName" : "fieloplt__iscustom__c",
             "value" : "false"
           }, {
@@ -352,9 +396,6 @@
             "apiName" : "fieloplt__filters__c",
             "value" : "[{'Rows':[[{'Name':'Name', 'Type':'input'},{'Name':'Family','Type':'picklist'},{'Name':'ProductCode','Type':'input'}]]}]"
           }, {
-            "apiName" : "fieloplt__isactive__c",
-            "value" : "true"
-          }, {
             "apiName" : "fieloplt__iscustom__c",
             "value" : "false"
           }, {
@@ -388,9 +429,6 @@
           }, {
             "apiName" : "fieloplt__fieldset__c",
             "value" : "{\"Name\":\"FieloPRP__Product__r.Name\"},\r\n{\"Name\":\"FieloPRP__Quantity__c\"},\r\n{\"Name\":\"FieloPRP__UnitPrice__c\"},\r\n{\"Name\":\"FieloPRP__TotalPrice__c\"}"
-          }, {
-            "apiName" : "fieloplt__isactive__c",
-            "value" : "true"
           }, {
             "apiName" : "fieloplt__iscustom__c",
             "value" : "false"
@@ -429,9 +467,6 @@
             "apiName" : "fieloplt__fieldset__c",
             "value" : "{\"Name\": \"FieloPLT__IsProcessed__c\"},\r\n{\"Name\": \"FieloPLT__Value__c\"},\r\n{\"Name\": \"FieloPLT__Points__c\"},\r\n{\"Name\": \"FieloPLT__IsReverted__c\"},\r\n{\"Name\": \"CreatedDate\"}"
           }, {
-            "apiName" : "fieloplt__isactive__c",
-            "value" : "true"
-          }, {
             "apiName" : "fieloplt__iscustom__c",
             "value" : "false"
           }, {
@@ -469,9 +504,6 @@
             "apiName" : "fieloplt__fieldset__c",
             "value" : "{\"Name\":\"FieloPRP__Status__c\"},\r\n{\"Name\":\"FieloPRP__InvoiceNumber__c\"},\r\n{\"Name\":\"FieloPRP__Distributor__r.Name\"},\r\n{\"Name\":\"FieloPRP__Member__r.Name\"},\r\n{\"Name\":\"FieloPRP__Amount__c\"},\r\n{\"Name\":\"FieloPRP__Date__c\"},\r\n{\"Name\":\"FieloPRP__Comments__c\"}"
           }, {
-            "apiName" : "fieloplt__isactive__c",
-            "value" : "true"
-          }, {
             "apiName" : "fieloplt__iscustom__c",
             "value" : "false"
           }, {
@@ -506,9 +538,6 @@
             "apiName" : "fieloplt__externalid__c",
             "value" : "00D46000000bvJ0-a0g460000012Kej"
           }, {
-            "apiName" : "fieloplt__isactive__c",
-            "value" : "true"
-          }, {
             "apiName" : "fieloplt__iscustom__c",
             "value" : "false"
           }, {
@@ -539,9 +568,6 @@
           }, {
             "apiName" : "fieloplt__externalid__c",
             "value" : "00D46000000bvJ0-a0g460000012Keh"
-          }, {
-            "apiName" : "fieloplt__isactive__c",
-            "value" : "true"
           }, {
             "apiName" : "fieloplt__iscustom__c",
             "value" : "false"
@@ -574,9 +600,6 @@
             "apiName" : "fieloplt__externalid__c",
             "value" : "00D46000000bvJ0-a0g460000012Kek"
           }, {
-            "apiName" : "fieloplt__isactive__c",
-            "value" : "true"
-          }, {
             "apiName" : "fieloplt__iscustom__c",
             "value" : "false"
           }, {
@@ -608,9 +631,6 @@
             "apiName" : "fieloplt__fieldset__c",
             "value" : "{\"Name\":\"FieloPRP__Quantity__c\", \"Type\":\"input\", \"ClassName\": \"fielosf-product_qty\", \"onchange\": \"refreshTotalPriceProxy_\"}, \r\n{\"Name\":\"FieloPRP__Product__c\", \"Type\":\"lookup\", \"ClassName\": \"fielosf-product_name\", \"onchange\": \"refreshTotalPriceProxy_\"}, \r\n{\"Name\":\"FieloPRP__UnitPrice__c\", \"Type\": \"input\", \"ClassName\": \"fielosf-product_unit-price\", \"onchange\": \"refreshTotalPriceProxy_\"}, \r\n{\"Name\":\"FieloPRP__TotalPrice__c\", \"Type\": \"input\", \"ClassName\": \"fielosf-product_total-price\", \"onchange\": \"refreshTotalPriceProxy_\"}"
           }, {
-            "apiName" : "fieloplt__isactive__c",
-            "value" : "true"
-          }, {
             "apiName" : "fieloplt__iscustom__c",
             "value" : "true"
           }, {
@@ -638,9 +658,6 @@
           }, {
             "apiName" : "fieloplt__fieldset__c",
             "value" : "{ \"Name\" : \"FieloPRP__Status__c\" },\r\n\t{ \"Name\" : \"FieloPRP__Amount__c\" },\r\n        { \"Name\" : \"FieloPRP__Date__c\" }"
-          }, {
-            "apiName" : "fieloplt__isactive__c",
-            "value" : "true"
           }, {
             "apiName" : "fieloplt__iscustom__c",
             "value" : "false"
@@ -679,9 +696,6 @@
             "apiName" : "fieloplt__fieldset__c",
             "value" : "{\"Name\":\"Name\", \"Type\":\"input\"}, \r\n{\"Name\":\"Family\",\"Type\":\"picklist\"}, \r\n{\"Name\":\"ProductCode\",\"Type\":\"input\"}"
           }, {
-            "apiName" : "fieloplt__isactive__c",
-            "value" : "true"
-          }, {
             "apiName" : "fieloplt__iscustom__c",
             "value" : "true"
           }, {
@@ -710,9 +724,6 @@
             "apiName" : "fieloplt__fieldset__c",
             "value" : "{\"Name\":\"Name\", \"Type\":\"input\"}, \r\n{\"Name\":\"Family\",\"Type\":\"picklist\"}, \r\n{\"Name\":\"ProductCode\",\"Type\":\"input\"}"
           }, {
-            "apiName" : "fieloplt__isactive__c",
-            "value" : "true"
-          }, {
             "apiName" : "fieloplt__iscustom__c",
             "value" : "true"
           }, {
@@ -737,9 +748,6 @@
           }, {
             "apiName" : "fieloplt__externalid__c",
             "value" : "00D46000000bvJ0-a0g460000012Kec"
-          }, {
-            "apiName" : "fieloplt__isactive__c",
-            "value" : "true"
           }, {
             "apiName" : "fieloplt__iscustom__c",
             "value" : "false"
@@ -772,9 +780,6 @@
             "apiName" : "fieloplt__externalid__c",
             "value" : "00D46000000bvJ0-a0g460000012KeZ"
           }, {
-            "apiName" : "fieloplt__isactive__c",
-            "value" : "true"
-          }, {
             "apiName" : "fieloplt__iscustom__c",
             "value" : "false"
           }, {
@@ -805,9 +810,6 @@
           }, {
             "apiName" : "fieloplt__externalid__c",
             "value" : "00D46000000bvJ0-a0g460000012Kea"
-          }, {
-            "apiName" : "fieloplt__isactive__c",
-            "value" : "true"
           }, {
             "apiName" : "fieloplt__iscustom__c",
             "value" : "false"
