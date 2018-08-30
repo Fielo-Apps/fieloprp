@@ -4531,4 +4531,12 @@ If it is a CRM Person Account, a Fielo Individual Member account is created.</va
         <shortDescription>Expiration: Total Points</shortDescription>
         <value>Total</value>
     </labels>
+    <labels>
+        <fullName>Settings</fullName>
+        <categories>PageSettingsSetController.cls</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Settings</shortDescription>
+        <value>Page Settings Management</value>
+    </labels>
 </CustomLabels>

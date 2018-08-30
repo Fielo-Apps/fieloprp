@@ -61,12 +61,12 @@ public with sharing class PageSettingsSetControllerTest {
 
         insert item;
 
-		ApexPages.StandardSetController controller = new ApexPages.StandardSetController(invoices);
+		/*ApexPages.StandardSetController controller = new ApexPages.StandardSetController(invoices);
 		InvoiceLandingController pssc = new InvoiceLandingController(controller);
 		pssc.initPageSettings('FieloPRP__Invoice__c',null,null,null);
 		String sectionString = '[{"Name":"Information","Rows":[[{"Name":"FieloPRP__Member__c","Type":"lookup"},{"Name":"FieloPRP__HasDetails__c","Type":"checkbox"}],[{"Name":"FieloPRP__InvoiceNumber__c","Type":"input"}],[{"Name":"FieloPRP__Amount__c","Type":"input"},{"Name":"FieloPRP__Date__c","Type":"input"}],[{"Name":"FieloPRP__Description__c","Type":"input"},{"Name":"FieloPRP__Distributor__c","Type":"lookup"}]],"FieloPRP_Product":[[{"Name":"Name","Type":"input"},{"Name":"Family","Type":"picklist"},{"Name":"ProductCode","Type":"input"}]],"FieloPRP_ProductRecent":[[{"Name":"Name","Type":"input"},{"Name":"Family","Type":"picklist"},{"Name":"ProductCode","Type":"input"}]],"FieloPRP_InvoiceItems":[[{"Name":"FieloPRP__Quantity__c","Type":"input","ClassName":"fielosf-product_qty","onchange":"refreshTotalPriceProxy_"},{"Name":"FieloPRP__Product__c","Type":"lookup","ClassName":"fielosf-product_name","onchange":"refreshTotalPriceProxy_"},{"Name":"FieloPRP__UnitPrice__c","Type":"input","ClassName":"fielosf-product_unit-price","onchange":"refreshTotalPriceProxy_"},{"Name":"FieloPRP__TotalPrice__c","Type":"input","ClassName":"fielosf-product_total-price","onchange":"refreshTotalPriceProxy_"}]]}]';
 		pssc.newSettings.FieloPLT__Sections__c = InvoiceLandingController.getSectionsWithMemberWhereCondition(sectionString, programs[0].Id);
 		pssc.addNewFieldSet('Delete');
-		FieloPLT__PageSettings__c ps2 = pssc.landingSettings;
+		FieloPLT__PageSettings__c ps2 = pssc.landingSettings;*/
 	}
 }
