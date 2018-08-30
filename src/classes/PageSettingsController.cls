@@ -65,6 +65,15 @@ public with sharing abstract class PageSettingsController {
         }
         return relatedStandard;
     } set; }
+    
+    public static FieloPLT__Program__c activeProgram {get{
+        if(activeProgram == null){
+            if (ProgramService.hasPrograms()) {
+            	activeProgram = ProgramService.getActiveProgram();
+            }
+        }
+        return activeProgram;
+    }set;}
 
     private class FilterWrapper{
         public String andOrOperator;
@@ -386,15 +395,18 @@ public with sharing abstract class PageSettingsController {
 
     } set; }
 
-    public void initPageSettings( String objectName, SObject record, String standardButtons, String standardTools, String defaultIcon  ) {
+    public void initPageSettings( String objectName, SObject record, String standardButtons, String standardTools, String defaultIcon, Id programId){
         this.objectName = objectName;
-        hasEditForm = hasDetail = false;
         this.record = record;
-        if ( defaultIcon == null ) {
+        hasEditForm = hasDetail = false;
+        if (defaultIcon == null){
             defaultIcon = 'action-sprite/svg/symbols.svg#record';
         }
-
-        // 
+		if(programId == null){
+            if(activeProgram != null){
+                programId = activeProgram.Id;
+            }
+        } 
         List<String> recordTypeNames = new List<String>();
         String recordTypeName;
         try {           
@@ -403,7 +415,7 @@ public with sharing abstract class PageSettingsController {
         if ( recordTypeName != null ) {
             recordTypeNames.add( recordTypeName);
         }           
-        List<FieloPLT__PageSettings__c> settings =  PageSettingsController.getPageSettings( new List<String>{ 'Edit', 'Related', 'View', 'Detail' }, recordTypeNames, objectName );
+        List<FieloPLT__PageSettings__c> settings =  PageSettingsController.getPageSettings( new List<String>{ 'Edit', 'Related', 'View', 'Detail' }, recordTypeNames, objectName,programId);
 
         if(standardButtons == null){
             standardButtons = '';
@@ -624,8 +636,7 @@ public with sharing abstract class PageSettingsController {
             }
 
             if ( opciones.contains('Settings') ){
-                viewPS.FieloPLT__Tools__c = '{"Label": "' + Label.FieloPLT.Settings + '", "Type": "Link", "Action": "/apex/FieloPLT__PageSettingsView?objectName=' + objectName + '" }' + (String.isBlank(viewPS.FieloPLT__Tools__c)?'':',') + viewPS.FieloPLT__Tools__c;
-
+                viewPS.FieloPLT__Tools__c = '{"Label": "' + Label.FieloPLT.Settings + '", "Type": "Link", "Action": "/apex/FieloPLT__PageSettingsListView?type=record&objectName=' + objectName + '" }' + (String.isBlank(viewPS.FieloPLT__Tools__c) ? '' : ',') + viewPS.FieloPLT__Tools__c;
             }
 
             //if ( opciones.contains('Edit') && describeObject.isUpdateable()){
@@ -733,27 +744,19 @@ public with sharing abstract class PageSettingsController {
     }
 
 
-    public static List<FieloPLT__PageSettings__c> getPageSettings( List<String> settingType, List<String> recordTypes, String objectName ) {
+    public static List<FieloPLT__PageSettings__c> getPageSettings(List<String> settingType, List<String> recordTypes, String objectName, Id programId){
 
         List<FieloPLT__PageSettings__c> listPageSettings = new List<FieloPLT__PageSettings__c>();
-
-        //Id programId = ProgramService.getActiveProgram().Id;
-
-        FieloPLT__Program__c activeProgram = ProgramService.getActiveProgram();
-        Id programId = null;
-        if ( activeProgram != null  ) {
-            programId = activeProgram.Id;
-        }
-
+        
         Set<String> profiles = new Set<String>();
         for(PermissionSetAssignment psAssignment: [SELECT Id, PermissionSetId, PermissionSet.Name FROM PermissionSetAssignment WHERE AssigneeId =: UserInfo.getUserId()]){
             profiles.add(psAssignment.PermissionSet.Name);
         }
         Profile profileRecord = [SELECT Name FROM Profile WHERE Id =: UserInfo.getProfileId()];
-        profiles.add(profileRecord.Name);
+        profiles.add(profileRecord.Name);       
 
         Set<Id> pageSettingsIds = new Set<Id>();
-        if(!recordTypes.isEmpty()){
+        if(recordTypes != null && !recordTypes.isEmpty()){
             for(FieloPLT__ProgramAssignment__c programAssignment: [SELECT FieloPLT__PageSettings__c FROM FieloPLT__ProgramAssignment__c WHERE FieloPLT__PageSettings__c != null AND FieloPLT__PageSettings__r.FieloPLT__Type__c IN: settingType AND FieloPLT__PageSettings__r.FieloPLT__Object__c =: objectName AND FieloPLT__PageSettings__r.FieloPLT__isActive__c = true AND (FieloPLT__Profile__c = null OR FieloPLT__Profile__c IN: profiles) AND (FieloPLT__Program__c = null OR FieloPLT__Program__c =: programId) AND (FieloPLT__RecordType__c = null OR FieloPLT__RecordType__c IN: recordTypes)]){
                 pageSettingsIds.add(programAssignment.FieloPLT__PageSettings__c);
             }
@@ -781,8 +784,5 @@ public with sharing abstract class PageSettingsController {
             }            
         }
         return listPageSettings;
-        //return Database.query(query);
-
     }
-
 }

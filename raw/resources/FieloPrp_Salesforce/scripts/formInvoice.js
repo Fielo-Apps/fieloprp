@@ -440,14 +440,26 @@
   };
 
   FieloFormInvoice.prototype.refreshTotalPriceProxy_ = function(value) {
+    var isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
     this.verifyMember_(value);
     if (this.hasAmountFields) {
-      var row =
-        $(value.srcElement).closest('.' + this.CssClasses_.INVOICE_ITEM)[0];
+      var row;
+      var updatedField;
+      if (isFirefox) {
+        row =
+          $(value.target).closest('.' + this.CssClasses_.INVOICE_ITEM)[0];
 
-      var updatedField =
-        $(value.srcElement).closest('.' +
-          this.CssClasses_.ELEMENT)[0].FieloFormElement.get('fieldName');
+        updatedField =
+          $(value.target).closest('.' +
+            this.CssClasses_.ELEMENT)[0].FieloFormElement.get('fieldName');
+      } else {
+        row =
+          $(value.srcElement).closest('.' + this.CssClasses_.INVOICE_ITEM)[0];
+
+        updatedField =
+          $(value.srcElement).closest('.' +
+            this.CssClasses_.ELEMENT)[0].FieloFormElement.get('fieldName');
+      }
 
       var unitPriceFieldElement =
         $(row).find($('[data-field-name="FieloPRP__UnitPrice__c"]')

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <letterhead>FieloPLT__PLT_Letterhead</letterhead>
+    <name>Proof of Purchase Approved</name>
+    <style>formalLetter</style>
+    <subject>Proof of Purchase Approved</subject>
+    <textOnly>Hello {!FieloPRP__Invoice__c.FieloPRP__Member__r.Name},
+
+Congratulations - your proof of purchase has been approved! You now have {!FieloPRP__Invoice__c.FieloPRP__Member__r.FieloPLT__Points__c} points, which can be redeemed for special prizes in our awards catalog.
+
+Remember, the more invoices you upload, the more points you’ll unlock, entitling you to bigger and better prizes.
+
+Keep up the great work.
+
+Best wishes,
+
+&lt;Company Name&gt;</textOnly>
+    <type>html</type>
+    <uiType>Aloha</uiType>
+</EmailTemplate>

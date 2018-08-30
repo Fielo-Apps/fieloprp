@@ -63,7 +63,7 @@
                             <h3 class="slds-text-heading_small"><b>{!$Label.c.ProductPlural}</b></h3>
                         </div>
                         <div class="slds-card__body slds-card__body_inner">
-                            <c:ListView objectAPIName="Product2" layout="table" columns="{!v.columns}" fieldset="{!v.fieldset}" records="{!v.productRecords}" paging="true" quantity="{!v.quantity}" />
+                            <c:ListView objectAPIName="{!v.productObject}" layout="table" columns="{!v.columns}" fieldset="{!v.fieldset}" records="{!v.productRecords}" paging="true" quantity="{!v.quantity}" />
                         </div>
                     </article>
                     
@@ -87,7 +87,7 @@
                                     <h3 class="slds-text-heading_small"><b>{!$Label.c.SelectedProducts}</b></h3>
                                 </div>
                                 <div class="slds-card__body slds-card__body_inner">
-                                    <c:ListView objectAPIName="Product2" layout="table" columns="{!v.columns}" fieldset="{!v.selectedProductfieldset}" records="{!v.selectedProducts}" paging="false" quantity="{!v.quantity}" />
+                                    <c:ListView objectAPIName="{!v.productObject}" layout="table" columns="{!v.columns}" fieldset="{!v.selectedProductfieldset}" records="{!v.selectedProducts}" paging="false" quantity="{!v.quantity}" />
                                 </div>
                             </article>
                         </div>

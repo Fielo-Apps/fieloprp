@@ -6,19 +6,24 @@ public with sharing class InvoiceLandingController extends PageSettingsSetContro
     public Map<String,FieloPLT__PageSettings__c> lookupSettings {get;set;}
 
     public FieloPLT__Program__c currentProgram { get {
-        if ( currentProgram == null) {
+        if (currentProgram == null && ProgramService.hasPrograms()) {
             currentProgram = ProgramService.getActiveProgram();
         }
         return currentProgram;
     }set;}
 
     public void getLookupSetting( String objectNames, String targetObject, String targetField ) {      
+        
+        system.debug('getLookupSetting()');
 
         String query = 'SELECT Name, FieloPLT__Filters__c, FieloPLT__Fieldset__c FROM FieloPLT__PageSettings__c ';
         // WHERE CONDITION 
         query += ' WHERE FieloPLT__isActive__c = true AND FieloPLT__Type__c = \'Lookup\'  AND FieloPLT__Object__c = :objectNames  ';
 
         FieloPLT__Program__c activeProgram = ProgramService.getActiveProgram();
+        
+        system.debug('active program: ' + activeProgram);
+        
         Id programId;
         if ( activeProgram != null  ) {
             programId = activeProgram.Id;
@@ -53,17 +58,30 @@ public with sharing class InvoiceLandingController extends PageSettingsSetContro
         }
     }
 
-
     public InvoiceLandingController(ApexPages.StandardSetController stController) {
         this.controller = stController;
+        
+        //Verify if a program was already created
+        if(currentProgram != null)
+        {      
+            initPageSettings('FieloPRP__Invoice__c','','','',currentProgram.Id);
+            getLookupSetting('FieloPRP__Invoice__c','','');
+            //System.debug('lookupSettings: '+ lookupSettings);
 
-        initPageSettings('FieloPRP__Invoice__c','','','');
-        getLookupSetting('FieloPRP__Invoice__c','','');
-        //System.debug('lookupSettings: '+ lookupSettings);
-
-        if(!Test.isRunningTest()) {
-            this.newSettings.FieloPLT__Sections__c = getSectionsWithMemberWhereCondition(this.newSettings.FieloPLT__Sections__c, currentProgram.Id);
+            if(!Test.isRunningTest()) {
+                this.newSettings.FieloPLT__Sections__c = getSectionsWithMemberWhereCondition(this.newSettings.FieloPLT__Sections__c, currentProgram.Id);
+            }
         }
+    }
+    
+    //Verify if a program was already created. If not, redirect to ProgramLanding page
+    public PageReference verifyProgram(){
+        PageReference retURL;
+        if(!ProgramService.hasPrograms()){
+            retURL = Page.FieloPLT__ProgramLanding;
+            retURL.setRedirect(true);
+        }
+      return retURL;
     }
 
     public List<SelectOption> getListViews() {
@@ -94,6 +112,8 @@ public with sharing class InvoiceLandingController extends PageSettingsSetContro
         Map<String,Object> jsonObject = (Map<String, Object>) JSON.deserializeUntyped( filter);
 
         Id programId = (String)jsonObject.get('FieloPRP__Member__r.FieloPLT__Program__c');
+        
+        system.debug('programId: ' + programId);
 
         if ( orderBy == null ) {
             orderBy = 'LastModifiedDate DESC';
