@@ -38,13 +38,13 @@ public class MultiFileUploader {
         if (fileId == '') {
             fileId = saveAttachment(parentId, fileName, base64Data, contentType);
         } else {
-            appendToFile(parentId, fileId, base64Data);
+            fileId = appendToFile(parentId, fileId, base64Data);
         }
         
         return Id.valueOf(fileId);
     }
     
-    private static void appendToFile(Id parentId, Id fileId, String base64Data) {
+    private static Id appendToFile(Id parentId, Id fileId, String base64Data) {
         if (Schema.sObjectType.ContentVersion.isAccessible()) {
             ContentVersion existingCV = [SELECT Id, VersionData, Title, PathOnClient, ContentDocumentId FROM ContentVersion WHERE Id = :fileId ORDER BY CreatedDate DESC LIMIT 1];
 
