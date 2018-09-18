@@ -38,27 +38,63 @@ public class MultiFileUploader {
         if (fileId == '') {
             fileId = saveAttachment(parentId, fileName, base64Data, contentType);
         } else {
-            appendToFile(fileId, base64Data);
+            appendToFile(parentId, fileId, base64Data);
         }
         
         return Id.valueOf(fileId);
     }
     
-    private static void appendToFile(Id fileId, String base64Data) {
-        base64Data = EncodingUtil.urlDecode(base64Data, 'UTF-8');
-        
-        ContentVersion cv = [
-            SELECT Id, VersionData
-            FROM ContentVersion
-            WHERE Id = :fileId
-        ];
-        
-        String existingBody = EncodingUtil.base64Encode(cv.VersionData);
-        if (Schema.sObjectType.ContentVersion.fields.VersionData.isUpdateable()) {
-            cv.VersionData = EncodingUtil.base64Decode(existingBody + base64Data); 
+    private static void appendToFile(Id parentId, Id fileId, String base64Data) {
+        if (Schema.sObjectType.ContentVersion.isAccessible()) {
+            ContentVersion existingCV = [SELECT Id, VersionData, Title, PathOnClient, ContentDocumentId FROM ContentVersion WHERE Id = :fileId ORDER BY CreatedDate DESC LIMIT 1];
+
+            base64Data = EncodingUtil.urlDecode(base64Data, 'UTF-8');
+            
+            String existingBody = EncodingUtil.base64Encode(existingCV.VersionData);
+            
+            ContentVersion cv = new ContentVersion();
+            if (Schema.sObjectType.ContentVersion.fields.Title.isCreateable()) {
+                cv.Title = existingCV.Title;
+            }
+            if (Schema.sObjectType.ContentVersion.fields.PathOnClient.isCreateable()) {
+                cv.PathOnClient = existingCV.Title;
+            }
+            if (Schema.sObjectType.ContentVersion.fields.VersionData.isCreateable()) {
+                cv.VersionData = EncodingUtil.base64Decode(existingBody + base64Data); 
+            }
+            if (Schema.sObjectType.ContentVersion.fields.IsMajorVersion.isCreateable()) {
+                cv.IsMajorVersion = true;
+            }
+
+            if (Schema.sObjectType.ContentDocument.isDeletable()) {
+                delete [SELECT Id FROM ContentDocument WHERE Id = :existingCV.ContentDocumentId];
+            }
+            if (Schema.sObjectType.ContentVersion.isCreateable()) {
+                insert cv;
+            } else {
+                throw new FieloException(String.format(Label.PermissionOnObject, new List<String>{'ContentVersion'}));
+            }
+
+            ContentDocumentLink cdl = new ContentDocumentLink();
+            if (Schema.sObjectType.ContentDocumentLink.fields.ContentDocumentId.isCreateable()) {
+                cdl.ContentDocumentId = [SELECT Id, ContentDocumentId FROM ContentVersion WHERE Id =: cv.Id].ContentDocumentId;
+            }
+            if (Schema.sObjectType.ContentDocumentLink.fields.LinkedEntityId.isCreateable()) {
+                cdl.LinkedEntityId = parentId;
+            }
+            if (Schema.sObjectType.ContentDocumentLink.fields.ShareType.isCreateable()) {
+                cdl.ShareType = 'V';
+            }
+            if (Schema.sObjectType.ContentDocumentLink.isCreateable()) {
+                insert cdl;
+            } else {
+                throw new FieloException(String.format(Label.PermissionOnObject, new List<String>{'ContentDocumentLink'}));
+            }
+
+            return cv.Id;
+        } else {
+            throw new FieloException(String.format(Label.PermissionOnObject, new List<String>{'ContentVersion'}));
         }
-        
-        update cv;
     }
 
     @RemoteAction
