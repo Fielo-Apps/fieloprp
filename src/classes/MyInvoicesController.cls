@@ -5,6 +5,7 @@ public with sharing class MyInvoicesController {
             Map<String, DescribeFieldResult> fieldsDescribeMap = AuraService.getFieldsDescribe('FieloPRP__Invoice__c', fieldsInvoices);
             Set<String> fieldsInvoicesSet = new Set<String>(fieldsInvoices);
             fieldsInvoicesSet.add('Id');
+            fieldsInvoicesSet.add('Name');
             fieldsInvoicesSet.add('FieloPRP__HasDetails__c');
             fieldsInvoicesSet.add('FieloPRP__Comments__c');
             String fieldType;
@@ -57,7 +58,7 @@ public with sharing class MyInvoicesController {
             );
             for(SObject invoice: myInvoices) {
                 if (invoice.get('FieloPRP__InvoiceNumber__c') == null) {
-                    invoice.put('FieloPRP__InvoiceNumber__c', invoice.get('Name')) ;
+                    invoice.put('FieloPRP__InvoiceNumber__c', invoice.get('Name'));
                 }
                 for (Object fieldNameObject: invoice.getPopulatedFieldsAsMap().keySet()) {
                     String fieldName = String.valueOf(fieldNameObject);
