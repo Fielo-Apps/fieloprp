@@ -104,6 +104,7 @@ public with sharing class Invoices extends SObjectDomain {
                 String currentStatus = invoice.Status__c;
 
                 if (currentStatus != priorValue &&
+                    !(priorValue == 'New' && currentStatus == 'Open') &&
                     !(priorValue == 'Open' && currentStatus == 'Pending For Approval') &&
                     !(priorValue == 'Open' && currentStatus == 'Approved') &&
                     !(priorValue == 'Open' && currentStatus == 'Rejected') &&
