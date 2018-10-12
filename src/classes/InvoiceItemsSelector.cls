@@ -27,7 +27,7 @@ public class InvoiceItemsSelector extends SObjectSelector{
     }
 
     public List<InvoiceItem__c> selectByIdWithInvoiceStatusNotEditable(Set<Id> invoiceItemIds){
-        String openStatus = 'Open';
+        List<String> openStatusList = new List<String>{'Open','New'};
         
         List<InvoiceItem__c> listInvoice;
 
@@ -37,7 +37,7 @@ public class InvoiceItemsSelector extends SObjectSelector{
                 'select {0} ' +
                   'from {1} ' +
                   'where Id In: invoiceItemIds ' +
-                  'and FieloPRP__Invoice__r.FieloPRP__Status__c = :openStatus ' +
+                  'and FieloPRP__Invoice__r.FieloPRP__Status__c IN :openStatusList ' +
                   'order by {2}',
                 new List<String> {
                     getFieldListString(),
