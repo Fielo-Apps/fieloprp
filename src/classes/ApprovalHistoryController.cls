@@ -92,7 +92,7 @@ public with sharing class ApprovalHistoryController {
 					}
 				}
 			} else {
-				List<Invoice__c> existingInvoices = new InvoicesSelector(new Set<String>{'FieloPRP__Status__c','FieloPRP__RejectReason__c','FieloPRP__Comments__c','LastModifiedDate'}).selectById(new Set<Id>{recordId});
+				List<Invoice__c> existingInvoices = new InvoicesSelector(new Set<String>{'FieloPRP__Status__c','toLabel(FieloPRP__RejectReason__c) FieloPRP__RejectReason__c','FieloPRP__Comments__c','LastModifiedDate'}).selectById(new Set<Id>{recordId});
 
 				if (!existingInvoices.isEmpty()) {
 					if (existingInvoices[0].Status__c == 'Approved' || existingInvoices[0].Status__c == 'Rejected') {

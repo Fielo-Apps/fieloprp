@@ -19,7 +19,7 @@ public class ApprovalHistoryListViewController {
 					new Set<String>{
 						'FieloPRP__Status__c',
 						'toLabel(FieloPRP__Status__c) FieloPRP__Status__label',
-						'FieloPRP__RejectReason__c',
+						'toLabel(FieloPRP__RejectReason__c) FieloPRP__RejectReason__c',
 						'FieloPRP__Comments__c',
 						'LastModifiedDate'
 					}).selectById(

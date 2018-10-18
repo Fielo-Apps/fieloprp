@@ -200,7 +200,8 @@ global class InvoiceService {
 
     public static void processWorkingItems(Set<Id> recordIds){
         try{
-            List<Invoice__c> invoices = new InvoicesSelector(new Set<String>{'FieloPRP__Status__c','FieloPRP__RejectReason__c','FieloPRP__Comments__c'}).selectById(recordIds);
+            
+            List<Invoice__c> invoices = new InvoicesSelector(new Set<String>{'FieloPRP__Status__c','toLabel(FieloPRP__RejectReason__c) FieloPRP__RejectReason__c','FieloPRP__Comments__c'}).selectById(recordIds);
             List<ProcessInstance> processInstances = InvoicesSelector.selectLastInvoiceWorkingItem(recordIds);
             Map<Id, ProcessInstance> invoiceProcessesMap = new Map<Id, ProcessInstance>();
 
