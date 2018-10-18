@@ -79,7 +79,7 @@ public with sharing class Invoices extends SObjectDomain {
                 if( invoice.HasDetails__c != ((Invoice__c)existingRecords.get(invoice.Id)).HasDetails__c )
                     invoice.addError( Label.HasDetailsNotEditable );
 
-                if( ((Invoice__c)existingRecords.get(invoice.Id)).Status__c != 'Open' ){
+                if( ((Invoice__c)existingRecords.get(invoice.Id)).Status__c != 'Open' && ((Invoice__c)existingRecords.get(invoice.Id)).Status__c != 'New' ){
                     if( amountHasChanged || dateHasChanged || invoiceNumberHasChanged )
                         invoice.addError( Label.DraftNotEditable );
                 }
@@ -104,6 +104,7 @@ public with sharing class Invoices extends SObjectDomain {
                 String currentStatus = invoice.Status__c;
 
                 if (currentStatus != priorValue &&
+                    !(priorValue == 'New' && currentStatus == 'Open') &&
                     !(priorValue == 'Open' && currentStatus == 'Pending For Approval') &&
                     !(priorValue == 'Open' && currentStatus == 'Approved') &&
                     !(priorValue == 'Open' && currentStatus == 'Rejected') &&
