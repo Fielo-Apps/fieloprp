@@ -226,7 +226,7 @@
             var typedFieldValue;
             [].forEach.call(Object.keys(invoiceFieldsCompsMap), function(fieldName) {
                 fieldInfo = invoiceFieldsCompsMap[fieldName].get("v.fieldMeta").attributes;
-                if (fieldInfo.jsType == 'string' || fieldInfo.isQuoted) {
+                if (fieldInfo.jsType == 'string' || !(fieldInfo.isQuoted==="false")) {
                     if (String(invoiceFieldsCompsMap[fieldName].get('v.fieldValue')) == 'null') {
                         invoice[fieldName] = null;
                     } else {
