@@ -175,7 +175,7 @@
                         fieldComp = helper.invoiceItems[item.Id].get('v.fieldMap')[field];
                         if (fieldComp) {
                             fieldMeta = fieldComp.get('v.fieldMeta');
-                            if (fieldMeta.attributes.jsType == 'string' || fieldMeta.attributes.isQuoted) {
+                            if (fieldMeta.attributes.jsType == 'string' || !(fieldMeta.attributes.isQuoted === "false")) {
                                 if ( fieldMeta.attributes.inputType == 'reference' && (fieldComp.get('v.fieldValue') == null || fieldComp.get('v.fieldValue') == undefined || fieldComp.get('v.fieldValue') == '')) {
                                     delete itemRecord[field];
                                 } else {
