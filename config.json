@@ -4,9 +4,9 @@
   "name":"FieloPRP",
   "dependencies":[
     {
-      "type":"linkRepository",
-			"version":"master",
-			"name":"FieloIncentiveAutomation/fielodeploy"
+      	"type":"linkRepository",
+	"version":"master",
+	"name":"FieloIncentiveAutomation/fielodeploy"
     }
   ]
 }
