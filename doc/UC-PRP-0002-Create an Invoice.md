@@ -16,15 +16,17 @@ An Invoice is created
 1. The system receives the information for the invoice and for the invoice items 
 2. The system verifies that Member field is not null
 3. The system verifies that the option "Request Invoice Products" of the related member's program is set to true and that the Amount field is null
-4. The system verifies that the Date field is not null
-5. The system verifies that there is no other invoice with the same combination number (Distributor Id + Invoice Number) in status Approved
-6. The system sets the status "Open" for the Invoice
-7. The system saves the Invoice
-8. The system calls the use case [Create an Invoice Item](https://github.com/FieloIncentiveAutomation/fieloprp/blob/develop/doc/UC-PRP-0001-Create%20an%20Invoice%20Item.md)
-9. The system updates the Amount field ot the invoice with the summarize of the Total Price field of the related Invoice Items 
-10. The system saves the Invoice
-11. The system displays the invoice detail page with the options to Edit or Delete
-12. End of flow
+4. The system verifies that the option to request invoice date is set to True
+5. The system verifies that the Date field is equal or less than current date
+6. The system verifies that there is no other invoice with the same combination number (Distributor Id + Invoice Number) in status Approved
+7. The system sets the status "Open" for the Invoice
+8. The system saves the Invoice
+9. The system calls the [Create an Invoice Item](?name=UC-PRP-0001.md) use case
+10. The system updates the Amount field ot the invoice with the summarize of the Total Price field of the related Invoice Items 
+11. The system saves the Invoice
+12. The system displays the invoice detail page with the options to Edit or Delete
+13. End of flow
+
 
 ### Alternative flows
 
@@ -38,7 +40,7 @@ An Invoice is created
    7. The system does not allow the creation of invoice items
    8. End of flow
 
-##### 2. The administrator deletes the invoice (step 11 of the basic flow)
+##### 2. The administrator deletes the invoice (step 12 of the basic flow)
    1. The administrator selects the option to Delete the Invoice
    2. The system deletes the invoice and all its related Invoice items
    3. End of flow
@@ -56,7 +58,7 @@ An Invoice is created
    3. The system displays an error message
    4. End of flow
 
-##### 5. The administrator tries to edit the Member Lookup (step 11 of the basic flow)
+##### 5. The administrator tries to edit the Member Lookup (step 12 of the basic flow)
    1. The administrator presses the Edit button in the detail view of the Invoice
    2. The administrator changes the Member of the invoice
    2. The administrator presses the Save button
@@ -64,7 +66,7 @@ An Invoice is created
    4. The system displays an error message
    5. End of flow
 
-##### 6. The administrator tries to edit the Invoice when its status is not Open or New (step 7 of the basic flow)
+##### 6. The administrator tries to edit the Invoice when its status is not Open or New (step 8 of the basic flow)
    1. The administrator presses the Edit button in the detail view of the Invoice
    2. The administrator tries to edit the Amount or Invoice Number or Date fields
    3. The administrator presses the Save button
@@ -73,20 +75,24 @@ An Invoice is created
    6. The system displays an error message
    7. End of flow
    
-##### 7. The date field is null (step 4 of basic flow)
+##### 7. The date field is null (step 5 of basic flow)
    1. The system verifies that the Date field is null
    2. The system does not create the invoice
    3. The system displays an error message
    4. End of flow
    
-##### 8. There is already an invoice with the same combination (Invoice Number + Distributor) in status approved (step 5 of basic flow)
+##### 8. There is already an invoice with the same combination (Invoice Number + Distributor) in status approved (step 6 of basic flow)
    1. The system verifies that there is another invoice with the same combination number (Distributor Id + Invoice Number) in status Approved
    2. The system does not create the invoice
    3. The system displays an error message
    4. End of flow
    
-##### 9. Date field is later than the current date (step 4 of basic flow)
+##### 9. Date field is later than the current date (step 5 of basic flow)
    1. The system verifies that the Date field is filled with a date later than the current date
    2. The system does not create the invoice
    3. The system displays an error message
    4. End of flow
+
+##### 10. Request invoice date is set to True (step 4 of basic flow)
+   1. The system verifies that the option to request invoice date is set to False
+   2. Back to step 6 of basic flow
